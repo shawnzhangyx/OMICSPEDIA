@@ -1,5 +1,4 @@
+from django.views.generic import TemplateView
 
-
-
-def index():
-    pass
+class IndexView(TemplateView):
+    template_name="index.html"

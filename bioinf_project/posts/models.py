@@ -1,5 +1,8 @@
 #django core modules
 from django.db import models
+from django.forms import ModelForm
+from django.utils import timezone
+from django.core.urlresolvers import reverse
 
 #local apps
 from tags.models import Tag
@@ -22,6 +25,20 @@ class Post(models.Model):
     creation_date = models.DateTimeField()
     last_modified_date = models.DateTimeField()
     
+    def get_absolute_url(self):
+        return reverse('posts:post-detail', kwargs = {'pk': self.pk})
     ### potential useful fields: 
     # author
-    
+   
+class PostForm(ModelForm):
+    class Meta: 
+        model = Post
+        #fields = '__all__'
+        fields = ['title', 'content','tags']
+    def save(self):
+        post = super(PostForm, self).save(commit=False)
+        post.creation_date = timezone.now()
+        post.last_modified_date = timezone.now()
+        post.save()
+        self.save_m2m()
+        return 

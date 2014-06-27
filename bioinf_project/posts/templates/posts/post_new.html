@@ -1,0 +1,9 @@
+<h1> Create a new post page</h1>
+
+
+<form action = "/posts/create/" method="post"> 
+{% csrf_token %}
+{{ form.as_p }}
+
+<input type="submit" value = "Submit post" /> 
+</form>

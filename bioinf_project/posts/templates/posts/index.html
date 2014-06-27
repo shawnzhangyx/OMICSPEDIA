@@ -1,0 +1,14 @@
+<h1> HomePage for posts</h1>
+
+<h2> <a href = "{% url 'posts:post-new' %}"> Create new post here </a> </h2>
+
+<h2> Old posts: </h2>
+{% if post_list %}
+<ul> 
+{% for post in post_list %}
+<li> <a href= "{% url 'posts:post-detail' post.id %}" >{{ post.title }} </a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p> no posts available </p>
+{% endif %}
