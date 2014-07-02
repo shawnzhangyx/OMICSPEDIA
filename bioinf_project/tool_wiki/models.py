@@ -1,7 +1,7 @@
 from django.db import models
 
-from tags import Tag
-from wiki import Page 
+from tags.models import Tag
+from wiki.models import Page 
 
 # Create your models here.
 class Tool(Page):
@@ -12,7 +12,7 @@ class Tool(Page):
     # depending on the last time someone checked it. 
     latest_release_date = models.DateField(blank=True)
     # whether it's maintained is more useful information to know
-    maintained = models.NullBooleanField(default=Null)
+    maintained = models.NullBooleanField()
     creation_date = models.DateTimeField()
     last_modified_date = models.DateTimeField()
     

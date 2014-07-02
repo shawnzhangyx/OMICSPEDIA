@@ -1,6 +1,9 @@
 from django.db import models
+from django.forms import ModelForm
+from django.core.urlresolvers import reverse
 
-from tags import Tag
+from tags.models import Tag
+
 # Create your models here.
 
 # Ideally, every tag should have a wiki, 
@@ -11,10 +14,16 @@ class Page(models.Model):
         return self.title
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)
-    tag = models.ManyToManyField(Tag) 
+    tags = models.ManyToManyField(Tag) 
     # author_list and their contributions. 
-    
-    
+    def get_absolute_url(self):
+        return reverse('wiki:wiki-detail', kwargs = {'pk': self.pk})
+
+class PageForm(ModelForm):
+    class Meta: 
+        model = Page
+        fields = ['title', 'content','tags']
+ 
 # --------- #
 # a page can have several sections, instead of just one giant 
 # piece of content, this will make editing more convenient. 

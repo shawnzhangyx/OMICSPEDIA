@@ -1,0 +1,9 @@
+<h1> Create a new wiki page</h1>
+
+
+<form action = "" method="post"> 
+{% csrf_token %}
+{{ form.as_p }}
+
+<input type="submit" value = "Submit wiki" /> 
+</form>

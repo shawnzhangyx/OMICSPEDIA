@@ -1,0 +1,13 @@
+<h2> <a href = "{% url 'wiki:wiki-edit' page.id%}"> Edit wiki </a> </h2>
+<h1> Title: {{page.title}} </h1>
+
+<h2> tag: 
+{% for tag in page.tags.all %}
+{{tag}}
+{% endfor %}
+ </h2>
+ 
+<h3> content:</h3>
+<p> {{ page.content }} </p>
+
+<p> <a href = "{% url 'wiki:wiki-index' %}"> Go back to wiki homepage</a> </p>
