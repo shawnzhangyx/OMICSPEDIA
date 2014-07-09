@@ -10,8 +10,11 @@ from tags.models import Tag
 # Create your models here.
 
 # --------------- #
-# Can have an abstract Post class and two differen children: MainPost and Replies #
+# Can have an abstract Post class and two differen children: MainPost and Answers #
 # For now, we just follow the Biostar standard. #
+# comment functions would be added later
+class AbstractPost(models.Model):
+    pass
 class Post(models.Model):
     def __unicode__(self):
         return self.title
