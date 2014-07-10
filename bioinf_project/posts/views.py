@@ -5,18 +5,18 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 
 #from .forms import PostForm
-from .models import Post, PostForm
+from .models import MainPost, MainPostForm, ReplyPost, ReplyPostForm
 # Create your views here.
 
 
 class IndexView(ListView): 
-    model = Post
+    model = MainPost
     template_name = "posts/index.html"
     context_object_name = "post_list"
     
 class PostNew(FormView): 
     template_name = "posts/post_new.html"
-    form_class = PostForm
+    form_class = MainPostForm
     success_url = '/posts/'
     def form_valid(self, form):
         form.save()
@@ -24,17 +24,18 @@ class PostNew(FormView):
     # success_url = reverse("posts:post-detail",args=(post_id,))
 
     
-class PostEdit(UpdateView): 
-    model = Post
-    fields = ['title', 'content','tags']
-    template_name_suffix = '_edit'
-    def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.last_modified_date = timezone.now()
-        instance.save()
-        #instance.save_m2m()
-        return super(PostEdit, self).form_valid(form)
+#class PostEdit(UpdateView): 
+#    model = Post
+#    fields = ['title', 'content','tags']
+#    template_name_suffix = '_edit'
+#    def form_valid(self, form):
+#        instance = form.save(commit=False)
+#        instance.last_modified_date = timezone.now()
+#        instance.save()
+#        return super(PostEdit, self).form_valid(form)
+
+
 class PostDetails(DetailView): 
     template_name = "posts/post_detail.html"
-    model = Post
+    model = MainPost
     #need to display everything in the same subject. 
