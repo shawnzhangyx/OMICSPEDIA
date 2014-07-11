@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+
 <h1> HomePage for tags</h1>
 
 {% if error_message %} <p> <strong> {{error_message}} </strong> </p> {% endif %}
@@ -11,9 +14,11 @@
 {% if tag_list %}
 <ul> 
 {% for tag in tag_list %}
-<li> <a href= "{% url 'tags:tag-detail' tag.id %}" >{{ tag.name }}:{{tag.count}} </a></li>
+<li> <a href= "{% url 'tags:tag-detail' tag.id %}" >{{ tag.name }}     x{{tag.count}} </a></li>
 {% endfor %}
 </ul>
 {% else %}
 <p> no tags available </p>
 {% endif %}
+
+{% endblock content %}

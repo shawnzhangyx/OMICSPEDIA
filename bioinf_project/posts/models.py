@@ -25,7 +25,7 @@ class AbstractPost(models.Model):
         ''' On save, update timestamps '''
         if not self.id: 
             self.created = timezone.now()
-        self.modified = timezone.now()
+        self.last_modified = timezone.now()
         return super(AbstractPost, self).save(*args, **kwargs)
 
     class Meta:
@@ -44,8 +44,9 @@ class MainPost(AbstractPost):
     ### potential useful fields: 
 
 class ReplyPost(AbstractPost):
-    root = models.ForeignKey(MainPost, related_name = "replies")
-   
+    root = models.ForeignKey(MainPost, related_name = "replies", null=False)
+    def get_absolute_url(self):
+        return reverse('posts:post-detail', kwargs = {'pk': self.root.pk})
 class MainPostForm(ModelForm):
     class Meta: 
         model = MainPost

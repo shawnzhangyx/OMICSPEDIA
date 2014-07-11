@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import DetailView, ListView, TemplateView, UpdateView
+from django.views.generic import DetailView, ListView, TemplateView, UpdateView, CreateView, DeleteView
 from django.views.generic.edit import FormView
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils import timezone
 
 #from .forms import PostForm
@@ -24,10 +24,10 @@ class PostNew(FormView):
     # success_url = reverse("posts:post-detail",args=(post_id,))
 
     
-#class PostEdit(UpdateView): 
-#    model = Post
-#    fields = ['title', 'content','tags']
-#    template_name_suffix = '_edit'
+class MainPostEdit(UpdateView): 
+    model = MainPost
+    fields = ['title', 'content','tags']
+    template_name_suffix = '_edit'
 #    def form_valid(self, form):
 #        instance = form.save(commit=False)
 #        instance.last_modified_date = timezone.now()
@@ -38,4 +38,26 @@ class PostNew(FormView):
 class PostDetails(DetailView): 
     template_name = "posts/post_detail.html"
     model = MainPost
+    context_object_name = "mainpost"
+    def get_context_data(self, **kwargs):
+        context = super(PostDetails, self).get_context_data(**kwargs)
+        #context['replypost_list'] = ReplyPost.objects.all()
+        context['replypost_list'] = ReplyPost.objects.filter(root=context['mainpost'])
+        return context
     #need to display everything in the same subject. 
+
+   
+class ReplyPostNew(CreateView):
+    model = ReplyPost
+    fields = ['content','root']
+    template_name = 'posts/replypost_new.html'
+    #will need to redirect to the main post; will implement later. 
+    def get_success_url(self):
+        return self.object.get_absolute_url()
+
+class ReplyPostDelete(DeleteView):
+    model = ReplyPost
+    template_name = 'posts/replypost_delete.html'
+    #success_url = reverse_lazy('posts:post-index')
+    def get_success_url(self):
+        return self.object.get_absolute_url()

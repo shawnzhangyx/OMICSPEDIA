@@ -49,8 +49,9 @@ padding:0px;
 #search_bar
 {
 border-left:1px solid #BBBBBB;
+border-right:1px solid #BBBBBB;
 height:100px;
-width:700px;
+width:800px;
 float: left;
 padding:0px;
 padding-left: 20px;
@@ -58,9 +59,8 @@ padding-left: 20px;
 }
 #some_buttons
 {
-border-left:1px solid #BBBBBB;
 height:100px;
-width:200px;
+width:150px;
 float:right;
 padding:0px;
 }
@@ -73,7 +73,6 @@ border-top:1px solid #BBBBBB;
 #left_bar
 {
 background-color:#FFFFFF;
-height:800px;
 width:200px;
 float:left;
 padding:0px;
@@ -83,15 +82,16 @@ margin-bottom:10px;
 #content
 {
 border-left:1px solid #BBBBBB;
-height:800px;
-width:700px;
+border-right:1px solid #BBBBBB;
+min-height: 800px;
+width:800px;
 float:left;
 padding-left: 20px;
 margin-bottom:10px;
 }
 #content p 
 {
-line-height:120%;
+line-height:100%;
 font-size:1.05em;
 }
 #content h2 
@@ -101,10 +101,8 @@ font-size:1.3em;
 
 #right_bar
 {
-border-left:1px solid #BBBBBB;
 background-color:#FFFFFF;
-height:800px;
-width:200px;
+width:150px;
 float:right;
 padding:0px;
 margin-bottom:10px;

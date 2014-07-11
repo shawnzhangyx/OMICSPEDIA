@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
-from django.views.generic import DetailView
+from django.views.generic import DetailView, DeleteView
 # Create your views here.
 from .models import Tag
 
@@ -29,3 +29,9 @@ def index_view(request):
 class TagDetails(DetailView):
     template_name = 'tags/tag_detail.html'
     model = Tag
+    
+class TagDelete(DeleteView):
+    model = Tag
+    template_name = 'tags/tag_delete.html'
+    success_url = reverse_lazy('tags:tag-index')
+
