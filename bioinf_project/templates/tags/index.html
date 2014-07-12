@@ -7,18 +7,16 @@
 <form action="{% url 'tags:tag-index' %}" method="post">
 {% csrf_token %}
 <input type='textarea' name='tag_name' />
-<input type='submit', value='Create' />
+<input type='submit', value='Create New Tag' />
 </form>
-
 <h2> Tags Catalog: </h2>
-{% if tag_list %}
-<ul> 
+ 
 {% for tag in tag_list %}
-<li> <a href= "{% url 'tags:tag-detail' tag.id %}" >{{ tag.name }}     x{{tag.count}} </a></li>
-{% endfor %}
-</ul>
-{% else %}
-<p> no tags available </p>
+ <a href= "{% url 'tags:tag-detail' tag.id %}" >{{ tag.name }} x{{tag.count}} </a>
+{% if not forloop.last %} |
 {% endif %}
+{% empty %}
+<p> no tags available </p>
+{% endfor %}
 
 {% endblock content %}

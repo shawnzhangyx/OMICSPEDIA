@@ -10,10 +10,22 @@
 <div id = "container">
     <div id = "header">
         <div id = "logo">
-        <p> logo </p> 
+        <img src = "{% static 'OMICS.jpeg' %}" alt="Logo missing" width = "150" >
+        <p><strong> &nbsp&nbsp&nbsp OMICS Wiki&Q&A </strong></p>
         </div>
         <div id = "search_bar">
-        <h2> search form </h2>
+        <h4> search form </h4>
+        <form action="" method="post">
+        {% csrf_token %}
+            <select name = "search_field">
+                <option value ="All"> All </option>
+                <option value ="Tag"> Tag </option>
+                <option value ="Wiki"> Wiki </option>
+                <option value ="Post"> Post </option>
+            </select>
+            <input type="text" size=100 name="search_text"> 
+            <input type="submit" value="Search">
+	</form>
         </div>
         <div id = "some_buttons" >
         <p> some buttons </p>
@@ -21,7 +33,12 @@
     </div>
     <div id = "middle">
         <div id = "left_bar">
-        <p> left bar</p>
+        <h4> left bar</h4>
+        <h3> <a href= "{% url 'wiki:wiki-index' %}" > Wiki Home </a> <br><br>
+        <a href= "{% url 'tags:tag-index' %}" > Tag Home </a> <br><br>
+        <a href= "{% url 'posts:post-index' %}" > Post Home </a> </h3>
+        
+         
         </div>
         <div id = "content">
         {% block content %}

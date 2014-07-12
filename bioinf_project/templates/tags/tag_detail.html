@@ -1,9 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1> Title: {{tag.name}} </h1> 
-<p> <a href = "{% url 'tags:tag-delete' tag.id %}"> Delete this tag </a> </p>
+<h1> Tag name: {{tag.name}} <a href = "{% url 'tags:tag-delete' tag.id %}"> (Delete this tag) </a> </h1>
 
 <p> counts: {{ tag.count}} </p>
+<hr> 
+<h2> Related Wiki </h2> 
+{% for wiki in wiki_list %}
+    <p> {{forloop.counter}}. <a href = "{% url 'wiki:wiki-detail' wiki.id %}"> {{ wiki.title }} </a> 
+   {{ wiki.content|truncatewords:20 }} 
+{% empty %}
+<p> There is no wiki associated with this tag </p>
+{% endfor %}
+<hr>
+<h2> Related Posts </h2>
+{% for post in post_list %}
+    <p> {{forloop.counter}}. <a href = "{% url 'posts:post-detail' post.id %}"> {{ post.title }} </a> 
+<!--   {{ post.content|truncatechars:60 }} 
+-->
+    </p>
+{% empty %}
+<p> There is no posts associated with this tag </p>
+{% endfor %}
+<hr>
 <p> <a href = "{% url 'tags:tag-index' %}"> Go back to tag homepage</a> </p>
 
 {% endblock content %}

@@ -13,8 +13,8 @@ class Page(models.Model):
     def __unicode__(self):
         return self.title
     title = models.CharField(max_length=255)
-    content = models.TextField(blank=True)
     tags = models.ManyToManyField(Tag) 
+    content = models.TextField(blank=True)
     # author_list and their contributions. 
     def get_absolute_url(self):
         return reverse('wiki:wiki-detail', kwargs = {'pk': self.pk})

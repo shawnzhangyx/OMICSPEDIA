@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import DetailView, DeleteView
-# Create your views here.
 from .models import Tag
-
+from posts.models import MainPost
+from wiki.models import Page
+# Create your views here.
 def index_view(request):
     tag_list = Tag.objects.all()
     context_dict = {'tag_list':tag_list}
@@ -29,7 +30,12 @@ def index_view(request):
 class TagDetails(DetailView):
     template_name = 'tags/tag_detail.html'
     model = Tag
-    
+    def get_context_data(self, **kwargs):
+        context = super(TagDetails, self).get_context_data(**kwargs)
+        context['post_list'] = MainPost.objects.filter(tags = self.object.id)
+        context['wiki_list'] = self.object.page_set.all()
+        return context
+ 
 class TagDelete(DeleteView):
     model = Tag
     template_name = 'tags/tag_delete.html'

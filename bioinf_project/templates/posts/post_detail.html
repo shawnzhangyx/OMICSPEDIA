@@ -10,7 +10,7 @@
 
 <h4> tag: 
 {% for tag in mainpost.tags.all %}
-{{tag}}
+<a href = "{% url 'tags:tag-detail' tag.id %}" > {{tag}} </a>
 {% endfor %}
  </h4>
  
@@ -21,10 +21,10 @@
 last_modified_date: {{mainpost.last_modified }} </i></p>
 <hr>
 {% for reply in replypost_list %}
-<a href = '{% url 'posts:replypost-delete' reply.id %}'> (Delete Reply) </a> 
-<p> {{reply.content}} </p>
-<p> <i>creation_date: {{ reply.created }};
-last_modified_date: {{reply.last_modified }} </i></p>
+    <a href = '{% url 'posts:replypost-delete' reply.id %}'> (Delete Reply) </a> 
+    <p> {{reply.content}} </p>
+    <p> <i>creation_date: {{ reply.created }};
+    last_modified_date: {{reply.last_modified }} </i></p>
 <hr>
 {% empty %}
 <p> No replies Yet</p>
