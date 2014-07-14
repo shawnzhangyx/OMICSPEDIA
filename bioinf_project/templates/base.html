@@ -14,7 +14,8 @@
         <p><strong> &nbsp&nbsp&nbsp OMICS Wiki&Q&A </strong></p>
         </div>
         <div id = "search_bar">
-        <h4> search form </h4>
+        <!-- search form -->
+        <p> Search form </p>
         <form action="" method="post">
         {% csrf_token %}
             <select name = "search_field">
@@ -26,6 +27,7 @@
             <input type="text" size=100 name="search_text"> 
             <input type="submit" value="Search">
 	</form>
+        <button type="button"> Advanced search </button>
         </div>
         <div id = "some_buttons" >
         <p> some buttons </p>
@@ -36,7 +38,9 @@
         <h4> left bar</h4>
         <h3> <a href= "{% url 'wiki:wiki-index' %}" > Wiki Home </a> <br><br>
         <a href= "{% url 'tags:tag-index' %}" > Tag Home </a> <br><br>
-        <a href= "{% url 'posts:post-index' %}" > Post Home </a> </h3>
+        <a href= "{% url 'posts:post-index' %}" > Post Home </a> <br><br>
+        <a href= "{% url 'tools:tool-index' %}" > Tool Home </a> 
+        </h3>
         
          
         </div>

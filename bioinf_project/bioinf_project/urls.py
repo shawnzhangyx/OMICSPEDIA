@@ -14,6 +14,6 @@ urlpatterns = patterns('',
     url(r'^wiki/', include('wiki.urls', namespace = "wiki")),
     url(r'^tags/', include('tags.urls', namespace = "tags")),
     url(r'^posts/', include('posts.urls', namespace = "posts")),
-#    url(r'^tool/', include('tool_wiki.urls', namespace = "tool")),
+    url(r'^tools/', include('tool_wiki.urls', namespace = "tools")),
 #    url(r'^code_snippet/', include('code_snippet_repos.urls', namespace = "wiki")),
 )

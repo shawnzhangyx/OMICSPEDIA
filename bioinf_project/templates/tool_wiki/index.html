@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1> HomePage for Tools</h1>
+
+<h3> <a href = "{% url 'tools:tool-new' %}"> Create new tool here </a> </h3>
+
+<h2> Tool Catalog: </h2>
+{% if tool_list %}
+<ul> 
+{% for tool in tool_list %}
+<li> <a href= "{% url 'tools:tool-detail' tool.id %}" >{{ tool.title }} </a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p> no tools available </p>
+{% endif %}
+
+{% endblock content %}
