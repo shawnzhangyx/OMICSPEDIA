@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1> Revision history of <a href = "{% url 'wiki:wiki-detail' revision_list.1.page.id %}"> {{revision_list.1.page.title}} </a> </h1>
+
+{% if revision_list %}
+<ul> 
+{% for revision in revision_list %}
+<li> 
+    <a href= "{# url 'wiki:wiki-detail' wiki.id #}" >{{ revision.revision_summary|default:"Ooops, no summary." }} </a>
+    <p> modified date: {{revision.modified_date }} </p>
+</li>
+{% endfor %}
+</ul>
+{% else %}
+<p> no revision history available </p>
+{% endif %}
+<hr>
+<p> <a href = "{% url 'wiki:wiki-index' %}"> Go back to wiki homepage</a> </p>
+{% endblock content %}

@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1> Wiki Title: {{page.title}} <a href = "{% url 'wiki:wiki-edit' page.id%}"> (Edit) </a></h1>
+<h1> Wiki Title: {{page.title}} <a href = "{% url 'wiki:wiki-edit' page.id %}"> (Edit) </a>
+     <a href = "{% url 'wiki:wiki-history' page.id %}"> (History) </a>
+</h1>
 
 <h3> tag: 
 {% for tag in page.tags.all %}
@@ -11,7 +13,8 @@ None
  </h3>
  
 <h3> content:</h3>
-<p> {{ page.content }} </p>
+<p> {{ page.current_revision.content }} </p>
+<p> last modified: {{ page.current_revision.modified_date }} </p>
 <hr>
 <p> <a href = "{% url 'wiki:wiki-index' %}"> Go back to wiki homepage</a> </p>
 
