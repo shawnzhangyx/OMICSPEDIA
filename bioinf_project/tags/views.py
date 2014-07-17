@@ -1,31 +1,36 @@
 from django.shortcuts import render
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
-from django.views.generic import DetailView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from .models import Tag
 from posts.models import MainPost
-from wiki.models import Page
+from wiki.models import Page, PageRevision
 # Create your views here.
-def index_view(request):
-    tag_list = Tag.objects.all()
-    context_dict = {'tag_list':tag_list}
-    if request.method =="POST": 
-        new_tag_name = request.POST['tag_name']
-        if new_tag_name =='':
-            context_dict['error_message']='You did not put in anything'
-            return render(request, 'tags/index.html', context_dict)
-        else:
-            try: 
-                Tag.objects.get(name__exact = new_tag_name)
-            except(Tag.DoesNotExist): 
-                new_tag = Tag(name=new_tag_name)
-                new_tag.save()
-                return HttpResponseRedirect(reverse('tags:tag-index'))
-            else:
-                context_dict['error_message']='tag already existed'
-                return render(request, 'tags/index.html', context_dict)
-    else: 
-        return render(request, 'tags/index.html', context_dict)
+
+class TagList(ListView):
+#    model = Tag
+    template_name = "tags/index.html"
+    queryset = Tag.objects.filter(parent__isnull=True)
+
+class TagCreate(CreateView):
+    model = Tag
+    template_name = "tags/tag_create.html"
+    fields = ['name']
+    def form_valid(self, form):
+        if Page.objects.filter(title = form.instance.name):
+            return HttpResponseRedirect( reverse('tags:tag-index'))
+        #super(TagCreate, self).form_invalid(form) # should provide an error message that this tag already exist. 
+        form.instance.title = form.instance.name
+        form.save()
+       # if self.request.POST: 
+        new_revision = PageRevision(content=self.request.POST['content'], 
+                       revision_summary=self.request.POST['summary'], page=form.instance)
+        new_revision.save()
+        form.instance.current_revision=new_revision
+        form.instance.tags.add(form.instance)
+        return super(TagCreate, self).form_valid(form)
+
+        
 
 class TagDetails(DetailView):
     template_name = 'tags/tag_detail.html'

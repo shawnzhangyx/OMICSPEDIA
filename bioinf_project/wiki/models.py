@@ -3,7 +3,6 @@ from django.forms import ModelForm
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from tags.models import Tag
 
 # Create your models here.
 
@@ -13,7 +12,7 @@ from tags.models import Tag
 class Page(models.Model):
     
     title = models.CharField(_("title"), max_length=255, unique=True)
-    tags = models.ManyToManyField(Tag,blank=True) 
+    tags = models.ManyToManyField("tags.Tag",blank=True) 
     current_revision = models.OneToOneField('PageRevision', blank=True, null=True, verbose_name=_('current revision'),
                                             related_name = "revision_page")
     # created_date = models.DateTimeField(_('created date'))                                        

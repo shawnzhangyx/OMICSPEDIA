@@ -3,7 +3,10 @@
 <h1> Tag name: {{tag.name}} <a href = "{% url 'tags:tag-delete' tag.id %}"> (Delete this tag) </a> </h1>
 
 <p> counts: {{ tag.count}} </p>
+<h2> Tag wiki: <a href="{% url 'wiki:wiki-edit' tag.parent_page.id %}"> (Edit?)</a> </h2>
+<p> {{ tag.current_revision.content}} </p>
 <hr> 
+<!--
 <h2> Related Wiki </h2> 
 {% for wiki in wiki_list %}
     <p> {{forloop.counter}}. <a href = "{% url 'wiki:wiki-detail' wiki.id %}"> {{ wiki.title }} </a> 
@@ -12,6 +15,7 @@
 <p> There is no wiki associated with this tag </p>
 {% endfor %}
 <hr>
+-->
 <h2> Related Posts </h2>
 {% for post in post_list %}
     <p> {{forloop.counter}}. <a href = "{% url 'posts:post-detail' post.id %}"> {{ post.title }} </a> 

@@ -7,7 +7,7 @@
 {% csrf_token %}
 {{ form.as_p }}
 Content: <br>
-<textarea rows='10' cols='80'  name="content"> {{ page.current_revision.content }} </textarea> <br>
+<textarea rows='10' cols='80'  name="content"> Please enter something here. </textarea> <br>
 Revision summary: <textarea rows='1' cols='80' name='summary'> No summary </textarea> <br>
 <input type="submit" value = "Submit wiki" /> 
 </form>

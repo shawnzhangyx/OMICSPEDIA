@@ -1,27 +1,33 @@
 from django.db import models
+from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
 
+from wiki.models import Page
 # Create your models here.
-class Tag(models.Model):
+class Tag(Page):
     def __unicode__(self):
         return self.name
         
     #---- fields ----#
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
+    parent_page = models.OneToOneField("wiki.Page",parent_link=True)
     # record the times this tag is used
-    count = models.IntegerField(default=1)
-    
+    count = models.IntegerField(default=0)
     # provide the tag structures
     # can chain Tags that have tree structures. 
-    #? parent = models.OnetoOneField('self',null=True,blank=T)
     parent = models.ForeignKey('self', related_name = "children",null=True, blank=True)
-    sibling_before = models.ForeignKey('self', related_name = "after",null=True, blank=True)
-    sibling_after = models.ForeignKey('self', related_name = "before",null=True, blank=True)
+    node_position = models.IntegerField(default=0)
     
     # the types of the tag
     PROPOSED, APPROVED, WORKFLOW, SOFTWARE = range(4)
     CATEGORY_CHOICE = [(PROPOSED, "proposed"), (APPROVED,"approved"), (WORKFLOW,"workflow"), (SOFTWARE,"software")]
     categories = models.IntegerField(choices=CATEGORY_CHOICE, default=PROPOSED)
+    
     #---- methods ----#
+   # def __init__(self, *args, **kwargs):
+   #     pass
+    def get_absolute_url(self):
+        return reverse('tags:tag-detail', kwargs = {'pk': self.pk})
     # check if the tag is the root. 
     def is_root():
         pass
@@ -29,5 +35,7 @@ class Tag(models.Model):
     def is_same():
         pass
     # ---- #
-
+    # adjust the node position among children under the same parent.
+    def adjust_pos():
+        pass
     

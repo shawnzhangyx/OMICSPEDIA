@@ -1,0 +1,10 @@
+{% load tag_custom_tags %}
+
+<ul>
+    {% for tag in tag_list %}
+    <li> <a href="{% url 'tags:tag-detail' tag.id %}">{{ tag.name }} <a> </li>
+        {% if tag.children.count > 0 %}
+        {% show_tag_children tag %}
+        {% endif %}
+    {% endfor %}
+</ul>

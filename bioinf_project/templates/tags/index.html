@@ -1,16 +1,33 @@
 {% extends 'base.html' %}
-{% block content %}
 
+{% load tag_custom_tags %}
+{% block head %}
+{% endblock head %}
+
+{% block content %}
 <h1> HomePage for tags</h1>
 
-{% if error_message %} <p> <strong> {{error_message}} </strong> </p> {% endif %}
-<form action="{% url 'tags:tag-index' %}" method="post">
-{% csrf_token %}
-<input type='textarea' name='tag_name' />
-<input type='submit', value='Create New Tag' />
+<button type='button' onclick='location.href="{% url "tags:tag-create" %}"'> Create new tag </button>
+
+<form action="" method="get">
+<input type="text" name="search_content" /> 
+<input type="submit" value="Search Tag" />
 </form>
+
+
 <h2> Tags Catalog: </h2>
- 
+{% if tag_list %}
+<ul>
+{% for tag in tag_list %}
+<li> <a href="{% url 'tags:tag-detail' tag.id %}"> {{tag.name}} </a> </li>
+    {% show_tag_children tag %}
+{% endfor %}
+</ul>
+{% else %}
+<p> no tags available </p>
+{% endif %}
+
+<!--
 {% for tag in tag_list %}
  <a href= "{% url 'tags:tag-detail' tag.id %}" >{{ tag.name }} x{{tag.count}} </a>
 {% if not forloop.last %} |
@@ -18,5 +35,5 @@
 {% empty %}
 <p> no tags available </p>
 {% endfor %}
-
+-->
 {% endblock content %}

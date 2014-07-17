@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="JSTreeGraph.css" rel="stylesheet" type="text/css" />
+    <script src="JSTreeGraph.min.js" type="text/javascript"></script>
+
+    <style type="text/css">
+        .SpecialNode
+        {
+	        position:absolute;
+	        background-color: Red;
+	        border: 1px solid #5280FF;
+	        text-align:center;
+	        vertical-align:middle;
+	        cursor:pointer;        
+	    }
+	    
+	    .Container
+	    {
+            position:absolute;
+            top:100px;
+            left:50px;
+	    }
+    </style>
+</head>
+<body>
+    
+    <div>Shift+Click to Add Node</div>
+    <div>Double Click to Expand or Collapse</div>
+    <div><select id="dlLayout" onchange="ChangeLayout()"><option value="Horizontal">Horizontal</option>
+        <option value="Vertical">Vertical</option></select> </div>
+    
+    <div class="Container" id="dvTreeContainer"></div>
+
+
+    <script type="text/javascript">
+    <!--
+        // Root node
+        var rootNode = { Content: "Root", Nodes:[] };
+
+        // First Level
+        rootNode.Nodes[0] = { Content: "N1.1" };
+        rootNode.Nodes[1] = { Content: "N1.15" };
+        rootNode.Nodes[2] = { Content: "N1.2" };
+        rootNode.Nodes[3] = { Content: "N1.3" };
+        rootNode.Nodes[4] = { Content: "N1.4" };
+
+        // Second Level
+        rootNode.Nodes[2].Nodes = [{ Content : "N1.2.1", Collapsed: true /* This node renders collapsed */ }, 
+                                   { Content : "N1.2.2" },
+                                   { Content : "N1.2.3", Class : "SpecialNode" /* This node looks different */, ToolTip: "Click ME!" },
+                                   { Content : "N1.2.4"}];
+
+        // Third Level
+        rootNode.Nodes[2].Nodes[0].Nodes = [{ Content: "N1.2.1.1" } ];
+        rootNode.Nodes[2].Nodes[3].Nodes = [{ Content: "N1.2.4.1" },
+                                            { Content: "N1.2.4.2" },
+                                            { Content: "N1.2.4.3" },
+                                            { Content: "N1.2.4.4" }]
+
+        // Draw the tree for the first time
+        RefreshTree();
+
+        function RefreshTree() {
+            DrawTree({ Container: document.getElementById("dvTreeContainer"),
+                        RootNode: rootNode,
+                        Layout: document.getElementById("dlLayout").value,
+                        OnNodeClick: NodeClick,
+                        OnNodeDoubleClick: NodeDoubleClick });
+        }
+
+        function NodeClick() {
+            if (this.Node.Content == "N1.2.3") {
+                alert(this.Node.Content);
+            }
+            if (event && event.shiftKey) {
+                // Add new Child if Expanded
+                if (!this.Node.Collapsed) {
+                    if (!this.Node.Nodes) this.Node.Nodes = new Array();
+                    var newNodeIndex = this.Node.Nodes.length;
+                    this.Node.Nodes[newNodeIndex] = new Object();
+                    this.Node.Nodes[newNodeIndex].Content = this.Node.Content + "." + (newNodeIndex + 1);
+                    RefreshTree();
+                }
+            };
+        }
+
+        function NodeDoubleClick() {
+            if (this.Node.Nodes && this.Node.Nodes.length > 0) { // If has children
+                this.Node.Collapsed = !this.Node.Collapsed;
+                RefreshTree();
+            }
+        }
+
+        function ChangeLayout() {
+            RefreshTree();
+        }
+
+     -->
+    </script>
+
+</body>
+</html>
