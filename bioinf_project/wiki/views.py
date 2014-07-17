@@ -20,7 +20,8 @@ class WikiNew(CreateView):
     fields = ['title', 'tags']
     def form_valid(self, form):
         form.save()
-        new_revision = PageRevision(content=self.request.POST['content'], page=form.instance)
+        new_revision = PageRevision(content=self.request.POST['content'], 
+                       revision_summary=self.request.POST['summary'], page=form.instance)
         new_revision.save()
         form.instance.current_revision=new_revision
         return super(WikiNew, self).form_valid(form)
@@ -33,7 +34,8 @@ class WikiEdit(UpdateView):
     fields = ['title', 'tags']
     template_name = 'wiki/wiki_edit.html'
     def form_valid(self, form):
-        new_revision = PageRevision(content=self.request.POST['content'], page=self.object)
+        new_revision = PageRevision(content=self.request.POST['content'], 
+                       revision_summary=self.request.POST['summary'], page=self.object)
         new_revision.save()
         self.object.current_revision=new_revision
         self.object.save()
@@ -50,6 +52,11 @@ class WikiHistory(ListView):
     context_object_name = "revision_list"
     def get_queryset(self):
         return PageRevision.objects.filter(page = self.kwargs['pk']).order_by('-modified_date')
+
+class WikiDiff(DetailView):
+    model = PageRevision
+    template_name = "wiki/wiki_diff.html"
+    
 
  #   def get_context_data(self, **kwargs):
  #       context = super(WikiHistory, self).get_context_data(**kwargs)

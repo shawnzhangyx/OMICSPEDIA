@@ -31,7 +31,7 @@ class Page(models.Model):
 class PageRevision(models.Model):
     revision_number = models.IntegerField(_('revision number'), editable=False)
     revision_summary = models.TextField(_('revision summary'), blank=True)
-    previous_revision = models.ForeignKey('self', verbose_name=_("previous revision"), blank=True, null=True)
+    # previous_revision = models.ForeignKey('self', verbose_name=_("previous revision"), blank=True, null=True)
     # editor = models.ForeignKey(User, blank=True, null = True)
     page = models.ForeignKey(Page, on_delete = models.CASCADE, verbose_name=_("page"))
     content = models.TextField(blank=True, verbose_name = _("page content"))
@@ -39,6 +39,7 @@ class PageRevision(models.Model):
 
     def __unicode__(self):
         return self.page.title+"_revision_"+str(self.revision_number)
+
     def save(self, *args, **kwargs):
         if not self.revision_number: 
             try: 
@@ -46,9 +47,13 @@ class PageRevision(models.Model):
                 self.revision_number = previous_revision.revision_number + 1
             except PageRevision.DoesNotExist:
                 self.revision_number = 1
-                
         super(PageRevision, self).save(*args, **kwargs)
  
+    def get_pre_revision(self):
+        try: 
+            return PageRevision.objects.get(revision_number = self.revision_number - 1, page = self.page)
+        except IndexError:
+            return  
     class Meta:
         get_latest_by= 'revision_number'
 # --------- #
