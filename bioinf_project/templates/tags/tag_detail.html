@@ -1,22 +1,30 @@
 {% extends 'base.html' %}
+{% load tag_custom_tags %}
 {% block content %}
-<h1> Tag name: {{tag.name}} <a href = "{% url 'tags:tag-delete' tag.id %}"> (Delete this tag) </a> </h1>
+<h1> Tag name: {% show_tag_ancestor tag %} {{ tag.name }} <a href = "{% url 'tags:tag-delete' tag.id %}"> (Delete?) </a> </h1>
 
 <p> counts: {{ tag.count}} </p>
-<h2> Tag wiki: <a href="{% url 'wiki:wiki-edit' tag.parent_page.id %}"> (Edit?)</a> </h2>
-<p> {{ tag.current_revision.content}} </p>
+<h2> Tag wiki: </h2>
+<p> {{ tag.current_revision.content|truncatewords:100 }}  <a href="{% url 'wiki:wiki-detail' tag.parent_page.id %}"> (More) </a> </p>
 <hr> 
 <!--
 <h2> Related Wiki </h2> 
 {% for wiki in wiki_list %}
     <p> {{forloop.counter}}. <a href = "{% url 'wiki:wiki-detail' wiki.id %}"> {{ wiki.title }} </a> 
-   {{ wiki.content|truncatewords:20 }} 
+   {{ wiki.content|truncatewords:20 }}
 {% empty %}
 <p> There is no wiki associated with this tag </p>
 {% endfor %}
 <hr>
 -->
-<h2> Related Posts </h2>
+{% if tag.children.count > 0 %} 
+<h3> Child Tags: </h3>
+
+{% show_tag_children tag %} 
+<hr>
+{% endif %}
+
+<h3> Related Posts: </h3>
 {% for post in post_list %}
     <p> {{forloop.counter}}. <a href = "{% url 'posts:post-detail' post.id %}"> {{ post.title }} </a> 
 <!--   {{ post.content|truncatechars:60 }} 

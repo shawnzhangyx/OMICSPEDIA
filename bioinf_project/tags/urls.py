@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url(r'^create_tag/$', views.TagCreate.as_view(), name='tag-create'),
     url(r'^(?P<pk>\d+)/$', views.TagDetails.as_view(), name='tag-detail'),
     url(r'^(?P<pk>\d+)/delete$', views.TagDelete.as_view(), name='tag-delete'),
+    url(r'^search_tag/$', views.TagSearch.as_view(), name='tag-search'),
     )

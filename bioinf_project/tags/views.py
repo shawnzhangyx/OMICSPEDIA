@@ -46,3 +46,15 @@ class TagDelete(DeleteView):
     template_name = 'tags/tag_delete.html'
     success_url = reverse_lazy('tags:tag-index')
 
+class TagSearch(ListView):
+    template_name = 'tags/tag_search_results.html'
+    
+    #def dispatch(self, request, *args, **kwargs):
+
+    def get_queryset(self):
+        return Tag.objects.filter(name__icontains = self.request.GET['search_content']).exclude(parent__isnull=False)
+    
+    def get_context_data(self, **kwargs):
+        context = super(TagSearch, self).get_context_data(**kwargs)
+        context['pre_search_content'] = self.request.GET['search_content']
+        return context
