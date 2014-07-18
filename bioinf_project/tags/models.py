@@ -23,9 +23,12 @@ class Tag(Page):
     CATEGORY_CHOICE = [(PROPOSED, "proposed"), (APPROVED,"approved"), (WORKFLOW,"workflow"), (SOFTWARE,"software")]
     categories = models.IntegerField(choices=CATEGORY_CHOICE, default=PROPOSED)
     
+    class Meta: 
+        get_latest_by= 'node_position'
     #---- methods ----#
    # def __init__(self, *args, **kwargs):
    #     pass
+   
     def get_absolute_url(self):
         return reverse('tags:tag-detail', kwargs = {'pk': self.pk})
     # check if the tag is the root. 

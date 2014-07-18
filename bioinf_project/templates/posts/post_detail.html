@@ -15,14 +15,14 @@
  </h4>
  
 <h3> content:</h3>
-<p> {{ mainpost.content }} </p>
+<p> {{ mainpost.current_revision.content }} </p>
 <br>
 <p> <i>creation_date: {{ mainpost.created }};
-last_modified_date: {{mainpost.last_modified }} </i></p>
+<!-- modification history --> last_modified_date: {{mainpost.last_modified }} </i></p>
 <hr>
 {% for reply in replypost_list %}
-    <a href = '{% url 'posts:replypost-delete' reply.id %}'> (Delete Reply) </a> 
-    <p> {{reply.content}} </p>
+    <a href = '{# url "posts:replypost-delete" reply.id #}'> (Delete Reply) </a> 
+    <p> {{reply.current_revision.content}} </p>
     <p> <i>creation_date: {{ reply.created }};
     last_modified_date: {{reply.last_modified }} </i></p>
 <hr>
@@ -30,9 +30,19 @@ last_modified_date: {{mainpost.last_modified }} </i></p>
 <p> No replies Yet</p>
 <hr>
 {% endfor %}
+<!-- add reply -->
 
-<p> <a href = '{% url "posts:replypost-new" mainpost.id%}'> Add new Reply </a> </p>
+<form action='{% url "posts:replypost-new" mainpost_id=mainpost.id %}' method="post">
+{% csrf_token %}
+<h3> Reply to this post:</h3>
+<textarea rows='7' cols='80'  name="content"></textarea> <br>
+<input type="submit" value="Post reply">
+</form>
+
+<!--
+<p> <a href = '{# url "posts:replypost-new" mainpost.id#}'> Add new Reply </a> </p>
 <hr>
+-->
 <p> <a href = "{% url 'posts:post-index' %}"> Go back to post homepage</a> </p>
 
 
