@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from views import IndexView
-
+from utils.views import CommentNew
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -16,4 +16,6 @@ urlpatterns = patterns('',
     url(r'^posts/', include('posts.urls', namespace = "posts")),
  #   url(r'^tools/', include('tool_wiki.urls', namespace = "tools")),
 #    url(r'^code_snippet/', include('code_snippet_repos.urls', namespace = "wiki")),
+    url(r'^(?P<comment_on>[^/]+)/(?P<pk>\d+)/comment-new/$', CommentNew.as_view(), name="comment-new"),
+
 )

@@ -25,7 +25,6 @@ class WikiNew(CreateView):
         new_revision.save()
         form.instance.current_revision=new_revision
         return super(WikiNew, self).form_valid(form)
-    
 
     
 class WikiEdit(UpdateView): 
@@ -44,6 +43,10 @@ class WikiEdit(UpdateView):
 class WikiDetails(DetailView): 
     template_name = "wiki/wiki_detail.html"
     model = Page
+    def get_context_data(self, **kwargs):
+        context = super(WikiDetails, self).get_context_data(**kwargs)
+        context['comment_list'] = self.object.comments.order_by('-last_modified')
+        return context
     #need to display everything in the same subject. 
 
 class WikiHistory(ListView):
@@ -58,7 +61,3 @@ class WikiDiff(DetailView):
     template_name = "wiki/wiki_diff.html"
     
 
- #   def get_context_data(self, **kwargs):
- #       context = super(WikiHistory, self).get_context_data(**kwargs)
-  #      context['replypost_list'] = ReplyPost.objects.filter(root=context['mainpost'])
- #      return context

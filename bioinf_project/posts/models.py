@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.contenttypes.generic import GenericRelation 
 
 #local apps
 from tags.models import Tag
@@ -49,7 +50,7 @@ class ReplyPostRevision(AbstractPostRevision):
     post = models.ForeignKey("ReplyPost", on_delete = models.CASCADE, verbose_name=_("post"))
 
     def __unicode__(self):
-        return self.post.title+"_revision_"+str(self.revision_number)
+        return "reply_to_"+self.post.mainpost.title+"_revision_"+str(self.revision_number)
 
     def save(self, *args, **kwargs):
         if not self.revision_number: 
@@ -90,6 +91,7 @@ class MainPost(AbstractPost):
     title = models.CharField(max_length=255,null=False)
     current_revision = models.OneToOneField('MainPostRevision', blank=True, null=True, verbose_name=_('current revision'))
     answered = models.BooleanField(default=False)
+    main_post_comments = GenericRelation("utils.Comment")
         ### potential useful fields: watched 
         
     def __unicode__(self):
@@ -102,7 +104,8 @@ class ReplyPost(AbstractPost):
     mainpost = models.ForeignKey(MainPost, related_name = "replies", null=False)
     current_revision = models.OneToOneField('ReplyPostRevision', blank=True, null=True, verbose_name=_('current revision'))
     best_answer = models.BooleanField(default=False)
-    
+    reply_post_comments = GenericRelation("utils.Comment")
+
     def __unicode__(self):
         return "reply to:" + self.mainpost.title
     def get_absolute_url(self):

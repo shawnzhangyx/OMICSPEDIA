@@ -50,7 +50,6 @@ class PostDetails(DetailView):
     context_object_name = "mainpost"
     def get_context_data(self, **kwargs):
         context = super(PostDetails, self).get_context_data(**kwargs)
-        #context['replypost_list'] = ReplyPost.objects.all()
         context['replypost_list'] = ReplyPost.objects.filter(mainpost=context['mainpost'])
         return context
     #need to display everything in the same subject. 
@@ -63,6 +62,11 @@ class ReplyPostNew(CreateView):
     #will need to redirect to the main post; will implement later. 
     def get_success_url(self):
         return self.object.get_absolute_url()
+    def get_context_data(self, **kwargs):
+        context = super(ReplyPostNew, self).get_context_data(**kwargs)
+        context['mainpost'] = MainPost.objects.get(id=self.kwargs['mainpost_id'])
+        return context
+
     def form_valid(self, form):
         form.instance.mainpost = MainPost.objects.get(pk = int(self.kwargs['mainpost_id']))
         form.save()
@@ -71,10 +75,23 @@ class ReplyPostNew(CreateView):
         form.instance.current_revision=new_revision
         return super(ReplyPostNew, self).form_valid(form)
         
-        
+class ReplyPostEdit(UpdateView):
+    model = ReplyPost
+    fields = []
+    template_name = 'posts/replypost_edit.html'
+
+    def form_valid(self, form):
+        new_revision = ReplyPostRevision(content=self.request.POST['content'], 
+                       revision_summary=self.request.POST['summary'], post=self.object)
+        new_revision.save()
+        self.object.current_revision=new_revision
+        self.object.save()
+        return super(ReplyPostEdit, self).form_valid(form)
+
 class ReplyPostDelete(DeleteView):
     model = ReplyPost
     template_name = 'posts/replypost_delete.html'
     #success_url = reverse_lazy('posts:post-index')
     def get_success_url(self):
         return self.object.get_absolute_url()
+

@@ -16,6 +16,13 @@ None
 <p> {{ page.current_revision.content }} </p>
 <p> last modified: {{ page.current_revision.modified_date }} </p>
 <hr>
+
+{% for comment in comment_list %}
+  Comment {{forloop.counter}}: {{ comment.content }}     -{{comment.last_modified}} <br><hr>
+{% empty %}
+No comments 
+{% endfor %}
+<button type='button' onclick='location.href="{% url 'comment-new' comment_on="wiki" pk=page.id %}"' > Add comment </button>
 <p> <a href = "{% url 'wiki:wiki-index' %}"> Go back to wiki homepage</a> </p>
 
 {% endblock content %}

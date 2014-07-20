@@ -1,9 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h1> Edit your post</h1>
 
 
 <form action = "" method="post"> 
 {% csrf_token %}
 {{ form.as_p }}
+<textarea rows='10' cols='80'  name="content"> {{mainpost.current_revision.content}} </textarea> <br>
+Revision summary: <textarea rows='1' cols='80' name='summary'> No summary </textarea> <br>
 
 <input type="submit" value = "Submit" /> 
 </form>
+
+{% endblock content %}

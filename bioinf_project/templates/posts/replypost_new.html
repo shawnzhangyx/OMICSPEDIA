@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1> Reply to post </h1>
+<h1> Reply to post: "{{ mainpost.title }}" </h1>
 
 <form action = "" method="post"> 
 {% csrf_token %}
 {{ form.as_p }}
+<textarea rows='7' cols='80'  name="content"></textarea> <br>
+
 <input type="submit" value = "Submit Reply" /> 
 </form>
 

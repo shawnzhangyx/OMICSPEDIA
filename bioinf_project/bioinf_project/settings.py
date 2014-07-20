@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'wiki',
  #   'tool_wiki',
     'south',
+    'utils',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -5,7 +5,11 @@
 
 <p> counts: {{ tag.count}} </p>
 <h2> Tag wiki: </h2>
+{% if tag.current_revision.content|length == 0 %}
+The wiki is not developed for this tag, would you like to <a href="{% url 'wiki:wiki-detail' tag.parent_page.id %}">contribute? </a>
+{% else %}
 <p> {{ tag.current_revision.content|truncatewords:100 }}  <a href="{% url 'wiki:wiki-detail' tag.parent_page.id %}"> (More) </a> </p>
+{% endif %}
 <hr> 
 <!--
 <h2> Related Wiki </h2> 

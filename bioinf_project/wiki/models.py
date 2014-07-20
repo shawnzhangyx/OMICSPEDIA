@@ -1,8 +1,9 @@
 from django.db import models
-from django.forms import ModelForm
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.generic import GenericRelation 
+from django.utils import timezone
 
 # Create your models here.
 
@@ -13,6 +14,7 @@ class Page(models.Model):
     
     title = models.CharField(_("title"), max_length=255, unique=True)
     tags = models.ManyToManyField("tags.Tag",blank=True) 
+    comments = GenericRelation("utils.Comment")
     current_revision = models.OneToOneField('PageRevision', blank=True, null=True, verbose_name=_('current revision'),
                                             related_name = "revision_page")
     # created_date = models.DateTimeField(_('created date'))                                        
@@ -22,11 +24,6 @@ class Page(models.Model):
     def get_absolute_url(self):
         return reverse('wiki:wiki-detail', kwargs = {'pk': self.pk})
 
-#class PageForm(ModelForm):
-#    class Meta: 
-#       model = Page
-#        fields = ['title', 'tags','current_revision']
- 
 class PageRevision(models.Model):
     revision_number = models.IntegerField(_('revision number'), editable=False)
     revision_summary = models.TextField(_('revision summary'), blank=True)
@@ -55,6 +52,9 @@ class PageRevision(models.Model):
             return  
     class Meta:
         get_latest_by= 'revision_number'
+
+
+
 # --------- #
 # a page can have several sections, instead of just one giant 
 # piece of content, this will make editing more convenient. 

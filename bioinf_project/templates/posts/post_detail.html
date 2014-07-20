@@ -13,18 +13,36 @@
 <a href = "{% url 'tags:tag-detail' tag.id %}" > {{tag}} </a>
 {% endfor %}
  </h4>
- 
+
 <h3> content:</h3>
 <p> {{ mainpost.current_revision.content }} </p>
 <br>
-<p> <i>creation_date: {{ mainpost.created }};
+<p> <i>creation_date: {{ mainpost.created }};	
 <!-- modification history --> last_modified_date: {{mainpost.last_modified }} </i></p>
+{% for comment in mainpost.main_post_comments.all %}
+  Comment {{forloop.counter}}: {{ comment.content }}     -{{comment.last_modified}} <br><hr>
+{% empty %}
+No comments 
+{% endfor %}
+
+
+<button type='button' onclick='location.href="{% url 'comment-new' comment_on="posts" pk=mainpost.id %}"' > Add comment </button>
+
 <hr>
 {% for reply in replypost_list %}
-    <a href = '{# url "posts:replypost-delete" reply.id #}'> (Delete Reply) </a> 
+    <a href = '{% url "posts:replypost-edit" reply.id %}' > (Edit) </a>
+    <a href = '{% url "posts:replypost-delete" reply.id %}'> (Delete) </a> 
     <p> {{reply.current_revision.content}} </p>
     <p> <i>creation_date: {{ reply.created }};
     last_modified_date: {{reply.last_modified }} </i></p>
+    {% for comment in reply.reply_post_comments.all %}
+      Comment {{forloop.counter}}: {{ comment.content }}     -{{comment.last_modified}} <br><hr>
+    {% empty %}
+    No comments 
+    {% endfor %}
+
+    <button type='button' onclick='location.href="{% url 'comment-new' comment_on="replyposts" pk=reply.id %}"' > Add comment </button>
+
 <hr>
 {% empty %}
 <p> No replies Yet</p>
@@ -39,10 +57,6 @@
 <input type="submit" value="Post reply">
 </form>
 
-<!--
-<p> <a href = '{# url "posts:replypost-new" mainpost.id#}'> Add new Reply </a> </p>
-<hr>
--->
 <p> <a href = "{% url 'posts:post-index' %}"> Go back to post homepage</a> </p>
 
 

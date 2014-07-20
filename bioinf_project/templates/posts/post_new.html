@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1> Create a new post page</h1>
+<h1> Create a new post.</h1>
 
 
 <form action = "/posts/create/" method="post"> 
 {% csrf_token %}
 {{ form.as_p }}
+<textarea rows='10' cols='80'  name="content"> </textarea> <br>
 
 <input type="submit" value = "Submit post" /> 
 </form>
