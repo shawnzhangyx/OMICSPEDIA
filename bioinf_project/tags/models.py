@@ -5,8 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 from wiki.models import Page
 # Create your models here.
 class Tag(Page):
-    def __unicode__(self):
-        return self.name
         
     #---- fields ----#
     name = models.CharField(max_length=255, unique=True)
@@ -29,6 +27,8 @@ class Tag(Page):
    # def __init__(self, *args, **kwargs):
    #     pass
    
+    def __unicode__(self):
+        return self.name
     def get_absolute_url(self):
         return reverse('tags:tag-detail', kwargs = {'pk': self.pk})
     # check if the tag is the root. 

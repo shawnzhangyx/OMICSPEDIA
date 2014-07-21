@@ -7,7 +7,7 @@
 {% block content %}
 <h1> Tag search results for "{{pre_search_content }}"</h1>
 
-<button type='button' onclick='location.href="{% url "tags:tag-create" %}"'> Create new tag </button>
+<button type='button' onclick='location.href="{% url "tags:tag-create" parent_id=0 %}"'> Create new tag </button>
 
 <form action="{% url 'tags:tag-search' %}" method="get">
 <input type="text" name="search_content" value= {{pre_search_content}}> 

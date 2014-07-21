@@ -18,11 +18,10 @@
         <div id = "search_bar">
         <!-- search form -->
         <p> Search form </p>
-        <form action="" method="post">
-        {% csrf_token %}
+        <form action="{% url 'search' %}" method="get">
             <select name = "search_field">
                 <option value ="All"> All </option>
-                <option value ="Tag"> Tag </option>
+        <!--        <option value ="Tag"> Tag </option> --><!-- because tags and wiki are the same -->
                 <option value ="Wiki"> Wiki </option>
                 <option value ="Post"> Post </option>
             </select>

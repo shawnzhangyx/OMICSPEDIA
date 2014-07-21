@@ -2,7 +2,7 @@
 {% load tag_custom_tags %}
 {% block content %}
 <h1> Tag name: {% show_tag_ancestor tag %} {{ tag.name }} <a href = "{% url 'tags:tag-delete' tag.id %}"> (Delete?) </a> </h1>
-
+<button type='button' onclick='location.href="{% url "tags:tag-create" parent_id=tag.id %}"'> Create new tag under this tag?</button>
 <p> counts: {{ tag.count}} </p>
 <h2> Tag wiki: </h2>
 {% if tag.current_revision.content|length == 0 %}
@@ -23,7 +23,6 @@ The wiki is not developed for this tag, would you like to <a href="{% url 'wiki:
 -->
 {% if tag.children.count > 0 %} 
 <h3> Child Tags: </h3>
-
 {% show_tag_children tag %} 
 <hr>
 {% endif %}

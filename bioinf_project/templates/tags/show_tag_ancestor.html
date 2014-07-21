@@ -1,6 +1,7 @@
 {% load tag_custom_tags %}
 
-{# show_tag_ancestor tag #} 
-{% if tag.id %}
+
+{% if tag.id > 0 %}
+{% show_tag_ancestor tag %} 
 <a href = "{% url 'tags:tag-detail' tag.id %}" >  {{ tag.name }} </a> /
 {% endif %}

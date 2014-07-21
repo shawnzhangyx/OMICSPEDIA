@@ -1,6 +1,6 @@
 from django import template
 from django.http import HttpResponse
-
+from tags.models import Tag
 register = template.Library()
 
 
@@ -20,9 +20,12 @@ def show_tag_parent(tag):
 
 @register.inclusion_tag("tags/show_tag_ancestor.html")
 def show_tag_ancestor(tag):
-#    tag_parent = tag.parent
-#    if tag.parent:
-        return {'tag': tag.parent}
+     try: 
+        tag.parent
+     # if there is no parent to this tag.
+     except AttributeError:
+        return  
+     return {'tag': tag.parent}
 #    else: 
         
 

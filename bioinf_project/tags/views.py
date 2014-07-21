@@ -26,11 +26,15 @@ class TagCreate(CreateView):
             # create a tag using old wiki.
             new_tag = Tag(pk=old_page.pk, name=old_page.title, title=old_page.title)
                           #comments=old_page.comments, current_revision=old_page.current_revision)
+            if int(self.kwargs['parent_id'])>0:
+                new_tag.parent = Tag.objects.get(pk= self.kwargs['parent_id'])
             new_tag.save()
             return HttpResponseRedirect(reverse('tags:tag-detail',kwargs={'pk':new_tag.pk}))
             #return HttpResponseRedirect( reverse('tags:tag-index'))
         #super(TagCreate, self).form_invalid(form) # should provide an error message that this tag already exist. 
         form.instance.title = form.instance.name
+        if int(self.kwargs['parent_id'])>0:
+            form.instance.parent = Tag.objects.get(pk= self.kwargs['parent_id'])
         form.save()
        # if self.request.POST: 
         new_revision = PageRevision(#content=self.request.POST['content'], 
@@ -41,6 +45,21 @@ class TagCreate(CreateView):
         form.instance.tags.add(form.instance)
         return super(TagCreate, self).form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super(TagCreate,self).get_context_data(**kwargs)
+        if int(self.kwargs['parent_id'])>0:
+            tag = Tag.objects.get(pk= self.kwargs['parent_id'])
+            message = ""
+            while tag: 
+                message = tag.name+'/' + message
+                tag = tag.parent
+            message = "This tag will be created under: " + message
+        else: 
+            message = '''Tips: if you want to create a new tag nested under another tags,
+                       please do that in the respective tag page.'''
+        context['message'] = message
+
+        return context
 
 class TagDetails(DetailView):
     template_name = 'tags/tag_detail.html'
@@ -62,7 +81,7 @@ class TagSearch(ListView):
     #def dispatch(self, request, *args, **kwargs):
 
     def get_queryset(self):
-        return Tag.objects.filter(name__icontains = self.request.GET['search_content']).exclude(parent__isnull=False)
+        return Tag.objects.filter(name__icontains = self.request.GET['search_content'])#.exclude(parent__isnull=False)
     
     def get_context_data(self, **kwargs):
         context = super(TagSearch, self).get_context_data(**kwargs)
