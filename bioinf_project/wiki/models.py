@@ -5,6 +5,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericRelation 
 from django.utils import timezone
 
+import markdown
+
 # Create your models here.
 
 # Ideally, every tag should have a wiki, 
@@ -21,6 +23,8 @@ class Page(models.Model):
     # author_list and their contributions. 
     def __unicode__(self):
         return self.title
+    def get_marked_up_content(self):
+        return markdown.markdown(self.current_revision.content, extensions=['codehilite'])
     def get_absolute_url(self):
         return reverse('wiki:wiki-detail', kwargs = {'pk': self.pk})
 
@@ -35,6 +39,8 @@ class PageRevision(models.Model):
 
     def __unicode__(self):
         return self.page.title+"_revision_"+str(self.revision_number)
+    def get_marked_up_content(self):
+        return markdown.markdown(self.content, extensions=['codehilite'])
 
     def save(self, *args, **kwargs):
         if not self.revision_number: 
@@ -48,7 +54,7 @@ class PageRevision(models.Model):
     def get_pre_revision(self):
         try: 
             return PageRevision.objects.get(revision_number = self.revision_number - 1, page = self.page)
-        except IndexError:
+        except PageRevision.DoesNotExist:
             return  
     class Meta:
         get_latest_by= 'revision_number'

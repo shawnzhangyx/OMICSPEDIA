@@ -1,4 +1,13 @@
 {% extends 'base.html' %}
+
+{% block head %}
+<script TYPE="text/javascript" LANGUAGE="JavaScript">
+function preview() {
+  var text = document.getElementById('wiki_text').value;
+  document.getElementById('outputdiv').innerHTML = text
+}
+</script>
+{% endblock head %}
 {% block content %}
 <h1> Editing Wiki: {{page.title }}</h1>
 
@@ -7,8 +16,14 @@
 {% csrf_token %}
 {{ form.as_p }}
 Content: <br>
-<textarea rows='10' cols='80'  name="content"> {{ page.current_revision.content }} </textarea> <br>
-Revision summary: <textarea rows='1' cols='80' name='summary'> No summary</textarea> <br>
+<textarea rows='10' cols='80' id="wiki_text" name="content">{{ content|default:page.current_revision.content }}</textarea> <br>
+Revision summary: <br>
+<textarea rows='1' cols='80' name='summary'> No summary</textarea> <br>
+<button type="preview" value = "Preview" name ="submit"> Preview </button>
 <input type="submit" value = "Submit revision" /> 
 </form>
+<hr>
+Preview: <br>
+<div id="preview"> {{ preview|safe }}</div>
+
 {% endblock content %}

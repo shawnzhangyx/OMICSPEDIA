@@ -3,9 +3,11 @@ from django.views.generic import DetailView, ListView, TemplateView, UpdateView,
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.utils import timezone
-
+from django.http import HttpResponseRedirect
+from utils import diff_match_patch
 #from .forms import WikiForm
 from .models import Page, PageRevision
+import markdown
 # Create your views here.
 
 
@@ -33,6 +35,10 @@ class WikiEdit(UpdateView):
     fields = ['title', 'tags']
     template_name = 'wiki/wiki_edit.html'
     def form_valid(self, form):
+        if self.request.POST['submit']=='Preview':
+            self.request.session['preview'] = self.request.POST['content']
+            return HttpResponseRedirect(reverse("wiki:wiki-edit", args={self.object.id}))
+    
         new_revision = PageRevision(content=self.request.POST['content'], 
                        revision_summary=self.request.POST['summary'], page=self.object)
         new_revision.save()
@@ -40,6 +46,15 @@ class WikiEdit(UpdateView):
         self.object.save()
         return super(WikiEdit, self).form_valid(form)
         
+    def get_context_data(self, **kwargs):
+       context = super(WikiEdit, self).get_context_data(**kwargs)
+       if 'preview' in self.request.session:
+           context['preview'] = markdown.markdown(self.request.session['preview'],extensions=['codehilite'])
+           #context['form'].initial['content'] = self.request.session['preview']
+           context['content'] = self.request.session['preview']
+           del self.request.session['preview']
+       return context
+
 class WikiDetails(DetailView): 
     template_name = "wiki/wiki_detail.html"
     model = Page
@@ -59,5 +74,21 @@ class WikiHistory(ListView):
 class WikiDiff(DetailView):
     model = PageRevision
     template_name = "wiki/wiki_diff.html"
+
+    def get_diff(self):
+        text2 = self.object.content
+        if self.object.get_pre_revision():
+            text1 = self.object.get_pre_revision().content
+        else: 
+            text1 = ""
+        func = diff_match_patch.diff_match_patch()
+        diff = func.diff_main(text1, text2)
+        func.diff_cleanupSemantic(diff)
+        htmldiff = func.diff_prettyHtml(diff)
+        return htmldiff
+    def get_context_data(self, **kwargs):
+        context = super(WikiDiff, self).get_context_data(**kwargs)
+        context['diff'] = self.get_diff()
+        return context
     
 

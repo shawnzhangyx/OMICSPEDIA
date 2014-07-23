@@ -1,35 +1,11 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% block head %}
- <SCRIPT TYPE="text/javascript" LANGUAGE="JavaScript" SRC="{% static  'diff_match_patch.js' %}"></SCRIPT>
-
-<script TYPE="text/javascript" LANGUAGE="JavaScript">
-  var dmp = new diff_match_patch();
-function launch() {
-//  alert("done!");
-  var text2 = '{{ pagerevision.content }}';
-  var text1 = '{{ pagerevision.get_pre_revision.content|default:"" }}';
-  dmp.Diff_Timeout = parseFloat("1");
-  dmp.Diff_EditCost = parseFloat("1");
-
-  var ms_start = (new Date()).getTime();
-  var d = dmp.diff_main(text1, text2);
-  var ms_end = (new Date()).getTime();
-
-  dmp.diff_cleanupSemantic(d);
-  var ds = dmp.diff_prettyHtml(d);
-  document.getElementById('outputdiv').innerHTML = ds + '<br><br><br>Time: ' + (ms_end - ms_start) / 1000 + 's';
-}
-  window.onload=launch;
-</script>
-{% endblock head %}
 
 {% block content %}
     <h1> Revision {{ pagerevision.revision_number }} of <a href = "{% url 'wiki:wiki-detail' pagerevision.page.id %}"> {{ pagerevision.page.title }} </a> </h1>
-Current Version:    <p>{{ pagerevision.content }} </p><br><br>
-Revision:
-    <div ID="outputdiv"></div>
-
+<h2>Text revision compared to last version: </h2>
+    <div> {{ diff|safe }}</div>
+<h2>This Version:</h2>    <p>{{ pagerevision.get_marked_up_content|safe }} </p><br><br>
     <p>  Version as of {{ pagerevision.modified_date }} </p>
     <hr>
     <p> <a href = "{% url 'wiki:wiki-index' %}"> Go back to wiki homepage</a> </p>
