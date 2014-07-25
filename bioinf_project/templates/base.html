@@ -3,10 +3,14 @@
 
 <head>
 {% load staticfiles %}
+{% block head %}
+<!-- This is the head section for other child pages to change. 
+-->
+{% endblock head %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}" />
 
-        <title>Use jsTree</title>
+
         <script src="/static/jquery.js">
         </script>
         <script src="/static/jquery.jstree.js">
@@ -86,7 +90,7 @@
                         }
                     })
             });
-        </script>
+</script>
 
 
 
@@ -95,8 +99,7 @@
 <script src="{% static 'highlight/highlight.pack.js' %}"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 
-{% block head %}
-{% endblock head %}
+
 </head>
 
 <body>
@@ -122,7 +125,14 @@
         <button type="button"> Advanced search </button>
         </div>
         <div id = "some_buttons" >
-        <p> some buttons </p>
+        {% block top_right %}
+            {% if user.is_authenticated %}
+                <p> Hello, {{user.username}}! </p>
+                <p> <a href = "{% url 'users:logout' %}"> log out? </a> </p>
+            {% else %}
+                <p> Hello, stranger please <a href = "{% url 'users:login' %}"> log in </a> </p>
+            {% endif %}
+        {% endblock top_right %}
         </div>
     </div>
     <div id = "middle">

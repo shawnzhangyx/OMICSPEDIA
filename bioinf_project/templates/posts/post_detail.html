@@ -50,12 +50,16 @@ No comments
 {% endfor %}
 <!-- add reply -->
 
+{% if user.is_authenticated %}
 <form action='{% url "posts:replypost-new" mainpost_id=mainpost.id %}' method="post">
 {% csrf_token %}
 <h3> Reply to this post:</h3>
 <textarea rows='7' cols='80'  name="content"></textarea> <br>
 <input type="submit" value="Post reply">
 </form>
+{% else %}
+please <a href = "{% url 'users:login' %}"> log in </a> to post a response 
+{% endif %}
 
 <p> <a href = "{% url 'posts:post-index' %}"> Go back to post homepage</a> </p>
 

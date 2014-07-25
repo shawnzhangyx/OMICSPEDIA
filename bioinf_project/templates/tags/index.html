@@ -6,9 +6,9 @@
 
 {% block content %}
 <h1> HomePage for tags</h1>
-
+{% if user.is_authenticated %}
 <button type='button' onclick='location.href="{% url "tags:tag-create" parent_id=0 %}"'> Create new tag </button>
-
+{% endif %}
 <form action="{% url 'tags:tag-search' %}" method="get">
 <input type="text" name="search_content" /> 
 <input type="submit" value="Search Tag" />

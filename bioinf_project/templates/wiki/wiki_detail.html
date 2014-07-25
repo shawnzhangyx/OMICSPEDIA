@@ -9,11 +9,7 @@
 {% endblock head %}
 
 {% block content %}
-{% if user.is_authenticated %}
-<h2> Hello, {{user.username}}! </h2>
-{% else %}
-<h2> Hello, stranger please <a href = "{% url 'users:login' %}"> log in </a> </h2>
-{% endif %}
+
 <h1> Wiki Title: {{page.title}} <a href = "{% url 'wiki:wiki-edit' page.id %}"> (Edit) </a>
      <a href = "{% url 'wiki:wiki-history' page.id %}"> (History) </a>
 </h1>

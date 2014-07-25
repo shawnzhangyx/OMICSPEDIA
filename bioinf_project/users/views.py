@@ -14,4 +14,7 @@ class Login(FormView):
         return redirect('index')
 
 class Logout(View):
-    pass 
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('index')
+    
