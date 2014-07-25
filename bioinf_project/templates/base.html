@@ -3,7 +3,9 @@
 
 <head>
 {% load staticfiles %}
+
 <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}" />
+
     <head>
         <title>Use jsTree</title>
         <script src="/static/jquery.js">
@@ -87,6 +89,13 @@
             });
         </script>
     </head>
+
+
+<!-- highlight.js to detect code language and render syntax highlighting. -->
+<link rel="stylesheet" href="{% static 'highlight/styles/vs-grey.css' %}">
+<script src="{% static 'highlight/highlight.pack.js' %}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
 {% block head %}
 {% endblock head %}
 </head>
