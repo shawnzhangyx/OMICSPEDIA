@@ -1,0 +1,37 @@
+{
+ "name": "NGS Analysis",
+ "children": [
+ 
+  
+   {
+     "name": "Chip-Seq",
+     "children": [
+      {"name": "Shift size estimation", "size": 3938},
+      {"name": "Normalization", "size": 3812},
+      {"name": "Statistical testing", "size": 743},
+	  {"name": "Post-proceesing", "size": 743},
+	  {"name": "Blacklisted regions testing", "size": 743}
+     ]
+    },	
+  {
+  "name": "QC Checks"
+  },
+   {
+  "name": "Alignment"
+  },
+   {
+  "name": "RNA swq"
+  },
+   {
+  "name": "Varient Calling"
+  },
+   {
+  "name": "Enrichment testing"
+  },
+  {
+  "name": "Access to public data repository"
+  }
+  
+ ]
+}
+
