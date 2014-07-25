@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'tags',
     'posts',
     'wiki',
@@ -58,7 +59,11 @@ ROOT_URLCONF = 'bioinf_project.urls'
 
 WSGI_APPLICATION = 'bioinf_project.wsgi.application'
 
-
+## graph models
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 # for Heroku
