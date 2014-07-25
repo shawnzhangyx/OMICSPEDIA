@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'wiki/wiki_base.html' %}
 {% block content %}
 <h1> Revision history of <a href = "{% url 'wiki:wiki-detail' revision_list.0.page.id %}"> {{revision_list.0.page.title}} </a> </h1>
 
