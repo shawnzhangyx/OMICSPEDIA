@@ -8,11 +8,11 @@
 {% block content %}
 <h1> Title: {{mainpost.title}} <a href = '{% url "posts:mainpost-edit" mainpost.id %}'> (Edit) </a> </h1>
 
-<h4> tag: 
+<div id="tag-banner"> 
 {% for tag in mainpost.tags.all %}
-<a href = "{% url 'tags:tag-detail' tag.id %}" > {{tag}} </a>
+<a class="tags" href = "{% url 'tags:tag-detail' tag.id %}" > {{tag}} </a>
 {% endfor %}
- </h4>
+ </div>
 
 <h3> content:</h3>
 <p> {{ mainpost.current_revision.content }} </p>

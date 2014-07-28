@@ -127,10 +127,13 @@
         <div id = "some_buttons" >
         {% block top_right %}
             {% if user.is_authenticated %}
-                <p> Hello, {{user.username}}! </p>
+                <p> Hello, <a href ="{% url 'users:profile-view' user.id %}"> {{user.username}} </a>! </p>
                 <p> <a href = "{% url 'users:logout' %}"> log out? </a> </p>
             {% else %}
-                <p> Hello, stranger please <a href = "{% url 'users:login' %}"> log in </a> </p>
+                <p> Hello, stranger please <a href = "{% url 'users:login' %}"> log in </a> 
+                    or <a href = "{% url 'users:register' %}"> Sing-up </a>
+                </p>
+
             {% endif %}
         {% endblock top_right %}
         </div>

@@ -2,6 +2,7 @@
 
 {% block head %}
 {% load staticfiles %}
+{% load util_custom_tags %}
 <!--
 <link rel="stylesheet" type="text/css" href="{% static 'codehilite.css' %}" />
 -->
@@ -9,20 +10,23 @@
 {% endblock head %}
 
 {% block content %}
-
-<h1> Wiki Title: {{page.title}} <a href = "{% url 'wiki:wiki-edit' page.id %}"> (Edit) </a>
+<!-- header section -->
+<div>
+  {% display_vote_widget page user %}
+  <div>  
+    <h1 class="wiki-title"> {{page.title}} <a href = "{% url 'wiki:wiki-edit' page.id %}"> (Edit) </a>
      <a href = "{% url 'wiki:wiki-history' page.id %}"> (History) </a>
-</h1>
+    </h1>
+    <div id="tags-banner">
+      {% for tag in page.tags.all %}
+        <a class="tags" href = "{% url 'tags:tag-detail' tag.id %}" > {{tag}} </a>
+      {% empty %}
+        None 
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
-<h3> tag: 
-{% for tag in page.tags.all %}
-<a href = "{% url 'tags:tag-detail' tag.id %}" > {{tag}} </a>
-{% empty %}
-None 
-{% endfor %}
- </h3>
- 
-<h3> content:</h3>
 <p> {{ page.get_marked_up_content|safe }} </p>
 
 <p> last modified: {{ page.current_revision.modified_date }} </p>

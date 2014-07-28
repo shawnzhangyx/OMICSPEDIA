@@ -17,14 +17,20 @@ class Page(models.Model):
     title = models.CharField(_("title"), max_length=255, unique=True)
     tags = models.ManyToManyField("tags.Tag",blank=True) 
     comments = GenericRelation("utils.Comment")
+    wiki_votes = GenericRelation("utils.Vote")
     current_revision = models.OneToOneField('PageRevision', blank=True, null=True, verbose_name=_('current revision'),
                                             related_name = "revision_page")
     # created_date = models.DateTimeField(_('created date'))                                        
     # author_list and their contributions. 
     def __unicode__(self):
         return self.title
+
     def get_marked_up_content(self):
         return markdown.markdown(self.current_revision.content, extensions=['codehilite'])
+
+    def get_vote_count(self):
+        return self.wiki_votes.filter(choice=0).count()-self.wiki_votes.filter(choice=2).count()
+
     def get_absolute_url(self):
         return reverse('wiki:wiki-detail', kwargs = {'pk': self.pk})
 

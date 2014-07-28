@@ -7,22 +7,97 @@ background-color:#999999;
 font-family:Verdana,Tahoma,Arial,sans-serif; 
 font-size:0.9em;
 line-height:100%;
+margin:0;
+padding:0;
 }
 h1
 {
 font-size:1.5em;
-text-align:center;
+text-align:left;
 }
 
 
-a {background-color:inherit; color:#286ea0; font-weight:600; text-decoration:none;}
+a {
+    background-color:inherit; 
+    color:#286ea0; 
+    text-decoration:none;
+}
+
 a:hover {
 	background-color:inherit;
-	color:#555ea0;
+	color:#555ea0; 
 	text-decoration:underline;
 }
 a img {border:0;}
+/* style by class */
 
+/************  icons *************/
+
+/* votes */
+.vote-widget {
+float: left;
+margin-right: 15px;
+}
+.vote-up-off {
+background-image: url('stackoverflow/sprites.png');
+background-position: 0 -265px;
+width: 41px;
+height: 25px;
+display: inline-block;
+}
+.vote-count-obj {
+text-align: center;
+font-size: 1.5em;
+padding: 2px;
+}
+
+.vote-down-off {
+background-image: url('stackoverflow/sprites.png');
+background-position: 0 -300px;
+width: 41px;
+height: 25px;
+display: block;
+
+}
+
+
+/************  tags  *************/
+.tags {
+font-size:90%;
+color: #4a6b82;
+curser:pointer;
+font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;
+padding: 3px 4px;
+background-color: #e0eaf1;
+margin: 2px 2px 2px 0;
+line-height: 1.4;
+white-space: nowrap;
+display: inline-block;
+border: 1px solid #c4dae9;
+
+}
+
+.tags:hover {
+    background-color: #c4dae9;
+    color: #4a6b82;
+    text-decoration: none;
+}
+/************* wiki ***************/
+
+.wiki-title {
+font-size: 1.8em;
+line-height: 1.3;
+border-bottom: 1px dotted #aaa;
+margin-bottom: 0.25em;
+margin-left: 2em;
+padding-bottom: 0.1em;
+}
+
+.wiki-content {
+
+}
+
+/* style by ID */
 #container 
 {
 width:1200px;
