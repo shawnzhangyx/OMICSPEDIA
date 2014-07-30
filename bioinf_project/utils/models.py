@@ -27,19 +27,19 @@ class Comment(models.Model):
 
 class Vote(models.Model):
     # votes for a post, wiki, tool, or tag, user. Or anything else you can think. 
-    UP, NEUTRAL, DOWN = range(3)
-    CHOICES = [(UP, "Up-vote"), (NEUTRAL, "Neutral"), (DOWN, "Down-vote")]
-    user = models.ForeignKey(User)
+    UP, DOWN = [1,-1]
+    CHOICES = [(UP, "Up-vote"), (DOWN, "Down-vote")]
+    voter = models.ForeignKey(User, related_name="votes")
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
-    choice = models.IntegerField(choices=CHOICES, default=1)
+    choice = models.IntegerField(choices=CHOICES)
     date = models.DateField(auto_now=True)
     
     def __unicode__(self):
-        return u"%s, %s, %s" %( self.get_choice_display(), self.user.username, self.content_object.id) 
+        return u"%s, %s, %s" %( self.get_choice_display(), self.voter.username, self.content_object.id) 
 
     class Meta: 
-        unique_together = (("user", "content_type"),)
+       unique_together = ("voter", "content_type","object_id")
 
 ## class Views(

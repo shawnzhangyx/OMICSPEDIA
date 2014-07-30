@@ -28,8 +28,8 @@ class Page(models.Model):
     def get_marked_up_content(self):
         return markdown.markdown(self.current_revision.content, extensions=['codehilite'])
 
-    def get_vote_count(self):
-        return self.wiki_votes.filter(choice=0).count()-self.wiki_votes.filter(choice=2).count()
+    def get_vote_count(self):        
+        return self.wiki_votes.filter(choice=1).count() - self.wiki_votes.filter(choice=-1).count()
 
     def get_absolute_url(self):
         return reverse('wiki:wiki-detail', kwargs = {'pk': self.pk})

@@ -38,6 +38,19 @@ a img {border:0;}
 float: left;
 margin-right: 15px;
 }
+
+.vote-widget a{
+cursor:pointer;
+}
+
+.vote-up-on {
+background-image: url('stackoverflow/sprites.png');
+background-position: 0 -230px;
+width: 41px;
+height: 25px;
+display: inline-block;
+}
+
 .vote-up-off {
 background-image: url('stackoverflow/sprites.png');
 background-position: 0 -265px;
@@ -49,6 +62,15 @@ display: inline-block;
 text-align: center;
 font-size: 1.5em;
 padding: 2px;
+}
+
+.vote-down-on {
+background-image: url('stackoverflow/sprites.png');
+background-position: 0 -330px;
+width: 41px;
+height: 25px;
+display: block;
+
 }
 
 .vote-down-off {
@@ -65,7 +87,7 @@ display: block;
 .tags {
 font-size:90%;
 color: #4a6b82;
-curser:pointer;
+cursor:pointer;
 font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;
 padding: 3px 4px;
 background-color: #e0eaf1;

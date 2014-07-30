@@ -21,5 +21,5 @@ class UserProfile(models.Model):
     #email = models.EmailField(blank=True)
     following = models.ManyToManyField('self',blank=True, related_name = "follower")
 
-    def __unicode(self):
+    def __unicode__(self):
         return self.user.username 

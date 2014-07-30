@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2> Users: </h2>
+{% if user_profile_list %}
+<ul>
+{% for user_profile in user_profile_list %}
+<li> <a href="{% url 'users:profile-view' user_profile.id %}"> {{user_profile.user.username}} </a> </li>
+{% endfor %}
+</ul>
+{% else %}
+<p> no tags available </p>
+{% endif %}
+
+{% endblock content %}
+
