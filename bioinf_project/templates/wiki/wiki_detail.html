@@ -12,8 +12,8 @@
 <div>
   {% display_vote_widget page user %}
   <div>  
-    <h1 class="wiki-title"> {{page.title}} <a href = "{% url 'wiki:wiki-edit' page.id %}"> (Edit) </a>
-     <a href = "{% url 'wiki:wiki-history' page.id %}"> (History) </a>
+    <h1 class="wiki-title"> {{page.title}} <a href = "{% url 'wiki:wiki-edit' page.get_title %}"> (Edit) </a>
+     <a href = "{% url 'wiki:wiki-history' page.get_title %}"> (History) </a>
     </h1>
     <div id="tags-banner">
       {% for tag in page.tags.all %}

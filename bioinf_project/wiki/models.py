@@ -25,14 +25,18 @@ class Page(models.Model):
     def __unicode__(self):
         return self.title
 
+    def get_title(self):
+        return self.title.replace(" ", "_")
+
     def get_marked_up_content(self):
-        return markdown.markdown(self.current_revision.content, extensions=['codehilite'])
+        return markdown.markdown(self.current_revision.content, 
+                extensions=['codehilite','wikilinks(base_url=/wiki/, end_url=/)','toc'])
 
     def get_vote_count(self):        
         return self.wiki_votes.filter(choice=1).count() - self.wiki_votes.filter(choice=-1).count()
 
     def get_absolute_url(self):
-        return reverse('wiki:wiki-detail', kwargs = {'pk': self.pk})
+        return reverse('wiki:wiki-detail', kwargs = {'title': self.get_title()})
 
 class PageRevision(models.Model):
     revision_number = models.IntegerField(_('revision number'), editable=False)

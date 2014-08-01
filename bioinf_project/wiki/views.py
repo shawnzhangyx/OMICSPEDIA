@@ -34,10 +34,14 @@ class WikiEdit(UpdateView):
    # fields = '__all__'
     fields = ['title', 'tags']
     template_name = 'wiki/wiki_edit.html'
+
+    def get_object(self):
+        return Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
+
     def form_valid(self, form):
         if self.request.POST['submit']=='Preview':
             self.request.session['preview'] = self.request.POST['content']
-            return HttpResponseRedirect(reverse("wiki:wiki-edit", args={self.object.id}))
+            return HttpResponseRedirect(reverse("wiki:wiki-edit", args={self.object.get_title()}))
     
         new_revision = PageRevision(content=self.request.POST['content'], 
                        revision_summary=self.request.POST['summary'], page=self.object)
@@ -58,6 +62,9 @@ class WikiEdit(UpdateView):
 class WikiDetails(DetailView): 
     template_name = "wiki/wiki_detail.html"
     model = Page
+    def get_object(self):
+        return Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
+
     def get_context_data(self, **kwargs):
         context = super(WikiDetails, self).get_context_data(**kwargs)
         context['comment_list'] = self.object.comments.order_by('-last_modified')
@@ -69,7 +76,7 @@ class WikiHistory(ListView):
     template_name = "wiki/wiki_revision_history.html"
     context_object_name = "revision_list"
     def get_queryset(self):
-        return PageRevision.objects.filter(page = self.kwargs['pk']).order_by('-modified_date')
+        return PageRevision.objects.filter(page__title = self.kwargs['title']).order_by('-modified_date')
 
 class WikiDiff(DetailView):
     model = PageRevision

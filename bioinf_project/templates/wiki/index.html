@@ -8,7 +8,7 @@
 {% if wiki_list %}
 <ul> 
 {% for wiki in wiki_list %}
-<li> <a href= "{% url 'wiki:wiki-detail' wiki.id %}" >{{ wiki.title }} </a></li>
+<li> <a href= "{% url 'wiki:wiki-detail' wiki.get_title %}" >{{ wiki.title }} </a></li>
 {% endfor %}
 </ul>
 {% else %}
