@@ -2,13 +2,7 @@
   margin:0;
   padding:0;
 }
-body{
-  font-family:arial,sans-serif;
-  font-size:100%;
-  margin:3em;
-  background:#666;
-  color:#fff;
-}
+
 h2,p{
   font-size:100%;
   font-weight:normal;
@@ -18,27 +12,27 @@ ul.notes,li{
 }
 ul.notes.notes{
   overflow:hidden;
-  padding:3em;
+  padding:1em;
 }
-ul.notes li a{
+ul.notes li a.class1{
   text-decoration:none;
   color:#000;
   background:white;
   display:block;
   height:10em;
-  width:10em;
-  padding:1em;
-  border: 2px solid;
+  width:13em;
+  padding:0.5em;
+  border: 1px solid;
   border-radius: 25px;
   box-shadow: 10px 10px 5px #888888;
 }
 ul.notes li{
-  margin:1em;
+  margin:0.5em;
   float:left;
 }
 
 
-ul.notes a:hover + li
+ul.notes a.class1:hover + li
 {
     display: block;
     background-color: blue;
