@@ -53,7 +53,8 @@ class WikiEdit(UpdateView):
     def get_context_data(self, **kwargs):
        context = super(WikiEdit, self).get_context_data(**kwargs)
        if 'preview' in self.request.session:
-           context['preview'] = markdown.markdown(self.request.session['preview'],extensions=['codehilite'])
+           context['preview'] = markdown.markdown(self.request.session['preview'],
+                   extensions=['extra','wikilinks(base_url=/wiki/, end_url=/)','toc'])
            #context['form'].initial['content'] = self.request.session['preview']
            context['content'] = self.request.session['preview']
            del self.request.session['preview']

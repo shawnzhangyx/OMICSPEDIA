@@ -30,7 +30,7 @@ class Page(models.Model):
 
     def get_marked_up_content(self):
         return markdown.markdown(self.current_revision.content, 
-                extensions=['codehilite','wikilinks(base_url=/wiki/, end_url=/)','toc'])
+                extensions=['extra','wikilinks(base_url=/wiki/, end_url=/)','toc'])
 
     def get_vote_count(self):        
         return self.wiki_votes.filter(choice=1).count() - self.wiki_votes.filter(choice=-1).count()
@@ -50,7 +50,8 @@ class PageRevision(models.Model):
     def __unicode__(self):
         return self.page.title+"_revision_"+str(self.revision_number)
     def get_marked_up_content(self):
-        return markdown.markdown(self.content, extensions=['codehilite'])
+        return markdown.markdown(self.content, 
+               extensions=['extra','wikilinks(base_url=/wiki/, end_url=/)','toc'])
 
     def save(self, *args, **kwargs):
         if not self.revision_number: 

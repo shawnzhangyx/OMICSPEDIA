@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.generic import GenericRelation 
+from django.contrib.auth.models import User
 
 #local apps
 from tags.models import Tag
@@ -71,6 +72,7 @@ class ReplyPostRevision(AbstractPostRevision):
 class AbstractPost(models.Model):
     #---- model fields ----#
     vote_count = models.IntegerField(default=0)
+    author = models.ForeignKey(User,blank=False,null=False)
     created = models.DateTimeField()
     last_modified = models.DateTimeField()
     #---- functions ----#

@@ -1,0 +1,9 @@
+{% load tag_custom_tags %}
+
+<ul>
+{% for tag in suggest_tag_list %}
+<li> <a href="{% url 'tags:tag-detail' tag.id %}"> {{tag.name}} </a> </li>
+    {# show_tag_children tag #}
+{% endfor %}
+</ul>
+

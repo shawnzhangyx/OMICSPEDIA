@@ -13,7 +13,7 @@ def display_vote_widget(obj, user):
     obj_type = ContentType.objects.get_for_model(obj)
     try: vote = Vote.objects.get(content_type__pk=obj_type.id, 
                                object_id=obj.id, voter=user)
-    except Vote.DoesNotExist: 
+    except (TypeError, Vote.DoesNotExist) as e: 
         vote_type = "none"
     else:
         if vote.choice == 1:

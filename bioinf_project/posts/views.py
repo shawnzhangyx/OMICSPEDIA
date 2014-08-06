@@ -21,6 +21,7 @@ class MainPostNew(CreateView):
     fields = ['title', 'tags']
     
     def form_valid(self, form):
+        form.instance.author = self.request.user
         form.save()
         new_revision = MainPostRevision(content=self.request.POST['content'], post=form.instance)
         new_revision.save()
@@ -69,6 +70,7 @@ class ReplyPostNew(CreateView):
 
     def form_valid(self, form):
         form.instance.mainpost = MainPost.objects.get(pk = int(self.kwargs['mainpost_id']))
+        form.instance.author = self.request.user
         form.save()
         new_revision = ReplyPostRevision(content=self.request.POST['content'], post=form.instance)
         new_revision.save()

@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/$', views.TagDetails.as_view(), name='tag-detail'),
     url(r'^(?P<pk>\d+)/delete$', views.TagDelete.as_view(), name='tag-delete'),
     url(r'^search_tag/$', views.TagSearch.as_view(), name='tag-search'),
+    url(r'^suggest_tag/$', views.suggest_tags, name='tag-suggest'),
     )

@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from .models import Tag
@@ -87,3 +88,13 @@ class TagSearch(ListView):
         context = super(TagSearch, self).get_context_data(**kwargs)
         context['pre_search_content'] = self.request.GET['search_content']
         return context
+
+
+def suggest_tags(request):
+    context = RequestContext(request)
+    suggest_tag_list = []
+    contains = ''
+    if request.method == 'GET':
+            contains = request.GET['suggestion']
+    suggest_tag_list = Tag.objects.get_tag_search_list(8, contains)
+    return render_to_response('tags/tag_suggest_list.html', {'suggest_tag_list': suggest_tag_list, 'suggest':contains }, context)

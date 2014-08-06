@@ -4,8 +4,26 @@ from django.utils.translation import ugettext_lazy as _
 
 from wiki.models import Page
 # Create your models here.
+class TagManager(models.Manager):
+
+    def get_tag_search_list(self, max_results=0, contains=''):
+        tag_list = []
+        if contains:
+            tag_list = self.filter(name__icontains=contains)
+        else:
+            tag_list = self.all()
+        if max_results > 0: 
+            if len(tag_list) > max_results:
+                tag_list = tag_list[:max_results]
+#        for cat in cat_list: 
+#            cat.url = encode_url(tag.name)
+        return tag_list
+
 class Tag(Page):
-        
+    
+    #custom manager
+    objects = TagManager()
+    
     #---- fields ----#
     name = models.CharField(max_length=255, unique=True)
     parent_page = models.OneToOneField("wiki.Page",parent_link=True)

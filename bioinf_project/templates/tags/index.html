@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
 {% load tag_custom_tags %}
+{% load staticfiles %}
 {% block head %}
+<script src="{% static 'jquery/tag_suggestions.js' %}"> </script>
+
 {% endblock head %}
 
 {% block content %}
@@ -12,13 +15,18 @@
 <form action="{% url 'tags:tag-search' %}" method="get">
 <input type="text" name="search_content" /> 
 <input type="submit" value="Search Tag" />
+<input type="text" name="suggestion" id="suggestion" value=""/>
 </form>
 
 
 <h2> Tags Catalog: </h2>
+<div id="tags">
+{% include "tags/tag_suggest_list.html" with suggest_tag_list=suggest_tag_list %}
+</div>
+<hr>
 {% if tag_list %}
 <ul>
-{% for tag in tag_list %}
+{% for tag in suggest_tag_list %}
 <li> <a href="{% url 'tags:tag-detail' tag.id %}"> {{tag.name}} </a> </li>
     {% show_tag_children tag %}
 {% endfor %}

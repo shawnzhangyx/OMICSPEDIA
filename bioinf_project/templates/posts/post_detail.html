@@ -17,6 +17,7 @@
 <h3> content:</h3>
 <p> {{ mainpost.current_revision.content }} </p>
 <br>
+<p> Author: {{ mainpost.author.username }}</p>
 <p> <i>creation_date: {{ mainpost.created }};	
 <!-- modification history --> last_modified_date: {{mainpost.last_modified }} </i></p>
 {% for comment in mainpost.main_post_comments.all %}
@@ -33,6 +34,8 @@ No comments
     <a href = '{% url "posts:replypost-edit" reply.id %}' > (Edit) </a>
     <a href = '{% url "posts:replypost-delete" reply.id %}'> (Delete) </a> 
     <p> {{reply.current_revision.content}} </p>
+    <p> Author: {{ reply.author.username }}</p>
+
     <p> <i>creation_date: {{ reply.created }};
     last_modified_date: {{reply.last_modified }} </i></p>
     {% for comment in reply.reply_post_comments.all %}

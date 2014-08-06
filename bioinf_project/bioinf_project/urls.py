@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
@@ -22,3 +23,10 @@ urlpatterns = patterns('',
     url(r'^search/$', views.search, name='search'),
     url(r'^ajax/vote/$', vote, name='vote'),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns(
+        'django.views.static',
+        (r'media/(?P<path>.*)',
+        'serve',
+        {'document_root': settings.MEDIA_ROOT}), )
