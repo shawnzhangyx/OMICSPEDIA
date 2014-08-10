@@ -8,7 +8,12 @@ function preview() {
 }
 </script>
 {% endblock head %}
-{% block content %}
+
+{% block wiki-edit %}
+  <li class="active"> <a href="{% url 'wiki:wiki-edit' page.get_title %}"> Edit </a> </li>
+{% endblock wiki-edit %}
+
+{% block wiki-content %}
 <h1> Editing Wiki: {{page.title }}</h1>
 
 
@@ -26,4 +31,4 @@ Revision summary: <br>
 Preview: <br>
 <div id="preview"> {{ preview|safe }}</div>
 
-{% endblock content %}
+{% endblock wiki-content %}

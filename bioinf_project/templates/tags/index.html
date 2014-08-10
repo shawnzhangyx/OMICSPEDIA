@@ -2,24 +2,20 @@
 
 {% load tag_custom_tags %}
 {% load staticfiles %}
-{% block head %}
+{% block jquery %}
 <script src="{% static 'jquery/tag_suggestions.js' %}"> </script>
 
-{% endblock head %}
+{% endblock jquery %}
 
 {% block content %}
-<h1> HomePage for tags</h1>
+<h1> Tags</h1>
 {% if user.is_authenticated %}
 <button type='button' onclick='location.href="{% url "tags:tag-create" parent_id=0 %}"'> Create new tag </button>
 {% endif %}
-<form action="{% url 'tags:tag-search' %}" method="get">
-<input type="text" name="search_content" /> 
-<input type="submit" value="Search Tag" />
-<input type="text" name="suggestion" id="suggestion" value=""/>
-</form>
+<br><br>
+Type to find tags: <input class="form" type="text" name="suggestion" id="suggestion" value=""/>
 
-
-<h2> Tags Catalog: </h2>
+<br><hr>
 <div id="tags">
 {% include "tags/tag_suggest_list.html" with suggest_tag_list=suggest_tag_list %}
 </div>

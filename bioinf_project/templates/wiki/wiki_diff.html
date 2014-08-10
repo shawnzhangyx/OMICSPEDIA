@@ -1,13 +1,15 @@
 {% extends 'wiki/wiki_base.html' %}
 {% load staticfiles %}
 
-{% block content %}
-    <h1> Revision {{ pagerevision.revision_number }} of <a href = "{% url 'wiki:wiki-detail' pagerevision.page.id %}"> {{ pagerevision.page.title }} </a> </h1>
-<h2>Text revision compared to last version: </h2>
-    <div> {{ diff|safe }}</div>
-<h2>This Version:</h2>    <p>{{ pagerevision.get_marked_up_content|safe }} </p><br><br>
-    <p>  Version as of {{ pagerevision.modified_date }} </p>
-    <hr>
-    <p> <a href = "{% url 'wiki:wiki-index' %}"> Go back to wiki homepage</a> </p>
+{% block wiki-content %}
+  <h1 class="wiki-title"> Revision {{ pagerevision.revision_number }} of {{ pagerevision.page.title }} </h1>
+  <p>  Version as of {{ pagerevision.modified_date }} </p>
 
-{% endblock content %}
+  <h2>Text revision compared to last version: </h2>
+  <div> {{ diff|safe }}</div>
+  <hr>
+  <h2>This Version:</h2>    <p>{{ pagerevision.get_marked_up_content|safe }} </p><br><br>
+  <hr>
+  <a href = "{% url 'wiki:wiki-index' %}"> Go back to wiki homepage</a>
+
+{% endblock wiki-content %}

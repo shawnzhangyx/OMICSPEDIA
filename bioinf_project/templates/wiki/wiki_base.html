@@ -1,2 +1,29 @@
 {% extends 'base.html' %}
 
+{% block sidebar-wiki %} 
+  <li class="active"><a href= "{% url 'wiki:wiki-index' %}" > Wiki </a> </li>
+{% endblock sidebar-wiki %}
+
+{% block content %}
+
+  <ul class="nav nav-tabs">
+    {% block wiki-article %}
+    <li> <a href="{% url 'wiki:wiki-detail' page.get_title %}"> Article </a> </li>
+    {% endblock wiki-article %}
+    {% block wiki-comment %}
+    <li class="disabled"> <a href="#"> Comment </a> </li>
+    {% endblock wiki-comment %}
+    {% block wiki-edit %}
+    <li> <a href="{% url 'wiki:wiki-edit' page.get_title %}"> Edit </a> </li>
+    {% endblock wiki-edit %}
+    {% block wiki-history %}
+    <li> <a href="{% url 'wiki:wiki-history' page.get_title %}"> History </a> </li>
+    {% endblock wiki-history %}
+  </ul>
+
+  <div id="wiki-content">
+    {% block wiki-content %}
+    {% endblock wiki-content %}
+  </div>
+
+{% endblock content %}

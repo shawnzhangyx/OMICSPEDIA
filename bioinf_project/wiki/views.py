@@ -76,8 +76,15 @@ class WikiHistory(ListView):
     model = PageRevision
     template_name = "wiki/wiki_revision_history.html"
     context_object_name = "revision_list"
+
     def get_queryset(self):
         return PageRevision.objects.filter(page__title = self.kwargs['title']).order_by('-modified_date')
+
+    def get_context_data(self, **kwargs):
+        context = super(WikiHistory, self).get_context_data(**kwargs)
+        context['page'] = Page.objects.get(title = self.kwargs['title'])
+        return context 
+
 
 class WikiDiff(DetailView):
     model = PageRevision
@@ -97,6 +104,7 @@ class WikiDiff(DetailView):
     def get_context_data(self, **kwargs):
         context = super(WikiDiff, self).get_context_data(**kwargs)
         context['diff'] = self.get_diff()
+        context['page'] = self.object.page
         return context
     
 

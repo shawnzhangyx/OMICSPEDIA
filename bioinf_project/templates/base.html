@@ -1,165 +1,112 @@
 <!DOCTYPE html>
 
 <html>
+  <head>
+    {% load staticfiles %}
 
-<head>
-{% load staticfiles %}
+    <!-- loading base.css  
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}" />
+    -->
 
-<link rel="stylesheet" type="text/css" href="{% static 'base.css' %}" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap-3.2.0/css/bootstrap.min.css' %}" >
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}" >
+    <link rel="stylesheet" href="{% static 'widget-box.css' %}">
 
-<script src="{% static 'jquery.js' %}"> </script>
-<script src="{% static 'jquery.jstree.js' %}"> </script>
-<script>
-            $(document).ready(function(){
-                $("#treeViewDiv").jstree({
-                    "json_data" : {
-                        "data":[
-                            {
-                                "data" : "Omics type",
-                                "children" :[
-                                             {"data":"Transcriptomics", "metadata":{"href":"http://en.wikipedia.org/wiki/Transcriptome"}},
-                                             {"data":"Proteomics", "metadata":{"href":"http://www.bing.com"}},
-											  {"data":"Epigenomics", "metadata":{"href":"http://www.bing.com"}},
-											   {"data":"Genomics", "metadata":{"href":"http://www.bing.com"}},
-											    {"data":"Regulomics", "metadata":{"href":"http://www.bing.com"}},
-                                             {"data":"Other", "metadata":{"href":"http://www.bing.com"}}, 
-                                            ],
-                                "state" : "open"
-                            },
-                            {
-                                "data" : "Technology",
-                                "children" :[
-                                    {"data":"DNA-seq", "metadata":{"href":"http://www.fb.com"}},
-                                    {"data":"RNA-seq", "metadata":{"href":"http://twitter.com"}},
-									{"data":"Chip-seq", "metadata":{"href":"http://www.fb.com"}},
-									{"data":"Bisulfite-seq", "metadata":{"href":"http://www.fb.com"}},
-									{"data":"Mass Specrometry", "metadata":{"href":"http://www.fb.com"}},
-									{"data":"Other", "metadata":{"href":"http://www.fb.com"}}
-                                ]
-                            }
-                        ]
-                    },
-		    "themes" :
-		    {
-			"theme":"default-rtl",
-		    },
-		    /*"types" :
-		    {
-			"default":
-			{
-				"icon":
-				{
-					"image":"http://static.jstree.com/v.1.0rc/_docs/_drive.png"
-				}
-			}
-		    },*/
-			
-			"types" : {
-    "valid_children" : [ "folder" ],
-    "types" : {
-        "folder" : {
-            "valid_children" : [ "file" ],
-            "icon" : { "image" : "/home/akshar/rajesh1.jpg"},
-            "max_depth" : 1
-        },
+    <!-- highlight.js to detect code language and render syntax highlighting. -->
+    <link rel="stylesheet" href="{% static 'highlight/styles/vs-grey.css' %}">
+    <script src="{% static 'highlight/highlight.pack.js' %}"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    {% block head %}
+    <!-- This is the head section for other child pages to change. -->
+    {% endblock head %}
 
-        "file" : {
-            "valid_children" : [ "none" ],
-            "icon" : { "image" : "/path/to/images/file.png" },
-        }
-    }
-},		
-		
-                    "plugins" : [ "themes", "json_data", "ui", "types",]
-                }).bind("select_node.jstree", function(e, data)
-                    {
-                        if(jQuery.data(data.rslt.obj[0], "href"))
-                        {
-                            window.location=jQuery.data(data.rslt.obj[0], "href");
-                        }
-                        else
-                        {
-                            alert("No href defined for this element");
-                        }
-                    })
-            });
-</script>
+  </head>
 
-
-
-<!-- highlight.js to detect code language and render syntax highlighting. -->
-<link rel="stylesheet" href="{% static 'highlight/styles/vs-grey.css' %}">
-<script src="{% static 'highlight/highlight.pack.js' %}"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
-
-{% block head %}
-<!-- This is the head section for other child pages to change. 
--->
-{% endblock head %}
-</head>
-
-<body>
-<div id = "container">
-    <div id = "header">
-        <div id = "logo">
-        <img src = "{% static 'OMICS.jpeg' %}" alt="Logo missing" width = "150" >
-        <p><strong> &nbsp&nbsp&nbsp OMICS Wiki&Q&A </strong></p>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'index'%}">OMICS lalala</a>
         </div>
-        <div id = "search_bar">
-        <!-- search form -->
-        <p> Search form </p>
-        <form action="{% url 'search' %}" method="get">
-            <select name = "search_field">
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li> 
+              {% if user.is_authenticated %}
+                 <a href ="{% url 'users:profile-view' user.user_profile.id %}"> {{user.username}} </a>
+              {% else %}
+                 <a href = "{% url 'users:login' %}"> log in </a> 
+              {% endif %}
+            </li>
+            <li> 
+              {% if user.is_authenticated %}
+                 <a href = "{% url 'users:logout' %}"> log out? </a>
+              {% else %}
+                 <a href = "{% url 'users:register' %}"> Sign-up </a>
+              {% endif %}
+            </li>
+            <li><a href="#">Help</a></li>
+          </ul>
+
+          <form class="navbar-form navbar-right" action="{% url 'search' %}" method="get" role="search">
+            <select class="form-control" name = "search_field">
                 <option value ="All"> All </option>
-        <!--        <option value ="Tag"> Tag </option> --><!-- because tags and wiki are the same -->
                 <option value ="Wiki"> Wiki </option>
                 <option value ="Post"> Post </option>
-            </select>
-            <input type="text" size=100 name="search_text"> 
-            <input type="submit" value="Search">
-	</form>
-       
+            </select> 
+            <input type="text" class="form-control" name="search_text" placeholder="Search...">
+            <input type="submit" class="btn btn-default" value="Search">
+          </form>
         </div>
-        <div id = "some_buttons" >
-        {% block top_right %}
-            {% if user.is_authenticated %}
-                <p> Hello, <a href ="{% url 'users:profile-view' user.user_profile.id %}"> {{user.username}} </a>! </p>
-                <p> <a href = "{% url 'users:logout' %}"> log out? </a> </p>
-            {% else %}
-                <p> Hello, stranger please <a href = "{% url 'users:login' %}"> log in </a> 
-                    or <a href = "{% url 'users:register' %}"> Sing-up </a>
-                </p>
-
-            {% endif %}
-        {% endblock top_right %}
-        </div>
+      </div>
     </div>
-    <div id = "middle">
-        <div id = "left_bar">
-        <h4> left bar</h4>
-        <h3> <a href= "{% url 'wiki:wiki-index' %}" > Wiki Home </a> <br><br>
-        <a href= "{% url 'tags:tag-index' %}" > Tag Home </a> <br><br>
-        <a href= "{% url 'posts:post-index' %}" > Post Home </a> <br><br>
-        <a href= "{% url 'users:user-list' %}" > Users </a> <br><br>
-        </h3>
-				
-        <div id="treeViewDiv"></div> 
-         
-        </div>
 
+<!--        <img src = "{% static 'OMICS.jpeg' %}" alt="Logo missing" width = "150" > -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-2 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            {% block sidebar-wiki %} 
+            <li><a href= "{% url 'wiki:wiki-index' %}" > Wiki </a> </li>
+            {% endblock sidebar-wiki %}
+            {% block sidebar-tag %}
+            <li><a href= "{% url 'tags:tag-index' %}" > Tag </a> </li>
+            {% endblock sidebar-tag %}
+            {% block sidebar-post %}
+            <li><a href= "{% url 'posts:post-index' %}" > Post </a> </li>
+            {% endblock sidebar-post %}
+            {% block sidebar-user %}
+            <li><a href= "{% url 'users:user-list' %}" > Users </a> </li>
+            {% endblock sidebar-user %}
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-10 col-sm-offset-2 col-md-10 col-md-offset-2 main">
         <div id = "content">
         {% block content %}
         <h2> Main Content </h2>
         {% endblock content %}
-		        </div>
-        <div id = "right_bar">
-        <p> right bar</p>
-        </div>
+
+      </div>
     </div>
-    <div id = "footer">
-    </div>
-</div>
-</body>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="{% static 'bootstrap-3.2.0/js/bootstrap.min.js' %}"></script>
+    {% block jquery %}
+    {% endblock jquery %}
+<!--    <script src="b/assets/js/docs.min.js"></script> -->
+  </body>
 
 </html>
