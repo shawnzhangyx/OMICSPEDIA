@@ -1,8 +1,11 @@
 from django import template
 from django.http import HttpResponse
 from django.contrib.contenttypes.models import ContentType
-from utils.models import Vote
+from datetime import datetime, timedelta
+from django.utils.timesince import timesince 
 
+
+from utils.models import Vote
 register = template.Library()
 
 # Show the vote number and provide 
@@ -24,4 +27,15 @@ def display_vote_widget(obj, user):
     return {"object": obj, "obj_type": obj_type.app_label+'.'+obj_type.model, 
             "obj_id": obj.id, "user": user, "vote_type": vote_type}
     
+## need to troubleshoot this 
+@register.filter
+def age(value):
+    now = datetime.now()
+    try:
+        difference = now - value
+    except:
+        return value
 
+    if difference <= timedelta(minutes=1):
+        return 'just now'
+    return '%(time)s ago' % {'time': timesince(value).split(', ')[0]}

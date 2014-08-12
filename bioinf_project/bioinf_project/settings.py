@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'south',
     'utils',
     'users',
+    'django.contrib.humanize',
 )
 
 MIDDLEWARE_CLASSES = (

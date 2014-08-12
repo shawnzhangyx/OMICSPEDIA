@@ -1,0 +1,35 @@
+{% extends 'posts/post_base.html' %}
+{% block head %}
+{% load post_custom_tags %}
+{% endblock head %}
+
+{% block content %}
+  <h1> HomePage for posts</h1>
+
+  <button type="button" class="btn btn-info" onclick='location.href="{% url 'posts:post-new' %}"'> Create new post</button>
+  <br><br>
+  <ul class="nav nav-tabs">
+    <li> <h4> <b>All Posts &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </b></h4></li>
+    {% block post-latest %}
+    <li class="active"> <a href="#" > Latest </a> </li>
+    {% endblock post-latest %}
+    {% block post-bounty %}
+    <li> <a href="#"> Bounty </a> </li>
+    {% endblock post-bounty %}
+    <li> <a href="#"> Frequent </a> </li>
+    <li> <a href="#"> Votes </a> </li>
+    <li> <a href="#"> Active </a> </li>
+    <li> <a href="#"> Unanswered </a> </li>
+    
+  </ul>
+  
+  <div class="container-fluid">
+  {% for post in post_list %}
+    {% show_post_tab post %}
+  {% empty %}
+    <p> No posts created yet.</p>
+  {% endfor %}
+  </div>
+  <hr style="margin-top:0px">
+{% endblock content %}

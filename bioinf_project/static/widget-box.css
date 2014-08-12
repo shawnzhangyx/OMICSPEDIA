@@ -92,6 +92,43 @@ padding-bottom: 0.1em;
 /************** posts ************/
 .post-tab {
 border-bottom: 1px solid #DDDDDD;
-margin-bottom: 3px;
+margin-bottom: 0px;
 }
 
+.post-count-box{
+float: left;
+background-color: #F4F4F4;
+margin-top: 10px;
+}
+
+.post-count-box div{
+float: left;
+width: 45px;
+text-align: center;
+}
+
+.post-count-box div h3{
+margin-top: 5px;
+margin-bottom: 5px;
+}
+
+.post-tab-reply {
+color: #993300;
+}
+
+.post-tab-views {
+color: #999999;
+}
+
+
+.post-tab-detail {
+margin-left:145px;
+}
+.post-tab-tags {
+float:left;
+}
+.post-created {
+float:right;
+margin-top:20px;
+color: #999999;
+}
