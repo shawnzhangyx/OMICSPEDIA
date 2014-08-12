@@ -2,7 +2,7 @@
 
 /************  icons *************/
 
-/* votes */
+/************ votes **************/
 .vote-widget {
 float: left;
 margin-right: 15px;
@@ -86,5 +86,12 @@ padding-bottom: 0.1em;
 
 .wiki-content {
 
+}
+
+
+/************** posts ************/
+.post-tab {
+border-bottom: 1px solid #DDDDDD;
+margin-bottom: 3px;
 }
 

@@ -1,9 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'tags/tag_base.html' %}
 {% load tag_custom_tags %}
 {% block content %}
 <h1> Tag name: {% show_tag_ancestor tag %} {{ tag.name }} <a href = "{% url 'tags:tag-delete' tag.id %}"> (Delete?) </a> </h1>
 <button type='button' onclick='location.href="{% url "tags:tag-create" parent_id=tag.id %}"'> Create new tag under this tag?</button>
+
 <p> counts: {{ tag.count}} </p>
+
+  <ul class="nav nav-tabs">
+    {% block tag-wiki %}
+    <li> <a href="#" data-toggle="tooltip" title="show tag wiki"> Tag wiki </a> </li>
+    {% endblock tag-wiki %}
+    {% block tag-post-rent %}
+    <li> <a href="#"> Recent </a> </li>
+    {% endblock tag-post-rent %}
+  </ul>
+
+
 <h2> Tag wiki: </h2>
 {% if tag.current_revision.content|length == 0 %}
 The wiki is not developed for this tag, would you like to <a href="{% url 'wiki:wiki-detail' tag.parent_page.id %}">contribute? </a>

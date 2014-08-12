@@ -1,9 +1,11 @@
 {% load tag_custom_tags %}
 
-<ul>
+<ul class="list-unstyled list-inline">
 {% for tag in suggest_tag_list %}
-<li> <a href="{% url 'tags:tag-detail' tag.id %}"> {{tag.name}} </a> </li>
+<li> <a class="tags" data-toggle="tooltip" data-placement="bottom" title="{{tag.title}}" href="{% url 'tags:tag-detail' tag.id %}"> {{tag.name}} </a> </li>
     {# show_tag_children tag #}
+{% empty %}
+No matching tag. 
 {% endfor %}
 </ul>
 

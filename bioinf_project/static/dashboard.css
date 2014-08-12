@@ -7,10 +7,13 @@ body {
   padding-top: 40px;
 }
 
-
+/* navbar */
+.navbar-inverse {
+background-color: #000000;
+}
 /* wiki page of content */
 .toc {
-border:1px solid #000;
+border:1px solid #000000;
 float:left;
 padding: 10px;
 margin: 25px;

@@ -89,10 +89,18 @@ class AbstractPost(models.Model):
 
 
 class MainPost(AbstractPost):
+
+    #add status of the post
+
     tags = models.ManyToManyField(Tag,blank=True,)
     title = models.CharField(max_length=255,null=False)
     current_revision = models.OneToOneField('MainPostRevision', blank=True, null=True, verbose_name=_('current revision'))
-    answered = models.BooleanField(default=False)
+    # views for the post
+    view_count = models.IntegerField(default=0)
+    reply_count = models.IntegerField(default=0)
+    bookmark_count = models.IntegerField(default=0)
+    
+    accepted_answer = models.ForeignKey("ReplyPost", blank=True, null=True, related_name="accepted_root")
     main_post_comments = GenericRelation("utils.Comment")
         ### potential useful fields: watched 
         
@@ -112,6 +120,8 @@ class ReplyPost(AbstractPost):
         return "reply to:" + self.mainpost.title
     def get_absolute_url(self):
         return reverse('posts:post-detail', kwargs = {'pk': self.mainpost.pk})
+
+
 
 # comments have no revision history, and allow minimum makeup. 
 class AbstractComment(models.Model):
@@ -133,13 +143,3 @@ class MainPostComment(AbstractComment):
 class ReplyPostComment(AbstractComment):
     post = models.ForeignKey(ReplyPost, related_name = "comments", verbose_name = _("reply post comment"))    
         
-#class MainPostForm(ModelForm):
-#    class Meta: 
-#        model = MainPost
-#        #fields = '__all__'
-#        fields = ['title','tags']
-
-#class ReplyPostForm(ModelForm): 
-#    class Meta: 
-#        model = ReplyPost
-#        fields = ['tags']

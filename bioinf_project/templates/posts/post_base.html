@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block sidebar-post %}
+  <li class="active"><a href= "{% url 'posts:post-index' %}" > Post </a> </li>
+{% endblock sidebar-post %}
+
 {% block content %}
 <h1> HomePage for posts</h1>
 
