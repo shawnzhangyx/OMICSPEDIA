@@ -2,7 +2,7 @@
 {% block content %}
 <h1> HomePage for wiki</h1>
 
-<h3> <a href = "{% url 'wiki:wiki-new' %}"> Create new wiki here </a> </h3>
+<h3> <a class="btn btn-default" href = "{% url 'wiki:wiki-new' %}"> Create new wiki here </a> </h3>
 
 <h2> Wiki Catalog: </h2>
 {% if wiki_list %}

@@ -7,17 +7,14 @@ body {
   padding-top: 40px;
 }
 
+hr {
+border-top: 1px solid #999999;
+margin: 10px;
+}
 /* navbar */
 .navbar-inverse {
 background-color: #000000;
 }
-/* wiki page of content */
-.toc {
-border:1px solid #000000;
-float:left;
-padding: 10px;
-margin: 25px;
-} 
 
 
 
@@ -52,11 +49,15 @@ margin: 25px;
 }
 
 .navbar-form {
-  margin-top:3px;
-  margin-bottom:3px;
+  margin-top:6px;
+  margin-bottom:6px;
+
 }
-
-
+/* control the search bar width. */
+.navbar-form input.form-control {
+width: 250px;
+min-width: 250px;
+}
 
 .navbar-fixed-top {
   border: 0;

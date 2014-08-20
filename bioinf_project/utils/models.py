@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Comment(models.Model):
     content = models.TextField(max_length=600, null=False)
+    author = models.ForeignKey(User)
     last_modified = models.DateTimeField()
     ## enable generic foreignkey relationship with other classes, such as Page, MainPost, ReplyPost. 
     content_type = models.ForeignKey(ContentType)

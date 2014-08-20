@@ -1,15 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'posts/post_base.html' %}
 
 {% block content %}
-<h1> Create a new post.</h1>
 
+<h3> Create a new post: </h3>
 
-<form action = "/posts/create/" method="post"> 
+<form role="form" action = "/posts/create/" method="post"> 
 {% csrf_token %}
-{{ form.as_p }}
-<textarea rows='10' cols='80'  name="content"> </textarea> <br>
+{{form.as_p}}
+<textarea class="form-control" rows='10' cols='80'  name="content"> </textarea> <br>
 
-<input type="submit" value = "Submit post" /> 
+<input class="btn btn-default" type="submit" value = "Submit post" /> 
 </form>
 
 {% endblock content %}

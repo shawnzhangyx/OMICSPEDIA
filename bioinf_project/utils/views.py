@@ -24,7 +24,7 @@ class CommentNew(CreateView):
         elif self.kwargs['comment_on'] == 'replyposts':
             target = ReplyPost.objects.get(pk=self.kwargs['pk'])
 
-        form.instance = Comment(content_object=target, content = self.request.POST['content'])
+        form.instance = Comment(content_object=target, content = self.request.POST['content'], author=self.request.user)
         return super(CommentNew, self).form_valid(form)
 
     def get_success_url(self):

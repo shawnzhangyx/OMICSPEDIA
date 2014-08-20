@@ -3,6 +3,7 @@
 {% block head %}
 {% load staticfiles %}
 {% load util_custom_tags %}
+{% load tag_custom_tags %}
 {% endblock head %}
 
 
@@ -13,21 +14,15 @@
 
 {% block wiki-content %}
 <!-- header section -->
-  <div >
+  <div class="clearfix">
     {% display_vote_widget page user %}
     <div>  
       <h1 class="wiki-title"> {{page.title}} </h1>
+    {% display_tag_list page.tags.all %} 
     </div>
   </div>
 
-  <div class="row" id="tags-banner">
-        {% for tag in page.tags.all %}
-          <a class="tags" href = "{% url 'tags:tag-detail' tag.id %}" > {{tag}} </a>
-        {% empty %}
-          None 
-        {% endfor %}
-  </div>
-
+ 
 <p> {{ page.get_marked_up_content|safe }} </p>
 
 <p> last modified: {{ page.current_revision.modified_date }} </p>

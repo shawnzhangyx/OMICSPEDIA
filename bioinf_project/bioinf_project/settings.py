@@ -41,9 +41,9 @@ INSTALLED_APPS = (
     'posts',
     'wiki',
  #   'tool_wiki',
+    'users',
     'south',
     'utils',
-    'users',
     'django.contrib.humanize',
 )
 

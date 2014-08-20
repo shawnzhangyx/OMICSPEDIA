@@ -75,6 +75,7 @@ class AbstractPost(models.Model):
     author = models.ForeignKey(User,blank=False,null=False)
     created = models.DateTimeField()
     last_modified = models.DateTimeField()
+
     #---- functions ----#
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
@@ -93,12 +94,18 @@ class MainPost(AbstractPost):
     #add status of the post
 
     tags = models.ManyToManyField(Tag,blank=True,)
+
     title = models.CharField(max_length=255,null=False)
+
     current_revision = models.OneToOneField('MainPostRevision', blank=True, null=True, verbose_name=_('current revision'))
     # views for the post
     view_count = models.IntegerField(default=0)
+
     reply_count = models.IntegerField(default=0)
+
     bookmark_count = models.IntegerField(default=0)
+
+    mainpost_votes = GenericRelation("utils.Vote")
     
     accepted_answer = models.ForeignKey("ReplyPost", blank=True, null=True, related_name="accepted_root")
     main_post_comments = GenericRelation("utils.Comment")
@@ -106,20 +113,36 @@ class MainPost(AbstractPost):
         
     def __unicode__(self):
         return self.title
+
     def get_absolute_url(self):
         return reverse('posts:post-detail', kwargs = {'pk': self.pk})
 
+    def get_vote_count(self):        
+        return self.mainpost_votes.filter(choice=1).count() - self.mainpost_votes.filter(choice=-1).count()
+
+    def get_comments(self):        
+        return self.main_post_comments.all()
 
 class ReplyPost(AbstractPost):
     mainpost = models.ForeignKey(MainPost, related_name = "replies", null=False)
     current_revision = models.OneToOneField('ReplyPostRevision', blank=True, null=True, verbose_name=_('current revision'))
     best_answer = models.BooleanField(default=False)
+
     reply_post_comments = GenericRelation("utils.Comment")
+
+    replypost_votes = GenericRelation("utils.Vote")
 
     def __unicode__(self):
         return "reply to:" + self.mainpost.title
+
     def get_absolute_url(self):
         return reverse('posts:post-detail', kwargs = {'pk': self.mainpost.pk})
+
+    def get_vote_count(self):        
+        return self.replypost_votes.filter(choice=1).count() - self.replypost_votes.filter(choice=-1).count()
+
+    def get_comments(self):        
+        return self.reply_post_comments.all()
 
 
 
