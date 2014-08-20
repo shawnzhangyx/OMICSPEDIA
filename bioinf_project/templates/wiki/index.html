@@ -1,0 +1,38 @@
+{% extends 'wiki/wiki_base.html' %}
+{% block content %}
+<h1> Wiki Homepage </h1>
+
+<h3> <a class="btn btn-default" href = "{% url 'wiki:wiki-new' %}"> Create new wiki here </a> </h3>
+<hr>
+
+
+<div class="row">
+    <div class="col-xs-6 col-sm-4">
+    	<a class="thumbnail" href=""> <h3> Transcriptomics</h3> </a>
+    </div>
+    <div class=" col-xs-6 col-sm-4">
+    	<a class="thumbnail" href=""> <h3> Genomics</h3> </a>
+
+    </div>
+    <div class="clearfix visible-xs-block visible-sm-block"></div>
+    <div class=" col-xs-6 col-sm-4">
+   	<a class="thumbnail" href=""> <h3> Regulatomics</h3> </a>
+	
+    </div>
+    <div class=" col-xs-6 col-sm-4">
+   	<a class="thumbnail" href=""> <h3> Proteomics</h3> </a>
+    </div>
+    <div class="clearfix visible-xs-block visible-sm-block"></div>
+    <div class=" col-xs-6 col-sm-4">
+    	<a class="thumbnail" href=""> <h3> Metabolomics</h3> </a>
+
+    </div>
+    <div class=" col-xs-6 col-sm-4">
+    <a class="thumbnail" href=""> <h3> Otheromics</h3> </a>
+
+
+    </div>
+
+</div>
+
+{% endblock content %}
