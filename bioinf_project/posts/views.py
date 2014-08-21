@@ -49,6 +49,11 @@ class PostDetails(DetailView):
     template_name = "posts/post_detail.html"
     model = MainPost
     context_object_name = "mainpost"
+
+    def get_object(self):
+        obj = super(PostDetails, self).get_object()
+        MainPost.update_post_views(obj, request=self.request)
+        return obj
     def get_context_data(self, **kwargs):
         context = super(PostDetails, self).get_context_data(**kwargs)
         context['replypost_list'] = ReplyPost.objects.filter(mainpost=context['mainpost'])

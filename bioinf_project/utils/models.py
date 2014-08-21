@@ -3,6 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericRelation, GenericForeignKey
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 
 
 # Create your models here.
@@ -27,7 +28,7 @@ class Comment(models.Model):
 
 
 class Vote(models.Model):
-    # votes for a post, wiki, tool, or tag, user. Or anything else you can think. 
+    # votes for a post, wiki, tool, or tag, user. Or anything else you can think.
     UP, DOWN = [1,-1]
     CHOICES = [(UP, "Up-vote"), (DOWN, "Down-vote")]
     voter = models.ForeignKey(User, related_name="votes")
@@ -36,11 +37,23 @@ class Vote(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
     choice = models.IntegerField(choices=CHOICES)
     date = models.DateField(auto_now=True)
-    
-    def __unicode__(self):
-        return u"%s, %s, %s" %( self.get_choice_display(), self.voter.username, self.content_object.id) 
 
-    class Meta: 
+    def __unicode__(self):
+        return u"%s, %s, %s" %( self.get_choice_display(), self.voter.username, self.content_object.id)
+
+    class Meta:
        unique_together = ("voter", "content_type","object_id")
 
-## class Views(
+class View(models.Model):
+    # viewer IP
+    ip = models.GenericIPAddressField(_('IP'), default="", null=True, blank=True)
+    # viewed object
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    # date
+    date = models.DateTimeField(auto_now=True)
+
+
+# class Bookmark(models.Model):
+

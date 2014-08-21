@@ -6,10 +6,10 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.generic import GenericRelation 
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.db.models import F
 
-#local apps
-from tags.models import Tag
-
+from utils.models import View
 # Create your models here.
 
 # --------------- #
@@ -93,7 +93,7 @@ class MainPost(AbstractPost):
 
     #add status of the post
 
-    tags = models.ManyToManyField(Tag,blank=True,)
+    tags = models.ManyToManyField("tags.Tag",blank=True, related_name="posts")
 
     title = models.CharField(max_length=255,null=False)
 
@@ -106,21 +106,57 @@ class MainPost(AbstractPost):
     bookmark_count = models.IntegerField(default=0)
 
     mainpost_votes = GenericRelation("utils.Vote")
-    
+
+    post_views = GenericRelation("utils.View")
+
     accepted_answer = models.ForeignKey("ReplyPost", blank=True, null=True, related_name="accepted_root")
     main_post_comments = GenericRelation("utils.Comment")
-        ### potential useful fields: watched 
-        
+        ### potential useful fields: watched
+
     def __unicode__(self):
         return self.title
+
+    @staticmethod
+    def update_post_views(post, request, minutes=60):
+        "Views are updated per user session"
+
+        # Extract the IP number from the request.
+        ip1 = request.META.get('REMOTE_ADDR', '')
+        ip2 = request.META.get('HTTP_X_FORWARDED_FOR', '').split(",")[0].strip()
+        # 'localhost' is not a valid ip address.
+        ip1 = '' if ip1.lower() == 'localhost' else ip1
+        ip2 = '' if ip2.lower() == 'localhost' else ip2
+        ip = ip1 or ip2 or '0.0.0.0'
+
+        now = timezone.now()
+        since = now - timezone.timedelta(minutes=minutes)
+
+        obj_type = ContentType.objects.get_for_model(post)
+        obj_id =post.id
+
+        # One view per time interval from each IP address.
+        if not post.post_views.filter(ip=ip, date__gt=since):
+            new_view = View(ip=ip, content_object=post, date=now)
+            new_view.save()
+            MainPost.objects.filter(id=post.id).update(view_count=F('view_count') + 1)
+        return post
+
+
+    @staticmethod
+    def reset_reply_count():
+        for post in MainPost.objects.all():
+            print post, post.replies.count()
+            post.reply_count = post.replies.count()
+            post.save()
+
 
     def get_absolute_url(self):
         return reverse('posts:post-detail', kwargs = {'pk': self.pk})
 
-    def get_vote_count(self):        
+    def get_vote_count(self):
         return self.mainpost_votes.filter(choice=1).count() - self.mainpost_votes.filter(choice=-1).count()
 
-    def get_comments(self):        
+    def get_comments(self):
         return self.main_post_comments.all()
 
 class ReplyPost(AbstractPost):
@@ -138,10 +174,10 @@ class ReplyPost(AbstractPost):
     def get_absolute_url(self):
         return reverse('posts:post-detail', kwargs = {'pk': self.mainpost.pk})
 
-    def get_vote_count(self):        
+    def get_vote_count(self):
         return self.replypost_votes.filter(choice=1).count() - self.replypost_votes.filter(choice=-1).count()
 
-    def get_comments(self):        
+    def get_comments(self):
         return self.reply_post_comments.all()
 
 
