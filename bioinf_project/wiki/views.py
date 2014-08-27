@@ -23,7 +23,8 @@ class WikiNew(CreateView):
     def form_valid(self, form):
         form.save()
         new_revision = PageRevision(content=self.request.POST['content'], 
-                       revision_summary=self.request.POST['summary'], page=form.instance)
+                       revision_summary=self.request.POST['summary'], 
+                       page=form.instance, author=self.request.user)
         new_revision.save()
         form.instance.current_revision=new_revision
         return super(WikiNew, self).form_valid(form)
@@ -44,7 +45,8 @@ class WikiEdit(UpdateView):
             return HttpResponseRedirect(reverse("wiki:wiki-edit", args={self.object.get_title()}))
     
         new_revision = PageRevision(content=self.request.POST['content'], 
-                       revision_summary=self.request.POST['summary'], page=self.object)
+                       revision_summary=self.request.POST['summary'], 
+                       page=self.object, author = self.request.user)
         new_revision.save()
         self.object.current_revision=new_revision
         self.object.save()

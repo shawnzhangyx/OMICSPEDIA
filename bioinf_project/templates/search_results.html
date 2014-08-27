@@ -8,10 +8,10 @@
 
 <ul>
 {% for wiki in wiki_list %}
-<li> <a href="{% url "wiki:wiki-detail" wiki.id %}"> {{ wiki.title }} </a> </li>
+<li> <a href="{% url 'wiki:wiki-detail' wiki.get_title %}"> {{ wiki.title }} </a> </li>
 
 {% empty %}
-No wiki has a match. Create one? <a href="{% url "wiki:wiki-new" %}"> Click here </a>
+No wiki has a match. Create one? <a href="{% url 'wiki:wiki-new' %}"> Click here </a>
 {% endfor %}
 </ul>
 <hr>
@@ -21,7 +21,7 @@ No wiki has a match. Create one? <a href="{% url "wiki:wiki-new" %}"> Click here
 <h3> Posts </h3>
 <ul>
 {% for post in post_list %}
-<li> <a href="{% url "posts:post-detail" post.id %}"> {{ post.title }} </a> </li>
+<li> <a href="{% url 'posts:post-detail' post.id %}"> {{ post.title }} </a> </li>
 
 {% empty %}
 No post has a match. Want to ask a question? <a href="{% url "posts:post-new" %}"> Click here </a>

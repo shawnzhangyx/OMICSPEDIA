@@ -10,7 +10,7 @@
 {% block content %}
 <h1> Tags</h1>
 {% if user.is_authenticated %}
-<button type='button' class="btn btn-default" onclick='location.href="{% url "tags:tag-create" parent_id=0 %}"'> Create new tag </button>
+<button type='button' class="btn btn-default" onclick='location.href="{% url "tags:tag-create" parent_name='' %}"'> Create new tag </button>
 {% endif %}
 <br><br>
 Type to find tags: <input class="form" type="text" name="suggestion" id="suggestion" value=""/>
@@ -20,25 +20,6 @@ Type to find tags: <input class="form" type="text" name="suggestion" id="suggest
 {% include "tags/tag_suggest_list.html" with suggest_tag_list=suggest_tag_list %}
 </div>
 <hr>
-{% if tag_list %}
-<ul class="list-unstyled tag-list">
-{% for tag in suggest_tag_list %}
-<li> <a class="tags" data-toggle="tooltip" data-placement="bottom" title="hahaha" href="{% url 'tags:tag-detail' tag.id %}" > {{tag.name}} </a> </li>
-    {% show_tag_children tag %}
-{% endfor %}
-</ul>
-{% else %}
-<p> no tags available </p>
-{% endif %}
 
-
-<!--
-{% for tag in tag_list %}
- <a href= "{% url 'tags:tag-detail' tag.id %}" >{{ tag.name }} x{{tag.count}} </a>
-{% if not forloop.last %} |
-{% endif %}
-{% empty %}
-<p> no tags available </p>
-{% endfor %}
--->
+    
 {% endblock content %}

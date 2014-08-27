@@ -12,8 +12,21 @@
 <ul> 
   {% for revision in revision_list %}
   <li> 
-    <a href= "{% url 'wiki:wiki-diff' revision.id %}" >{{ revision.revision_summary|default:"Ooops, no summary." }} </a>
-     modified date: {{revision.modified_date }} 
+    <a href= "{% url 'wiki:wiki-diff' revision.id %}" >{{ revision.modified_date }} </a>
+    by <a href="{% url 'users:profile-view' revision.author.user_profile.id %}"> 
+    {{revision.author.username}} </a>     
+    ({{revision.total_chars}} bytes) 
+    (
+    {% if revision.added_chars > 0 %}
+    <span class="ins">+{{revision.added_chars}}</span> 
+    	{% if revision.deleted_chars > 0 %}
+    		/
+    	{% endif %}
+    {% endif %}
+    {% if revision.deleted_chars > 0 %}
+    <span class="del">-{{revision.deleted_chars}}</span>
+    {% endif %}
+    )
   </li>
 {% endfor %}
 </ul>

@@ -16,7 +16,15 @@ margin: 10px;
 background-color: #000000;
 }
 
+.ins {
+color: #009900;
+font-weight: bold;
+}
 
+.del {
+color: #CC3333;
+font-weight: bold;
+}
 
 /*
  * Global add-ons

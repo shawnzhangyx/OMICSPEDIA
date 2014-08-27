@@ -1,8 +1,8 @@
 {% extends 'tags/tag_base.html' %}
 {% load tag_custom_tags %}
 {% block content %}
-<h1> Tag name: {% show_tag_ancestor tag %} {{ tag.name }} <a href = "{% url 'tags:tag-delete' tag.id %}"> (Delete?) </a> </h1>
-<button type='button' onclick='location.href="{% url "tags:tag-create" parent_id=tag.id %}"'> Create new tag under this tag?</button>
+<h1> Tag name: {% show_tag_ancestor tag %} {{ tag.name }} <a href = "{% url 'tags:tag-delete' name=tag.name %}"> (Delete?) </a> </h1>
+<button type='button' onclick='location.href="{% url "tags:tag-create" parent_name=tag.name %}"'> Create new tag under this tag?</button>
 
 <p> counts: {{ tag.count}} </p>
 
@@ -17,10 +17,10 @@
 
 
 <h2> Tag wiki: </h2>
-{% if tag.current_revision.content|length == 0 %}
-The wiki is not developed for this tag, would you like to <a href="{% url 'wiki:wiki-detail' tag.parent_page.id %}">contribute? </a>
+{% if tag.wiki_page == null %}
+The wiki is not developed for this tag, would you like to <a href="{% url 'tags:tag-edit' tag.name %}">associate with one? </a>
 {% else %}
-<p> {{ tag.current_revision.content|truncatewords:100 }}  <a href="{% url 'wiki:wiki-detail' tag.parent_page.id %}"> (More) </a> </p>
+<p> {{ tag.wiki_page.current_revision.content|truncatewords:100 }}  <a href="{% url 'wiki:wiki-detail' title=tag.wiki_page.get_title %}"> (More) </a> </p>
 {% endif %}
 <hr> 
 <!--

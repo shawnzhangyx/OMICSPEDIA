@@ -4,8 +4,8 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import m2m_changed
 
-from wiki.models import Page
 from posts.models import MainPost
+
 # Create your models here.
 class TagManager(models.Manager):
 
@@ -22,18 +22,18 @@ class TagManager(models.Manager):
 #            cat.url = encode_url(tag.name)
         return tag_list
 
-class Tag(Page):
-    
+class Tag(models.Model):
+
     #custom manager
     objects = TagManager()
-    
+
     #---- fields ----#
     name = models.CharField(max_length=255, unique=True)
-    parent_page = models.OneToOneField("wiki.Page",parent_link=True)
+    wiki_page = models.OneToOneField("wiki.Page",blank=True, null=True)
     # record the times this tag is used
     count = models.IntegerField(default=0)
     # provide the tag structures
-    # can chain Tags that have tree structures. 
+    # can chain Tags that have tree structures.
     parent = models.ForeignKey('self', related_name = "children",null=True, blank=True)
     node_position = models.IntegerField(default=0)
 
@@ -67,11 +67,11 @@ class Tag(Page):
     #---- methods ----#
    # def __init__(self, *args, **kwargs):
    #     pass
-   
+
     def __unicode__(self):
         return self.name
     def get_absolute_url(self):
-        return reverse('tags:tag-detail', kwargs = {'pk': self.pk})
+        return reverse('tags:tag-detail', kwargs = {'name': self.name})
     # check if the tag is the root.
     def is_root():
         pass
@@ -82,7 +82,7 @@ class Tag(Page):
     # adjust the node position among children under the same parent.
     def adjust_pos():
         pass
-    
 
-# data signals 
+
+# data signals
 m2m_changed.connect(Tag.update_tag_counts, sender=MainPost.tags.through)
