@@ -10,16 +10,29 @@ from .models import MainPostComment, ReplyPostComment
 # Create your views here.
 
 
-class IndexView(ListView): 
+class IndexView(ListView):
     model = MainPost
     template_name = "posts/index.html"
     context_object_name = "post_list"
-    
-class MainPostNew(CreateView): 
+
+    def get_queryset(self):
+        tab = self.request.GET.get('tab')
+        if tab =="Latest":
+            return MainPost.objects.order_by('last_modified')
+        elif tab=="Votes":
+            return MainPost.objects.order_by('-vote_count')
+        else:
+            return MainPost.objects.all()
+    def get_context_data(self,**kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['tab'] = self.request.GET.get('tab')
+        return context
+
+class MainPostNew(CreateView):
     template_name = "posts/post_new.html"
     model = MainPost
     fields = ['title', 'tags']
-    
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.save()

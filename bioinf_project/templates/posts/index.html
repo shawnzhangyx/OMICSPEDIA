@@ -12,16 +12,19 @@
   <ul class="nav nav-tabs">
     <li> <h4> <b>All Posts &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </b></h4></li>
-    {% block post-latest %}
-    <li class="active"> <a href="#" > Latest </a> </li>
-    {% endblock post-latest %}
-    {% block post-bounty %}
-    <li> <a href="#"> Bounty </a> </li>
-    {% endblock post-bounty %}
-    <li> <a href="#"> Frequent </a> </li>
-    <li> <a href="#"> Votes </a> </li>
-    <li> <a href="#"> Active </a> </li>
-    <li> <a href="#"> Unanswered </a> </li>
+    <li {% ifequal tab 'Latest' %} class="active" {% endifequal %}
+        {% ifequal tab null %} class="active" {% endifequal %}>
+      <a href="?tab=Latest" > Latest </a> </li>
+    <li {% ifequal tab 'Bounty' %} class="active" {% endifequal %}> 
+      <a href="?tab=Bounty"> Bounty </a> </li>
+    <li {% ifequal tab 'Frequent' %} class="active" {% endifequal %}> 
+      <a href="?tab=Frequent"> Frequent </a> </li>
+    <li {% ifequal tab 'Votes' %} class="active" {% endifequal %}>
+      <a href="?tab=Votes"> Votes </a> </li>
+    <li {% ifequal tab 'Active' %} class="active" {% endifequal %}> 
+      <a href="?tab=Active"> Active </a> </li>
+    <li {% ifequal tab 'Unanswered' %} class="active" {% endifequal %}> 
+      <a href="?tab=Unanswered"> Unanswered </a> </li>
     
   </ul>
   

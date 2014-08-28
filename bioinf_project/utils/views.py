@@ -65,6 +65,8 @@ def vote(request):
             vote.save()
         else:
             return HttpReponse("error")
+        obj.vote_count = obj.get_vote_count()
+        obj.save()
         return HttpResponse(json.dumps({"yourvote":vote.choice, "allvote":obj.get_vote_count()}))
     # if has voted before. 
     else:
@@ -72,9 +74,13 @@ def vote(request):
         if vote_status.endswith('off'):
             vote.choice = vote.choice * (-1)
             vote.save()
+            obj.vote_count = obj.get_vote_count()
+            obj.save()
             return HttpResponse(json.dumps({"yourvote":vote.choice, "allvote": obj.get_vote_count()}))
         # if want to recall the vote 
         elif vote_status.endswith('on'):
             vote.delete()
+        obj.vote_count = obj.get_vote_count()
+        obj.save()
         return HttpResponse(json.dumps({"yourvote":0, "allvote": obj.get_vote_count()}))
 

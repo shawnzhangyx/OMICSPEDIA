@@ -1,54 +1,52 @@
 {% extends 'tags/tag_base.html' %}
 {% load tag_custom_tags %}
+{% load post_custom_tags %}
+
 {% block content %}
-<h1> Tag name: {% show_tag_ancestor tag %} {{ tag.name }} <a href = "{% url 'tags:tag-delete' name=tag.name %}"> (Delete?) </a> </h1>
-<button type='button' onclick='location.href="{% url "tags:tag-create" parent_name=tag.name %}"'> Create new tag under this tag?</button>
+<h1> {% show_tag_ancestor tag %} {{ tag.name }}  </h1>
+<br>
+<a class="btn btn-sm btn-default" href = "{% url 'tags:tag-delete' name=tag.name %}">Delete? </a>
+<button class="btn btn-small btn-primary" type='button' onclick='location.href="{% url "tags:tag-create" parent_name=tag.name %}"'> Create new tag under this tag?</button>
 
 <p> counts: {{ tag.count}} </p>
 
   <ul class="nav nav-tabs">
-    {% block tag-wiki %}
-    <li> <a href="#" data-toggle="tooltip" title="show tag wiki"> Tag wiki </a> </li>
-    {% endblock tag-wiki %}
-    {% block tag-post-rent %}
-    <li> <a href="#"> Recent </a> </li>
-    {% endblock tag-post-rent %}
+    <li {% ifequal tab "Info" %} class="active" {% endifequal %}>
+      <a href="?tab=Info"> Info </a> </li>
+    <li {% ifequal tab "Articles" %} class="active" {% endifequal %}> 
+      <a href="?tab=Articles"> Articles </a> </li>
+    <li {% ifequal tab "Latest" %} class="active" {% endifequal %}
+        {% ifequal tab null %} class="active" {% endifequal %}>
+        <a href="?tab=Latest"> Latest </a> </li>
   </ul>
 
+{% ifequal tab "Info" %}
 
-<h2> Tag wiki: </h2>
-{% if tag.wiki_page == null %}
-The wiki is not developed for this tag, would you like to <a href="{% url 'tags:tag-edit' tag.name %}">associate with one? </a>
-{% else %}
-<p> {{ tag.wiki_page.current_revision.content|truncatewords:100 }}  <a href="{% url 'wiki:wiki-detail' title=tag.wiki_page.get_title %}"> (More) </a> </p>
-{% endif %}
-<hr> 
-<!--
-<h2> Related Wiki </h2> 
-{% for wiki in wiki_list %}
-    <p> {{forloop.counter}}. <a href = "{% url 'wiki:wiki-detail' wiki.id %}"> {{ wiki.title }} </a> 
-   {{ wiki.content|truncatewords:20 }}
-{% empty %}
-<p> There is no wiki associated with this tag </p>
-{% endfor %}
-<hr>
--->
-{% if tag.children.count > 0 %} 
-<h3> Child Tags: </h3>
-{% show_tag_children tag %} 
-<hr>
-{% endif %}
+  {% if tag.wiki_page == null %}
+  The wiki is not developed for this tag, would you like to <a href="{% url 'tags:tag-edit' tag.name %}">associate with one? </a>
+  {% else %}
+  <h1 class="wiki-title"> About {{tag.wiki_page.title}}
+    <small> <a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}"> [Go to wiki]</a> </small> </h1>
+  <p> {{ tag.wiki_page.get_marked_up_content|safe }} </p>
+  <p> last modified: {{ tag.wiki_page.current_revision.modified_date }} </p>
 
-<h3> Related Posts: </h3>
+  {% endif %}
+{% endifequal %}
+
+
+{% ifequal tab "Articles"%}
+  <br>
+  <ul>
+  {% for wiki in wiki_list %}
+  <li> <h4><a href="{% url 'wiki:wiki-detail' wiki.get_title %}"> {{wiki.title}} </a> <h4></li>
+  {% endfor%}
+  </ul>
+{% endifequal %}
+
+
 {% for post in post_list %}
-    <p> {{forloop.counter}}. <a href = "{% url 'posts:post-detail' post.id %}"> {{ post.title }} </a> 
-<!--   {{ post.content|truncatechars:60 }} 
--->
-    </p>
-{% empty %}
-<p> There is no posts associated with this tag </p>
+  {% show_post_tab post %}
 {% endfor %}
-<hr>
-<p> <a href = "{% url 'tags:tag-index' %}"> Go back to tag homepage</a> </p>
+
 
 {% endblock content %}

@@ -49,10 +49,16 @@ class TagDetails(DetailView):
         return Tag.objects.get(name=self.kwargs['name'])
     def get_context_data(self, **kwargs):
         context = super(TagDetails, self).get_context_data(**kwargs)
-        context['post_list'] = MainPost.objects.filter(tags = self.object.id)
+        tab = self.request.GET.get('tab')
+        context['tab'] = tab
+        context['tag_wiki'] = self.object.wiki_page
         context['wiki_list'] = self.object.page_set.all()
+        if tab == 'Latest' or not tab:
+            context['post_list'] = self.object.posts.all()
+        elif tab == 'Votes':
+            context['post_list'] = self.object.posts.order_by('-vote_count')
         return context
- 
+
 class TagDelete(DeleteView):
     model = Tag
     template_name = 'tags/tag_delete.html'
