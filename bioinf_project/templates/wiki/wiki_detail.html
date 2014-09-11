@@ -17,27 +17,21 @@
   <div class="clearfix">
     {% display_vote_widget page user %}
     <div>  
-      <h1 class="wiki-title"> {{page.title}} </h1>
+      <h1 class="wiki-title">{{page.title}}</h1>
     {% display_tag_list page.tags.all %} 
     </div>
   </div>
 
  
-<p> {{ page.get_marked_up_content|safe }} </p>
+{{page.current_revision.get_marked_up_content|safe}}
 
-<p> last modified: {{ page.current_revision.modified_date }} </p>
 <hr>
-
-{% for comment in comment_list %}
-  Comment {{forloop.counter}}: {{ comment.content }}     -{{comment.last_modified}} <br><hr>
-{% empty %}
-No comments 
-{% endfor %}
-<button type='button' onclick='location.href="{% url 'comment-new' comment_on="wiki" pk=page.id %}"' > Add comment </button>
-<p> <a href = "{% url 'wiki:wiki-index' %}"> Go back to wiki homepage</a> </p>
+<p> last modified: {{page.current_revision.modified_date}} </p>
 
 {% endblock wiki-content %}
 
 {% block jquery %}
   <script src="{% static 'jquery/vote_widget.js' %}"> </script>
+  <script src="{% static 'jquery/wiki.js' %}"> </script>
+
 {% endblock jquery %}

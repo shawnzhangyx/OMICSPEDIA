@@ -15,8 +15,6 @@ $('#suggestion').keyup(function(){
         });
 });
 
-//$('body').tooltip({ selector:'[data-toggle=tooltip]'});
-
 
 });
 

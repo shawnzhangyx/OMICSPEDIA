@@ -1,7 +1,7 @@
 
 <ul class="list-unstyled list-inline" id="tags-banner">
         {% for tag in tag_list %}
-        <li>  <a class="tags" href = "{% url 'tags:tag-detail' tag.id %}" > {{tag}} </a> </li>
+        <li>  <a class="tags" href = "{% url 'tags:tag-detail' tag.name %}" > {{tag}} </a> </li>
         {% empty %}
           None 
         {% endfor %}

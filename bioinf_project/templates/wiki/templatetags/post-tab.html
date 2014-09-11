@@ -1,0 +1,34 @@
+{% load util_custom_tags %}
+{% load humanize %}
+<div class="row post-tab">
+  <div class="post-count-box">
+    <div class="post-tab-vote">
+    <h3>{{post.get_vote_count}} </h3> 
+    votes
+    </div>
+    <div class="post-tab-reply">
+    <h3>{{post.reply_count}} </h3> 
+    Replies 
+    </div>
+    <div class="post-tab-views">
+    <h3>{{post.view_count}} </h3> 
+    views 
+    </div>
+  </div>
+  <div class="post-tab-detail">
+    <div class="">
+      <h4> <a href= "{% url 'posts:post-detail' post.id %}" >{{ post.title }} </a> </h4>
+    </div>
+    
+    <div class="post-tab-tags">
+      <ul class="list-unstyled list-inline tag-list">
+        {% for tag in post.tags.all %}
+          <li> <a class="tags" data-toggle="tooltip" data-placement="bottom" title="{{tag.title}}" href="{% url 'tags:tag-detail' tag.id %}" > {{tag.name}} </a> </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="post-created">
+    {{post.created|naturaltime}}  <a href="{%url 'users:profile-view' post.author.user_profile.id%}">{{post.author}}</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+from django import template
+from django.http import HttpResponse
+from tags.models import Tag
+register = template.Library()
+
+
+#list the tags according to their hierarchical structure.
+
+@register.filter
+def add_edit(text):
+    return
+
+@register.inclusion_tag("wiki/templatetags/comment-dialog.html")
+def show_comment_dialog(comment,user):
+    return {'comment': comment,'user':user}
+    

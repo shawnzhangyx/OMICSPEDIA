@@ -3,13 +3,12 @@
 {% load post_custom_tags %}
 
 {% block content %}
-<h1> {% show_tag_ancestor tag %} {{ tag.name }}  </h1>
+<h1> {% show_tag_ancestor tag %} {{ tag.name }} <small> x{{tag.count}} </small> </h1>
 <br>
-<a class="btn btn-sm btn-default" href = "{% url 'tags:tag-delete' name=tag.name %}">Delete? </a>
-<button class="btn btn-small btn-primary" type='button' onclick='location.href="{% url "tags:tag-create" parent_name=tag.name %}"'> Create new tag under this tag?</button>
-
-<p> counts: {{ tag.count}} </p>
-
+<a class="btn btn-xs btn-default" href = "{% url 'tags:tag-delete' name=tag.name %}">Delete? </a>
+<button class="btn btn-xs btn-primary" type='button' onclick='location.href="{% url "tags:tag-create" parent_name=tag.name %}"'> Create new tag under this tag?</button>
+<br>
+<br>
   <ul class="nav nav-tabs">
     <li {% ifequal tab "Info" %} class="active" {% endifequal %}>
       <a href="?tab=Info"> Info </a> </li>
@@ -18,6 +17,8 @@
     <li {% ifequal tab "Latest" %} class="active" {% endifequal %}
         {% ifequal tab null %} class="active" {% endifequal %}>
         <a href="?tab=Latest"> Latest </a> </li>
+    <li {% ifequal tab "Votes" %} class="active" {% endifequal %}> 
+      <a href="?tab=Votes"> Votes </a> </li>        
   </ul>
 
 {% ifequal tab "Info" %}
@@ -39,14 +40,18 @@
   <ul>
   {% for wiki in wiki_list %}
   <li> <h4><a href="{% url 'wiki:wiki-detail' wiki.get_title %}"> {{wiki.title}} </a> <h4></li>
+  {% empty%}
+  No wiki associated with this tag yet. Would you like to suggest adding some tags to these <a href=""> articles?</a>
   {% endfor%}
   </ul>
 {% endifequal %}
 
-
+{% if tab != "Info" and tab != "Articles"%}
 {% for post in post_list %}
   {% show_post_tab post %}
+{% empty %}
+No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
 {% endfor %}
-
+{% endif %}
 
 {% endblock content %}

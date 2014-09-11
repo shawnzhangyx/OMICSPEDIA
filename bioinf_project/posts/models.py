@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import F
 
-from utils.models import View
+from utils.models import View, AbstractBaseRevision
 # Create your models here.
 
 # --------------- #
@@ -17,17 +17,9 @@ from utils.models import View
 # For now, we just follow the Biostar standard. #
 # comment does not have revision history. 
 
-class AbstractPostRevision(models.Model):
-    revision_number = models.IntegerField(_('revision number'), editable=False)
-    revision_summary = models.TextField(_('revision summary'), blank=True)
-    # editor = models.ForeignKey(User, blank=True, null = True)
-    content = models.TextField(blank=True, verbose_name = _("post content"))
-    modified_date = models.DateTimeField(auto_now=True, verbose_name=_("modified date"))
-    class Meta:
-        abstract = True
-        get_latest_by= 'revision_number'    
+
         
-class MainPostRevision(AbstractPostRevision):
+class MainPostRevision(AbstractBaseRevision):
     post = models.ForeignKey("MainPost", on_delete = models.CASCADE, verbose_name=_("post"))
 
     def __unicode__(self):
@@ -47,7 +39,7 @@ class MainPostRevision(AbstractPostRevision):
         except IndexError:
             return
             
-class ReplyPostRevision(AbstractPostRevision):
+class ReplyPostRevision(AbstractBaseRevision):
     post = models.ForeignKey("ReplyPost", on_delete = models.CASCADE, verbose_name=_("post"))
 
     def __unicode__(self):

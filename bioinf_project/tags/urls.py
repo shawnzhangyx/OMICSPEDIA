@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, url
 
-from . import views 
+from . import views
 
-urlpatterns = patterns('', 
+urlpatterns = patterns('',
     url(r'^$', views.TagList.as_view(), name = 'tag-index'),
     url(r'^suggest_tag/$', views.suggest_tags, name='tag-suggest'),
     url(r'^create_tag/(?P<parent_name>[^/]*)/?$', views.TagCreate.as_view(), name='tag-create'),

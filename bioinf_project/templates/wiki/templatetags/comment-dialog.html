@@ -1,0 +1,26 @@
+{% load wiki_custom_tags %}
+{% load humanize %}
+<div class="row wiki-comment-tab">
+  <span class="comment-meta">
+    <span class="btn btn-xs {{comment.get_status_class}}"> {{comment.get_status_display}}</span>
+    <span class="btn btn-xs btn-default"> {{comment.get_issue_display}}</span>
+  </span>
+  <span class="comment-detail">
+    {{comment.detail}} -- <a href="{%url 'users:profile-view' comment.author.user_profile.id%}">{{comment.author}}</a>
+    {{comment.created}} 
+    {% if comment.init_revision != null %}
+    <a class="btn btn-xs btn-default" href="{% url 'wiki:wiki-diff' comment.init_revision.id %}"> Original version </a>
+    {% endif %}
+    {% if comment.final_revision != null %}
+    <a class="btn btn-xs btn-default" href="{% url 'wiki:wiki-diff' comment.final_revision.id %}"> Revised</a>
+    {% endif %}
+    {% if comment.init_revision != null and comment.final_revision != null %}
+    <a class="btn btn-xs btn-default" href=""> Compare</a>
+    {% endif %}
+    
+     
+    {% if user.is_authenticated and user == comment.author %}
+        <a href="{% url 'wiki:wiki-comment-edit' pk=comment.pk %}">edit </a>
+    {% endif %}
+   </span>
+</div>

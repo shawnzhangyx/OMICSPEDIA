@@ -101,7 +101,13 @@ padding-bottom: 0.1em;
 #wiki-content h2{
 border-bottom: 1px solid #aaa;
 }
-
+/**** comment tab ****/
+.wiki-comment-tab
+{
+border: 1px dotted #CCCCCC;
+padding: 8px 5px;
+margin: 5px 0px;
+}
 
 /************** posts ************/
 

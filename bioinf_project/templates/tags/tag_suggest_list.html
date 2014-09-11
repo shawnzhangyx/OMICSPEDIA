@@ -3,7 +3,11 @@
 <ul class="list-unstyled list-inline">
 {% for tag in suggest_tag_list %}
 <li> <a class="tags" data-toggle="tooltip" data-placement="bottom" 
-     title="{{tag.title}}" href="{% url 'tags:tag-detail' name=tag.name %}"> {{tag.name}} </a> <small>x{{tag.count}}</small> </li>
+     title="{{tag.name}}" href="{% url 'tags:tag-detail' name=tag.name %}"> 
+    {% if tag.icon.url != null%}
+    <img src="{{tag.icon.url}}" height="20" width="20" style="float:left; border: dotted 1px #999999;margin-right:5px"> 
+    {% endif %}
+     {{tag.name}} </a> <small>x{{tag.count}}</small> </li>
     {# show_tag_children tag #}
 {% empty %}
 No matching tag. 

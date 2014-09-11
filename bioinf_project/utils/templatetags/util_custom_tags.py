@@ -2,21 +2,21 @@ from django import template
 from django.http import HttpResponse
 from django.contrib.contenttypes.models import ContentType
 from datetime import datetime, timedelta
-from django.utils.timesince import timesince 
+from django.utils.timesince import timesince
 
 
 from utils.models import Vote
 register = template.Library()
 
-# Show the vote number and provide 
-# vote options for the object #wiki, tools, posts. 
+# Show the vote number and provide
+# vote options for the object #wiki, tools, posts.
 @register.inclusion_tag("utils/templatetags/vote_widget.html")
 def display_vote_widget(obj, user):
 
     obj_type = ContentType.objects.get_for_model(obj)
-    try: vote = Vote.objects.get(content_type__pk=obj_type.id, 
+    try: vote = Vote.objects.get(content_type__pk=obj_type.id,
                                object_id=obj.id, voter=user)
-    except (TypeError, Vote.DoesNotExist) as e: 
+    except (TypeError, Vote.DoesNotExist) as e:
         vote_type = "none"
     else:
         if vote.choice == 1:
@@ -26,7 +26,7 @@ def display_vote_widget(obj, user):
 
     return {"object": obj, "obj_type": obj_type.app_label+'.'+obj_type.model, 
             "obj_id": obj.id, "user": user, "vote_type": vote_type}
-    
+
 ## need to troubleshoot this 
 @register.filter
 def age(value):

@@ -36,10 +36,10 @@ class TagCreate(CreateView):
 class TagEdit(UpdateView):
     model = Tag
     template_name = "tags/tag_create.html"
-    fields = ['name','wiki_page','categories']
+    fields = ['name','wiki_page','categories','icon']
 
     def get_object(self):
-        return Tag.objects.get(name=self.kwargs['name'])
+        return Tag.objects.get(name=self.kwargs['name'].replace('_',' '))
 
 
 class TagDetails(DetailView):

@@ -29,6 +29,7 @@ class Tag(models.Model):
 
     #---- fields ----#
     name = models.CharField(max_length=255, unique=True)
+    icon = models.ImageField(upload_to='tags',null=True,blank=True)
     wiki_page = models.OneToOneField("wiki.Page",blank=True, null=True)
     # record the times this tag is used
     count = models.IntegerField(default=0)
@@ -62,11 +63,8 @@ class Tag(models.Model):
             tag.count = tag.posts.count()
             tag.save()
 
-    class Meta:
-        get_latest_by= 'node_position'
-    #---- methods ----#
-   # def __init__(self, *args, **kwargs):
-   #     pass
+    def name_underlined(self):
+        return self.name.replace(' ','_')
 
     def __unicode__(self):
         return self.name
@@ -82,6 +80,13 @@ class Tag(models.Model):
     # adjust the node position among children under the same parent.
     def adjust_pos():
         pass
+
+class Meta:
+        get_latest_by= 'node_position'
+    #---- methods ----#
+   # def __init__(self, *args, **kwargs):
+   #     pass
+
 
 
 # data signals

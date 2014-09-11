@@ -11,8 +11,8 @@
     <li> <a href="{% url 'wiki:wiki-detail' page.get_title %}"> Article </a> </li>
     {% endblock wiki-article %}
     {% block wiki-comment %}
-    <li class="disabled "> 
-     <a href="#">  Comment <span class="badge">14</span></a> 
+    <li> 
+     <a href="{% url 'wiki:wiki-comment' page.get_title %}">  Comment <span class="badge"> {{page.comments.count}}</span></a> 
     </li>
     {% endblock wiki-comment %}
     {% block wiki-edit %}

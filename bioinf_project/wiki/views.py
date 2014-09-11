@@ -1,12 +1,13 @@
+import re
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, TemplateView, UpdateView, CreateView
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.utils import timezone
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from utils import diff_match_patch
 #from .forms import WikiForm
-from .models import Page, PageRevision
+from .models import Page, PageRevision, PageComment
 import markdown
 # Create your views here.
 
@@ -43,7 +44,6 @@ class WikiEdit(UpdateView):
         if self.request.POST['submit']=='Preview':
             self.request.session['preview'] = self.request.POST['content']
             return HttpResponseRedirect(reverse("wiki:wiki-edit", args={self.object.get_title()}))
-    
         new_revision = PageRevision(content=self.request.POST['content'], 
                        revision_summary=self.request.POST['summary'], 
                        page=self.object, author = self.request.user)
@@ -51,7 +51,7 @@ class WikiEdit(UpdateView):
         self.object.current_revision=new_revision
         self.object.save()
         return super(WikiEdit, self).form_valid(form)
-        
+
     def get_context_data(self, **kwargs):
        context = super(WikiEdit, self).get_context_data(**kwargs)
        if 'preview' in self.request.session:
@@ -62,7 +62,41 @@ class WikiEdit(UpdateView):
            del self.request.session['preview']
        return context
 
-class WikiDetails(DetailView): 
+def wiki_section_edit(request, **kwargs):
+    header = request.GET['header']
+    section = request.GET['name']
+    section = re.escape(section)
+    # Find the associate wiki and its most current content. 
+    page = Page.objects.get(title=kwargs['title'])
+
+    if request.method == "GET":
+        page_content = page.current_revision.content
+        # find the header level
+        header_level = header[1]
+        # compile the re pattern
+        pattern = re.compile(u'(^|\r\n)(#{'+header_level+u'}\s*'+section+ '(.|\n)*?)(\r\n#{'+header_level+u'}[^#]|$)')
+        match = re.search(pattern, page_content)
+        section_content = match.group(2)
+        return render(request, 'wiki/wiki_edit_section.html',{'page':page,'header':header,'section':section, 'content':section_content})
+    elif request.method=="POST":
+        page_content = page.current_revision.content
+        section_content = request.POST['content']
+        header_level = header[1]
+        pattern = re.compile(u'(^|\r\n)(#{'+header_level+u'}\s*'+section+ '(.|\n)*?)(\r\n#{'+header_level+u'}[^#]|$)')
+        match = re.search(pattern, page_content)
+        revised_page_content = re.sub(pattern, match.group(1) +section_content + match.group(4), page_content)
+        new_revision = PageRevision(content=revised_page_content,
+                       revision_summary=request.POST['summary'], 
+                       page=page, author = request.user)
+        new_revision.save()
+        page.current_revision=new_revision
+        page.save()
+        #return render(request, 'wiki/wiki_edit_section.html',{'page':page,'header':header,'section':section, 'content':revised_page_content})
+        return HttpResponseRedirect(reverse("wiki:wiki-detail", kwargs={'title':kwargs['title']}))
+    #pat = re.compile(u'(^|\r\n)(#\s+section 2(.|\n)*?)(\r\n#[^#]|$)') # stop when reach next section, the end of file,or higher level of section. 
+
+
+class WikiDetails(DetailView):
     template_name = "wiki/wiki_detail.html"
     model = Page
     def get_object(self):
@@ -110,3 +144,39 @@ class WikiDiff(DetailView):
         return context
     
 
+class WikiCommentView(DetailView):
+    model = Page
+    template_name = "wiki/wiki_comment.html"
+    def get_object(self):
+        return Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
+        
+    def get_context_data(self, **kwargs):
+        context = super(WikiCommentView, self).get_context_data(**kwargs)
+        context['comment_list'] = self.object.comments.all()
+        return context
+        
+class WikiCommentAdd(CreateView):
+    model = PageComment
+    template_name = "wiki/wiki_comment_edit.html"
+    
+    def get_form_kwargs(self):
+        kwargs = super(WikiCommentAdd, self).get_form_kwargs()
+        page = Page.objects.get(title=self.kwargs['title'])
+        post_data = kwargs['data'].copy()
+        post_data.update({'status':0,
+                          'comment_type':0,
+                          'author':self.request.user.id,
+                          'created':timezone.now(),
+                          'init_revision': page.current_revision.id,
+                          'page': page.id})
+        kwargs['data'] = post_data
+        #form.instance.comment_type = 0
+        #form.instance.page = self.kwargs['page']
+        #form.instance.author = self.user
+        #form.instance.created = timezone.now()
+        return kwargs
+        
+class WikiCommentEdit(UpdateView):
+    model = PageComment
+    template_name = "wiki/wiki_comment_edit.html"
+    fields = ['status','issue','detail']
