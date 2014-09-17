@@ -109,6 +109,14 @@ padding: 8px 5px;
 margin: 5px 0px;
 }
 
+/********* software ********/
+
+td:first-child {
+font-weight: bold;
+width: 35%;
+}
+h1,h2,h3{
+}
 /************** posts ************/
 
 /**** post tab ****/

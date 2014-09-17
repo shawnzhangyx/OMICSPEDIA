@@ -1,0 +1,55 @@
+{% extends 'software/software_base.html' %}
+
+{% load post_custom_tags %}
+{% load tag_custom_tags %}
+{% block content %}
+<h2>{{tool.name}} <small>(<a href="{% url 'software:software-edit' tool.name%}">Edit</a>)</small></h2>
+<hr>
+    {% display_tag_list tool.page.tags.all %} 
+
+<!-- software information: 
+url: 
+-->
+
+<h3>Brief Introduction <small>[<a href= "{% url 'wiki:wiki-detail' tool.page.get_title %}">More</a>]</small></h3>
+{{tool.page.get_lead_section|safe}}
+
+<h3> Basic Info</h3>
+<div class="row">
+  <div class="col-xs-12 col-sm-6 thumbnail pull-right">
+    <!-- slide show of the software -->
+    <img src =" {{tool.image.url}}">
+  </div>
+  <div class="col-xs-12 col-sm-6">
+<table class="table table-hover"> 
+  <tr> <td> URL</td> <td> {{tool.url}}</td></tr>
+  <tr> <td> Article</td> <td> {{tool.citation}}</td></tr>
+  <tr> <td> Programing Language</td> <td> {{tool.language}}</td></tr>
+  <tr> <td> Operating System</td> <td> {{tool.OS}}</td></tr>
+  <tr> <td> author </td> <td> {{tool.author_name}}</td></tr>
+  <tr> <td> affiliation</td> <td> {{tool.author_affiliation}}</td></tr>
+  <tr> <td> prefered contacts</td> <td> {{tool.author_contacts}}</td></tr>
+  <tr> <td> First Release Date </td> <td> {{tool.first_release_date}}</td></tr>
+  <tr> <td> Latest Release Date </td> <td> {{tool.latest_release_date}}</td></tr>
+</table>
+  </div>
+</div>
+<div> 
+<div class="row">
+  <div class="col-xs-12 col-sm-6">
+  <h3> Related posts<small> <a> [More]</a></small></h3>
+  {% if tool.page.tag == null %}
+   haah
+  {% else %}
+    {% for post in tool.page.tag.posts.all %}
+      {% show_post_tab post %}
+    {% endfor %}
+   {% endif %}
+  </div>
+  <div class="col-xs-12 col-sm-6">
+    <h3> Comments<small> <a> [More]</a></small></h3>
+
+  </div>
+
+  </div>
+{% endblock content %}

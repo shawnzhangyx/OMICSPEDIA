@@ -4,6 +4,10 @@
 
 {% block content %}
 <h1> {% show_tag_ancestor tag %} {{ tag.name }} <small> x{{tag.count}} </small> </h1>
+{% ifequal tab "Info" %}
+{% else %}
+{{tag.wiki_page.get_lead_section|safe}}
+{% endifequal %}
 <br>
 <a class="btn btn-xs btn-default" href = "{% url 'tags:tag-delete' name=tag.name %}">Delete? </a>
 <button class="btn btn-xs btn-primary" type='button' onclick='location.href="{% url "tags:tag-create" parent_name=tag.name %}"'> Create new tag under this tag?</button>
@@ -28,7 +32,8 @@
   {% else %}
   <h1 class="wiki-title"> About {{tag.wiki_page.title}}
     <small> <a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}"> [Go to wiki]</a> </small> </h1>
-  <p> {{ tag.wiki_page.get_marked_up_content|safe }} </p>
+  <p> {{ tag.wiki_page.current_revision.get_marked_up_content|safe }} </p>
+  <hr>
   <p> last modified: {{ tag.wiki_page.current_revision.modified_date }} </p>
 
   {% endif %}

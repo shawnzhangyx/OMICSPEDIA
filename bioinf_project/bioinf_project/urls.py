@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     url(r'^wiki/', include('wiki.urls', namespace = "wiki")),
     url(r'^tags/', include('tags.urls', namespace = "tags")),
     url(r'^posts/', include('posts.urls', namespace = "posts")),
-#    url(r'^tools/', include('tool_wiki.urls', namespace = "tools")),
+    url(r'^software/', include('software.urls', namespace = "software")),
 #    url(r'^code_snippet/', include('code_snippet_repos.urls', namespace = "wiki")),
 
     url(r'^(?P<comment_on>[^/]+)/(?P<pk>\d+)/comment-new/$', CommentNew.as_view(), name="comment-new"),

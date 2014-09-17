@@ -31,7 +31,9 @@ class AbstractBaseRevision(models.Model):
         get_latest_by= 'modified_date'
 
 # Base content model that uses the revision.
-class BaseContent(models.Model):
+class AbstractBasePage(models.Model):
+    title = models.CharField(_("title"), max_length=255, unique=True)
+    tags = models.ManyToManyField("tags.Tag",blank=True)
     class Meta:
         abstract=True
 

@@ -40,7 +40,7 @@ INSTALLED_APPS = (
     'tags',
     'posts',
     'wiki',
- #   'tool_wiki',
+    'software',
     'users',
     'south',
     'utils',

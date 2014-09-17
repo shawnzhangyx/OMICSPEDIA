@@ -2,7 +2,6 @@
 {% load staticfiles %}
 {% block jquery %}
 <script src="{% static 'jquery/preview_markdown.js' %}"> </script>
-
 {% endblock jquery %}
 
 {% block wiki-edit %}
@@ -15,10 +14,10 @@
 
 <form action = "" method="post"> 
 {% csrf_token %}
-Content: <br>
-<textarea rows='10' cols='80' id="wiki_text" name="content">{{content|default:page.current_revision.content}}</textarea> <br>
-Revision summary: <br>
-<textarea rows='1' cols='80' name='summary'> No summary</textarea> <br>
+<h4>Content:</h4>
+<textarea class="form-control" rows='10' cols='80' id="wiki_text" name="content">{{content|default:page.current_revision.content}}</textarea> <br>
+<h4>Revision summary: </h4>
+<textarea class="form-control" rows='1' cols='80' name='summary'>No summary</textarea> <br>
 <span class="btn btn-primary" id="preview-click">Preview</span>
 <input class="btn btn-primary" type="submit" value = "Submit revision" name="submit" /> 
 </form>

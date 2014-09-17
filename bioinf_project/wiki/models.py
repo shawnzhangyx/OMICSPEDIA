@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 import markdown
 from utils import diff_match_patch
 from utils.models import AbstractBaseRevision
-
+import re
 # Create your models here.
 
 # Ideally, every tag should have a wiki,
@@ -21,11 +21,24 @@ class Page(models.Model):
     wiki_votes = GenericRelation("utils.Vote")
     current_revision = models.OneToOneField('PageRevision', blank=True, null=True, verbose_name=_('current revision'),
                                             related_name = "revision_page")
+    # redirect url
     def __unicode__(self):
         return self.title
 
     def get_title(self):
         return self.title.replace(" ", "_")
+
+    def get_lead_section(self):
+        #(\[TOC\])?\r\n#(.|\n)*$
+        pattern = re.compile(u'^\s*?((.|\n)*?)\s*?(\n#(.|\n)*)?$')
+        match = re.search(pattern, self.current_revision.content)
+        lead_raw = match.group(1)
+        toc = re.compile(u'\[TOC\]')
+        lead = re.sub(toc,'', lead_raw)
+        return markdown.markdown(lead,
+        extensions=['extra',
+                    'wikilinks(base_url=/wiki/, end_url=/)',],
+        safe_mode='escape')
 
 
     def get_vote_count(self):

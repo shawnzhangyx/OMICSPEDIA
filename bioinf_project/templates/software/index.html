@@ -1,0 +1,20 @@
+{% extends 'software/software_base.html' %}
+
+
+{% block content %}
+<h1> Software Homepage</h1>
+
+{% if user.is_authenticated %}
+<a class="btn btn-default" href="{% url 'software:software-new' %}"> Submit new tools </a>
+{% endif %}
+<hr>
+{% if software_list %}
+<ul> 
+{% for software in software_list %}
+<li> <a href= "{% url 'software:software-detail' software.name %}" >{{software.name}} </a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p> no software available </p>
+{% endif %}
+{% endblock content %}

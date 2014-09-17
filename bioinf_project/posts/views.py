@@ -36,7 +36,8 @@ class MainPostNew(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.save()
-        new_revision = MainPostRevision(content=self.request.POST['content'], post=form.instance)
+        new_revision = MainPostRevision(content=self.request.POST['content'], post=form.instance,
+                author=self.request.user)
         new_revision.save()
         form.instance.current_revision=new_revision
         return super(MainPostNew, self).form_valid(form)

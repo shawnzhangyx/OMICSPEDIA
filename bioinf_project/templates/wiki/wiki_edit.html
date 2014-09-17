@@ -1,13 +1,9 @@
 {% extends 'wiki/wiki_base.html' %}
+{% load staticfiles %}
 
-{% block head %}
-<script TYPE="text/javascript" LANGUAGE="JavaScript">
-function preview() {
-  var text = document.getElementById('wiki_text').value;
-  document.getElementById('outputdiv').innerHTML = text
-}
-</script>
-{% endblock head %}
+{% block jquery %}
+<script src="{% static 'jquery/preview_markdown.js' %}"> </script>
+{% endblock jquery %}
 
 {% block wiki-edit %}
   <li class="active"> <a href="{% url 'wiki:wiki-edit' page.get_title %}"> Edit </a> </li>
@@ -20,15 +16,16 @@ function preview() {
 <form action = "" method="post"> 
 {% csrf_token %}
 {{ form.as_p }}
-Content: <br>
-<textarea rows='10' cols='80' id="wiki_text" name="content">{{content|default:page.current_revision.content}}</textarea> <br>
-Revision summary: <br>
-<textarea rows='1' cols='80' name='summary'> No summary</textarea> <br>
-<button type="preview" value = "Preview" name ="submit"> Preview </button>
-<input type="submit" value = "Submit revision" name="submit" /> 
+<h4>Content:</h4>
+<textarea class="form-control" rows='10' cols='80' id="wiki_text" name="content">{{content|default:page.current_revision.content}}</textarea> <br>
+<h4>Revision summary:</h4>
+<textarea class="form-control" rows='1' cols='80' name='summary'> No summary</textarea> <br>
+<span class="btn btn-primary" id="preview-click">Preview</span>
+<input class="btn btn-primary" type="submit" value = "Submit revision" name="submit" /> 
 </form>
 <hr>
-Preview: <br>
-<div id="preview"> {{ preview|safe }}</div>
+<div id="preview-mkd-text">
+{% include "utils/preview_markdown.html" with mkd_content=mkd_content %}
+</div>
 
 {% endblock wiki-content %}
