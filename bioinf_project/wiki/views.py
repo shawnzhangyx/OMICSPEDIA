@@ -5,33 +5,35 @@ from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
+from django.template import RequestContext
 from utils import diff_match_patch
 #from .forms import WikiForm
 from .models import Page, PageRevision, PageComment
 import markdown
+import json
 # Create your views here.
 
 
-class IndexView(ListView): 
-    model = Page 
+class IndexView(ListView):
+    model = Page
     template_name = "wiki/index.html"
     context_object_name = "wiki_list"
-    
-class WikiNew(CreateView): 
+
+class WikiNew(CreateView):
     template_name = "wiki/wiki_new.html"
     model = Page
     fields = ['title', 'tags']
     def form_valid(self, form):
         form.save()
-        new_revision = PageRevision(content=self.request.POST['content'], 
-                       revision_summary=self.request.POST['summary'], 
+        new_revision = PageRevision(content=self.request.POST['content'],
+                       revision_summary=self.request.POST['summary'],
                        page=form.instance, author=self.request.user)
         new_revision.save()
         form.instance.current_revision=new_revision
         return super(WikiNew, self).form_valid(form)
 
-    
-class WikiEdit(UpdateView): 
+
+class WikiEdit(UpdateView):
     model = Page
    # fields = '__all__'
     fields = ['title', 'tags']
@@ -44,8 +46,8 @@ class WikiEdit(UpdateView):
         if self.request.POST['submit']=='Preview':
             self.request.session['preview'] = self.request.POST['content']
             return HttpResponseRedirect(reverse("wiki:wiki-edit", args={self.object.get_title()}))
-        new_revision = PageRevision(content=self.request.POST['content'], 
-                       revision_summary=self.request.POST['summary'], 
+        new_revision = PageRevision(content=self.request.POST['content'],
+                       revision_summary=self.request.POST['summary'],
                        page=self.object, author = self.request.user)
         new_revision.save()
         self.object.current_revision=new_revision
@@ -99,14 +101,25 @@ def wiki_section_edit(request, **kwargs):
 class WikiDetails(DetailView):
     template_name = "wiki/wiki_detail.html"
     model = Page
+
+    def dispatch(self, *args, **kwargs):
+        try: Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
+        except Page.DoesNotExist:
+            #return HttpResponseRedirect(reverse("wiki:wiki-new"))
+            return render(self.request, 'wiki/wiki_not_found.html',{'title':self.kwargs['title']})
+        else:
+            return super(WikiDetails, self).dispatch(*args, **kwargs)
+
     def get_object(self):
         return Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
+
+
 
     def get_context_data(self, **kwargs):
         context = super(WikiDetails, self).get_context_data(**kwargs)
         context['comment_list'] = self.object.comments.order_by('-last_modified')
         return context
-    #need to display everything in the same subject. 
+    #need to display everything in the same subject.
 
 class WikiHistory(ListView):
     model = PageRevision
@@ -175,8 +188,26 @@ class WikiCommentAdd(CreateView):
         #form.instance.author = self.user
         #form.instance.created = timezone.now()
         return kwargs
-        
+
 class WikiCommentEdit(UpdateView):
     model = PageComment
     template_name = "wiki/wiki_comment_edit.html"
     fields = ['status','issue','detail']
+
+
+def wikilinks(request):
+    context = RequestContext(request)
+    if request.method=="GET":
+        titles = request.GET.getlist('titles[]')
+        response = []
+        #return HttpResponse(json.dumps({'number':titles}))
+        for title in titles:
+            try: obj = Page.objects.get(title=title.replace('_', ' '))
+            except Page.DoesNotExist:
+                response.append('0')
+            #return 0 # if the wikilinks does not exist.
+            else:
+                response.append('1')
+        return HttpResponse(json.dumps({'response':response}))
+            #return 1 # if the wikilinks existself.
+

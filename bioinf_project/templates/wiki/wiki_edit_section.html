@@ -18,11 +18,11 @@
 <textarea class="form-control" rows='10' cols='80' id="wiki_text" name="content">{{content|default:page.current_revision.content}}</textarea> <br>
 <h4>Revision summary: </h4>
 <textarea class="form-control" rows='1' cols='80' name='summary'>No summary</textarea> <br>
-<span class="btn btn-primary" id="preview-click">Preview</span>
+<span class="btn btn-primary" data-toggle="modal" data-target="#preview-mkd-text" id="preview-click">Preview</span>
 <input class="btn btn-primary" type="submit" value = "Submit revision" name="submit" /> 
 </form>
 <hr>
-<div id="preview-mkd-text">
+<div id="preview-mkd-text"class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 {% include "utils/preview_markdown.html" with mkd_content=mkd_content %}
 </div>
 

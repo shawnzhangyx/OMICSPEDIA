@@ -58,7 +58,7 @@ function toggle_vote_widget(elem, response){
 
 $(document).ready(function() {
     $('div.vote-widget a').each( function(index){
-        
+
     $(this).click( function(index){
     var content_type = $(this).parent().attr('data-obj-name');
     var id = $(this).parent().attr('data-obj-id');

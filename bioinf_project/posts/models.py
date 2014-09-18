@@ -89,7 +89,7 @@ class MainPost(AbstractPost):
 
     title = models.CharField(max_length=255,null=False)
 
-    current_revision = models.OneToOneField('MainPostRevision', blank=True, null=True, verbose_name=_('current revision'))
+    current_revision = models.OneToOneField('MainPostRevision', verbose_name=_('current revision'))
     # views for the post
     view_count = models.IntegerField(default=0)
 
@@ -147,7 +147,10 @@ class MainPost(AbstractPost):
 
     def get_vote_count(self):
         return self.mainpost_votes.filter(choice=1).count() - self.mainpost_votes.filter(choice=-1).count()
-
+    
+    def get_reply_count(self):
+        return self.replies.count()
+        
     def get_comments(self):
         return self.main_post_comments.all()
 

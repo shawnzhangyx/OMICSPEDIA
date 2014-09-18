@@ -1,8 +1,18 @@
 {% extends "users/user_base.html" %}
 {% block content %}
-User Name: {{userprofile.user.get_username}} <br>
-User Email: {{userprofile.user.email}} <br>
-User full Name: {{userprofile.user.get_full_name}} <br>
-Reputation: {{userprofile.reputation}}
+<div class="row">
+	<div class="col-xs-3"> 
+	</div>
+	<div class="col-xs-4">
+	  <table class="table">
+	    <tr> <td>User Name </td><td>{{userprofile.user.get_username}} </td> </tr>
+	    <tr> <td>User Email</td><td> {{userprofile.user.email}} </td></tr>
+	    <tr> <td>Reputation</td><td> {{userprofile.reputation}} </td></tr>
+	  </table>
+	</div>
+	<div class="col-xs-5">
+		About me: 
+	</div>
+</div>
 {% endblock content %}
 

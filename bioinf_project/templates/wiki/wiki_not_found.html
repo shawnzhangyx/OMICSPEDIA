@@ -1,0 +1,7 @@
+{% extends 'wiki/wiki_base.html' %}
+{% block content %}
+<h1 class="wiki-title"> {{title}}</h1>
+<p class="alert alert-warning">
+OmicsPedia does not have an ariticle with this exact same name. 
+ <a href = "{% url 'wiki:wiki-new' %}"> Create it? </a> </p>
+{% endblock content %}

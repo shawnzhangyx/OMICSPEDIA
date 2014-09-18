@@ -94,7 +94,7 @@ font-size: 1.8em;
 line-height: 1.3;
 border-bottom: 1px dotted #aaa;
 margin-bottom: 0.25em;
-margin-left: 2em;
+/*margin-left: 2em; */
 padding-bottom: 0.1em;
 }
 
@@ -109,6 +109,13 @@ padding: 8px 5px;
 margin: 5px 0px;
 }
 
+.wikilink {
+color: #428bca;
+}
+
+.wikilink-not-exist {
+color: #FF0000;
+}
 /********* software ********/
 
 td:first-child {

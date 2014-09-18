@@ -52,7 +52,8 @@ class MainPostEdit(UpdateView):
     
     def form_valid(self, form):
         new_revision = MainPostRevision(content=self.request.POST['content'], 
-                       revision_summary=self.request.POST['summary'], post=self.object)
+                       revision_summary=self.request.POST['summary'], post=self.object,
+                       author=self.request.user)
         new_revision.save()
         self.object.current_revision=new_revision
         self.object.save()
@@ -91,7 +92,8 @@ class ReplyPostNew(CreateView):
         form.instance.mainpost = MainPost.objects.get(pk = int(self.kwargs['mainpost_id']))
         form.instance.author = self.request.user
         form.save()
-        new_revision = ReplyPostRevision(content=self.request.POST['content'], post=form.instance)
+        new_revision = ReplyPostRevision(content=self.request.POST['content'], post=form.instance, 
+                        author=self.request.user)
         new_revision.save()
         form.instance.current_revision=new_revision
         return super(ReplyPostNew, self).form_valid(form)
@@ -103,7 +105,8 @@ class ReplyPostEdit(UpdateView):
 
     def form_valid(self, form):
         new_revision = ReplyPostRevision(content=self.request.POST['content'], 
-                       revision_summary=self.request.POST['summary'], post=self.object)
+                       revision_summary=self.request.POST['summary'], post=self.object, 
+                       author=self.request.user)
         new_revision.save()
         self.object.current_revision=new_revision
         self.object.save()

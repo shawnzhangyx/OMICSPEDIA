@@ -1,4 +1,3 @@
-
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
@@ -35,28 +34,34 @@ $.ajaxSetup({
 
 $(document).ready(function() {
     var wiki_title = $('#wiki-content h1').html();
-    
-    console.log(wiki_title);
+
+    //console.log(wiki_title);
     $('#wiki-content h2,h3,h4,h5,h6').each( function(){
         var header = $(this).get(0).tagName;
         var section_name = $(this).html();
         var href_html = '/wiki/'+wiki_title+'/edit-section/?'+'header='+header+'&name='+section_name;
         $(this).html( $(this).html()+" <small>[<a href='"+ href_html + "'>edit</a>]</small>");
         });
-        
-/*        
-    $('#wiki-content h2,h3,h4,h5,h6').each( function(){
-        var header = $(this).get(0).tagName;
-    $(this).children().children().click(function(){
-        var section_name = $(this).attr('section');
-        
-        console.log(header+section_name);
-        $.get('/wiki/'+wiki_title+'/edit-section/?section='+section_name, {title:wiki_title, header:header,name:section_name}, function(response){
-        console.log(response);
-    }, "json");
 
-        //alert("hello");
-    });
-    });
-*/    
+    wikilinks=$('.wikilink')      //console.log(elem.html());
+    console.log(wikilinks);
+    arr = $.makeArray(wikilinks);
+    console.log(arr);
+    console.log($(arr).length);
+    var titles = new Array;
+    var i;
+    for (i=0;i<$(arr).length;i++){
+      titles.push( $(arr[i]).html() );
+    }
+    console.log(titles);
+         $.get('/wiki/ajax/wikilinks/', {titles: titles}, function(data){
+        console.log(data.response);
+        for(i=0;i<$(arr).length;i++){
+          if (data.response[i]==0){
+          $(arr[i]).removeClass('wikilink').addClass('wikilink-not-exist');
+          $(arr[i]).attr('data-toggle','tooltip').attr('title', ' page does not exist').attr('data-placement','bottom');
+          }
+        }
+    },'json');
+
 });
