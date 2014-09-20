@@ -3,40 +3,36 @@
 {% load post_custom_tags %}
 
 {% block content %}
-<h1> {% show_tag_ancestor tag %} {{ tag.name }} <small> x{{tag.count}} </small> </h1>
-{% ifequal tab "Info" %}
-{% else %}
-{{tag.wiki_page.get_lead_section|safe}}
-{% endifequal %}
 <br>
 <a class="btn btn-xs btn-default" href = "{% url 'tags:tag-delete' name=tag.name %}">Delete? </a>
 <button class="btn btn-xs btn-primary" type='button' onclick='location.href="{% url "tags:tag-create" parent_name=tag.name %}"'> Create new tag under this tag?</button>
 <br>
+<h1> {% show_tag_ancestor tag %} {{ tag.name }} <small> x{{tag.count}} </small> </h1>
+ {% if tag.wiki_page == null %}
+  There is no description of this tag, would you like to <a href="{% url 'tags:tag-edit' tag.name %}">contribute? </a>
+  {% else %}
+ 
+<a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}"> [Click here for more]</a> 
+
+{{tag.wiki_page.get_lead_section|safe}} 
+  {% endif %}
+
 <br>
   <ul class="nav nav-tabs">
     <li {% ifequal tab "Info" %} class="active" {% endifequal %}>
       <a href="?tab=Info"> Info </a> </li>
     <li {% ifequal tab "Articles" %} class="active" {% endifequal %}> 
       <a href="?tab=Articles"> Articles </a> </li>
-    <li {% ifequal tab "Latest" %} class="active" {% endifequal %}
+    <li {% ifequal tab "Posts" %} class="active" {% endifequal %}
         {% ifequal tab null %} class="active" {% endifequal %}>
-        <a href="?tab=Latest"> Latest </a> </li>
-    <li {% ifequal tab "Votes" %} class="active" {% endifequal %}> 
-      <a href="?tab=Votes"> Votes </a> </li>        
+        <a href="?tab=Posts"> Posts </a> </li>
+    <li {% ifequal tab "Other" %} class="active" {% endifequal %}> 
+      <a href="?tab=Other"> Other </a> </li>        
   </ul>
 
 {% ifequal tab "Info" %}
 
-  {% if tag.wiki_page == null %}
-  The wiki is not developed for this tag, would you like to <a href="{% url 'tags:tag-edit' tag.name %}">associate with one? </a>
-  {% else %}
-  <h1 class="wiki-title"> About {{tag.wiki_page.title}}
-    <small> <a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}"> [Go to wiki]</a> </small> </h1>
-  <p> {{ tag.wiki_page.current_revision.get_marked_up_content|safe }} </p>
-  <hr>
-  <p> last modified: {{ tag.wiki_page.current_revision.modified_date }} </p>
-
-  {% endif %}
+ This is the Info page of the tag
 {% endifequal %}
 
 

@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{% static 'highlight/styles/vs-grey.css' %}">
     <script src="{% static 'highlight/highlight.pack.js' %}"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
     {% block head %}
     <!-- This is the head section for other child pages to change. -->
     {% endblock head %}
@@ -112,10 +114,11 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Load bootstrap js-->
     <script src="{% static 'bootstrap-3.2.0/js/bootstrap.min.js' %}"></script>
     <!-- load app specific jquery -->
+    <link href="{% static 'lib/select2-3.5.1/select2.css' %}" rel="stylesheet"/>
+    <script src="{% static 'lib/select2-3.5.1/select2.js' %}"></script>
     {% block jquery %}
     {% endblock jquery %}
     <!-- load website wide js -->

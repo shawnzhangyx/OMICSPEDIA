@@ -36,15 +36,19 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    # django 3rd party apps
     'django_extensions',
+    'crispy_forms',
+    'django_select2',
+    'south',
+    # omicspedia specific apps
     'tags',
     'posts',
     'wiki',
     'software',
     'users',
-    'south',
     'utils',
-    'django.contrib.humanize',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -123,3 +127,8 @@ STATICFILES_DIRS = (
 ### this is for development server only 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+AUTO_RENDER_SELECT2_STATICS = False
+SELECT2_BOOTSTRAP = True

@@ -4,9 +4,12 @@ from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils import timezone
 
-#from .forms import PostForm
+# models 
 from .models import MainPost, ReplyPost, MainPostRevision, ReplyPostRevision
 from .models import MainPostComment, ReplyPostComment
+# forms
+from .forms import MainPostForm, MainPostRevisionForm
+
 # Create your views here.
 
 
@@ -30,9 +33,10 @@ class IndexView(ListView):
 
 class MainPostNew(CreateView):
     template_name = "posts/post_new.html"
-    model = MainPost
-    fields = ['title', 'tags']
-
+    #model = MainPost
+    #fields = ['title', 'tags']
+    form_class = MainPostForm
+    
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.save()
@@ -42,14 +46,22 @@ class MainPostNew(CreateView):
         form.instance.current_revision=new_revision
         return super(MainPostNew, self).form_valid(form)
 
-    
 
-    
+
+
 class MainPostEdit(UpdateView): 
-    model = MainPost
-    fields = ['title','tags']
+    #model = MainPost
+    #fields = ['title','tags']
+    form_class = MainPostRevisionForm
     template_name = 'posts/mainpost_edit.html'
-    
+    def get_object(self):
+        return MainPost.objects.get(pk=self.kwargs['pk'])
+
+    def get_form(self, form_class):
+        kwargs = self.get_form_kwargs()
+        kwargs['initial'].update({'content':self.object.current_revision.content})
+        return form_class(**kwargs)
+        
     def form_valid(self, form):
         new_revision = MainPostRevision(content=self.request.POST['content'], 
                        revision_summary=self.request.POST['summary'], post=self.object,
@@ -119,3 +131,5 @@ class ReplyPostDelete(DeleteView):
     def get_success_url(self):
         return self.object.get_absolute_url()
 
+        
+        

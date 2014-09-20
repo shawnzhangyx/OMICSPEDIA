@@ -196,4 +196,6 @@ class MainPostComment(AbstractComment):
     
 class ReplyPostComment(AbstractComment):
     post = models.ForeignKey(ReplyPost, related_name = "comments", verbose_name = _("reply post comment"))    
-        
+       
+       
+       

@@ -27,7 +27,10 @@ urlpatterns = patterns('',
     url(r'^search/$', views.search, name='search'),
     url(r'^ajax/vote/$', vote, name='vote'),
     url(r'^ajax/preview-markdown/$', preview_markdown, name="preview-markdown"),
-)
+    url(r'^select2/', include('django_select2.urls')),
+
+    )
+
 
 if settings.DEBUG:
     urlpatterns += patterns(

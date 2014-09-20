@@ -53,10 +53,9 @@ class TagDetails(DetailView):
         context['tab'] = tab
         context['tag_wiki'] = self.object.wiki_page
         context['wiki_list'] = self.object.page_set.all()
-        if tab == 'Latest' or not tab:
+        if tab == 'Posts' or not tab:
             context['post_list'] = self.object.posts.all()
-        elif tab == 'Votes':
-            context['post_list'] = self.object.posts.order_by('-vote_count')
+
         return context
 
 class TagDelete(DeleteView):
