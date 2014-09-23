@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView, ListView
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
+from django.template import RequestContext
 
 from tags.models import Tag
 from wiki.models import Page
@@ -44,6 +45,13 @@ class PortalView(ListView):
         else:
             context['category'] = category
         return context
+
+def portal_tag(request):
+    context = RequestContext(request)
+    if request.method == "GET":
+        tag_name = request.GET['tag_name']
+        tag = Tag.objects.get(name = tag_name)
+        return render_to_response('portal/portal_tag.html', {'tag': tag}, context)
 
 class HelpView(TemplateView):
     template_name = "help.html"

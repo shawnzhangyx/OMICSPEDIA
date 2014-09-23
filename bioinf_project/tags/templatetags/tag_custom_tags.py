@@ -12,6 +12,12 @@ def show_tag_children(tag):
     return {'tag_list': tag_children_list}
 
 
+@register.inclusion_tag("tags/templatetags/show_omics_tag_children.html")
+def show_omics_tag_children(tag):
+    tag_children_list = tag.children.all()
+    return {'tag_list': tag_children_list}
+
+
 @register.inclusion_tag("tags/templatetags/show_tag_ancestor.html")
 def show_tag_ancestor(tag):
      try:

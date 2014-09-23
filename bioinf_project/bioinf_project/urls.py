@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from . import views
-from utils.views import CommentNew, vote, preview_markdown
+from utils.views import CommentNew, vote, rate, preview_markdown
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -25,10 +25,10 @@ urlpatterns = patterns('',
 
     url(r'^(?P<comment_on>[^/]+)/(?P<pk>\d+)/comment-new/$', CommentNew.as_view(), name="comment-new"),
     url(r'^search/$', views.search, name='search'),
+    url(r'^ajax/omics-tag-description/', views.portal_tag, name="portal-omics-tag"),
     url(r'^ajax/vote/$', vote, name='vote'),
+    url(r'^ajax/rate/$', rate, name='rate'),
     url(r'^ajax/preview-markdown/$', preview_markdown, name="preview-markdown"),
-    url(r'^select2/', include('django_select2.urls')),
-
     )
 
 

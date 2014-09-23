@@ -19,6 +19,7 @@ class Page(models.Model):
     title = models.CharField(_("title"), max_length=255, unique=True)
     tags = models.ManyToManyField("tags.Tag",blank=True)
     wiki_votes = GenericRelation("utils.Vote")
+    wiki_rates = GenericRelation("utils.Rate")
     current_revision = models.OneToOneField('PageRevision', blank=True, null=True, verbose_name=_('current revision'),
                                             related_name = "revision_page")
     # redirect url
@@ -40,7 +41,12 @@ class Page(models.Model):
                     'wikilinks(base_url=/wiki/, end_url=/)',],
         safe_mode='escape')
 
-
+    def get_rate_average(self):
+        rate_count = self.wiki_rates.count()
+        rate_sum = 0
+        for rate in self.wiki_rates.all():
+                rate_sum += rate.rating
+        return float(rate_sum)/rate_count
     def get_vote_count(self):
         return self.wiki_votes.filter(choice=1).count() - self.wiki_votes.filter(choice=-1).count()
 

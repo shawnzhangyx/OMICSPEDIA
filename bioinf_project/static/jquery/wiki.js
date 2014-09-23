@@ -44,18 +44,18 @@ $(document).ready(function() {
         });
 
     wikilinks=$('.wikilink')      //console.log(elem.html());
-    console.log(wikilinks);
+ //   console.log(wikilinks);
     arr = $.makeArray(wikilinks);
-    console.log(arr);
-    console.log($(arr).length);
+//    console.log(arr);
+//    console.log($(arr).length);
     var titles = new Array;
     var i;
     for (i=0;i<$(arr).length;i++){
       titles.push( $(arr[i]).html() );
     }
-    console.log(titles);
+ //   console.log(titles);
          $.get('/wiki/ajax/wikilinks/', {titles: titles}, function(data){
-        console.log(data.response);
+//        console.log(data.response);
         for(i=0;i<$(arr).length;i++){
           if (data.response[i]==0){
           $(arr[i]).removeClass('wikilink').addClass('wikilink-not-exist');

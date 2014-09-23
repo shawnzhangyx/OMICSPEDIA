@@ -12,16 +12,22 @@
     <title> Omicspedia </title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{% static 'bootstrap-3.2.0/css/bootstrap.min.css' %}" >
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-3.2.0/css/bootstrap.min.css' %}" >
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="{% static 'dashboard.css' %}" >
+    <link rel="stylesheet" href="{% static 'base.css' %}" >
     <link rel="stylesheet" href="{% static 'widget-box.css' %}">
+    <!-- style for jRating -->
+    <link rel="stylesheet" href="{% static 'lib/jRating/jRating.jquery.css' %}">
+
 
     <!-- highlight.js to detect code language and render syntax highlighting. -->
-    <link rel="stylesheet" href="{% static 'highlight/styles/vs-grey.css' %}">
-    <script src="{% static 'highlight/highlight.pack.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'lib/highlight/styles/vs-grey.css' %}">
+    <script src="{% static 'lib/highlight/highlight.pack.js' %}"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    <!-- jquery script -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- jquery file for jRating -->
+    <script type="text/javascript" src="{% static 'lib/jRating/jRating.jquery.js' %}"></script>
 
     {% block head %}
     <!-- This is the head section for other child pages to change. -->
@@ -115,7 +121,7 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- Load bootstrap js-->
-    <script src="{% static 'bootstrap-3.2.0/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'lib/bootstrap-3.2.0/js/bootstrap.min.js' %}"></script>
     <!-- load app specific jquery -->
     <link href="{% static 'lib/select2-3.5.1/select2.css' %}" rel="stylesheet"/>
     <script src="{% static 'lib/select2-3.5.1/select2.js' %}"></script>

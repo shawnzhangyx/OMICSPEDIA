@@ -1,0 +1,12 @@
+{% load tag_custom_tags %}
+
+<ul>
+    {% for tag in tag_list %}
+    <li id="{{tag.name}}" data-jstree='{"icon":"{% if tag.icon.url != null %} {{tag.icon.url}} {% endif %}"}'>
+    {{ tag.name }} </li>
+        {% if tag.children.count > 0 %}
+        {% show_omics_tag_children tag %}
+        {% endif %}
+    {% endfor %}
+</ul>
+

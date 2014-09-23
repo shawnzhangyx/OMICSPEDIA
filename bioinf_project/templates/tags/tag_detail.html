@@ -11,7 +11,6 @@
  {% if tag.wiki_page == null %}
   There is no description of this tag, would you like to <a href="{% url 'tags:tag-edit' tag.name %}">contribute? </a>
   {% else %}
- 
 <a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}"> [Click here for more]</a> 
 
 {{tag.wiki_page.get_lead_section|safe}} 

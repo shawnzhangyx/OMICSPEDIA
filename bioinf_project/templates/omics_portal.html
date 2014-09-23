@@ -1,18 +1,40 @@
 {% extends "base.html" %}
 
 {% load staticfiles %}
+{% load tag_custom_tags %}
 {% block head %}
+    <link rel="stylesheet" href="{% static 'lib/jstree-3.0.4/themes/default/style.min.css' %}" >
+    <script src="{% static 'lib/jstree-3.0.4/jstree.min.js' %}"></script>
+    <script src="{% static 'jquery/omics_portal_jstree.js' %}"> </script>
 {% endblock head %}
 
-{% block sidebar-portal %} 
+{% block sidebar-portal %}
   <li class="active"><a href= "{% url 'portal' '' %}" > Omics Portal </a> </li>
-{% endblock sidebar-portal %} 
+{% endblock sidebar-portal %}
 
 
 {% block content %}
- 
+
 <h1> OMICS Portal: {{category.name|default:'Root'}} </h1>
 <hr>
+<button id="omics-root" class="btn btn-xs btn-default">{{category.name|default:'Root'}}</button> | Type to find OMICS categories:
+<input type='text' id="container-search"></input> <span id ="search-results"></span>
+<br>
+<div id="container">
+  <ul>
+  {% for tag in tag_list %}
+  <li id="{{tag.name}}" data-jstree='{"icon":"{% if tag.icon.url != null %} {{tag.icon.url}} {% endif %}"}'> {{tag.name}}
+   {% show_omics_tag_children tag %}
+   </li>
+  {% endfor %}
+
+  </ul>
+</div>
+<hr>
+<div id="portal_tag">
+</div>
+
+<!--
 <div class="row">
     {% for tag in tag_list %}
     <div class="col-xs-6 col-sm-4">
@@ -21,7 +43,7 @@
             <img class="img-thumbnail" src="{{tag.icon.url}}" height="70" width="70" style="float:left; margin-right:10px">
             {% endif %}
     	<h4 style="margin-top:10px;border-bottom: solid 1px #999999;">
-        <a data-toggle="tooltip" data-placement="top" 
+        <a data-toggle="tooltip" data-placement="top"
            title="subcategories of {{tag.name}}" href="{% url 'portal' tag.name %}">
         {{tag.name}} </a>
     		({{tag.children.count}})
@@ -34,13 +56,16 @@
     <h4> There are no subcategories under {{ category.name|default:'Root'}}.  </h4>
      {% endfor %}
 </div>
+
 <hr>
+
 {% if category == null %}
-This is top level 
+This is top level
 {% else %}
 <a href="{% url 'portal' category.parent.name %}">Go up one level </a>
 {% endif %}
+-->
 {% endblock content %}
 
 
-   
+

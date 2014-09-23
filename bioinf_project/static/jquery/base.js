@@ -1,26 +1,64 @@
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+    crossDomain: false, // obviates need for sameOrigin test
+    beforeSend: function (xhr, settings) {
+        if (!csrfSafeMethod(settings.type)) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+
+
 $(document).ready(function() {
 
 // this could enable tooltip on generated elements 
 $('body').tooltip({ selector:'[data-toggle=tooltip]'});
 
 $("#id_tags").select2();
+$("#s2id_id_tags").css("padding","0px").css("border", "0px");
+// neeed to change the css of the respective file to change the tag select style.
+//$(".select2-search-choice").css("margin-top","5px").css("background-color","#e0eaf1");
+//$(".select2-search-choice").css("color","#4a6b82").css("background-image","None");
 
-var tagval = $("#id_tag_val")
-
-
-/*
-if (tagval.length > 0) {
-    tagval.removeClass("textinput textInput form-control")
-    tagval.width("96%")
-     var tag_list = $.ajax({
-        url: "/ajax/tags/",
-        dataType: 'json',
-        success: function (response) {
-            tagval.select2({
-                tags: response
-            });
-        }
+      $("#jRating").jRating(
+        {
+        bigStarsPath: '/static/lib/jRating/icons/stars.png',
+        smallStarsPath: '/static/lib/jRating/icons/small.png',
+        rateMax: 10,
+        canRateAgain: true,
+        nbRates: 1,
+        sendRequest: false,
+        onClick: function(element, rate){
+          console.log("haha");
+        $.post('/ajax/rate/', {title:"ChIP-Seq", rating:rate}, function(response){
+          console.log(response);
     });
-}
-    */
+
+        }
+      }
+      );
+
 });

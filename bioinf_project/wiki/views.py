@@ -7,7 +7,8 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from utils import diff_match_patch
-#from .forms import WikiForm
+
+from .forms import PageForm, PageRevisionForm
 from .models import Page, PageRevision, PageComment
 import markdown
 import json
@@ -21,8 +22,7 @@ class IndexView(ListView):
 
 class WikiNew(CreateView):
     template_name = "wiki/wiki_new.html"
-    model = Page
-    fields = ['title', 'tags']
+    form_class = PageForm
     def form_valid(self, form):
         form.save()
         new_revision = PageRevision(content=self.request.POST['content'],
@@ -34,13 +34,16 @@ class WikiNew(CreateView):
 
 
 class WikiEdit(UpdateView):
-    model = Page
-   # fields = '__all__'
-    fields = ['title', 'tags']
+    form_class = PageRevisionForm
     template_name = 'wiki/wiki_edit.html'
 
     def get_object(self):
         return Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
+
+    def get_form(self, form_class):
+        kwargs = self.get_form_kwargs()
+        kwargs['initial'].update({'content':self.object.current_revision.content})
+        return form_class(**kwargs)
 
     def form_valid(self, form):
         if self.request.POST['submit']=='Preview':

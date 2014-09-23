@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
 from django.template import RequestContext
-from .models import Comment, Vote
+from .models import Comment, Vote, Rate
 from wiki.models import Page
 from posts.models import MainPost, ReplyPost
 import markdown
@@ -82,6 +82,23 @@ def vote(request):
         obj.vote_count = obj.get_vote_count()
         obj.save()
         return HttpResponse(json.dumps({"yourvote":0, "allvote": obj.get_vote_count()}))
+
+def rate(request):
+    title =request.POST.get("title")
+    rating = request.POST.get("rating")
+    page = Page.objects.get(title=title)
+    obj_type = ContentType.objects.get_for_model(page)
+    obj_id = page.id
+    try: rate = Rate.objects.get(content_type__pk=obj_type.id,
+                               object_id=page.id, rater=request.user)
+    except Rate.DoesNotExist:
+        rate = Rate(content_type=obj_type,
+                               object_id=page.id, rater=request.user, rating=int(rating))
+    else:
+        rate.rating = rating
+    rate.save()
+    return HttpResponse("Rating "+rating+" is stored in database.")
+
 
 def preview_markdown(request):
     context = RequestContext(request)

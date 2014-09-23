@@ -4,7 +4,13 @@ Brief description:
 Bioinformatics site that consists of wiki, software database and Q&amp;A. 
 
 ### system requriement ###
-This is built on python 2.7 and django 1.6.5.
+This is built on python 2.7 and django 1.6.5
+
+### Dependencies ###
+* bootstrap
+* select2
+* highlight
+* jstree
 
 ### Demo ###
 A demo of most current progress is hosted at Hero: 

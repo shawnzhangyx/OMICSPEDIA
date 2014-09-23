@@ -1,0 +1,30 @@
+{% load post_custom_tags %}
+<h1>{{tag.name}}</h1>
+<h2> Short Description
+  {% if tag.wiki_page != null %}
+  <small><a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}"> [Click here for more]</a></small>
+  {% endif %}
+</h2>
+ {% if tag.wiki_page == null %}
+  There is no description of this tag, would you like to <a href="{% url 'tags:tag-edit' tag.name %}">contribute? </a>
+  {% else %}
+
+{{tag.wiki_page.get_lead_section|safe}}
+  {% endif %}
+
+<div class="row">
+  <div class="col-xs-6">
+    <h2> Articles({{tag.pages.count|default:'0'}}) </h2>
+    <ul>
+      {% for page in tag.pages.all %}
+      <li> {{page.title}} </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="col-xs-6">
+    <h2> Posts({{tag.posts.count|default:'0'}}) </h2>
+      {% for post in tag.posts.all %}
+        {% show_post_tab post %}
+      {% endfor %}
+  </div>
+

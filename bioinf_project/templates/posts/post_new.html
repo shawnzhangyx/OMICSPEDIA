@@ -1,25 +1,17 @@
 {% extends 'posts/post_base.html' %}
-{% load staticfiles %}
-{% load django_select2_tags %}
 {% load crispy_forms_tags %}
-{% block head %}
 
-	{% import_django_select2_js %}
-	{% import_django_select2_css %}
-	<!-- For testing importing it again, but with another tag and light=1 -->
-	{% import_django_select2_js_css light=1 %}
-{% endblock head %}
 {% block content %}
 
-<h3> Create a new post: </h3>
-
-<form role="form" action = "/posts/create/" method="post"> 
+<div class="row">
+<form role="form" class="col-xs-8 col-xs-offset-1" action = "/posts/create/" method="post"> 
 {% csrf_token %}
  {% crispy form %}
  <!--
  <textarea class="form-control" rows='10' cols='80'  name="content"> </textarea> <br>
--->
-<input class="btn btn-default" type="submit" value = "Submit post" /> 
-</form>
 
+<input class="btn btn-default" type="submit" value = "Submit post" />
+-->
+</form>
+</div>
 {% endblock content %}

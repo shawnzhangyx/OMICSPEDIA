@@ -78,13 +78,38 @@ class Vote(models.Model):
 class View(models.Model):
     # viewer IP
     ip = models.GenericIPAddressField(_('IP'), default="", null=True, blank=True)
+    # date
+    date = models.DateTimeField(auto_now=True)
     # viewed object
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
+
+
+class Rate(models.Model):
+    # rate for a post, wiki, tool, or tag, user. Or anything else you can think.
+    rating = models.IntegerField(_('rating'))
+    rater = models.ForeignKey(User, related_name="rates")
+    date = models.DateField(auto_now=True)
+    # Rated object
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    class Meta:
+       unique_together = ("rater", "content_type","object_id")
+
+
+    def __unicode__(self):
+        return u"%s, %s, %s" %( self.rating, self.rater.username, self.content_object.id)
+
+
+class Bookmark(models.Model):
+    # reader
+    reader = models.ForeignKey(User, related_name="bookmarks")
     # date
     date = models.DateTimeField(auto_now=True)
-
-
-# class Bookmark(models.Model):
+     # Bookmarked object
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
 
