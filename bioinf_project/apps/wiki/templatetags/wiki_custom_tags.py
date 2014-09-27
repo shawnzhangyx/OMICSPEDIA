@@ -13,4 +13,7 @@ def add_edit(text):
 @register.inclusion_tag("wiki/templatetags/comment-dialog.html")
 def show_comment_dialog(comment,user):
     return {'comment': comment,'user':user}
-    
+
+@register.inclusion_tag("wiki/templatetags/show-wiki-tab.html")
+def show_wiki_tab(wiki):
+    return {'wiki':wiki}

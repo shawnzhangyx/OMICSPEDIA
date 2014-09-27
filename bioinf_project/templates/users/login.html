@@ -1,11 +1,16 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
 
-<form action="" method="post">
+<div class="row">
+<form class="col-xs-6 col-xs-offset-3" action="" method="post">
 {% csrf_token %}
 {{ form.as_p }}
 
-<input type="submit" value = "Log in" name="submit"/>
+<input class="btn btn-default btn-sm" type="submit" value = "Log in" name="submit"/>
+<a class="btn btn-default btn-sm" href = "{% url 'users:register' %}"> Sign-up </a>
 </form>
+<br>
+</div>
 {% endblock content %}
 

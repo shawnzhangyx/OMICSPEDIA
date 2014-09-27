@@ -56,14 +56,14 @@
                  <a href = "{% url 'users:login' %}"> log in </a> 
               {% endif %}
             </li>
-            <li> 
-              {% if user.is_authenticated %}
-                 <a href = "{% url 'users:logout' %}"> log out? </a>
-              {% else %}
-                 <a href = "{% url 'users:register' %}"> Sign-up </a>
-              {% endif %}
+            <li class="dropdown">
+              <a role="button" class="dropdown-toggle" data-toggle="dropdown" href="#"> Help<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu"> 
+                <li role="presentation"> <a href="{% url 'help:help-page' 'index' %}">Help center</a></li>
+                <li role="presentation"> <a href="#">Meta</a></li>
+
+              </ul>
             </li>
-            <li><a href="{% url 'help' %}">Help</a></li>
           </ul>
 
           <form class="navbar-form navbar-right" action="{% url 'search' %}" method="get" role="search">
@@ -82,7 +82,7 @@
 <!--        <img src = "{% static 'OMICS.jpeg' %}" alt="Logo missing" width = "150" > -->
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-2 col-md-2 sidebar">
+        <div class="sidebar">
           <ul class="nav nav-sidebar">
             {% block sidebar-portal %} 
             <li><a href= "{% url 'portal' '' %}" > Omics Portal </a> </li>
@@ -107,7 +107,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-sm-10 col-sm-offset-2 col-md-10 col-md-offset-2 main">
+      <div class="main">
         <div id = "content">
         {% block content %}
         <h2> Main Content </h2>

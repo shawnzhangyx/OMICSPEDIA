@@ -6,10 +6,10 @@ from django.contrib.auth.models import User
 ###  atrributes of a user model:
 # username, first_name, last_name, e-mail, password
 # groups, user_permissions, is_staff, is_active, is_superuser
-# last_login, date_joined 
-### methods: 
-# get_username, is_anonyous, is_authenticated, get_full_name, get_short_name 
-# set_password, check_password, has_perm, has perms, email_user
+# last_login, date_joined
+### methods:
+# get_username, is_anonyous, is_authenticated, get_full_name, get_short_name
+# set_password, check_password, has_perm, has_perms, email_user
 
 class UserProfile(models.Model):
 
@@ -22,4 +22,4 @@ class UserProfile(models.Model):
     following = models.ManyToManyField('self',blank=True, related_name = "follower")
 
     def __unicode__(self):
-        return self.user.username 
+        return self.user.username

@@ -79,12 +79,16 @@ border: 1px solid #c4dae9;
 .toc {
 border:1px solid #000000;
 width:300px;
-padding: 10px 0px;
-margin: 25px;
+padding: 5px 0px;
+margin: 10px;
 font-size: 16px;
 background-color: #f9f9f9;
 border-color: #888888;
 } 
+
+.toc p {
+margin-bottom: 0px;
+}
 
 .toc ul {
 padding-left:30px;
@@ -116,6 +120,10 @@ color: #428bca;
 
 .wikilink-not-exist {
 color: #FF0000;
+}
+
+.wiki-tab {
+padding-left: 20px;
 }
 /********* software ********/
 

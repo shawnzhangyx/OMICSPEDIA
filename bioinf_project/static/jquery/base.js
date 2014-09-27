@@ -36,29 +36,23 @@ $(document).ready(function() {
 
 // this could enable tooltip on generated elements 
 $('body').tooltip({ selector:'[data-toggle=tooltip]'});
+$(".alert").alert()
 
 $("#id_tags").select2();
 $("#s2id_id_tags").css("padding","0px").css("border", "0px");
 // neeed to change the css of the respective file to change the tag select style.
 //$(".select2-search-choice").css("margin-top","5px").css("background-color","#e0eaf1");
 //$(".select2-search-choice").css("color","#4a6b82").css("background-image","None");
+//
 
-      $("#jRating").jRating(
-        {
-        bigStarsPath: '/static/lib/jRating/icons/stars.png',
-        smallStarsPath: '/static/lib/jRating/icons/small.png',
-        rateMax: 10,
-        canRateAgain: true,
-        nbRates: 1,
-        sendRequest: false,
-        onClick: function(element, rate){
-          console.log("haha");
-        $.post('/ajax/rate/', {title:"ChIP-Seq", rating:rate}, function(response){
-          console.log(response);
-    });
-
-        }
-      }
-      );
+$(".jRating").jRating(
+  {
+  bigStarsPath: '/static/lib/jRating/icons/stars.png',
+  smallStarsPath: '/static/lib/jRating/icons/small.png',
+  isDisabled: true,
+  rateMax: 10,
+  type:'small',
+  sendRequest: false,
+});
 
 });

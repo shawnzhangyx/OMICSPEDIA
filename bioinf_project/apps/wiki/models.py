@@ -46,7 +46,10 @@ class Page(models.Model):
         rate_sum = 0
         for rate in self.wiki_rates.all():
                 rate_sum += rate.rating
-        return float(rate_sum)/rate_count
+        if rate_count > 0:
+            return float(rate_sum)/rate_count
+        else:
+            return rate_sum
     def get_vote_count(self):
         return self.wiki_votes.filter(choice=1).count() - self.wiki_votes.filter(choice=-1).count()
 

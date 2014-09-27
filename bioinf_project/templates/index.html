@@ -8,7 +8,7 @@
  
 <div class = "row">
   <div class="col-xs-6 col-md-3">
-    <a href="" class="thumbnail">
+    <a href="{% url 'wiki:wiki-index'%}" class="thumbnail">
       <img src="{% static 'images/wiki.jpg'%}" alt='...'>
       <h4> Learn from wiki</h4> 
       <p> Featured with wiki descriptions of most updated 
@@ -17,7 +17,7 @@
   </div>
     
   <div class="col-xs-6 col-md-3">
-    <a href="" class="thumbnail">
+    <a href="{% url 'posts:post-new' %}" class="thumbnail">
       <img src="{% static 'images/ask.jpg'%}" alt='...'>
       <h4> Ask a question</h4>
       <p> We've all been there. Let us help you solve your problem and you can help others, too. </p>
@@ -25,14 +25,14 @@
   </div>
   <div class="clearfix visible-xs-block visible-sm-block"></div>
   <div class="col-xs-6 col-md-3">
-    <a href="" class="thumbnail">
+    <a href="{% url 'software:software-index' %}" class="thumbnail">
       <img src="{% static 'images/software.jpg'%}" alt='...'>
       <h4> Find a software</h4>
       <p> A large software database that is ready to get you started in the analysis </p>
     </a>
   </div>
   <div class="col-xs-6 col-md-3">
-    <a href="" class="thumbnail">
+    <a href="{% url 'help:help-page' 'index'%}" class="thumbnail">
       <img src="{% static 'images/tour.jpg'%}" alt='...'>
       <h4> 2-min Tour</h4>
       <p> join this 2-min tour to learn what is on this website and how to use it. </p>

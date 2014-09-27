@@ -6,12 +6,7 @@
 <div class="row">
 <form role="form" class="col-xs-8 col-xs-offset-1" action = "/posts/create/" method="post"> 
 {% csrf_token %}
- {% crispy form %}
- <!--
- <textarea class="form-control" rows='10' cols='80'  name="content"> </textarea> <br>
-
-<input class="btn btn-default" type="submit" value = "Submit post" />
--->
+{% crispy form %}
 </form>
 </div>
 {% endblock content %}

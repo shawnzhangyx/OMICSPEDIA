@@ -1,8 +1,9 @@
 {% extends 'wiki/wiki_base.html' %}
+{% load wiki_custom_tags %}
 {% block content %}
 <h1> Wiki Homepage </h1>
 {% if user.is_authenticated %}
-<h3> <a class="btn btn-default" href = "{% url 'wiki:wiki-new' %}"> Create new wiki here </a> </h3>
+<h3> <a class="btn btn-default" href = "{% url 'wiki:wiki-new' %}"> Create new wiki </a> </h3>
 {% else %}
 <a class="btn btn-default btn-xs" href="{% url 'users:login' %}"> log in </a> to create new wiki. 
 {% endif %}
@@ -10,11 +11,9 @@
 <hr>
 
 {% if wiki_list %}
-<ul> 
 {% for wiki in wiki_list %}
-<li> <a href= "{% url 'wiki:wiki-detail' wiki.get_title %}" >{{ wiki.title }} </a></li>
+{% show_wiki_tab wiki %}
 {% endfor %}
-</ul>
 {% else %}
 <p> no wiki available </p>
 {% endif %}

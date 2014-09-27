@@ -35,7 +35,7 @@ $.ajaxSetup({
 $(document).ready(function() {
     var wiki_title = $('#wiki-content h1').html();
 
-    //console.log(wiki_title);
+    // add an [edit] span to the end of each section. 
     $('#wiki-content h2,h3,h4,h5,h6').each( function(){
         var header = $(this).get(0).tagName;
         var section_name = $(this).html();
@@ -43,7 +43,8 @@ $(document).ready(function() {
         $(this).html( $(this).html()+" <small>[<a href='"+ href_html + "'>edit</a>]</small>");
         });
 
-    wikilinks=$('.wikilink')      //console.log(elem.html());
+    //differentiate functional wiki links and non-exist wiki links. 
+    wikilinks=$('.wikilink')      
  //   console.log(wikilinks);
     arr = $.makeArray(wikilinks);
 //    console.log(arr);
@@ -63,5 +64,41 @@ $(document).ready(function() {
           }
         }
     },'json');
+    // add '[]' to the footnote items. 
+    $('.footnote-ref').each(function(){
+        $(this).html('['+$(this).html()+']');
+    });
+    // table of content 
+    $('.toc').prepend("<p class='text-center'>Contents <a data-toggle='collapse' data-target='#toc-menu' href='#'>[hide]</a></p>");
+    $('.toc ul').attr('id', 'toc-menu').attr('class', 'collapse in');
+    $('#toc-menu').on('hide.bs.collapse', function() {
+     $('.toc p a').html('[show]');
+    })
+     $('#toc-menu').on('show.bs.collapse', function() {
+     $('.toc p a').html('[hide]');
+    })
+      // add rating function to the wiki article. 
+      $("#jRating").jRating(
+        {
+        bigStarsPath: '/static/lib/jRating/icons/stars.png',
+        smallStarsPath: '/static/lib/jRating/icons/small.png',
+        rateMax: 10,
+        canRateAgain: true,
+        nbRates: 1,
+        sendRequest: false,
+        onClick: function(element, rate){
+          console.log("haha");
+          $('#jRating').attr('data-original-title',"your rating is recorded, thank you!");
+        //  $('#jRating').tooltip('toggle');
+          $('#jRating').tooltip('show');
+
+                    $.post('/ajax/rate/', {title:wiki_title, rating:rate}, function(response){
+          console.log(response);
+    });
+
+        }
+      }
+      );
+
 
 });

@@ -14,5 +14,9 @@
 		About me: 
 	</div>
 </div>
+<hr>
+  {% if user == userprofile.user %}
+    <a class="btn btn-default btn-sm" href = "{% url 'users:logout' %}"> log out? </a>
+  {% endif %}
 {% endblock content %}
 

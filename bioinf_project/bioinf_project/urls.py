@@ -15,14 +15,16 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     # Omics Portal
     url(r'^portal/(?P<name>[^/]*)/?', views.PortalView.as_view(), name="portal"),
-    url(r'^help/', views.HelpView.as_view(), name="help"),
+    # app specific urls 
     url(r'^accounts/', include('users.urls', namespace = "users")),
     url(r'^wiki/', include('wiki.urls', namespace = "wiki")),
     url(r'^tags/', include('tags.urls', namespace = "tags")),
     url(r'^posts/', include('posts.urls', namespace = "posts")),
     url(r'^software/', include('software.urls', namespace = "software")),
+    url(r'^help/', include('help.urls', namespace="help")),
 #    url(r'^code_snippet/', include('code_snippet_repos.urls', namespace = "wiki")),
 
+    # util urls and ajax links
     url(r'^(?P<comment_on>[^/]+)/(?P<pk>\d+)/comment-new/$', CommentNew.as_view(), name="comment-new"),
     url(r'^search/$', views.search, name='search'),
     url(r'^ajax/omics-tag-description/', views.portal_tag, name="portal-omics-tag"),

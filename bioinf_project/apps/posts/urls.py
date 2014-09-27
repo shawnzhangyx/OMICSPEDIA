@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, url
 
-from . import views 
+from . import views
 
-urlpatterns = patterns('', 
+urlpatterns = patterns('',
     url(r'^$', views.IndexView.as_view(), name = 'post-index'),
     url(r'^create/$', views.MainPostNew.as_view(), name = 'post-new'),
     url(r'^(?P<pk>\d+)/$', views.PostDetails.as_view(), name='post-detail'),

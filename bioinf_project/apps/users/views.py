@@ -6,7 +6,7 @@ from django.views.generic import DetailView, ListView
 from django.views.generic.base import View
 from django.views.generic.edit import FormView, CreateView
 
-from .models import UserProfile 
+from .models import UserProfile
 # Create your views here.
 
 class RegisterView(CreateView):

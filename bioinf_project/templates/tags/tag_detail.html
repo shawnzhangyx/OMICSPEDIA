@@ -1,7 +1,7 @@
 {% extends 'tags/tag_base.html' %}
 {% load tag_custom_tags %}
 {% load post_custom_tags %}
-
+{% load wiki_custom_tags %}
 {% block content %}
 <br>
 <a class="btn btn-xs btn-default" href = "{% url 'tags:tag-delete' name=tag.name %}">Delete? </a>
@@ -39,7 +39,7 @@
   <br>
   <ul>
   {% for wiki in wiki_list %}
-  <li> <h4><a href="{% url 'wiki:wiki-detail' wiki.get_title %}"> {{wiki.title}} </a> <h4></li>
+  {% show_wiki_tab wiki %}
   {% empty%}
   No wiki associated with this tag yet. Would you like to suggest adding some tags to these <a href=""> articles?</a>
   {% endfor%}
