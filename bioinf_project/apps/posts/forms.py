@@ -53,6 +53,7 @@ class MainPostRevisionForm(forms.ModelForm):
                 Field('title'),
                 Field('tags'),
                 Field('content'),
+                Field('summary'),
             ),
             ButtonHolder(
                 Submit('submit', 'Submit')

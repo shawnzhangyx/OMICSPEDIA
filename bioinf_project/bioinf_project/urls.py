@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^tags/', include('tags.urls', namespace = "tags")),
     url(r'^posts/', include('posts.urls', namespace = "posts")),
     url(r'^software/', include('software.urls', namespace = "software")),
+	url(r'^meta/', include('meta.urls', namespace = "meta")),
     url(r'^help/', include('help.urls', namespace="help")),
 #    url(r'^code_snippet/', include('code_snippet_repos.urls', namespace = "wiki")),
 

@@ -1,0 +1,27 @@
+{% load util_custom_tags %}
+{% load tag_custom_tags %}
+{% load humanize %}
+<div class="row post-tab">
+  <div class="post-count-box">
+    <div class="post-tab-vote">
+    <h3>{{report.get_vote_count}} </h3> 
+    votes
+    </div>
+    <div class="post-tab-reply">
+    <h3>{{report.get_comment_count}} </h3> 
+    Replies
+    </div>
+    <div class="post-tab-views">
+    <h3>{{report.view_count}} </h3> 
+    views
+    </div>
+  </div>
+  <div class="post-tab-detail">
+    <div class="">
+      <h4> <a href= "{% url 'meta:report-detail' report.id %}" >{{ report.title }} </a> </h4>
+    </div>
+        <div class="post-created">
+    {{report.created|naturaltime}}  <a href="{%url 'users:profile-view' report.author.user_profile.id%}">{{report.author}}</a>
+    </div>
+  </div>
+</div>

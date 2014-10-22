@@ -1,0 +1,33 @@
+{% load util_custom_tags %}
+{% load tag_custom_tags %}
+{% load humanize %}
+
+<div class="post-container">
+  <div class="vote-box">
+    {% display_vote_widget report user%}
+  </div>
+  <div class="post-body">
+    <p> {{ report.current_revision.content }} </p>
+    <div class="clearfix post-authorship">
+      <div class="post-action">
+          <a href='{% url "meta:report-edit" report.id %}'>edit</a>
+                | <a href="{# url 'comment-new' comment_on="replyposts" pk=post.id #}">comment</a>
+      </div>
+      <div class="pull-right post-edition">
+          <p> posted {{report.created|naturaltime}} by <a href="{% url 'users:profile-view' report.author.user_profile.id %}"> {{report.author.username}} </a> </p>
+      </div>
+    </div>
+    {% if report.get_comments.count > 0 %}
+    <table class="table table-hover comments-all">
+      {% for comment in report.get_comments %}
+      <tr class="comments-short"> 
+        <td class="comment-vote-count"> 0 </td>
+        <td class="comment-text"> {{comment.content}} &nbsp;&mdash; <a href="{% url 'users:profile-view' comment.author.user_profile.id %}"> {{comment.author.username}}</a>  {{comment.last_modified|naturaltime}} </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </div>
+
+</div>
+

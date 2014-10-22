@@ -1,0 +1,12 @@
+{% extends 'meta/meta_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row">
+<form role="form" class="col-xs-8 col-xs-offset-1" action = "" method="post"> 
+{% csrf_token %}
+{% crispy form %}
+</form>
+</div>
+{% endblock content %}

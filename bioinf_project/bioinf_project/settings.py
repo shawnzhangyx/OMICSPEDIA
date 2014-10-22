@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'wiki',
     'software',
     'users',
+	'meta',
     'utils',
 )
 

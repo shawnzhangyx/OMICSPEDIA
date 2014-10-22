@@ -103,9 +103,34 @@ padding-bottom: 0.1em;
 display: block-inline;
 }
 
+#wiki-content h2:before,h3:before {
+display: block;
+content: " ";
+margin-top:-40px;
+height:40px;
+visibility:hidden;
+}
+
+sup:before {
+display: inline-block;
+content: " ";
+margin-top:-55px;
+height:55px;
+visibility:hidden;
+}
+
+footnote ol li:before {
+display: inline-block;
+content: " ";
+margin-top:-55px;
+height:55px;
+visibility:hidden;
+}
+
 #wiki-content h2{
 border-bottom: 1px solid #aaa;
 }
+
 /**** comment tab ****/
 .wiki-comment-tab
 {

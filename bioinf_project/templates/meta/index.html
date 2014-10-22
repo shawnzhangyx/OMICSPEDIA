@@ -1,0 +1,20 @@
+{% extends 'meta/meta_base.html' %}
+{% block head %}
+
+{% load meta_custom_tags %}
+{% endblock head %}
+
+{% block content %}
+  <h1> HomePage for meta</h1>
+  <p> please leave your feedbacks and suggestions to improve our website!</p>
+  <button type="button" class="btn btn-info" onclick='location.href="{% url 'meta:report-new' %}"'> Create new report</button>
+
+  <div class="container-fluid">
+  {% for report in report_list %}
+    {% show_report_tab report %}
+  {% empty %}
+    <p> Nothing posted yet.</p>
+  {% endfor %}
+  </div>
+  <hr style="margin-top:0px">
+{% endblock content %}
