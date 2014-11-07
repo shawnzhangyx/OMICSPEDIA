@@ -22,7 +22,7 @@ class Login(FormView):
 
     def form_valid(self, form):
         login(self.request, form.get_user())
-        return redirect('index')
+        return redirect(self.request.GET['next'])
 
 class Logout(View):
     def get(self, request, *args, **kwargs):

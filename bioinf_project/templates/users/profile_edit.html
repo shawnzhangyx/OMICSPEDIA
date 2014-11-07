@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="row">
-<form role="form" class="col-xs-8 col-xs-offset-1" action = "{% url 'users:profile-edit' object.id%}" method="post"> 
+<form role="form" class="col-xs-8 col-xs-offset-1" action = "{% url 'users:profile-edit' object.id%}" method="post" enctype="multipart/form-data"> 
 {% crispy form %}
 </form>
 

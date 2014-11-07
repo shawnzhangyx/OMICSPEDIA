@@ -6,6 +6,9 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from .models import Tag
 from posts.models import MainPost
 from wiki.models import Page, PageRevision
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 # Create your views here.
 
 class TagList(ListView):
@@ -13,10 +16,15 @@ class TagList(ListView):
     template_name = "tags/index.html"
     queryset = Tag.objects.filter(parent__isnull=True)
 
+
 class TagCreate(CreateView):
     model = Tag
     template_name = "tags/tag_create.html"
     fields = ['name','wiki_page','categories']
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(TagCreate, self).dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(TagCreate,self).get_context_data(**kwargs)
@@ -38,6 +46,10 @@ class TagEdit(UpdateView):
     template_name = "tags/tag_edit.html"
     fields = ['name','wiki_page','categories','icon']
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(TagEdit, self).dispatch(*args, **kwargs)
+        
     def get_object(self):
         return Tag.objects.get(name=self.kwargs['name'].replace('_',' '))
 
@@ -62,6 +74,11 @@ class TagDelete(DeleteView):
     model = Tag
     template_name = 'tags/tag_delete.html'
     success_url = reverse_lazy('tags:tag-index')
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(TagDelete, self).dispatch(*args, **kwargs)
+        
     def get_object(self):
         return Tag.objects.get(name=self.kwargs['name'])
 

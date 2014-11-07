@@ -1,19 +1,50 @@
 {% extends "users/user_base.html" %}
+{% load staticfiles %}
+
 {% block content %}
+<h2>{{userprofile.name}}</h2>
 <div class="row">
-	<div class="col-xs-3"> 
+	<div class="col-xs-2"> 
+    {% if userprofile.portrait %}
+    <img class="img-responsive" src="{{userprofile.portrait.url}}">
+    {% else %}
+    <img class="img-responsive" src='{% static "images/user_default.png"%}'>
+    {% endif %}
 	</div>
 	<div class="col-xs-4">
-	  <table class="table">
-	    <tr> <td>User Name </td><td>{{userprofile.name}} </td> </tr>
+	  <table class="table ">
 	    <tr> <td>User Email</td><td> {{userprofile.user.email}} </td></tr>
+        <tr> <td>Location</td><td> {{userprofile.location}} </td></tr>
+        <tr> <td>User Website</td><td> {{userprofile.website}} </td></tr>
 	    <tr> <td>Reputation</td><td> {{userprofile.reputation}} </td></tr>
 	  </table>
 	</div>
-	<div class="col-xs-5">
-		About me
+	<div class="col-xs-5 col-xs-offset-1">
+		<b>About me:</b>
+        <p> {{userprofile.biography}}</p>
 	</div>
 </div>
+<hr>
+<div class="row">
+<div class="col-xs-6">
+<h3> {{userprofile.user.mainpost_set.count}} question{% if userprofile.user.mainpost_set.count > 1%}s{%endif%} </h3>
+<ul>
+{% for post in userprofile.user.mainpost_set.all %}
+<li> <a href="{% url 'posts:post-detail' post.id %}"> {{post.title}}</a></li>
+{% endfor %}
+</ul> 
+</div>
+<div class="col-xs-6">
+<h3> {{userprofile.user.replypost_set.count}} answer{% if userprofile.user.mainpost_set.count > 1%}s{%endif%}</h3>
+<ul>
+{% for replypost in userprofile.user.replypost_set.all %}
+<li> <a href="{% url 'posts:post-detail' replypost.mainpost.id %}"> {{replypost.mainpost.title}}</a></li>
+{% endfor %}
+</ul> 
+</div>
+
+</div>
+
 <hr>
   {% if user == userprofile.user %}
     <a class="btn btn-default btn-sm" href = "{% url 'users:profile-edit' user.user_profile.id %}"> Edit? </a>

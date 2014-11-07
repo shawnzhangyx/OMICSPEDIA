@@ -9,7 +9,7 @@ from crispy_forms.layout import Layout, Field, Fieldset, Div, Submit, ButtonHold
 
 class PageForm(forms.ModelForm):
     title = forms.CharField()
-    tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all())
+    tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
     content = forms.CharField(widget=forms.Textarea)
 
 

@@ -1,8 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permission, Group, PermissionsMixin
+from django.core.urlresolvers import reverse
 from django.db.models.signals import post_save, post_delete
 
+from tags.models import Tag
 # Create your models here.
 
 
@@ -37,17 +38,20 @@ class UserManager(BaseUserManager):
             password=password,
         )
         user.is_admin = True
+        user.is_superuser = True
         user.save(using=self._db)
         return user
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser,PermissionsMixin):
     # user manager
     objects = UserManager()
     # required information 
     email = models.EmailField(verbose_name="email address", db_index=True, max_length=255, unique=True)
     # required to identify the user. 
     USERNAME_FIELD = 'email'
-
+    
+    #user_permission = models.ManyToManyField(Permission, null=True, blank=True)
+    #group = models.ManyToManyField(Group, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     
@@ -62,15 +66,6 @@ class User(AbstractBaseUser):
     def __str__(self):              # __unicode__ on Python 2
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return True
-
-    def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
-        return True
 
     @property
     def is_staff(self):
@@ -82,18 +77,23 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField("User", related_name="user_profile")
     name = models.CharField(verbose_name="user name", max_length=255, null=False, blank=False)
+    location = models.CharField(verbose_name="location", max_length=255, blank=True)
     website = models.URLField(blank=True)
     biography = models.TextField(blank=True)
     portrait = models.ImageField(upload_to="user_photo", null=True, blank=True)
     reputation = models.IntegerField(default=1)
     following = models.ManyToManyField('self',blank=True, related_name = "follower")
+    watched_tags = models.ManyToManyField(Tag, blank=True, related_name = "user")
 
     def __unicode__(self):
-        return self.user.name
+        return self.user.email
 
     @staticmethod
     def create_user_profile(sender, instance, **kwargs):
         new_user = instance
         new_user_profile = UserProfile.objects.get_or_create(user=new_user, name="user-"+str(new_user.id))
 
+    def get_absolute_url(self):
+        return reverse("users:profile-view", kwargs={'pk':self.pk})
+    
 post_save.connect(UserProfile.create_user_profile, sender=User)

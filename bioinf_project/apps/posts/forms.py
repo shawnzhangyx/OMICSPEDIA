@@ -8,7 +8,7 @@ from crispy_forms.layout import Layout, Field, Fieldset, Div, Submit, ButtonHold
 
 class MainPostForm(forms.ModelForm):
     title = forms.CharField()
-    tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all())
+    tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
     content = forms.CharField(widget=forms.Textarea)
     
 
@@ -42,7 +42,7 @@ class MainPostForm(forms.ModelForm):
 class MainPostRevisionForm(forms.ModelForm):
 
     title = forms.CharField()
-    tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all())
+    tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
     content = forms.CharField(widget=forms.Textarea)
     summary = forms.CharField()
 

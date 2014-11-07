@@ -4,15 +4,15 @@ from django.contrib import admin
 
 from . import views
 from utils.views import CommentNew, vote, rate, preview_markdown
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'bioinf_project.views.home', name='home'),
-    # OmicsPedia Home page
-    url(r'^$', views.IndexView.as_view(), name="index"),
     # Admin site
     url(r'^admin/', include(admin.site.urls)),
+    # OmicsPedia Home page
+    url(r'^$', views.IndexView.as_view(), name="index"),
     # Omics Portal
     url(r'^portal/(?P<name>[^/]*)/?', views.PortalView.as_view(), name="portal"),
     # app specific urls 

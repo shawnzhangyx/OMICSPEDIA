@@ -90,7 +90,8 @@ class MainPost(AbstractPost):
 
     title = models.CharField(max_length=255,null=False)
 
-    current_revision = models.OneToOneField('MainPostRevision', verbose_name=_('current revision'))
+    current_revision = models.OneToOneField('MainPostRevision', verbose_name=_('current revision'),
+            null=True, blank=True, related_name = "revision_post")
     # views for the post
     view_count = models.IntegerField(default=0)
 
@@ -157,7 +158,8 @@ class MainPost(AbstractPost):
 
 class ReplyPost(AbstractPost):
     mainpost = models.ForeignKey(MainPost, related_name = "replies", null=False)
-    current_revision = models.OneToOneField('ReplyPostRevision', blank=True, null=True, verbose_name=_('current revision'))
+    current_revision = models.OneToOneField('ReplyPostRevision', blank=True, null=True, verbose_name=_('current revision'), 
+        related_name="revision_post")
     best_answer = models.BooleanField(default=False)
 
     reply_post_comments = GenericRelation("utils.Comment")

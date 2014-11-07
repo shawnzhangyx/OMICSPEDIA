@@ -37,8 +37,31 @@ class UserCreationForm(forms.ModelForm):
 
         
 class ProfileForm(forms.ModelForm):
+    name = forms.CharField(required=False)
+    location = forms.CharField(required=False)
+    website = forms.URLField(required=False)
+    biography = forms.CharField(widget=forms.Textarea, required=False)
+    portrait = forms.ImageField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "profile-form"
+        self.helper.layout = Layout(
+            Fieldset(
+                'Edit your profile',
+                Field('name'),
+                Field('location'),
+                Field('website'),
+                Field('biography'),
+                Field('portrait'),
+            ),
+            ButtonHolder(
+                Submit('submit', 'Submit')
+            )
+        )
     class Meta: 
         model = UserProfile
-        fields = ['name','website', 'biography', 'portrait',]
+        fields = ['name', 'location','website', 'biography', 'portrait',]
 
 

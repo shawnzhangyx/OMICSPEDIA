@@ -23,10 +23,11 @@ class IndexView(ListView):
 class WikiNew(CreateView):
     template_name = "wiki/wiki_new.html"
     form_class = PageForm
+    
     def form_valid(self, form):
         form.save()
         new_revision = PageRevision(content=self.request.POST['content'],
-                       revision_summary=self.request.POST['summary'],
+                       revision_summary='',
                        page=form.instance, author=self.request.user)
         new_revision.save()
         form.instance.current_revision=new_revision

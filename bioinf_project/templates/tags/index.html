@@ -11,6 +11,8 @@
 <h1> Tags</h1>
 {% if user.is_authenticated %}
 <button type='button' class="btn btn-default" onclick='location.href="{% url "tags:tag-create" parent_name='' %}"'> Create new tag </button>
+{% else %}
+<a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"> log in </a> to create new tags. 
 {% endif %}
 <br><br>
 Type to find tags: <input class="form" type="text" name="suggestion" id="suggestion" value=""/>
