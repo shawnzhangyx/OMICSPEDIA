@@ -29,8 +29,9 @@ display: inline-block;
 }
 .vote-count-obj {
 text-align: center;
-font-size: 1.5em;
-padding: 2px;
+font-size: 1.3em;
+line-height: 1em;
+padding: 0px;
 }
 
 .vote-down-on {
@@ -60,7 +61,7 @@ cursor:pointer;
 font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;
 padding: 3px 4px;
 background-color: #e0eaf1;
-margin: 2px 2px 2px 0;
+margin: 5px 2px 5px 0;
 line-height: 1.4;
 white-space: nowrap;
 display: inline-block;

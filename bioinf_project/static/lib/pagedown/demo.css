@@ -1,8 +1,4 @@
-body 
-{ 
-	background-color: White;
-    font-family: sans-serif;
-}
+
 
 blockquote {
 	border-left: 2px dotted #888;
@@ -12,23 +8,25 @@ blockquote {
 
 .wmd-panel
 {
-	margin-left: 25%;
-	margin-right: 25%;
-	width: 50%;
-	min-width: 500px;
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+//	min-width: 500px;
 }
 
 .wmd-button-bar 
 {
 	width: 100%;
 	background-color: Silver; 
+    border: solid 1px lightgrey;
+
 }
 
 .wmd-input 
 { 
 	height: 300px;
 	width: 100%;
-	background-color: Gainsboro;
+	//background-color: Gainsboro;
 	border: 1px solid DarkGray;
 }
 

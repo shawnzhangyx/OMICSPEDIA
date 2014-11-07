@@ -4,11 +4,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericRelation 
 from django.utils import timezone
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 import markdown
 from utils import diff_match_patch
 from utils.models import AbstractBaseRevision
 import re
+from django.conf import settings
 # Create your models here.
 
 # Ideally, every tag should have a wiki,
@@ -127,7 +128,7 @@ class PageComment(models.Model):
     init_revision = models.ForeignKey("PageRevision", related_name="comment_init",blank=True,null=True)
     # instead of final version, show revised version. 
     final_revision = models.ForeignKey("PageRevision", related_name="comment_closed",blank=True,null=True)
-    author = models.ForeignKey(User, verbose_name=_("author"))
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("author"))
     created = models.DateTimeField(_("created date"))
     modified = models.DateTimeField(_("modifed date"),auto_now=True)
     

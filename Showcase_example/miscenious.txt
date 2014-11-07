@@ -2,3 +2,4 @@ BISTAR analysis per year:
 https://github.com/joejimbo/bioruby-biostars-analytics
 OMICS wiki attempts. 
 http://openwetware.org/wiki/Wikiomics
+http://www.mybiosoftware.com/biology-software-list

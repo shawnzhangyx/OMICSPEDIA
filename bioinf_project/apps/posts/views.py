@@ -9,7 +9,9 @@ from .models import MainPost, ReplyPost, MainPostRevision, ReplyPostRevision
 from .models import MainPostComment, ReplyPostComment
 # forms
 from .forms import MainPostForm, MainPostRevisionForm
-
+# to mask the manytomany field message. 
+MainPostForm.base_fields['tags'].help_text = 'Please type your tags'
+MainPostRevisionForm.base_fields['tags'].help_text = 'Please type your tags'
 # Create your views here.
 
 
@@ -21,9 +23,11 @@ class IndexView(ListView):
     def get_queryset(self):
         tab = self.request.GET.get('tab')
         if tab =="Latest":
-            return MainPost.objects.order_by('last_modified')
-        elif tab=="Votes":
+            return MainPost.objects.order_by('-last_modified')
+        elif tab =="Votes":
             return MainPost.objects.order_by('-vote_count')
+        elif tab =="Unanswered":
+            return MainPost.objects.filter(reply_count__exact=0)
         else:
             return MainPost.objects.all()
     def get_context_data(self,**kwargs):
@@ -49,7 +53,7 @@ class MainPostNew(CreateView):
 
 class MainPostEdit(UpdateView):
     form_class = MainPostRevisionForm
-    template_name = 'posts/mainpost_edit.html'
+    template_name = 'posts/post_new.html'
     def get_object(self):
         return MainPost.objects.get(pk=self.kwargs['pk'])
 
@@ -68,7 +72,7 @@ class MainPostEdit(UpdateView):
         return super(MainPostEdit, self).form_valid(form)
 
 
-class PostDetails(DetailView): 
+class PostDetails(DetailView):
     template_name = "posts/post_detail.html"
     model = MainPost
     context_object_name = "mainpost"
@@ -81,14 +85,14 @@ class PostDetails(DetailView):
         context = super(PostDetails, self).get_context_data(**kwargs)
         context['replypost_list'] = ReplyPost.objects.filter(mainpost=context['mainpost'])
         return context
-    #need to display everything in the same subject. 
+    #need to display everything in the same subject.
 
-   
+
 class ReplyPostNew(CreateView):
     model = ReplyPost
     fields = []
     template_name = 'posts/replypost_new.html'
-    #will need to redirect to the main post; will implement later. 
+    #will need to redirect to the main post; will implement later.
     def get_success_url(self):
         return self.object.get_absolute_url()
     def get_context_data(self, **kwargs):
@@ -105,7 +109,7 @@ class ReplyPostNew(CreateView):
         new_revision.save()
         form.instance.current_revision=new_revision
         return super(ReplyPostNew, self).form_valid(form)
-        
+
 class ReplyPostEdit(UpdateView):
     model = ReplyPost
     fields = []
@@ -127,5 +131,20 @@ class ReplyPostDelete(DeleteView):
     def get_success_url(self):
         return self.object.get_absolute_url()
 
-        
-        
+class MainPostHistory(ListView):
+    model = MainPostRevision
+    template_name = "posts/post_revision_history.html"
+    context_object_name = "revision_list"
+
+    def get_queryset(self):
+        return MainPostRevision.objects.filter(post__id = self.kwargs['pk']).order_by('-modified_date')
+
+class ReplyPostHistory(ListView):
+    model = ReplyPostRevision
+    template_name = "posts/post_revision_history.html"
+    context_object_name = "revision_list"
+
+    def get_queryset(self):
+        return ReplyPostRevision.objects.filter(post__id = self.kwargs['pk']).order_by('-modified_date')
+
+

@@ -35,7 +35,7 @@ class TagCreate(CreateView):
 
 class TagEdit(UpdateView):
     model = Tag
-    template_name = "tags/tag_create.html"
+    template_name = "tags/tag_edit.html"
     fields = ['name','wiki_page','categories','icon']
 
     def get_object(self):

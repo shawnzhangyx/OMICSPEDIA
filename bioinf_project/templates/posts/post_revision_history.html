@@ -1,0 +1,39 @@
+{% extends 'wiki/wiki_base.html' %}
+{% load util_custom_tags %}
+{% block content %}
+<h2>  <small>Revision history of post:
+  </small>
+  {% if revision_list.1.post.mainpost == null %}
+  {{revision_list.1.post.title}}
+  {% else %}
+  {{revision_list.1.post.mainpost.title}}
+  {% endif %}
+ </h2>
+<br>
+{% if revision_list %}
+  {% for revision in revision_list %}
+    <h4> Revision {{revision.revision_number }}
+    <small> {{revision.modified_date}} by
+    <a href="{% url "users:profile-view" revision.author.user_profile.id %}">{{revision.author.username}}
+    </a> </small> </h4>
+    <br>
+  {% ifnotequal forloop.last True %}
+  {% show_text_diff revision.get_pre_revision.content revision.content %}
+  {% else %}
+  {{revision.content}}
+   {% endifnotequal %}
+  <hr>
+{% endfor %}
+
+{% else %}
+<p> no revision history available </p>
+{% endif %}
+
+Return to the <a href="
+  {% if revision_list.1.post.mainpost == null %}
+  {% url 'posts:post-detail' revision_list.1.post.id %}
+  {% else %}
+  {% url 'posts:post-detail' revision_list.1.post.mainpost.id %}
+  {% endif %}
+    ">post</a>
+{% endblock content %}

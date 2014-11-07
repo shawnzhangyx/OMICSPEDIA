@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block sidebar-post %}
-  <li class="active"><a href= "{% url 'posts:post-index' %}" > Post </a> </li>
+  <li class="active"><a href= "{% url 'posts:post-index' %}?tab=Latest" > Post </a> </li>
 {% endblock sidebar-post %}
 
 {% block content %}

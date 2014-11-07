@@ -4,7 +4,7 @@ from django.contrib.contenttypes.generic import GenericRelation, GenericForeignK
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-
+from django.conf import settings
 import markdown
 # Create your models here.
 # Base revision model.
@@ -15,7 +15,7 @@ class AbstractBaseRevision(models.Model):
     # revision type (short summary)? correct grammar; fix link; add content; e.t.c.
     revision_summary = models.CharField(_('revision summary'), max_length=20, blank=True)
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_("modified date"))
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     content = models.TextField(blank=True, verbose_name = _("content"))
 
     def get_marked_up_content(self):
@@ -40,7 +40,7 @@ class AbstractBasePage(models.Model):
 # should refactor this to be base comment.
 class Comment(models.Model):
     content = models.TextField(max_length=600, null=False)
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     last_modified = models.DateTimeField()
     ## enable generic foreignkey relationship with other classes, such as Page, MainPost, ReplyPost. 
     content_type = models.ForeignKey(ContentType)
@@ -62,7 +62,7 @@ class Vote(models.Model):
     # votes for a post, wiki, tool, or tag, user. Or anything else you can think.
     UP, DOWN = [1,-1]
     CHOICES = [(UP, "Up-vote"), (DOWN, "Down-vote")]
-    voter = models.ForeignKey(User, related_name="votes")
+    voter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="votes")
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -89,7 +89,7 @@ class View(models.Model):
 class Rate(models.Model):
     # rate for a post, wiki, tool, or tag, user. Or anything else you can think.
     rating = models.IntegerField(_('rating'))
-    rater = models.ForeignKey(User, related_name="rates")
+    rater = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="rates")
     date = models.DateField(auto_now=True)
     # Rated object
     content_type = models.ForeignKey(ContentType)
@@ -105,7 +105,7 @@ class Rate(models.Model):
 
 class Bookmark(models.Model):
     # reader
-    reader = models.ForeignKey(User, related_name="bookmarks")
+    reader = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="bookmarks")
     # date
     date = models.DateTimeField(auto_now=True)
      # Bookmarked object

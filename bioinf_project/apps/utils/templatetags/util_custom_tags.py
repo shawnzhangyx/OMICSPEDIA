@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.contenttypes.models import ContentType
 from datetime import datetime, timedelta
 from django.utils.timesince import timesince
-
+from utils import diff_match_patch
 
 from utils.models import Vote
 register = template.Library()
@@ -26,6 +26,16 @@ def display_vote_widget(obj, user):
 
     return {"object": obj, "obj_type": obj_type.app_label+'.'+obj_type.model, 
             "obj_id": obj.id, "user": user, "vote_type": vote_type}
+
+#@register.inclusion_tag("utils/templatetags/text_diff.html")
+@register.simple_tag
+def show_text_diff(text1,text2):
+        func = diff_match_patch.diff_match_patch()
+        diff = func.diff_main(text1, text2)
+        func.diff_cleanupSemantic(diff)
+        htmldiff = func.diff_prettyHtml(diff)
+        return htmldiff
+
 
 ## need to troubleshoot this 
 @register.filter

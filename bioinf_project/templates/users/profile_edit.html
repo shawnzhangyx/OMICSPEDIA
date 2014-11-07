@@ -1,0 +1,13 @@
+{% extends "users/user_base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+<form role="form" class="col-xs-8 col-xs-offset-1" action = "{% url 'users:profile-edit' object.id%}" method="post"> 
+{% crispy form %}
+</form>
+
+</div>
+<hr>
+{% endblock content %}
+

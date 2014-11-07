@@ -146,7 +146,7 @@ class WikiDiff(DetailView):
         text2 = self.object.content
         if self.object.get_pre_revision():
             text1 = self.object.get_pre_revision().content
-        else: 
+        else:
             text1 = ""
         func = diff_match_patch.diff_match_patch()
         diff = func.diff_main(text1, text2)

@@ -15,17 +15,21 @@ class PageForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PageForm, self).__init__(*args, **kwargs)
-        self.base_fields['tags'].help_text = 'Please type your tags'
+        #self.base_fields['tags'].help_text = 'Please type your tags'
+        self.fields['content'].label=""
         self.helper = FormHelper()
         self.helper.form_class = "page-form"
         self.helper.layout = Layout(
             Fieldset(
-                '',
+                'Create new wiki',
                 Field('title'),
                 Field('tags'),
-                Field('content'),
+                HTML('''<div id="wmd-button-bar"></div> '''),
+                Field('content',id="wmd-input"),
             ),
             ButtonHolder(
+                HTML('''<span class="btn btn-primary" data-toggle="modal" 
+                    data-target="#preview-mkd-text" id="preview-click">Preview</span>&nbsp&nbsp'''),
                 Submit('submit', 'Submit')
             )
         )
@@ -34,7 +38,7 @@ class PageForm(forms.ModelForm):
         model = Page
         fields = ('title','tags')
 
-
+PageForm.base_fields['tags'].help_text = 'Please type your tags'
 
 class PageRevisionForm(forms.ModelForm):
 
@@ -45,15 +49,17 @@ class PageRevisionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PageRevisionForm, self).__init__(*args, **kwargs)
-        self.base_fields['tags'].help_text = 'Please type your tags'
+        #self.base_fields['tags'].help_text = 'Please type your tags'
+        self.fields['content'].label=""
         self.helper = FormHelper()
-        # self.helper.form_class = "post-form"
+        self.helper.form_class = "page-form"
         self.helper.layout = Layout(
             Fieldset(
-                '',
+                'Edit wiki',
                 Field('title'),
                 Field('tags'),
-                Field('content'),
+                HTML('''<div id="wmd-button-bar"></div> '''),
+                Field('content',id="wmd-input"),
                 Field('summary'),
             ),
              ButtonHolder(
@@ -67,4 +73,5 @@ class PageRevisionForm(forms.ModelForm):
         model = Page
         fields = ('title','tags')
     
+PageRevisionForm.base_fields['tags'].help_text = 'Please type your tags'
 

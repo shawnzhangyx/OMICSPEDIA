@@ -5,17 +5,18 @@
 	</div>
 	<div class="col-xs-4">
 	  <table class="table">
-	    <tr> <td>User Name </td><td>{{userprofile.user.get_username}} </td> </tr>
+	    <tr> <td>User Name </td><td>{{userprofile.name}} </td> </tr>
 	    <tr> <td>User Email</td><td> {{userprofile.user.email}} </td></tr>
 	    <tr> <td>Reputation</td><td> {{userprofile.reputation}} </td></tr>
 	  </table>
 	</div>
 	<div class="col-xs-5">
-		About me: 
+		About me
 	</div>
 </div>
 <hr>
   {% if user == userprofile.user %}
+    <a class="btn btn-default btn-sm" href = "{% url 'users:profile-edit' user.user_profile.id %}"> Edit? </a>
     <a class="btn btn-default btn-sm" href = "{% url 'users:logout' %}"> log out? </a>
   {% endif %}
 {% endblock content %}

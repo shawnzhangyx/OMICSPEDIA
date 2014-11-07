@@ -51,7 +51,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li> 
               {% if user.is_authenticated %}
-                 <a href ="{% url 'users:profile-view' user.user_profile.id %}"> {{user.username}} </a>
+                 <a href ="{% url 'users:profile-view' user.user_profile.id %}"> {{user.user_profile.name}} </a>
               {% else %}
                  <a href = "{% url 'users:login' %}"> log in </a> 
               {% endif %}
@@ -97,7 +97,7 @@
             <li><a href= "{% url 'tags:tag-index' %}" > Tag </a> </li>
             {% endblock sidebar-tag %}
             {% block sidebar-post %}
-            <li><a href= "{% url 'posts:post-index' %}" > Post </a> </li>
+            <li><a href= "{% url 'posts:post-index' %}?tab=Latest" > Post </a> </li>
             {% endblock sidebar-post %}
             {% block sidebar-user %}
             <li><a href= "{% url 'users:user-list' %}" > Users </a> </li>

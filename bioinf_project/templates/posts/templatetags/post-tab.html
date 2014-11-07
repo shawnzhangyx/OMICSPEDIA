@@ -8,7 +8,7 @@
     votes
     </div>
     <div class="post-tab-reply">
-    <h3>{{post.get_reply_count}} </h3> 
+    <h3>{{post.reply_count}} </h3> 
     Replies 
     </div>
     <div class="post-tab-views">
@@ -26,7 +26,8 @@
 
     </div>
     <div class="post-created">
-    {{post.created|naturaltime}}  <a href="{%url 'users:profile-view' post.author.user_profile.id%}">{{post.author}}</a>
+     active {{post.last_modified|naturaltime}} <br>
+    asked {{post.created|naturaltime}} by <a href="{%url 'users:profile-view' post.author.user_profile.id%}">{{post.author}}</a>
     </div>
   </div>
 </div>

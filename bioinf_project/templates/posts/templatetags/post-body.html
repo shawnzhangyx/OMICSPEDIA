@@ -7,7 +7,7 @@
     {% display_vote_widget post user%}
   </div>
   <div class="post-body">
-    <p> {{ post.current_revision.content }} </p>
+    <p> {{ post.current_revision.get_marked_up_content|safe }} </p>
     <!-- display the tag list -->
     {% if is_question %}
     {% display_tag_list post.tags.all %}
@@ -22,7 +22,18 @@
           | <a href="{% url 'comment-new' comment_on="replyposts" pk=post.id %}">comment</a>
       </div>
       <div class="pull-right post-edition">
-          <p> {% if is_question %}asked {% else %}answered{% endif %}
+        {% ifnotequal post.current_revision.revision_number 1 %}
+        <p> modified 
+        {% if is_question %}
+          <a href="{% url 'posts:mainpost-revhistory' post.id %}">
+        {% else %}
+          <a href="{% url 'posts:replypost-revhistory' post.id %}">
+        {% endif %}
+          {{post.current_revision.modified_date|naturaltime}}</a> by
+          <a href="{% url 'users:profile-view' post.current_revision.author.user_profile.id %}">
+            {{post.current_revision.author.username}}</a> </p>
+        {% endifnotequal %}
+        <p> {% if is_question %}asked {% else %}answered{% endif %}
        {{post.created|naturaltime}} by <a href="{% url 'users:profile-view' post.author.user_profile.id %}"> {{post.author.username}} </a> </p>
       </div>
     </div>

@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from utils.models import View
 from django.db.models import F
-
+from django.conf import settings
 # Create your models here.
 
 
@@ -20,7 +20,7 @@ class Report(models.Model):
     report_comments = GenericRelation("util.Comment")
     report_views = GenericRelation("utils.View")
     view_count = models.IntegerField(default=0)
-    author = models.ForeignKey(User,blank=False,null=False)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,blank=False,null=False)
     created = models.DateTimeField()
     last_modified = models.DateTimeField()
 

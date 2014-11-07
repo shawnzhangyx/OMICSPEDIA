@@ -8,37 +8,38 @@ from django.contrib.contenttypes.generic import GenericRelation
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import F
-
+from django.db.models.signals import post_save, post_delete
+from django.conf import settings
 from utils.models import View, AbstractBaseRevision
 # Create your models here.
 
 # --------------- #
 # Can have an abstract Post class and two differen children: MainPost and Answers #
 # For now, we just follow the Biostar standard. #
-# comment does not have revision history. 
+# comment does not have revision history.
 
 
-        
+
 class MainPostRevision(AbstractBaseRevision):
     post = models.ForeignKey("MainPost", on_delete = models.CASCADE, verbose_name=_("post"))
 
     def __unicode__(self):
         return self.post.title+"_revision_"+str(self.revision_number)
-        
+
     def save(self, *args, **kwargs):
-        if not self.revision_number: 
-            try: 
+        if not self.revision_number:
+            try:
                 previous_revision = self.post.mainpostrevision_set.latest()
                 self.revision_number = previous_revision.revision_number + 1
             except MainPostRevision.DoesNotExist:
                 self.revision_number = 1
         super(MainPostRevision, self).save(*args, **kwargs)
     def get_pre_revision(self):
-        try: 
-            return MainPostRevision.objects.get(revision_number = self.revision_number - 1, page = self.page)
+        try:
+            return MainPostRevision.objects.get(revision_number = self.revision_number - 1, post = self.post)
         except IndexError:
             return
-            
+
 class ReplyPostRevision(AbstractBaseRevision):
     post = models.ForeignKey("ReplyPost", on_delete = models.CASCADE, verbose_name=_("post"))
 
@@ -46,8 +47,8 @@ class ReplyPostRevision(AbstractBaseRevision):
         return "reply_to_"+self.post.mainpost.title+"_revision_"+str(self.revision_number)
 
     def save(self, *args, **kwargs):
-        if not self.revision_number: 
-            try: 
+        if not self.revision_number:
+            try:
                 previous_revision = self.post.replypostrevision_set.latest()
                 self.revision_number = previous_revision.revision_number + 1
             except ReplyPostRevision.DoesNotExist:
@@ -55,23 +56,23 @@ class ReplyPostRevision(AbstractBaseRevision):
         super(ReplyPostRevision, self).save(*args, **kwargs)
 
     def get_pre_revision(self):
-        try: 
-            return ReplyPostRevision.objects.get(revision_number = self.revision_number - 1, page = self.page)
+        try:
+            return ReplyPostRevision.objects.get(revision_number = self.revision_number - 1, post = self.post)
         except IndexError:
             return
 
-            
+
 class AbstractPost(models.Model):
     #---- model fields ----#
     vote_count = models.IntegerField(default=0)
-    author = models.ForeignKey(User,blank=False,null=False)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,blank=False,null=False)
     created = models.DateTimeField()
     last_modified = models.DateTimeField()
 
     #---- functions ----#
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
-        if not self.id: 
+        if not self.id:
             self.created = timezone.now()
         self.last_modified = timezone.now()
         return super(AbstractPost, self).save(*args, **kwargs)
@@ -135,11 +136,11 @@ class MainPost(AbstractPost):
 
 
     @staticmethod
-    def reset_reply_count():
-        for post in MainPost.objects.all():
-            print post, post.replies.count()
-            post.reply_count = post.replies.count()
-            post.save()
+    def reset_reply_count(sender, instance, **kwargs):
+        post = instance.mainpost
+        print post, post.replies.count()
+        post.reply_count = post.replies.count()
+        post.save()
 
 
     def get_absolute_url(self):
@@ -147,10 +148,10 @@ class MainPost(AbstractPost):
 
     def get_vote_count(self):
         return self.mainpost_votes.filter(choice=1).count() - self.mainpost_votes.filter(choice=-1).count()
-    
+
     def get_reply_count(self):
         return self.replies.count()
-        
+
     def get_comments(self):
         return self.main_post_comments.all()
 
@@ -177,25 +178,26 @@ class ReplyPost(AbstractPost):
 
 
 
-# comments have no revision history, and allow minimum makeup. 
+# comments have no revision history, and allow minimum makeup.
 class AbstractComment(models.Model):
     content = models.TextField(max_length=600, null=False)
     last_modified = models.DateTimeField()
-    
+
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
         self.last_modified = timezone.now()
         return super(AbstractPost, self).save(*args, **kwargs)
-        
+
     class Meta:
         abstract = True
-        
+
 class MainPostComment(AbstractComment):
     post = models.ForeignKey(MainPost, related_name = "comments", verbose_name = _("main post comment"))
-    
-    
+
+
 class ReplyPostComment(AbstractComment):
-    post = models.ForeignKey(ReplyPost, related_name = "comments", verbose_name = _("reply post comment"))    
-       
-       
-       
+    post = models.ForeignKey(ReplyPost, related_name = "comments", verbose_name = _("reply post comment"))
+
+
+post_save.connect(MainPost.reset_reply_count, sender=ReplyPost)
+post_delete.connect(MainPost.reset_reply_count, sender=ReplyPost)

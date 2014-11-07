@@ -3,7 +3,12 @@
 {% load staticfiles %}
 <!-- this is the link to edit the post. 
 -->
-
+{% block head %}
+        <link rel="stylesheet" type="text/css" href="{% static 'lib/pagedown/demo.css'%}" />
+        <script type="text/javascript" src="{% static 'lib/pagedown/Markdown.Converter.js' %}"></script>
+        <script type="text/javascript" src="{% static 'lib/pagedown/Markdown.Sanitizer.js' %}"></script>
+        <script type="text/javascript" src="{% static 'lib/pagedown/Markdown.Editor.js' %}"></script>
+{% endblock head %}
 
 {% block content %}
 <h3> {{mainpost.title}}  </h3>
@@ -24,7 +29,13 @@
 <form role="form" action='{% url "posts:replypost-new" mainpost_id=mainpost.id %}' method="post">
 {% csrf_token %}
 <h4> Add your reply: </h4>
-<textarea class="form-control" rows='5'  name="content"></textarea>
+
+<div class="row">
+         <div class="wmd-panel">
+            <div id="wmd-button-bar"></div>
+            <textarea class="form-control" rows=5 id="wmd-input" name="content"> </textarea>
+        </div>
+</div>
 <br>
 <input class="btn btn-default" type="submit" value="Post reply">
 </form>
@@ -32,6 +43,22 @@
 please <a href = "{% url 'users:login' %}"> log in </a> to post a response 
 {% endif %}
 
+<!-- script for text input control panel -->
+<script type="text/javascript">
+            (function () {
+                var converter1 = Markdown.getSanitizingConverter();
+                
+                converter1.hooks.chain("preBlockGamut", function (text, rbg) {
+                    return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
+                        return "<blockquote>" + rbg(inner) + "</blockquote>\n";
+                    });
+                });
+                
+                var editor1 = new Markdown.Editor(converter1);
+                
+                editor1.run();
+                })();
+               </script>
 {% endblock content %}
 
 {% block jquery %}
