@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from django.utils.timesince import timesince
 from utils import diff_match_patch
 
-from utils.models import Vote
+from utils.models import Vote, Bookmark
 register = template.Library()
 
 # Show the vote number and provide
@@ -27,7 +27,30 @@ def display_vote_widget(obj, user):
     return {"object": obj, "obj_type": obj_type.app_label+'.'+obj_type.model, 
             "obj_id": obj.id, "user": user, "vote_type": vote_type}
 
-#@register.inclusion_tag("utils/templatetags/text_diff.html")
+@register.inclusion_tag("utils/templatetags/vote_up_widget.html")
+def display_vote_up(obj, user):
+    obj_type = ContentType.objects.get_for_model(obj)
+    try: vote = Vote.objects.get(content_type__pk=obj_type.id,
+                               object_id=obj.id, voter=user)
+    except (TypeError, Vote.DoesNotExist) as e:
+        vote_type = "none"
+    else:
+        vote_type = "up"
+    return {"object": obj, "obj_type": obj_type.app_label+'.'+obj_type.model, 
+            "obj_id": obj.id, "user": user, "vote_type": vote_type}
+            
+@register.inclusion_tag("utils/templatetags/bookmark_widget.html")
+def display_bookmark_widget(obj, user):
+    obj_type = ContentType.objects.get_for_model(obj)
+    try: bookmark = Bookmark.objects.get(content_type__pk=obj_type.id,
+                               object_id=obj.id, reader=user)
+    except (TypeError, Bookmark.DoesNotExist) as e:
+        marked = "no"
+    else:
+        marked = "yes"
+    return {"object": obj, "obj_type": obj_type.app_label+'.'+obj_type.model, 
+            "obj_id": obj.id, "user": user, "marked": marked}
+                        
 @register.simple_tag
 def show_text_diff(text1,text2):
         func = diff_match_patch.diff_match_patch()

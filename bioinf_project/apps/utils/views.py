@@ -4,17 +4,25 @@ from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
 from django.template import RequestContext
-from .models import Comment, Vote, Rate
-from wiki.models import Page
-from posts.models import MainPost, ReplyPost
 import markdown
 import json
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+from .models import Comment, Vote, Rate, Bookmark
+from wiki.models import Page
+from posts.models import MainPost, ReplyPost
 # Create your views here.
 
 class CommentNew(CreateView):
     template_name = "wiki/comment_new.html"
     model = Comment
     fields = ['content']
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CommentNew, self).dispatch(*args, **kwargs)
+        
     def form_valid(self, form):
         # can write a more compact function.
 
@@ -41,6 +49,7 @@ class CommentNew(CreateView):
 #    data.update(**kwargs)
 #    return HttpResponse(json.dumps(data))
 
+@login_required
 def vote(request):
 
     content_type_name = request.POST.get("ct")
@@ -50,18 +59,27 @@ def vote(request):
     content_type = ContentType.objects.get(app_label=content_app, model=content_model)
     voter = request.user
     obj = content_type.get_object_for_this_type(pk=obj_id)
+    # the author of the voted object will gain or lose reputation depending on the vote.
+    user_profile = obj.author.user_profile
+    if voter == obj.author: 
+        return HttpResponse('error')
+        
     try: vote = Vote.objects.get(content_type__pk=content_type.id,
                                object_id=obj_id, voter=voter)
     # if has not voted before, vote
     except Vote.DoesNotExist:
         # if clicked on "vote-up-off", vote up
-        if vote_status == "vote-up-off":
+        if vote_status.startswith("vote-up"):
             vote = Vote(content_type=content_type, object_id=obj_id, voter=voter, choice=1)
             vote.save()
+            user_profile.reputation += 1
+            user_profile.save()
         # if clicked on "vote-down-off", vote down
-        elif vote_status == "vote-down-off":
+        elif vote_status.startswith("vote-down"):
             vote = Vote(content_type=content_type, object_id=obj_id, voter=voter, choice=-1)
             vote.save()
+            user_profile.reputation -= 1
+            user_profile.save()
         else:
             return HttpReponse("error")
         obj.vote_count = obj.get_vote_count()
@@ -75,14 +93,20 @@ def vote(request):
             vote.save()
             obj.vote_count = obj.get_vote_count()
             obj.save()
+            # the reputation will change by 2
+            user_profile.reputation += vote.choice*2
+            user_profile.save()
             return HttpResponse(json.dumps({"yourvote":vote.choice, "allvote": obj.get_vote_count()}))
         # if want to recall the vote
         elif vote_status.endswith('on'):
+            user_profile.reputation -= vote.choice
+            user_profile.save()
             vote.delete()
         obj.vote_count = obj.get_vote_count()
         obj.save()
         return HttpResponse(json.dumps({"yourvote":0, "allvote": obj.get_vote_count()}))
 
+@login_required
 def rate(request):
     title =request.POST.get("title")
     rating = request.POST.get("rating")
@@ -98,6 +122,39 @@ def rate(request):
         rate.rating = rating
     rate.save()
     return HttpResponse("Rating "+rating+" is stored in database.")
+
+@login_required
+def bookmark(request):
+
+    content_type_name = request.POST.get("ct")
+    obj_id = int(request.POST.get("id"))
+    bookmark_status = request.POST.get("bstat")
+    content_app, content_model = content_type_name.split('.')
+    content_type = ContentType.objects.get(app_label=content_app, model=content_model)
+    reader = request.user
+    obj = content_type.get_object_for_this_type(pk=obj_id)
+    # the author of the voted object will gain or lose reputation depending on the bookmark.
+    user_profile = obj.author.user_profile
+        
+    try: bookmark = Bookmark.objects.get(content_type__pk=content_type.id,
+                               object_id=obj_id, reader=reader)
+    # if has not voted before, vote
+    except Bookmark.DoesNotExist:
+        # if clicked on "vote-up-off", vote up
+        if bookmark_status.endswith("off"):
+            bookmark = Bookmark(content_type=content_type, object_id=obj_id, reader=reader)
+            bookmark.save()
+        else:
+            return HttpResponse("error")
+        obj.bookmark_count +=1
+        obj.save()
+        return HttpResponse(json.dumps({"bookmark_count":obj.bookmark_count}))
+    # if has voted before.
+    else:
+        bookmark.delete()
+        obj.bookmark_count -= 1
+        obj.save()
+        return HttpResponse(json.dumps({"bookmark_count":obj.bookmark_count}))
 
 
 def preview_markdown(request):

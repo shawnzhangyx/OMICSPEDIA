@@ -4,7 +4,7 @@
 
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-  margin-top: 40px;
+  margin-top: 50px;
 }
 
 hr {
@@ -120,10 +120,11 @@ min-width: 250px;
 
 .main {
   padding: 0px;
-  margin-left: 130px;
+  margin-left: 0px;
 }
 @media (min-width: 768px) {
   .main {
+    margin-left: 110px;
     padding-right: 40px;
     padding-left: 40px;
   }

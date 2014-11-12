@@ -3,15 +3,16 @@ from django.views.generic import DetailView, ListView, TemplateView, UpdateView,
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # models 
 from .models import MainPost, ReplyPost, MainPostRevision, ReplyPostRevision
 from .models import MainPostComment, ReplyPostComment
 # forms
-from .forms import MainPostForm, MainPostRevisionForm
+from .forms import MainPostForm, MainPostRevisionForm, ReplyPostForm, ReplyPostRevisionForm
 # to mask the manytomany field message. 
-MainPostForm.base_fields['tags'].help_text = 'Please type your tags'
-MainPostRevisionForm.base_fields['tags'].help_text = 'Please type your tags'
+
 # Create your views here.
 
 
@@ -38,7 +39,11 @@ class IndexView(ListView):
 class MainPostNew(CreateView):
     template_name = "posts/post_new.html"
     form_class = MainPostForm
-
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(MainPostNew, self).dispatch(*args, **kwargs)
+        
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.save()
@@ -54,6 +59,11 @@ class MainPostNew(CreateView):
 class MainPostEdit(UpdateView):
     form_class = MainPostRevisionForm
     template_name = 'posts/post_new.html'
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(MainPostEdit, self).dispatch(*args, **kwargs)
+        
     def get_object(self):
         return MainPost.objects.get(pk=self.kwargs['pk'])
 
@@ -89,12 +99,17 @@ class PostDetails(DetailView):
 
 
 class ReplyPostNew(CreateView):
-    model = ReplyPost
-    fields = []
-    template_name = 'posts/replypost_new.html'
+    template_name = "posts/post_new.html"
+    form_class = ReplyPostForm
     #will need to redirect to the main post; will implement later.
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ReplyPostNew, self).dispatch(*args, **kwargs)
+        
     def get_success_url(self):
         return self.object.get_absolute_url()
+        
     def get_context_data(self, **kwargs):
         context = super(ReplyPostNew, self).get_context_data(**kwargs)
         context['mainpost'] = MainPost.objects.get(id=self.kwargs['mainpost_id'])
@@ -111,10 +126,21 @@ class ReplyPostNew(CreateView):
         return super(ReplyPostNew, self).form_valid(form)
 
 class ReplyPostEdit(UpdateView):
-    model = ReplyPost
-    fields = []
-    template_name = 'posts/replypost_edit.html'
+    template_name = "posts/post_new.html"
+    form_class = ReplyPostRevisionForm
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ReplyPostEdit, self).dispatch(*args, **kwargs)
 
+    def get_object(self):
+        return ReplyPost.objects.get(pk=self.kwargs['pk'])
+
+    def get_form(self, form_class):
+        kwargs = self.get_form_kwargs()
+        kwargs['initial'].update({'content':self.object.current_revision.content})
+        return form_class(**kwargs)
+        
     def form_valid(self, form):
         new_revision = ReplyPostRevision(content=self.request.POST['content'], 
                        revision_summary=self.request.POST['summary'], post=self.object, 
@@ -128,9 +154,33 @@ class ReplyPostDelete(DeleteView):
     model = ReplyPost
     template_name = 'posts/replypost_delete.html'
     #success_url = reverse_lazy('posts:post-index')
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ReplyPostDelete, self).dispatch(*args, **kwargs)
+        
     def get_success_url(self):
         return self.object.get_absolute_url()
 
+class ReplyPostAccept(UpdateView):
+    model = ReplyPost
+    fields = []
+    template_name = 'posts/replypost_accept.html'
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ReplyPostAccept, self).dispatch(*args, **kwargs)
+        
+    def get_object(self):
+        return ReplyPost.objects.get(pk=self.kwargs['pk'])
+        
+    def form_valid(self, form):
+        self.object.mainpost.accepted_answer=self.object
+        self.object.mainpost.save()
+        return super(ReplyPostAccept, self).form_valid(form)
+    def get_success_url(self):
+        return self.object.get_absolute_url()
+        
 class MainPostHistory(ListView):
     model = MainPostRevision
     template_name = "posts/post_revision_history.html"

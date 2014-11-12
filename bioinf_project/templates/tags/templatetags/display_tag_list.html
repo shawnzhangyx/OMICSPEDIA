@@ -3,7 +3,7 @@
         {% for tag in tag_list %}
         <li>  <a class="tags" href = "{% url 'tags:tag-detail' tag.name %}" > {{tag}} </a> </li>
         {% empty %}
-          No tags.
+          
         {% endfor %}
 </ul>
 

@@ -1,0 +1,20 @@
+{% extends 'posts/post_base.html' %}
+{% load post_custom_tags %}
+{% load staticfiles %}
+<!-- this is the link to edit the post. 
+-->
+
+{% block content %}
+<h3> {{replypost.mainpost.title}}  </h3>
+<form action="" method="post">
+{% csrf_token %}
+<button class="btn btn-default" value="confirm" > Confirm accepting this answer</button>
+</form>
+<hr>
+
+  {% display_post_body replypost user "is_answer" %}
+<hr>
+
+<!-- add reply -->
+
+{% endblock content %}

@@ -16,9 +16,10 @@
 
 {% display_post_body mainpost user "is_question"%}
 
+<br>
+<h4><b> {{mainpost.reply_count}} Answer{%if mainpost.reply_count > 1%}s{% endif %}</b></h4>
 <hr>
 {% for reply in replypost_list %}
-
   {% display_post_body reply user "is_answer" %}
 <hr>
 {% endfor %}

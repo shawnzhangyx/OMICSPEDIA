@@ -56,6 +56,35 @@ function toggle_vote_widget(elem, response){
 
 }
 
+function toggle_vote_up_widget(elem, response){
+    console.log(response.yourvote);
+    var vote_up = elem.children().first(); // this selector needs to be modified.
+
+    if (response.yourvote == 1){
+        vote_up.attr('class', 'vote-up-sm-on');
+    } else if (response.yourvote == 0){
+        vote_up.attr('class', 'vote-up-sm-off');
+    }
+        elem.children('div.vote-count-sm-obj').text(response.allvote)
+        console.log(vote_up.attr('class'));
+
+}
+
+
+function toggle_bookmark_widget(elem, response){
+    console.log(response.yourvote);
+    var bookmark = elem.children().first(); // this selector needs to be modified.
+
+    if (bookmark.hasClass('bookmark-off')){
+        bookmark.attr('class', 'bookmark-on');
+    } else {
+        bookmark.attr('class', 'bookmark-off');
+    }
+        elem.children('div.bookmark-count').text(response.bookmark_count)
+        console.log(bookmark.attr('class'));
+
+}
+
 $(document).ready(function() {
     $('div.vote-widget a').each( function(index){
 
@@ -68,9 +97,37 @@ $(document).ready(function() {
 
     $.post('/ajax/vote/', {ct:content_type, id:id, vstat:vote_status}, function(response){
     toggle_vote_widget(elem, response);
+    console.log(id);
     }, "json");
-
-
 });
 });
+
+$('div.vote-up-widget a').each( function(index){
+    $(this).click( function(index){
+    var content_type = $(this).parent().attr('data-obj-name');
+    var id = $(this).parent().attr('data-obj-id');
+    var vote_status = $(this).attr('class');
+    console.log( index + content_type +',' + id + ',' + vote_status );
+    elem = $(this).parent();
+
+    $.post('/ajax/vote/', {ct:content_type, id:id, vstat:vote_status}, function(response){
+    toggle_vote_up_widget(elem, response);
+    }, "json");
+});
+});
+
+$('div.bookmark-widget a').each( function(index){
+    $(this).click( function(index){
+    var content_type = $(this).parent().attr('data-obj-name');
+    var id = $(this).parent().attr('data-obj-id');
+    var bookmark_status = $(this).attr('class');
+    console.log( index + content_type +',' + id + ',' + bookmark_status );
+    elem = $(this).parent();
+
+    $.post('/ajax/bookmark/', {ct:content_type, id:id, bstat:bookmark_status}, function(response){
+    toggle_bookmark_widget(elem, response);
+    }, "json");
+});
+});
+
 });

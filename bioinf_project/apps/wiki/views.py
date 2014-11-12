@@ -47,9 +47,7 @@ class WikiEdit(UpdateView):
         return form_class(**kwargs)
 
     def form_valid(self, form):
-        if self.request.POST['submit']=='Preview':
-            self.request.session['preview'] = self.request.POST['content']
-            return HttpResponseRedirect(reverse("wiki:wiki-edit", args={self.object.get_title()}))
+     
         new_revision = PageRevision(content=self.request.POST['content'],
                        revision_summary=self.request.POST['summary'],
                        page=self.object, author = self.request.user)

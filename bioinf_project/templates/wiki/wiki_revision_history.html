@@ -14,7 +14,7 @@
   <li> 
     <a href= "{% url 'wiki:wiki-diff' revision.id %}" >{{ revision.modified_date }} </a>
     by <a href="{% url 'users:profile-view' revision.author.user_profile.id %}"> 
-    {{revision.author.username}} </a>     
+    {{revision.author.user_profile.name}} </a>     
     ({{revision.total_chars}} bytes) 
     (
     {% if revision.added_chars > 0 %}

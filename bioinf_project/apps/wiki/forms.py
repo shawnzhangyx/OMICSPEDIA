@@ -45,7 +45,7 @@ class PageRevisionForm(forms.ModelForm):
     title = forms.CharField()
     tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(),required=False)
     content = forms.CharField(widget=forms.Textarea)
-    summary = forms.CharField(required=False)
+    summary = forms.CharField()
 
     def __init__(self, *args, **kwargs):
         super(PageRevisionForm, self).__init__(*args, **kwargs)

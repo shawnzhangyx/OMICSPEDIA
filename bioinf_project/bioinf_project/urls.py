@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from . import views
-from utils.views import CommentNew, vote, rate, preview_markdown
+from utils.views import CommentNew, vote, rate, bookmark, preview_markdown
 
 admin.autodiscover()
 
@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     url(r'^ajax/omics-tag-description/', views.portal_tag, name="portal-omics-tag"),
     url(r'^ajax/vote/$', vote, name='vote'),
     url(r'^ajax/rate/$', rate, name='rate'),
+    url(r'^ajax/bookmark/$', bookmark, name='bookmark'),
     url(r'^ajax/preview-markdown/$', preview_markdown, name="preview-markdown"),
     )
 

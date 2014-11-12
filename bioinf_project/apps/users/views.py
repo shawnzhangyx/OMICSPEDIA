@@ -5,8 +5,12 @@ from django.contrib.auth import login, logout
 from django.views.generic import DetailView, ListView, UpdateView
 from django.views.generic.base import View
 from django.views.generic.edit import FormView, CreateView
+from django.contrib.contenttypes.models import ContentType
 
 from .models import UserProfile
+from posts.models import MainPost
+from wiki.models import Page
+from software.models import Tool
 from .forms import UserCreationForm, ProfileForm
 # Create your views here.
 
@@ -42,7 +46,28 @@ class ProfileEdit(UpdateView):
 class ProfileView(DetailView):
     model = UserProfile
     template_name = "users/profile_view.html"
-
+    
+    
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        bookmarks = self.object.user.bookmarks.all()
+        # bookmarked posts
+        post_bookmarks = bookmarks.filter(content_type=ContentType.objects.get_for_model(MainPost))
+        id = post_bookmarks.values_list('object_id',flat=True)
+        bookmark_posts = MainPost.objects.filter(id__in = id)
+        context['bookmark_posts'] = bookmark_posts
+        # bookmarked wiki
+        wiki_bookmarks = bookmarks.filter(content_type=ContentType.objects.get_for_model(Page))
+        id = wiki_bookmarks.values_list('object_id',flat=True)
+        bookmark_wiki = Page.objects.filter(id__in = id)
+        context['bookmark_wiki'] = bookmark_wiki
+        # bookmarked software
+        software_bookmarks = bookmarks.filter(content_type=ContentType.objects.get_for_model(Tool))
+        id = software_bookmarks.values_list('object_id',flat=True)
+        bookmark_software = Tool.objects.filter(id__in = id)
+        context['bookmark_software'] = bookmark_software
+        return context
+        
 class UserListView(ListView):
     model = UserProfile
     template_name = 'users/user_list.html'

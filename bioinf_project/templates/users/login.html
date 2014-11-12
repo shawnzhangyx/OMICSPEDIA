@@ -1,9 +1,10 @@
-{% extends "base.html" %}
+{% extends "users/user_base.html" %}
 {% load crispy_forms_tags %}
-{% block content %}
 
+{% block content %}
+<h2> Log in</h2>
 <div class="row">
-<form class="col-xs-6 col-xs-offset-3" action="" method="post">
+<form class="col-xs-8 col-xs-offset-2" action="" method="post">
 {% csrf_token %}
 {{ form.as_p }}
 

@@ -3,8 +3,11 @@
 /************  icons *************/
 
 /************ votes **************/
-.vote-widget {
+.vote-box {
 float: left;
+}
+.vote-widget {
+display: block;
 margin-right: 15px;
 }
 
@@ -25,9 +28,10 @@ background-image: url('stackoverflow/sprites.png');
 background-position: 0 -265px;
 width: 41px;
 height: 25px;
-display: inline-block;
+display: block;
 }
 .vote-count-obj {
+
 text-align: center;
 font-size: 1.3em;
 line-height: 1em;
@@ -49,10 +53,66 @@ background-position: 0 -300px;
 width: 41px;
 height: 25px;
 display: block;
-
+cursor:pointer;
 }
 
+.vote-up-widget {
+display: inline-block;
+}
+.vote-up-sm-on {
+background-image: url('images/vote-up-on.jpg');
+background-size: 100% auto;
+width: 15px;
+height: 15px;
+display: inline-block;
+}
 
+.vote-up-sm-off {
+background-image: url('images/vote-up-off.jpg');
+background-size: 100% auto;
+width: 15px;
+height: 15px;
+display: inline-block;
+cursor:pointer;
+}
+.vote-count-sm-obj {
+text-align: center;
+font-size: 1.2em;
+color: red;
+line-height: 1em;
+padding-left: 5px;
+padding-right: 20px;
+display: inline;
+}
+/************ bookmark ***********/
+.bookmark-widget {
+display: block;
+margin-left: 5px;
+}
+.bookmark-on {
+background-image: url('stackoverflow/sprites.png');
+background-position: 0 -190px;
+width: 33px;
+height: 31px;
+display: inline-block;
+}
+
+.bookmark-off {
+background-image: url('stackoverflow/sprites.png');
+background-position: 0 -150px;
+width: 33px;
+height: 31px;
+display: inline-block;
+}
+
+.bookmark-count {
+text-align: center;
+font-size: 1.3em;
+line-height: 1em;
+padding: 0px;
+margin-right: 20px;
+color: grey;
+}
 /************  tags  *************/
 .tags {
 font-size:90%;
@@ -153,7 +213,7 @@ padding-left: 20px;
 }
 /********* software ********/
 
-td:first-child {
+.software-table td:first-child {
 font-weight: bold;
 width: 35%;
 }
@@ -198,30 +258,151 @@ margin-left:160px;
 }
 .post-tab-tags {
 float:left;
+display: inline-block;
 }
 .post-created {
 float:right;
-margin-top:20px;
 color: #999999;
 }
 
-/**** post tab ****/
+/**** post body ****/
+.accepted-answer {
+background-image: url('stackoverflow/sprites.png');
+background-position: 0 -460px;
+width: 39px;
+height: 40px;
+display: inline-block;
+}
+.post-authorship{
+margin-left: 56px;
+padding-top: 40px;
+}
 
-.post-body {
-margin-left:50px;
+.post-body-author {
+display: inline-block;
+#border: dashed 1px red;
+padding: 2px;
 }
 
 
 /********* short comments *********/
 
-.comments-short {
-font-size: 13px; 
+.comments-all {
+margin: 10px 20px 0px 50px;
+font-size:13px;
+line-height: 1em;
+font-weight: normal;
+border-bottom: dotted 1px grey;
 
 }
 
+.comment-row {
+border-top: dotted 1px grey;
+padding: 5px;
+}
+
 .comment-vote-count {
-width: 30px;
+width: 40px;
+padding-right:30px;
 color: red;
 }
 
 
+/*********** users **********/
+
+.profile-img  {
+margin: 0px 10px;
+width: 140px;
+display: inline-block;
+}
+.profile-img-big{
+width: 140px;
+height:140px;
+}
+
+.profile-img-small{
+width: 60px;
+height: 60px; 
+box-shadow: 3px 3px 5px #888888;
+display: inline-block;
+}
+.profile-img-xs{
+width: 25px;
+height: 25px;
+}
+
+.profile-follow {
+display: inline-block;
+margin-left:10px;
+margin-top: 10px;
+}
+
+.profile-follow-num{
+font-size: 18px;
+line-height:1em;
+margin-left: 20px;
+}
+
+
+.profile-info {
+margin: 0px 0px 0px 0px;
+display: inline-block;
+vertical-align: top;
+}
+
+.profile-bio{
+margin: 0px 0px 0px 10px;
+padding: 5px;
+background: #F0F0F0;
+min-width: 380px;
+max-width: 480px;
+min-height: 180px;
+display: inline-block;
+vertical-align: top;
+}
+
+.profile-tab {
+height: 60px;
+margin: 5px;
+display: inline-block;
+}
+
+.profile-tab-info{
+display: inline-block;
+padding: 3px;
+line-height: 1em;
+vertical-align: middle;
+}
+
+.profile-view-tab-choice-on {
+font-size: 14px;
+padding: 3px 0 0px 3px;
+margin-left: 15px;
+cursor: pointer;
+background-color: #999;
+color: white;
+}
+
+.profile-view-tab-choice-off {
+font-size: 14px;
+padding: 3px 0 0px 3px;
+margin-left: 15px;
+cursor: pointer;
+}
+
+
+#profile-view-tabs div  {
+min-height: 100px;
+}
+
+#profile-view-tabs div h3 {
+border-bottom: solid 1px #AAAAAA;
+}
+
+#bookmark-post-list {
+display: none;
+}
+
+#bookmark-software-list {
+display: none;
+}

@@ -27,7 +27,7 @@
     </div>
     <div class="post-created">
      active {{post.last_modified|naturaltime}} <br>
-    asked {{post.created|naturaltime}} by <a href="{%url 'users:profile-view' post.author.user_profile.id%}">{{post.author}}</a>
+    asked {{post.created|naturaltime}} by <a href="{%url 'users:profile-view' post.author.user_profile.id%}">{{post.author.user_profile.name}}</a>
     </div>
   </div>
 </div>

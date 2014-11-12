@@ -1,9 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permission, Group, PermissionsMixin
 from django.core.urlresolvers import reverse
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete, pre_delete
 
 from tags.models import Tag
+from utils.models import Vote
 # Create your models here.
 
 
@@ -63,7 +64,7 @@ class User(AbstractBaseUser,PermissionsMixin):
         # The user is identified by their email address
         return self.email
 
-    def __str__(self):              # __unicode__ on Python 2
+    def __str__(self):# __unicode__ on Python 2
         return self.email
 
 
@@ -82,18 +83,44 @@ class UserProfile(models.Model):
     biography = models.TextField(blank=True)
     portrait = models.ImageField(upload_to="user_photo", null=True, blank=True)
     reputation = models.IntegerField(default=1)
-    following = models.ManyToManyField('self',blank=True, related_name = "follower")
+    following = models.ManyToManyField('self',blank=True)
     watched_tags = models.ManyToManyField(Tag, blank=True, related_name = "user")
-
+    last_activity = models.DateTimeField(verbose_name="last activity", null=True,blank=True)
+    
     def __unicode__(self):
         return self.user.email
-
+    @property
+    def follower(self):
+        return UserProfile.objects.filter(following__pk = self.pk)
+    
     @staticmethod
     def create_user_profile(sender, instance, **kwargs):
         new_user = instance
         new_user_profile = UserProfile.objects.get_or_create(user=new_user, name="user-"+str(new_user.id))
 
+    @staticmethod
+    def reputation_from_vote(sender, instance, **kwargs):
+        content_type = instance.content_type
+        obj_id = instance.object_id
+        obj = content_type.get_object_for_this_type(pk=obj_id)
+        choice = instance.choice
+        user_profile = obj.author.user_profile
+        user_profile.reputation += choice
+        user_profile.save()
+    
+    @staticmethod
+    def reputation_rollback_from_vote(sender, instance, **kwargs):
+        content_type = instance.content_type
+        obj_id = instance.object_id
+        obj = content_type.get_object_for_this_type(pk=obj_id)
+        choice = instance.choice
+        user_profile = obj.author.user_profile
+        user_profile.reputation -= choice
+        user_profile.save()    
+        
     def get_absolute_url(self):
         return reverse("users:profile-view", kwargs={'pk':self.pk})
     
 post_save.connect(UserProfile.create_user_profile, sender=User)
+#post_save.connect(UserProfile.reputation_from_vote, sender=Vote)
+#pre_delete.connect(UserProfile.reputation_rollback_from_vote, sender=Vote)

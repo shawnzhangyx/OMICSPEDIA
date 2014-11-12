@@ -102,6 +102,8 @@ class MainPost(AbstractPost):
     mainpost_votes = GenericRelation("utils.Vote")
 
     post_views = GenericRelation("utils.View")
+    
+    post_bookmark = GenericRelation("utils.Bookmark")
 
     accepted_answer = models.ForeignKey("ReplyPost", blank=True, null=True, related_name="accepted_root")
     main_post_comments = GenericRelation("utils.Comment")

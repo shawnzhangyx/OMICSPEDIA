@@ -41,6 +41,7 @@ class AbstractBasePage(models.Model):
 class Comment(models.Model):
     content = models.TextField(max_length=600, null=False)
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    comment_votes = GenericRelation("Vote")
     last_modified = models.DateTimeField()
     ## enable generic foreignkey relationship with other classes, such as Page, MainPost, ReplyPost. 
     content_type = models.ForeignKey(ContentType)
@@ -53,7 +54,8 @@ class Comment(models.Model):
         ''' On save, update timestamps '''
         self.last_modified = timezone.now()
         return super(Comment, self).save(*args, **kwargs)
-
+    def get_vote_count(self):
+        return self.comment_votes.filter(choice=1).count() - self.comment_votes.filter(choice=-1).count()
     class Meta:
         get_latest_by = "-last_modified"
 
@@ -70,7 +72,7 @@ class Vote(models.Model):
     date = models.DateField(auto_now=True)
 
     def __unicode__(self):
-        return u"%s, %s, %s" %( self.get_choice_display(), self.voter.username, self.content_object.id)
+        return u"%s, %s, %s" %( self.get_choice_display(), self.voter.email, self.content_object.id)
 
     class Meta:
        unique_together = ("voter", "content_type","object_id")
@@ -100,7 +102,7 @@ class Rate(models.Model):
 
 
     def __unicode__(self):
-        return u"%s, %s, %s" %( self.rating, self.rater.username, self.content_object.id)
+        return u"%s, %s, %s" %( self.rating, self.rater.email, self.content_object.id)
 
 
 class Bookmark(models.Model):
@@ -113,3 +115,8 @@ class Bookmark(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
+    def __unicode__(self):
+        return u"%s, %s" %( self.reader.email, self.content_object.id)  
+        
+    class Meta: 
+        unique_together = ("reader", "content_type", "object_id")        
