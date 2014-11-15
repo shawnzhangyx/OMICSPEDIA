@@ -20,7 +20,7 @@ class IndexView(ListView):
     model = MainPost
     template_name = "posts/index.html"
     context_object_name = "post_list"
-
+    paginate_by = 5
     def get_queryset(self):
         tab = self.request.GET.get('tab')
         if tab =="Latest":

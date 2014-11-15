@@ -1,8 +1,20 @@
 {% extends "users/user_base.html" %}
+{% load tag_custom_tags %}
 {% load staticfiles %}
+{% load humanize %}
 
 {% block content %}
 <h2>{{userprofile.name}}</h2>
+
+{% if user == userprofile.user %} 
+    {% if user.email_verified == False %}
+    <div class="alert alert-warning"> 
+        You e-mail has not been verified therefore your account is limited. Would you like to 
+        <a href="{% url 'users:email-verification-form' ''%}"> verify your e-mail address </a> now? 
+        </div>
+    {% endif %}
+{% endif %}
+
 <div class="row">
 	<div class="profile-img"> 
     {% if userprofile.portrait %}
@@ -19,9 +31,11 @@
 	</div>
 	<div class="profile-info">
 	  <table class="table">
-	    <tr> <td>User Email</td><td> {{userprofile.user.email}} </td></tr>
+        <tr> <td>Website</td><td> {{userprofile.website}} </td></tr>
         <tr> <td>Location</td><td> {{userprofile.location}} </td></tr>
-        <tr> <td>User Website</td><td> {{userprofile.website}} </td></tr>
+        <tr> <td>Member since</td><td> {{userprofile.date_joined|naturaltime}} </td></tr>
+        <tr> <td>Last seen</td><td> {{userprofile.last_activity|naturaltime}} </td></tr>
+
 	    <tr> <td>Reputation</td><td> {{userprofile.reputation}} </td></tr>
 	  </table>
 	</div>
@@ -73,13 +87,16 @@
 
 </div>
 <div class="col-sm-6 ">
-<h3> 0 Tags </h3>
+<h3> {{tag_list.count}} tag{% if tag_list.count > 1 %}s{% endif %} </h3>
+    {% display_tag_user_contribution tag_list user 10%}
+</ul>
 </div>
 </div>
 
 <hr>
   {% if user == userprofile.user %}
-    <a class="btn btn-default btn-sm" href = "{% url 'users:profile-edit' user.user_profile.id %}"> Edit? </a>
+    <a class="btn btn-default btn-sm" href = "{% url 'users:profile-edit' user.user_profile.id %}"> Edit profile? </a>
+    <a class="btn btn-default btn-sm" href = "{% url 'users:password-change' %}"> Change Password? </a>
     <a class="btn btn-default btn-sm" href = "{% url 'users:logout' %}"> log out? </a>
   {% endif %}
 {% endblock content %}

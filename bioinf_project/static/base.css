@@ -11,6 +11,14 @@ hr {
 border-top: 1px solid #999999;
 margin: 10px;
 }
+
+/* pagination */
+
+.pagination-form { 
+display: inline;
+margin-left: 5px;
+}
+
 /* navbar */
 .navbar-inverse {
 background-color: #000000;

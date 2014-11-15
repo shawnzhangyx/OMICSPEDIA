@@ -14,6 +14,7 @@ from django.utils import timezone
 class Tool(models.Model):
     # other than the tool specific information, the other parts are the same as the wiki page. 
     page = models.OneToOneField("wiki.Page")
+    #tag = models.OneToOneField("tags.Tag")
     # tool information
     name = models.CharField(max_length=255, blank=True, unique=True)
     image = models.ImageField(upload_to='software',null=True,blank=True)
@@ -28,6 +29,8 @@ class Tool(models.Model):
     author_affiliation = models.CharField(max_length=255, blank=True)
     ## how the author prefer to be contacted wtih the tool problems.
     author_contacts = models.CharField(max_length=255, blank=True)
+    #### we can add the author to the model if the author is using this website. 
+    # author = models.ForeignKey('users.User')
     # release information
     first_release_date = models.DateField(null=True)
     latest_release_date = models.DateField(null=True)

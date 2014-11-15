@@ -1,0 +1,17 @@
+{% extends 'software/software_base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h1> Steps to submit new software</h1>
+<hr>
+<h3>Step1. Create a wiki page that describe the software:
+    <a class="btn btn-sm btn-default" href="{% url 'wiki:wiki-new' %}?next=/software/pre-create">new wiki</a></h3> 
+<h3>Step2. Create a tag that link to the wiki page:
+    <a class="btn btn-sm btn-default" href="{% url 'tags:tag-create' "" %}?next=/software/pre-create"> new tag </a>
+    </h3>
+<h3>Step3. Create a software page and link to the wiki page: 
+    <a class="btn btn-sm btn-default" href="{% url 'software:software-new' %}?">new software </a>
+</h3>
+
+</form>
+{% endblock content %}

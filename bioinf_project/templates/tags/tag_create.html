@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
 {% block content %}
 <h2> Create a new tag</h2>
 {{ message }}
@@ -8,14 +10,9 @@ please do that in the respective tag page. </p>
 -->
 <form enctype="multipart/form-data" action="" method="post">
 {% csrf_token %}
-{{form.as_p}}
+{% crispy form %}
 Description: <br>
-<!--
-<textarea rows='10' cols='80'  name="content">This will be the wiki of this tag. 
-Please write something about this tag.</textarea> <br>
-Short summary: <br>
-<textarea rows='1' cols='80' name='summary'> Please summarize your edit. </textarea> <br>
--->
+
 <input type="submit" value = "Submit tag" /> 
 </form>
 {% endblock content %}

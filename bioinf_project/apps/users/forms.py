@@ -4,12 +4,21 @@ from django import forms
 from .models import User, UserProfile
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Fieldset, Div, Submit, ButtonHolder, HTML
+from django.core.exceptions import ValidationError
+
 # Create your forms here.
 
+def validate_email(email):
+    try: user = User.objects.get(email__iexact=email)
+    except User.DoesNotExist:
+        pass # this is great
+    else:
+        raise ValidationError( user.email+" has been already been registered.")
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
+    email = forms.EmailField(label="Email Address", validators=[validate_email])
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
@@ -28,6 +37,7 @@ class UserCreationForm(forms.ModelForm):
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(UserCreationForm, self).save(commit=False)
+        user.email = User.objects.normalize_email(user.email)
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()

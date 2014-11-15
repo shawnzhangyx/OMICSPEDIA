@@ -1,0 +1,11 @@
+{% extends "users/user_base.html" %}
+
+{% block content %}
+    {% if validlink == True %}
+        <h1>Congratulations!</h1>
+        <p> Your e-mail address has been verified. Enjoy your website! </p>
+    {% else %}
+        <h1>Link expired</h1>
+        <p> You have already activated your account using this link.</p>
+    {% endif %}
+{% endblock %}

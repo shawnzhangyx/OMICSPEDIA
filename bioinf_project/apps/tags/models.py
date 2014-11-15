@@ -30,7 +30,7 @@ class Tag(models.Model):
     #---- fields ----#
     name = models.CharField(max_length=255, unique=True)
     icon = models.ImageField(upload_to='tags',null=True,blank=True)
-    wiki_page = models.OneToOneField("wiki.Page",blank=True, null=True)
+    wiki_page = models.OneToOneField("wiki.Page")
     # record the times this tag is used
     count = models.IntegerField(default=0)
     # provide the tag structures
@@ -39,9 +39,12 @@ class Tag(models.Model):
     node_position = models.IntegerField(default=0)
 
     # the types of the tag
-    PROPOSED, APPROVED, WORKFLOW, SOFTWARE = range(4)
-    CATEGORY_CHOICE = [(PROPOSED, "proposed"), (APPROVED,"approved"), (WORKFLOW,"workflow"), (SOFTWARE,"software")]
-    categories = models.IntegerField(choices=CATEGORY_CHOICE, default=PROPOSED)
+    PROPOSED, PROTECTED = range(2) 
+    STATUS_CHOICE = [(PROPOSED, "proposed"), (PROTECTED, "protected")]
+    status = models.IntegerField(choices=STATUS_CHOICE, default=PROPOSED)
+    REGULAR, WORKFLOW, SOFTWARE = range(3)
+    CATEGORY_CHOICE = [(REGULAR,"regular"), (WORKFLOW,"workflow"), (SOFTWARE,"software")]
+    categories = models.IntegerField(choices=CATEGORY_CHOICE, default=REGULAR)
 
     @staticmethod
     def update_tag_counts(sender, instance, action, pk_set, *args, **kwargs):
@@ -56,6 +59,9 @@ class Tag(models.Model):
         if action == 'pre_clear':
             instance.tags.all().update(count=F('count') - 1)
 
+ #   @staticmethod
+  #  def change_tag_status(sender, instance, action, pk_set, *args, **kwargs)
+    
     @staticmethod
     def reset_tag_counts():
         for tag in Tag.objects.all():
@@ -91,3 +97,4 @@ class Meta:
 
 # data signals
 m2m_changed.connect(Tag.update_tag_counts, sender=MainPost.tags.through)
+#m2m_changed.connect(Tag.change_tag_status, sender=MainPost.tags.through)

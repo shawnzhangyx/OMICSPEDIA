@@ -1,7 +1,7 @@
 from django.db import models
 from utils.models import AbstractBaseRevision
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.contenttypes.generic import GenericRelation
+from django.contrib.contenttypes.generic import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -9,8 +9,19 @@ from django.utils import timezone
 from utils.models import View
 from django.db.models import F
 from django.conf import settings
+
 # Create your models here.
 
+class Flag(models.Model):
+    # who created the flag
+    flagger = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="flags")
+    # link to the object
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    # why is it flagged.
+    content = models.TextField(verbose_name = _("content"), null=False, blank=False)
+    
 
 class Report(models.Model):
     title = models.CharField(_("title"), max_length=255, unique=True)

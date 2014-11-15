@@ -24,6 +24,12 @@ class WikiNew(CreateView):
     template_name = "wiki/wiki_new.html"
     form_class = PageForm
     
+    def get_form(self, form_class):
+        kwargs = self.get_form_kwargs()
+        if 'title' in self.request.GET:
+            kwargs['initial'].update({'title':self.request.GET['title']})
+        return form_class(**kwargs)
+    
     def form_valid(self, form):
         form.save()
         new_revision = PageRevision(content=self.request.POST['content'],
@@ -32,7 +38,12 @@ class WikiNew(CreateView):
         new_revision.save()
         form.instance.current_revision=new_revision
         return super(WikiNew, self).form_valid(form)
-
+    
+    def get_success_url(self):
+        if self.request.GET['next']:
+            return redirect(self.request.GET['next'])
+        return super(WikiNew,self).get_success_url()
+    
 
 class WikiEdit(UpdateView):
     form_class = PageRevisionForm

@@ -68,7 +68,10 @@ class AbstractPost(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,blank=False,null=False)
     created = models.DateTimeField()
     last_modified = models.DateTimeField()
-
+    
+    OPEN, PROTECTED, DELETED = range(3) 
+    STATUS_CHOICE = [(OPEN, "proposed"), (PROTECTED, "protected"), (DELETED, "deleted")]
+    status = models.IntegerField(choices=STATUS_CHOICE, default=OPEN)
     #---- functions ----#
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
@@ -107,7 +110,9 @@ class MainPost(AbstractPost):
 
     accepted_answer = models.ForeignKey("ReplyPost", blank=True, null=True, related_name="accepted_root")
     main_post_comments = GenericRelation("utils.Comment")
-        ### potential useful fields: watched
+    
+    # marked duplicated post. 
+    duplicated_post = models.ForeignKey("self", blank=True, null=True)
 
     def __unicode__(self):
         return self.title

@@ -14,6 +14,7 @@ from django.utils.decorators import method_decorator
 class TagList(ListView):
 #    model = Tag
     template_name = "tags/index.html"
+    paginate_by = 2
     queryset = Tag.objects.filter(parent__isnull=True)
 
 

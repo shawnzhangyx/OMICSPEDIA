@@ -5,7 +5,7 @@
 <h1> Software Homepage</h1>
 
 {% if user.is_authenticated %}
-<a class="btn btn-default" href="{% url 'software:software-new' %}"> Submit new tools </a>
+<a class="btn btn-default" href="{% url 'software:software-precreate' %}"> Submit new tools </a>
 {% else %}
 <a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"> log in </a> to submit new software. 
 {% endif %}

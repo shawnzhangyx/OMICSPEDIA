@@ -72,7 +72,7 @@ class Vote(models.Model):
     date = models.DateField(auto_now=True)
 
     def __unicode__(self):
-        return u"%s, %s, %s" %( self.get_choice_display(), self.voter.email, self.content_object.id)
+        return u"%s, %s, %s" %( self.get_choice_display(), self.voter.email, self.content_type.id)
 
     class Meta:
        unique_together = ("voter", "content_type","object_id")
@@ -120,3 +120,7 @@ class Bookmark(models.Model):
         
     class Meta: 
         unique_together = ("reader", "content_type", "object_id")        
+
+        
+    
+    

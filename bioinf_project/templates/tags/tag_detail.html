@@ -5,7 +5,9 @@
 {% block content %}
 <br>
 <a class="btn btn-xs btn-default" href = "{% url 'tags:tag-delete' name=tag.name %}">Delete? </a>
-<button class="btn btn-xs btn-primary" type='button' onclick='location.href="{% url "tags:tag-create" parent_name=tag.name %}"'> Create new tag under this tag?</button>
+{% if tag.get_category_display == "workflow"%}
+<a class="btn btn-xs btn-primary"  href="{% url 'tags:tag-create' parent_name=tag.name %}"> Create new tag under this tag?</a>
+{% endif %}
 <br>
 <h1> {% show_tag_ancestor tag %} {{ tag.name }} <small> x{{tag.count}} </small> </h1>
  {% if tag.wiki_page == null %}

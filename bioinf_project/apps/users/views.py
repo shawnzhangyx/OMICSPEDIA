@@ -1,16 +1,24 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse 
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, get_user_model
 from django.views.generic import DetailView, ListView, UpdateView
 from django.views.generic.base import View
 from django.views.generic.edit import FormView, CreateView
 from django.contrib.contenttypes.models import ContentType
+from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.sites.models import get_current_site
+from django.template import loader
+from django.http import HttpResponseRedirect
 
 from .models import UserProfile
 from posts.models import MainPost
 from wiki.models import Page
 from software.models import Tool
+from tags.models import Tag
 from .forms import UserCreationForm, ProfileForm
 # Create your views here.
 
@@ -26,8 +34,11 @@ class Login(FormView):
 
     def form_valid(self, form):
         login(self.request, form.get_user())
-        return redirect(self.request.GET['next'])
-
+        if 'next' in self.request.GET:
+            return redirect(self.request.GET['next'])
+        else:
+            return form_valid(self.form)
+            
 class Logout(View):
     def get(self, request, *args, **kwargs):
         logout(request)
@@ -66,10 +77,73 @@ class ProfileView(DetailView):
         id = software_bookmarks.values_list('object_id',flat=True)
         bookmark_software = Tool.objects.filter(id__in = id)
         context['bookmark_software'] = bookmark_software
+        # tags that the author contributed to 
+        tags_answered = Tag.objects.filter(posts__replies__author = self.object.user).distinct()
+        context['tag_list'] = tags_answered
         return context
         
 class UserListView(ListView):
     model = UserProfile
     template_name = 'users/user_list.html'
     context_object_name = "user_profile_list"
+    paginate_by = 30
+    
+    def get_queryset(self):
+        tab = self.request.GET.get('tab')
+        if tab == "Reputation":
+            return UserProfile.objects.order_by('-reputation')
+        elif tab == "Activity":        
+            return UserProfile.objects.order_by('-last_activity')
+        #elif tab == "Moderators":
+            #return UserProfile.objects.filter(user__groups = '')
+        else: 
+            return UserProfile.objects.order_by('-reputation')
+            
+    def get_context_data(self,**kwargs):
+        context = super(UserListView, self).get_context_data(**kwargs)
+        context['tab'] = self.request.GET.get('tab')
+        return context
+    
+def email_verification_form(request,sent="no"):
+    if request.method == "POST":
+        user = request.user
+        email_template_name = "users/verification_email.html"
+        current_site = get_current_site(request)
+        site_name = current_site.name
+        domain = current_site.domain
+        use_https = request.is_secure()
+        c = {
+                'email': user.email,
+                'domain': domain,
+                'site_name': site_name,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'user': user,
+                'token': default_token_generator.make_token(user),
+                'protocol': 'https' if use_https else 'http',
+            }
+        subject = "Verification the  e-mail address of user "+user.user_profile.name
+        content = loader.render_to_string(email_template_name, c)
+        send_mail(subject, content, None, [user.email])
+        return HttpResponseRedirect(reverse('users:email-verification-form', kwargs={'sent':'sent/'}))
+    else:
+        return render(request, 'users/email_verification_form.html', {'sent':sent})
+    
+    
+def email_verification_complete(request, uidb64=None, token=None):
+    UserModel = get_user_model()
+    assert uidb64 is not None and token is not None  # checked by URLconf
+    try:
+        uid = urlsafe_base64_decode(uidb64)
+        user = UserModel._default_manager.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        user = None
+    if user is not None and default_token_generator.check_token(user, token):
+        validlink = True
+        user.email_verified = True
+        user.set_password(user.password)
+        user.save()
+    else: 
+        validlink = False
+    return render(request, "users/email_verification_complete.html", {"validlink":validlink})
+    
     

@@ -79,6 +79,7 @@ GRAPH_MODELS = {
   'all_applications': True,
   'group_models': True,
 }
+
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 # for Heroku
@@ -144,3 +145,10 @@ AUTO_RENDER_SELECT2_STATICS = False
 SELECT2_BOOTSTRAP = True
 
 AUTH_USER_MODEL = "users.User"
+
+##### e-mail host and login 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'omicspedia@gmail.com'
+EMAIL_HOST_PASSWORD = 'omicspedia123'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

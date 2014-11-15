@@ -8,9 +8,6 @@
     <img src="{{tag.icon.url}}" height="20" width="20" style="float:left; border: dotted 1px #999999;margin-right:5px"> 
     {% endif %}
      {{tag.name}} </a> <small>x{{tag.count}}</small> </li>
-    {# show_tag_children tag #}
-{% empty %}
-No matching tag. 
 {% endfor %}
 </ul>
 

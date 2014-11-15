@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permission, Group, PermissionsMixin
 from django.core.urlresolvers import reverse
 from django.db.models.signals import post_save, post_delete, pre_delete
+from django.utils import timezone
 
 from tags.models import Tag
 from utils.models import Vote
@@ -48,6 +49,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     objects = UserManager()
     # required information 
     email = models.EmailField(verbose_name="email address", db_index=True, max_length=255, unique=True)
+    email_verified = models.BooleanField(verbose_name="email verified?", default=False)
     # required to identify the user. 
     USERNAME_FIELD = 'email'
     
@@ -83,10 +85,16 @@ class UserProfile(models.Model):
     biography = models.TextField(blank=True)
     portrait = models.ImageField(upload_to="user_photo", null=True, blank=True)
     reputation = models.IntegerField(default=1)
-    following = models.ManyToManyField('self',blank=True)
+    following = models.ManyToManyField('self',blank=True, related_name = "followers")
     watched_tags = models.ManyToManyField(Tag, blank=True, related_name = "user")
+    date_joined = models.DateTimeField(verbose_name="date joined", editable=False)
     last_activity = models.DateTimeField(verbose_name="last activity", null=True,blank=True)
     
+    def save(self, *args, **kwargs):
+        if not self.date_joined: 
+            self.date_joined = timezone.now()
+        super(UserProfile, self).save()
+            
     def __unicode__(self):
         return self.user.email
     @property

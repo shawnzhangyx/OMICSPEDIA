@@ -8,11 +8,8 @@
 <h1> Editing {{object.name}}</h1>
 {% endif %}
 <hr>
-<form enctype="multipart/form-data" action = "" method="post">
-<table>
-{% csrf_token %}
+<form class="col-sm-10 col-sm-offset-1" enctype="multipart/form-data" action = "" method="post">
 {% crispy form %}
-</table>
-<input type="submit" value = "Submit" />
+
 </form>
 {% endblock content %}
