@@ -102,7 +102,9 @@
             {% block sidebar-user %}
             <li><a href= "{% url 'users:user-list' %}" > Users </a> </li>
             {% endblock sidebar-user %}
-
+            {% block sidebar-meta %}
+            <li><a href= "{% url 'meta:meta-index' %}" > Meta </a> </li>
+            {% endblock sidebar-meta %}
 
           </ul>
         </div>

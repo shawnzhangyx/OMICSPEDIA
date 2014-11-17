@@ -3,19 +3,24 @@
 {% load post_custom_tags %}
 {% load wiki_custom_tags %}
 {% block content %}
+
+<h1> {% show_tag_ancestor tag %} {{ tag.name }} <small> x{{tag.count}} </small> 
+
+{% if perms.tags.delete_tag %}
 <br>
+<a class="btn btn-xs btn-default" href="{% url 'tags:tag-edit' tag.name %}">Edit</a>
 <a class="btn btn-xs btn-default" href = "{% url 'tags:tag-delete' name=tag.name %}">Delete? </a>
+{% endif %}
 {% if tag.get_category_display == "workflow"%}
+
 <a class="btn btn-xs btn-primary"  href="{% url 'tags:tag-create' parent_name=tag.name %}"> Create new tag under this tag?</a>
 {% endif %}
-<br>
-<h1> {% show_tag_ancestor tag %} {{ tag.name }} <small> x{{tag.count}} </small> </h1>
+</h1>
  {% if tag.wiki_page == null %}
-  There is no description of this tag, would you like to <a href="{% url 'tags:tag-edit' tag.name %}">contribute? </a>
+  There is no description of this tag, please add a <a href="{% url 'tags:tag-edit' tag.name %}">wiki</a> page to it. 
   {% else %}
-<a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}"> [Click here for more]</a> 
-
 {{tag.wiki_page.get_lead_section|safe}} 
+<a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}"> [Click here for more]</a> 
   {% endif %}
 
 <br>
@@ -23,10 +28,10 @@
     <li {% ifequal tab "Info" %} class="active" {% endifequal %}>
       <a href="?tab=Info"> Info </a> </li>
     <li {% ifequal tab "Articles" %} class="active" {% endifequal %}> 
-      <a href="?tab=Articles"> Articles </a> </li>
+      <a href="?tab=Articles"> Articles ({{wiki_list.count}}) </a> </li>
     <li {% ifequal tab "Posts" %} class="active" {% endifequal %}
         {% ifequal tab null %} class="active" {% endifequal %}>
-        <a href="?tab=Posts"> Posts </a> </li>
+        <a href="?tab=Posts"> Posts ({{post_list.count}}) </a> </li>
     <li {% ifequal tab "Other" %} class="active" {% endifequal %}> 
       <a href="?tab=Other"> Other </a> </li>        
   </ul>

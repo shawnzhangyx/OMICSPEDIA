@@ -68,7 +68,7 @@ class AbstractPost(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,blank=False,null=False)
     created = models.DateTimeField()
     last_modified = models.DateTimeField()
-    
+    #add status of the post
     OPEN, PROTECTED, DELETED = range(3) 
     STATUS_CHOICE = [(OPEN, "proposed"), (PROTECTED, "protected"), (DELETED, "deleted")]
     status = models.IntegerField(choices=STATUS_CHOICE, default=OPEN)
@@ -87,7 +87,7 @@ class AbstractPost(models.Model):
 
 class MainPost(AbstractPost):
 
-    #add status of the post
+    
 
     tags = models.ManyToManyField("tags.Tag",blank=True, related_name="posts")
 
@@ -112,7 +112,7 @@ class MainPost(AbstractPost):
     main_post_comments = GenericRelation("utils.Comment")
     
     # marked duplicated post. 
-    duplicated_post = models.ForeignKey("self", blank=True, null=True)
+    #duplicated_post = models.ForeignKey("self", blank=True, null=True)
 
     def __unicode__(self):
         return self.title

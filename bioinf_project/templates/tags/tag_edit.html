@@ -1,21 +1,13 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
 {% block content %}
-<h2> Edit a new tag</h2>
+<h2> Edit tag</h2>
+
 {{ message }}
-<!--
-<p> Tips: if you want to create a new tag nested under another tags,
-please do that in the respective tag page. </p>
--->
+<div class="col-sm-10 col-sm-offset-1">
 <form enctype="multipart/form-data" action="" method="post">
 {% csrf_token %}
-{{form.as_p}}
-Description: <br>
-<!--
-<textarea rows='10' cols='80'  name="content">This will be the wiki of this tag. 
-Please write something about this tag.</textarea> <br>
-Short summary: <br>
-<textarea rows='1' cols='80' name='summary'> Please summarize your edit. </textarea> <br>
--->
-<input type="submit" value = "Submit changes" /> 
+{% crispy form %}
 </form>
 {% endblock content %}

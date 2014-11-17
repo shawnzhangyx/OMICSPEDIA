@@ -40,7 +40,7 @@ class WikiNew(CreateView):
         return super(WikiNew, self).form_valid(form)
     
     def get_success_url(self):
-        if self.request.GET['next']:
+        if self.request.GET.get('next'):
             return redirect(self.request.GET['next'])
         return super(WikiNew,self).get_success_url()
     

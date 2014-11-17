@@ -3,9 +3,11 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+
 from .models import Tag
 from posts.models import MainPost
 from wiki.models import Page, PageRevision
+from .forms import TagForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -14,19 +16,19 @@ from django.utils.decorators import method_decorator
 class TagList(ListView):
 #    model = Tag
     template_name = "tags/index.html"
-    paginate_by = 2
+    paginate_by = 20
     queryset = Tag.objects.filter(parent__isnull=True)
 
 
 class TagCreate(CreateView):
-    model = Tag
+    form_class = TagForm
     template_name = "tags/tag_create.html"
-    fields = ['name','wiki_page','categories']
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(TagCreate, self).dispatch(*args, **kwargs)
 
+        return form_class(**kwargs)
     def get_context_data(self, **kwargs):
         context = super(TagCreate,self).get_context_data(**kwargs)
         if self.kwargs['parent_name'] !='':
@@ -43,9 +45,8 @@ class TagCreate(CreateView):
         return context
 
 class TagEdit(UpdateView):
-    model = Tag
+    form_class = TagForm
     template_name = "tags/tag_edit.html"
-    fields = ['name','wiki_page','categories','icon']
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

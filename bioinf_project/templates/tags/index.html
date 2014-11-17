@@ -19,7 +19,18 @@ Type to find tags: <input class="form" type="text" name="suggestion" id="suggest
 
 <br><hr>
 <div id="tag-default">
-{% display_tag_list tag_list %}
+
+<ul class="list-unstyled list-inline">
+        {% for tag in tag_list %}
+        <li>  <a class="tags" href = "{% url 'tags:tag-detail' tag.name %}" > {% if tag.icon.url != null%}
+    <img class="tag-icon" src="{{tag.icon.url}}" > 
+    {% endif %}
+        {{tag.name}} </a> <small>x{{tag.count}}</small></li>
+        {% empty %}
+          
+        {% endfor %}
+</ul>
+
 </div>
 <div id="tags">
 {% include "tags/tag_suggest_list.html" with suggest_tag_list=suggest_tag_list %}

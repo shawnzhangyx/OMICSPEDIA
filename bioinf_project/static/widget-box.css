@@ -119,20 +119,26 @@ font-size:90%;
 color: #4a6b82;
 cursor:pointer;
 font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;
-padding: 3px 4px;
+padding: 1px 5px 1px 2px;
 background-color: #e0eaf1;
 margin: 5px 2px 5px 0;
 line-height: 1.4;
 white-space: nowrap;
 display: inline-block;
 border: 1px solid #c4dae9;
-
+min-height:24px;
 }
 
 .tags:hover {
     background-color: #c4dae9;
     color: #4a6b82;
     text-decoration: none;
+}
+.tag-icon {
+height:20;
+width:20;
+#border: dotted 1px #999999;
+margin-right:5px
 }
 /************* wiki ***************/
 
