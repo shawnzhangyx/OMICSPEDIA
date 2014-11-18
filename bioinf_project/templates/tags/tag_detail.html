@@ -4,7 +4,7 @@
 {% load wiki_custom_tags %}
 {% block content %}
 
-<h1> {% show_tag_ancestor tag %} {{ tag.name }} <small> x{{tag.count}} </small> 
+<h1> {% show_tag_ancestor tag %} {{ tag.name }} <small> &lttag&gt </small> 
 
 {% if perms.tags.delete_tag %}
 <br>
@@ -19,18 +19,19 @@
  {% if tag.wiki_page == null %}
   There is no description of this tag, please add a <a href="{% url 'tags:tag-edit' tag.name %}">wiki</a> page to it. 
   {% else %}
+  <div class="pull-left">
 {{tag.wiki_page.get_lead_section|safe}} 
-<a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}"> [Click here for more]</a> 
+</div>
+<small> <a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}">&nbsp;[more]</a> </small>
   {% endif %}
 
-<br>
+<br><br>
   <ul class="nav nav-tabs">
     <li {% ifequal tab "Info" %} class="active" {% endifequal %}>
       <a href="?tab=Info"> Info </a> </li>
     <li {% ifequal tab "Articles" %} class="active" {% endifequal %}> 
       <a href="?tab=Articles"> Articles ({{wiki_list.count}}) </a> </li>
-    <li {% ifequal tab "Posts" %} class="active" {% endifequal %}
-        {% ifequal tab null %} class="active" {% endifequal %}>
+    <li {% ifequal tab "Posts" %} class="active" {% endifequal %} >
         <a href="?tab=Posts"> Posts ({{post_list.count}}) </a> </li>
     <li {% ifequal tab "Other" %} class="active" {% endifequal %}> 
       <a href="?tab=Other"> Other </a> </li>        
@@ -41,9 +42,8 @@
  This is the Info page of the tag
 {% endifequal %}
 
-
 {% ifequal tab "Articles"%}
-  <br>
+  <br>  
   <ul>
   {% for wiki in wiki_list %}
   {% show_wiki_tab wiki %}
@@ -53,12 +53,14 @@
   </ul>
 {% endifequal %}
 
-{% if tab != "Info" and tab != "Articles"%}
+{% if tab == "Posts"%}
+<div class="container-fluid">
 {% for post in post_list %}
   {% show_post_tab post %}
 {% empty %}
 No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
 {% endfor %}
+</div>
 {% endif %}
 
 {% endblock content %}

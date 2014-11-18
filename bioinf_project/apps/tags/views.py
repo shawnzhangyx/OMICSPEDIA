@@ -67,8 +67,7 @@ class TagDetails(DetailView):
         context['tab'] = tab
         context['tag_wiki'] = self.object.wiki_page
         context['wiki_list'] = self.object.page_set.all()
-        if tab == 'Posts' or not tab:
-            context['post_list'] = self.object.posts.all()
+        context['post_list'] = self.object.posts.all()
 
         return context
 

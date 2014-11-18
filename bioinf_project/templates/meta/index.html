@@ -1,13 +1,20 @@
 {% extends 'meta/meta_base.html' %}
-{% block head %}
-
 {% load meta_custom_tags %}
+
+{% block head %}
 {% endblock head %}
 
 {% block content %}
   <h1> HomePage for meta</h1>
-  <p> please leave your feedbacks and suggestions to improve our website!</p>
-  <button type="button" class="btn btn-info" onclick='location.href="{% url 'meta:report-new' %}"'> Create new report</button>
+{% if user.is_authenticated %}  
+  <a class="btn btn-default" href="{% url 'meta:report-new' %}"> Make suggestions</a>
+{% else %}
+<p> Please 
+ <a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"> log in </a> 
+ to leave your feedbacks and make suggestions to improve our community! </p>
+  {% endif %}
+<br>
+  <hr>
 
   <div class="container-fluid">
   {% for report in report_list %}
@@ -16,5 +23,5 @@
     <p> Nothing posted yet.</p>
   {% endfor %}
   </div>
-  <hr style="margin-top:0px">
+  <hr>
 {% endblock content %}

@@ -1,7 +1,8 @@
+{% load tag_custom_tags %}
 
 <ul class="list-unstyled list-inline">
         {% for tag in tag_list %}
-        <li>  <a class="tags" href = "{% url 'tags:tag-detail' tag.name %}" > {{tag}} </a> </li>
+            {% display_tag tag %}
         {% empty %}
           
         {% endfor %}

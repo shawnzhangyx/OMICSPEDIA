@@ -1,0 +1,8 @@
+<a class="tags" data-toggle="tooltip" data-placement="bottom" 
+title="{{tag.name}}" href = "{% url 'tags:tag-detail' tag.name %}" >
+    {% if tag.icon.url != null%}
+        <img class="tag-icon" src="{{tag.icon.url}}" > 
+    {% endif %}
+    {{tag.name}} 
+</a>
+

@@ -28,6 +28,10 @@ def show_tag_ancestor(tag):
      return {'tag': tag.parent}
 #    else:
 
+@register.inclusion_tag("tags/templatetags/display_tag.html")
+def display_tag(tag):
+    return {'tag': tag}
+
 @register.inclusion_tag("tags/templatetags/display_tag_list.html")
 def display_tag_list(tag_list):
     return {'tag_list': tag_list}
