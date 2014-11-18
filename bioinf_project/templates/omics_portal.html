@@ -34,37 +34,6 @@
 <div id="portal_tag">
 </div>
 
-<!--
-<div class="row">
-    {% for tag in tag_list %}
-    <div class="col-xs-6 col-sm-4">
-    	<div class="thumbnail">
-            {% if tag.icon.url != null %}
-            <img class="img-thumbnail" src="{{tag.icon.url}}" height="70" width="70" style="float:left; margin-right:10px">
-            {% endif %}
-    	<h4 style="margin-top:10px;border-bottom: solid 1px #999999;">
-        <a data-toggle="tooltip" data-placement="top"
-           title="subcategories of {{tag.name}}" href="{% url 'portal' tag.name %}">
-        {{tag.name}} </a>
-    		({{tag.children.count}})
-    	</h4>
-        <p style="text-align:left">
-    	<a href="{%url 'tags:tag-detail' tag.name %}?tab=Articles"> wiki</a>({{tag.page_set.count}}), <a href="{%url 'tags:tag-detail' tag.name %}?tab=Latest"> posts</a>({{tag.posts.count}})</p>
-    </div>
-    </div>
-    {% empty %}
-    <h4> There are no subcategories under {{ category.name|default:'Root'}}.  </h4>
-     {% endfor %}
-</div>
-
-<hr>
-
-{% if category == null %}
-This is top level
-{% else %}
-<a href="{% url 'portal' category.parent.name %}">Go up one level </a>
-{% endif %}
--->
 {% endblock content %}
 
 

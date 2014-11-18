@@ -51,7 +51,7 @@ def portal_tag(request):
     if request.method == "GET":
         tag_name = request.GET['tag_name']
         tag = Tag.objects.get(name = tag_name)
-        return render_to_response('portal/portal_tag.html', {'tag': tag}, context)
+        return render_to_response('utils/portal_tag.html', {'tag': tag}, context)
 
 class HelpView(TemplateView):
     template_name = "help.html"

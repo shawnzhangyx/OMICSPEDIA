@@ -18,7 +18,7 @@ from django.conf import settings
 class Page(models.Model):
 
     title = models.CharField(_("title"), max_length=255, unique=True)
-    tags = models.ManyToManyField("tags.Tag",blank=True)
+    tags = models.ManyToManyField("tags.Tag",blank=True, related_name="pages")
     wiki_votes = GenericRelation("utils.Vote")
     wiki_rates = GenericRelation("utils.Rate")
     current_revision = models.OneToOneField('PageRevision', blank=True, null=True, verbose_name=_('current revision'),

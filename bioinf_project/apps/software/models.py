@@ -13,8 +13,7 @@ from django.utils import timezone
 # and moderators can edit the information. 
 class Tool(models.Model):
     # other than the tool specific information, the other parts are the same as the wiki page. 
-    page = models.OneToOneField("wiki.Page")
-    #tag = models.OneToOneField("tags.Tag")
+    page = models.OneToOneField("wiki.Page", related_name="software")
     # tool information
     name = models.CharField(max_length=255, blank=True, unique=True)
     image = models.ImageField(upload_to='software',null=True,blank=True)

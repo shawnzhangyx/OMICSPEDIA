@@ -2,12 +2,7 @@
 
 <ul class="list-unstyled list-inline">
 {% for tag in suggest_tag_list %}
-<li> <a class="tags" data-toggle="tooltip" data-placement="bottom" 
-     title="{{tag.name}}" href="{% url 'tags:tag-detail' name=tag.name %}"> 
-    {% if tag.icon.url != null%}
-    <img class="tag-icon" src="{{tag.icon.url}}" > 
-    {% endif %}
-     {{tag.name}} </a> <small>x{{tag.count}}</small> </li>
+<li> {% display_tag tag %} <small>x{{tag.count}}</small> </li>
 {% endfor %}
 </ul>
 

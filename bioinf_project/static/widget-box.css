@@ -198,7 +198,7 @@ visibility:hidden;
 border-bottom: 1px solid #aaa;
 }
 
-/**** comment tab ****/
+/**** wiki comment tab ****/
 .wiki-comment-tab
 {
 border: 1px dotted #CCCCCC;
@@ -412,4 +412,10 @@ display: none;
 
 #bookmark-software-list {
 display: none;
+}
+
+
+/******* omics portal ******/
+#portal_tag>div>div>h3{
+border-bottom: solid 1px grey;
 }

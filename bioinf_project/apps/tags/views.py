@@ -59,14 +59,16 @@ class TagEdit(UpdateView):
 class TagDetails(DetailView):
     template_name = 'tags/tag_detail.html'
     model = Tag
+    
     def get_object(self):
         return Tag.objects.get(name=self.kwargs['name'])
+        
     def get_context_data(self, **kwargs):
         context = super(TagDetails, self).get_context_data(**kwargs)
         tab = self.request.GET.get('tab')
         context['tab'] = tab
         context['tag_wiki'] = self.object.wiki_page
-        context['wiki_list'] = self.object.page_set.all()
+        context['wiki_list'] = self.object.pages.all()
         context['post_list'] = self.object.posts.all()
 
         return context

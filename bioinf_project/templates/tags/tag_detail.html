@@ -16,13 +16,14 @@
 <a class="btn btn-xs btn-primary"  href="{% url 'tags:tag-create' parent_name=tag.name %}"> Create new tag under this tag?</a>
 {% endif %}
 </h1>
+
  {% if tag.wiki_page == null %}
   There is no description of this tag, please add a <a href="{% url 'tags:tag-edit' tag.name %}">wiki</a> page to it. 
   {% else %}
   <div class="pull-left">
 {{tag.wiki_page.get_lead_section|safe}} 
 </div>
-<small> <a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}">&nbsp;[more]</a> </small>
+<small> <a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}">&nbsp;[tag wiki]</a> </small>
   {% endif %}
 
 <br><br>
@@ -33,8 +34,7 @@
       <a href="?tab=Articles"> Articles ({{wiki_list.count}}) </a> </li>
     <li {% ifequal tab "Posts" %} class="active" {% endifequal %} >
         <a href="?tab=Posts"> Posts ({{post_list.count}}) </a> </li>
-    <li {% ifequal tab "Other" %} class="active" {% endifequal %}> 
-      <a href="?tab=Other"> Other </a> </li>        
+    
   </ul>
 
 {% ifequal tab "Info" %}

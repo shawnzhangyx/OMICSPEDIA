@@ -1,0 +1,33 @@
+{% load post_custom_tags %}
+<h1>{{tag.name}}</h1>
+ {% if tag.wiki_page == null %}
+  There is no description of this tag, would you like to <a href="{% url 'tags:tag-edit' tag.name %}">edit it? </a>
+  {% else %}
+    {{tag.wiki_page.get_lead_section|safe}}
+
+  {% endif %}
+
+<div class="row">
+  <div class="col-sm-6">
+    <h3>{{tag.pages.count}} article {% if tag.pages.count > 1 %}s{% endif %}</h3>
+    <ul>
+      {% for page in tag.pages.all %}
+      <li> {{page.title}} </li>
+      
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="col-sm-6">
+    <h3> {{tag.posts.count}} post{% if tag.posts.count > 1 %}s{% endif %} </h3>
+      {% for post in tag.posts.all %}
+        {% show_post_tab post %}
+      {% endfor %}
+  </div>
+  <div class="clearfix visible-sm-block"></div>
+  <div class="col-sm-6">
+    <h3> {{tag.page.software.count}} software{% if tag.software.count > 1 %}s{% endif %} </h3>
+  </div>
+  <div class="col-sm-6">
+    <h3> {{tag.page.user.count}} user{% if tag.user.count > 1 %}s{% endif %} </h3>
+  </div>
+</div>

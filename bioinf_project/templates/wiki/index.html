@@ -1,7 +1,7 @@
 {% extends 'wiki/wiki_base.html' %}
 {% load wiki_custom_tags %}
 {% block content %}
-<h1> Wiki Homepage </h1>
+<h1> OMICS knowledgebase </h1>
 {% if user.is_authenticated %}
 <h3> <a class="btn btn-default" href = "{% url 'wiki:wiki-new' %}"> Create new wiki </a> </h3>
 {% else %}
