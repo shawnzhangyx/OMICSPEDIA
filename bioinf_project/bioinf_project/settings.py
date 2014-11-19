@@ -20,7 +20,9 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '69cno!47lp@*y9xzojy2@6sh**d#$!ry*0*_u8db6a#q@88usa'
+SECRET_KEY = os.environ['OMICSPEDIA_SECRET_KEY']
+# below is the old secret key. 
+#SECRET_KEY = '69cno!47lp@*y9xzojy2@6sh**d#$!ry*0*_u8db6a#q@88usa'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -50,7 +52,7 @@ INSTALLED_APPS = (
     'wiki',
     'software',
     'users',
-	'meta',
+    'meta',
     'utils',
 )
 
@@ -96,7 +98,6 @@ if len(DATABASES['default']) ==0:
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -110,14 +111,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'))
-
-    
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -126,7 +124,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 ALLOWED_HOSTS = ['*']
 
 # Static asset configuration
-import os
 #BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 STATIC_URL = '/static/'
@@ -149,6 +146,6 @@ AUTH_USER_MODEL = "users.User"
 ##### e-mail host and login 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'omicspedia@gmail.com'
-EMAIL_HOST_PASSWORD = 'omicspedia123'
+EMAIL_HOST_PASSWORD = os.environ['OMICSPEDIA_HOST_PASSWORD'] 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
