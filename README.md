@@ -13,9 +13,8 @@ This is built on python 2.7 and django 1.6.5
 * jstree
 
 ### Demo ###
-A demo of most current progress is hosted at Hero: 
-http://stormy-sea-6760.herokuapp.com/
-
+A development server of most current progress is hosted at here: 
+http://ones.ccmb.med.umich.edu/
 ### Database schema ###
 This is the [link](https://my.vertabelo.com/public-model-view/QpQ8R5jOXwakrp9LozEk2Rvb5Oa69GuKFwYCXHSXZgEGJtYbOKsLaCHnX2ZlwCCU?x=3977&y=3866&zoom=0.9)
 ### TODO: ###
