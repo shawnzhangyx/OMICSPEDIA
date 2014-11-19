@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     url(r'^posts/', include('posts.urls', namespace = "posts")),
     url(r'^software/', include('software.urls', namespace = "software")),
 	url(r'^meta/', include('meta.urls', namespace = "meta")),
-    url(r'^help/', include('help.urls', namespace="help")),
+    url(r'^help/(?P<help_page>.+)$',views.help_page_view, name="help-page"),
 #    url(r'^code_snippet/', include('code_snippet_repos.urls', namespace = "wiki")),
 
     # util urls and ajax links

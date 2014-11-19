@@ -226,6 +226,10 @@ width: 35%;
 }
 h1,h2,h3{
 }
+
+.software-info-tab div h3 {
+border-bottom: solid 1px grey;
+}
 /************** posts ************/
 
 /**** post tab ****/
@@ -248,13 +252,17 @@ text-align: center;
 
 .post-count-box div h3{
 margin-top: 5px;
-margin-bottom: 5px;
+margin-bottom: 2px;
 }
 
 .post-tab-reply {
 color: #993300;
 }
 
+.post-tab-reply-accepted{
+background-color: #669900;
+color: white;
+}
 .post-tab-views {
 color: #999999;
 }
@@ -270,6 +278,44 @@ display: inline-block;
 .post-created {
 float:right;
 color: #999999;
+}
+
+.post-count-box-sm{
+
+}
+/* post tab small */
+.post-tab-sm {
+margin-bottom: 10px;
+}
+.post-count-box-sm div{
+float: left;
+padding: 2px 5px;
+text-align: center;
+
+font-size: 14px;
+}
+.post-tab-vote-sm {
+background-color: #F4F4F4;
+}
+.post-tab-reply-sm {
+color: #993300;
+background-color: #E4F4D4;
+}
+
+.post-tab-reply-accepted{
+background-color: #669900;
+color: white;
+}
+.post-tab-view-sm {
+color: white;
+background-color: #999999;
+}
+
+.post-tab-title-sm{
+margin-left: 20px;
+font-size: 16px;
+font-weight: bold;
+color: #555555;
 }
 
 /**** post body ****/
@@ -398,7 +444,7 @@ cursor: pointer;
 }
 
 
-#profile-view-tabs div  {
+#profile-view-tabs>div  {
 min-height: 100px;
 }
 

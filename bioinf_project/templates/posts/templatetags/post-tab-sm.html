@@ -1,0 +1,20 @@
+{% load util_custom_tags %}
+{% load tag_custom_tags %}
+{% load humanize %}
+<div class="post-tab-sm col-sm-12">
+  <div class="post-count-box-sm">
+    <div class="post-tab-vote-sm">
+    {{post.get_vote_count}}
+    </div>
+    <div class="post-tab-reply-sm {% if post.accepted_answer != null%}post-tab-reply-accepted{% endif %}">
+    {{post.reply_count}} 
+    </div>
+    <div class="post-tab-view-sm">
+    {{post.view_count}}
+    </div>
+  </div>
+  <div>
+    <a class="post-tab-title-sm" href= "{% url 'posts:post-detail' post.id %}" >{{ post.title }} </a>
+     
+  </div>
+</div>

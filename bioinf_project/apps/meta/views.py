@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import DetailView, ListView, TemplateView, UpdateView, CreateView, DeleteView
 
 from .models import Report,ReportRevision
-from .forms import ReportForm
+from .forms import ReportForm, ReportRevisionForm
 # Create your views here.
 
 class IndexView(ListView):
@@ -23,7 +23,7 @@ class ReportNew(CreateView):
         return super(ReportNew, self).form_valid(form)
 
 class ReportEdit(UpdateView):
-    form_class = ReportForm
+    form_class = ReportRevisionForm
     template_name = 'meta/report_new.html'
     def get_object(self):
         return Report.objects.get(pk=self.kwargs['pk'])

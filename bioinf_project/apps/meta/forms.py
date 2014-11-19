@@ -29,4 +29,27 @@ class ReportForm(forms.ModelForm):
         fields = ('title',)
 
 
+class ReportRevisionForm(forms.ModelForm):
+    title = forms.CharField()
+    content = forms.CharField(widget=forms.Textarea)
+    summary = forms.CharField()
+    def __init__(self, *args, **kwargs):
+        super(ReportRevisionForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "report-form"
+        self.helper.layout = Layout(
+            Fieldset(
+                '',
+                Field('title'),
+                Field('content'),
+                Field('summary'),
+            ),
+            ButtonHolder(
+                Submit('submit', 'Submit')
+            )
+        )
+
+    class Meta:
+        model = Report
+        fields = ('title',)
 

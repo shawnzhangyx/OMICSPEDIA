@@ -12,17 +12,18 @@ from django.utils.decorators import method_decorator
 from .models import Comment, Vote, Rate, Bookmark
 from wiki.models import Page
 from posts.models import MainPost, ReplyPost
+from meta.models import Report
 # Create your views here.
 
 class CommentNew(CreateView):
-    template_name = "wiki/comment_new.html"
+    template_name = "utils/comment_new.html"
     model = Comment
     fields = ['content']
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(CommentNew, self).dispatch(*args, **kwargs)
-        
+   
     def form_valid(self, form):
         # can write a more compact function.
 
@@ -32,6 +33,8 @@ class CommentNew(CreateView):
             target = MainPost.objects.get(pk=self.kwargs['pk'])
         elif self.kwargs['comment_on'] == 'replyposts':
             target = ReplyPost.objects.get(pk=self.kwargs['pk'])
+        elif self.kwargs['comment_on'] == 'reports':
+            target = Report.objects.get(pk=self.kwargs['pk'])
 
         form.instance = Comment(content_object=target, content = self.request.POST['content'], author=self.request.user)
         return super(CommentNew, self).form_valid(form)
@@ -43,7 +46,8 @@ class CommentNew(CreateView):
             return reverse('posts:post-detail', kwargs={'pk':self.kwargs['pk']})
         elif self.kwargs['comment_on'] == "replyposts":
             return reverse('posts:post-detail', kwargs={'pk':ReplyPost.objects.get(pk=self.kwargs['pk']).mainpost.pk })
-
+        elif self.kwargs['comment_on'] == 'reports':
+            return reverse('meta:report-detail', kwargs={'pk':self.kwargs['pk']})
 #def json_response(**kwargs):
 #    data = dict()
 #    data.update(**kwargs)

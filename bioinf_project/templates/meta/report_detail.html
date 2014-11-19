@@ -15,12 +15,13 @@
 <!-- add reply -->
 
 {% if user.is_authenticated %}
-<form role="form" action='' method="post">
+<h4> Add your comment: </h4>
+<form role="form" action='{% url "comment-new" comment_on="reports" pk=report.id %}' method="post">
 {% csrf_token %}
-<h4> Add your reply: </h4>
-<textarea class="form-control" rows='5'  name="content"></textarea>
+
+<textarea class="form-control" rows='5'  id="id_content" name="content"></textarea>
 <br>
-<input class="btn btn-default" type="submit" value="Post reply">
+<input class="btn btn-default" type="submit" value="Post comment">
 </form>
 {% else %}
 please <a href = "{% url 'users:login' %}"> log in </a> to post a response 

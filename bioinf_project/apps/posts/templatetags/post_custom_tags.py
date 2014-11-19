@@ -9,7 +9,11 @@ register = template.Library()
 @register.inclusion_tag("posts/templatetags/post-tab.html")
 def show_post_tab(post):
     return {'post': post}
+
     
+@register.inclusion_tag("posts/templatetags/post-tab-sm.html")
+def show_post_tab_sm(post):
+    return {'post':post}
 
 @register.inclusion_tag("posts/templatetags/post-body.html")
 def display_post_body(post, user, post_type):

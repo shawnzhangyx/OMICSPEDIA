@@ -18,10 +18,10 @@
   </div>
   <div class="post-tab-detail">
     <div class="">
-      <h4> <a href= "{% url 'meta:report-detail' report.id %}" >{{ report.title }} </a> </h4>
+      <h4> <a href= "{% url 'meta:report-detail' report.id %}" >{{ report.title }} </a> </h4> 
     </div>
         <div class="post-created">
-    {{report.created|naturaltime}}  <a href="{%url 'users:profile-view' report.author.user_profile.id%}">{{report.author}}</a>
+    {{report.created|naturaltime}} <a href="{%url 'users:profile-view' report.author.user_profile.id%}">{{report.author.user_profile.name}}</a>
     </div>
   </div>
 </div>

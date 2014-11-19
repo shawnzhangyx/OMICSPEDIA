@@ -1,5 +1,6 @@
 {% extends "users/user_base.html" %}
 {% load tag_custom_tags %}
+{% load post_custom_tags %}
 {% load staticfiles %}
 {% load humanize %}
 
@@ -48,19 +49,29 @@
 <div class="row" id="profile-view-tabs">
 <div class="col-sm-6">
 <h3> {{userprofile.user.mainpost_set.count}} question{% if userprofile.user.mainpost_set.count > 1%}s{%endif%} </h3>
-<ul>
+
 {% for post in userprofile.user.mainpost_set.all %}
-<li> <a href="{% url 'posts:post-detail' post.id %}"> {{post.title}}</a></li>
+    {% show_post_tab_sm post %}
 {% endfor %}
-</ul> 
+
 </div>
 <div class="col-sm-6 ">
 <h3> {{userprofile.user.replypost_set.count}} answer{% if userprofile.user.replypost_set.count > 1%}s{%endif%}</h3>
-<ul>
+<div>
 {% for replypost in userprofile.user.replypost_set.all %}
-<li> <a href="{% url 'posts:post-detail' replypost.mainpost.id %}"> {{replypost.mainpost.title}}</a></li>
+  <div class="post-tab-sm col-sm-12">
+  <div class="post-count-box-sm">
+    <div class="post-tab-reply-sm {% if replypost.accepted_root.count == 1 %}post-tab-reply-accepted{% endif %}">
+    {{replypost.get_vote_count}}
+    </div>
+  </div>
+  <div>
+    <a class="post-tab-title-sm" href= "{% url 'posts:post-detail' replypost.mainpost.id %}" >{{ replypost.mainpost.title }} </a>
+  </div>
+    </div>
+
 {% endfor %}
-</ul> 
+</div> 
 </div>
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 <div class="col-sm-6" id="profile-view-bookmark">
@@ -74,11 +85,11 @@
 <li> {{wiki.title}} </li>
 {% endfor %}
 </ul>
-<ul id="bookmark-post-list">
+<div id="bookmark-post-list">
 {% for post in bookmark_posts %}
-<li> <a href="{% url 'posts:post-detail' post.id %}"> {{post.title}}</a></li>
+    {% show_post_tab_sm post %}
 {% endfor %}
-</ul>
+</div>
 <ul id="bookmark-software-list">
 {% for software in bookmark_software %}
 <li> {{software.name}} </li>

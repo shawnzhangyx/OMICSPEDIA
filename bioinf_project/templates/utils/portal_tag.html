@@ -20,7 +20,7 @@
   <div class="col-sm-6">
     <h3> {{tag.posts.count}} post{% if tag.posts.count > 1 %}s{% endif %} </h3>
       {% for post in tag.posts.all %}
-        {% show_post_tab post %}
+        {% show_post_tab_sm post %}
       {% endfor %}
   </div>
   <div class="clearfix visible-sm-block"></div>

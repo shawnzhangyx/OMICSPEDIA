@@ -7,7 +7,7 @@
     <h3>{{post.get_vote_count}} </h3> 
     votes
     </div>
-    <div class="post-tab-reply">
+    <div class="post-tab-reply {% if post.accepted_answer != null%}post-tab-reply-accepted{% endif %}">
     <h3>{{post.reply_count}} </h3> 
     Replies 
     </div>
@@ -19,6 +19,7 @@
   <div class="post-tab-detail">
     <div class="">
       <h4> <a href= "{% url 'posts:post-detail' post.id %}" >{{ post.title }} </a> </h4>
+      {{post.current_revision.content|truncatechars:200}}
     </div>
     
     <div class="post-tab-tags">

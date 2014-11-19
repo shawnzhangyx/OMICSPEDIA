@@ -28,7 +28,7 @@ class Report(models.Model):
     current_revision = models.OneToOneField('ReportRevision', blank=True, null=True, verbose_name=_('current revision'),
                                             related_name = "revision_page")
     report_votes = GenericRelation("utils.Vote")
-    report_comments = GenericRelation("util.Comment")
+    report_comments = GenericRelation("utils.Comment")
     report_views = GenericRelation("utils.View")
     view_count = models.IntegerField(default=0)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,blank=False,null=False)
@@ -51,6 +51,7 @@ class Report(models.Model):
 
     def get_comments(self):
         return self.report_comments.all()
+        
     def get_comment_count(self):
         return 0#self.report_comments.all.count()
 
