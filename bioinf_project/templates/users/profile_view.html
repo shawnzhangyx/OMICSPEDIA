@@ -80,27 +80,26 @@
     <small class="profile-view-tab-choice profile-view-tab-choice-off" target="bookmark-post-list"> post<sup>{{bookmark_posts.count}}</sup> </small>
     <small class="profile-view-tab-choice profile-view-tab-choice-off" target="bookmark-software-list"> software<sup>{{bookmark_software.count}}</sup> </small>
 </h3>
-<ul id="bookmark-wiki-list">
+<div id="bookmark-wiki-list">
 {% for wiki in bookmark_wiki %}
 <li> {{wiki.title}} </li>
 {% endfor %}
-</ul>
+</div>
 <div id="bookmark-post-list">
 {% for post in bookmark_posts %}
     {% show_post_tab_sm post %}
 {% endfor %}
 </div>
-<ul id="bookmark-software-list">
+<div id="bookmark-software-list">
 {% for software in bookmark_software %}
 <li> {{software.name}} </li>
 {% endfor %}
-</ul>
+</div>
 
 </div>
 <div class="col-sm-6 ">
 <h3> {{tag_list.count}} tag{% if tag_list.count > 1 %}s{% endif %} </h3>
-    {% display_tag_user_contribution tag_list user 10%}
-</ul>
+    {% display_tag_user_contribution tag_list userprofile.user 10%}
 </div>
 </div>
 

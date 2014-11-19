@@ -32,6 +32,12 @@ class Login(FormView):
     form_class = AuthenticationForm
     template_name = "users/login.html"
 
+    def dispatch(self, request):
+	if not request.user.is_anonymous(): 
+		return HttpResponseRedirect(reverse('index'))
+        else: 
+            return super(Login, self).dispatch(request)
+
     def form_valid(self, form):
         login(self.request, form.get_user())
         if 'next' in self.request.GET:
