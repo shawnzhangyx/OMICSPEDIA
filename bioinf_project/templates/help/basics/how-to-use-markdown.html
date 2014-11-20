@@ -1,0 +1,41 @@
+{% extends "help/basics/basics.html" %}
+
+{% block help-content %}
+<h3>How do I format the wiki and posts using Markdown? </h3>
+
+<p> Omicspedia uses <b>Markdown</b> for most of the text contents, except for comments. If you're new to Markdown, you may want to visit <a href="http://daringfireball.net/projects/markdown/syntax">John Gruber's offical Markdown webiste</a> for syntax reference. </p>
+
+<p>here are some example syntax uses and an example page:</p>
+<h4> Headers </h4>
+<p> We recommend using atx-style headers (use 1-6 hash characters at the start of the line, corresponding to header levels 1-6). For example: </p>
+<pre>
+# This is an H1
+## This is an H2
+### This is an H3
+</pre>
+
+<h4> Blockquotes </h4>
+<h4> Lists </h4>
+Unordered lists uses asterisks, pluses and hyphens --interchangably -- as list markers: 
+<pre>
+*   Red
+*   Green
+*   Blue
+</pre>
+Ordered lists use numbers followed by periods: 
+<pre>
+1.   Red
+2.   Green
+3.   Blue
+</pre>
+<h4> Code Blocks </h4>
+<h4> Inline Code Blocks </h4>
+<h4> Horizontal Rules </h4>
+<h4> Images </h4>
+<h4> Links </h4>
+<h4> Wikilinks </h4>
+<h4> Table of Content </h4>
+<h4> Footnote/References </h4>
+
+
+{% endblock help-content %}

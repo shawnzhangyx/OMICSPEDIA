@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3> <a href="{% url 'help-page' 'help-center'%}">Help center</a> &gt; <a href="{% url 'help-page' 'basics/basics'%}"> Basics</a>  </h3>
+<hr>
+{% block help-content %}
+{% endblock help-content %}
+
+{% endblock content %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% block head %}
+{% endblock head %}
+
+{% block content %}
+<h1> Help center</h1>
+<hr>
+<div class="row">
+  <div class="col-xs-6">
+    <h3> Basics</h3>
+    <a href="{% url 'help-page' 'basics/how-to-use-markdown'%}"> How do I format the wiki and posts using Markdown? </a>
+</div>
+<div class="row">
+    <h3> Community Rules</h3>
+
+</div>
+
+ {% endblock content %}
+

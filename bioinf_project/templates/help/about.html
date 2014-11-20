@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3> About Omicspedia </h3>
+<p> This site is developed by and for bioinformaticians. We have (1) <a href="{% url 'wiki:wiki-index'%}"> wiki </a> and <a href=""> tutorials </a> that
+could get beginners started in new fields and data types; (2) <a href="{% url 'posts:post-index'%}"> Q&A forums </a> to help solve your questions;
+(3) <a href="{% url 'software:software-index'%}"> software database</a> that help you to make an informed decision. Every section is organized by carefully
+curated OMICS tags so that it is easily navigatable. 
+<h3> "Vision" </h3>
+A major challenge for bioiformations nowadays is that this field is developing so fast that the resources are so scattered. We think it will be extremely useful to build an "eco-system" where the most updated and comprehensive knowledge could be brought into one piece and made readily available, and where bioinformatians could share experience, ideas and inspire each other, where no one will feel helpless and overwhelemed by OMICS. 
+<h3> Contact </h3>
+To contact the site manager team please e-mail <a href="mailto:omicspedia@gmail.com"> omicspedia@gmail.com</a>
+<h3> Want to help? </h3>
+
+To make this website useful to everyone, we highly appreciate advices from the you. Please leave your comments 
+<a href= {% url 'meta:meta-index' %}>here</a>, it will be considered seriously. 
+If you are highly motivated and experienced with omics data analysis or web programing, please contact us about the opportunity of becoming a
+member of the developer team, or the community moderators. 
+
+
+<h3> Source code </h3>
+Omicspedia source code is hosted at <a href="https://github.com/troublezhang/Need-A-Catchy-Name"> GitHub </a>. 
+{% endblock content %}
