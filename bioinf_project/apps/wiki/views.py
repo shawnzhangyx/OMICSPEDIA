@@ -140,11 +140,11 @@ class WikiHistory(ListView):
     context_object_name = "revision_list"
 
     def get_queryset(self):
-        return PageRevision.objects.filter(page__title = self.kwargs['title']).order_by('-modified_date')
+        return PageRevision.objects.filter(page__title = self.kwargs['title'].replace('_', ' ')).order_by('-modified_date')
 
     def get_context_data(self, **kwargs):
         context = super(WikiHistory, self).get_context_data(**kwargs)
-        context['page'] = Page.objects.get(title = self.kwargs['title'])
+        context['page'] = Page.objects.get(title = self.kwargs['title'].replace('_', ' '))
         return context 
 
 
