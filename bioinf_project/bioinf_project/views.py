@@ -32,7 +32,7 @@ class PortalView(ListView):
 
     def get_queryset(self):
         if self.kwargs['name'] =='':
-            return Tag.objects.filter(parent__isnull=True, categories=2)
+            return Tag.objects.filter(parent__isnull=True, categories=1)
         else:
             return Tag.objects.filter(parent__name=self.kwargs['name'])
 

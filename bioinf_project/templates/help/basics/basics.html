@@ -4,6 +4,8 @@
 <h3> <a href="{% url 'help-page' 'help-center'%}">Help center</a> &gt; <a href="{% url 'help-page' 'basics/basics'%}"> Basics</a>  </h3>
 <hr>
 {% block help-content %}
+<a href="{% url 'help-page' 'basics/how-to-use-markdown'%}"> How do I format the wiki and posts using Markdown? </a>
+
 {% endblock help-content %}
 
 {% endblock content %}
