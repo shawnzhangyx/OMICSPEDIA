@@ -3,15 +3,16 @@
 {% load post_custom_tags %}
 {% load tag_custom_tags %}
 {% block content %}
+
 <h2>{{tool.name}} <small>(<a href="{% url 'software:software-edit' tool.name%}">Edit</a>)</small></h2>
 <hr>
+<div class="container">
     {% display_tag_list tool.page.tags.all %} 
-
-<!-- software information: 
-url: 
--->
+</div>
+<!-- software information: -->
 
 <h3>Brief Introduction <small>[<a href= "{% url 'wiki:wiki-detail' tool.page.get_title %}">More</a>]</small></h3>
+<hr>
 {{tool.page.get_lead_section|safe}}
 
 <h3> Basic Info</h3>
@@ -36,8 +37,9 @@ url:
 </table>
   </div>
 </div>
-<div class="software-info-tab row ">
-  <div class="col-xs-12 col-sm-6">
+
+<div class="row">
+  <div class="section-tab col-xs-12 col-sm-6">
   <h3> {{tool.page.tag.posts.count }} post{% if tool.page.tag.posts.count > 1 %}s{% endif %}</h3>
   {% if tool.page.tag == null %}
    software information not complete.
@@ -48,10 +50,10 @@ url:
    {% endif %}
     
   </div>
-  <div class="col-xs-12 col-sm-6">
+  <div class="section-tab col-xs-12 col-sm-6">
     <h3> 0 comment</h3>
 
   </div>
-
   </div>
+  <hr>
 {% endblock content %}

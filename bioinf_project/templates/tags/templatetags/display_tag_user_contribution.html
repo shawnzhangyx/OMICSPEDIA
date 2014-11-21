@@ -1,5 +1,0 @@
-<ul class="list-unstyled list-inline" >
-{% for tag,count in zipped %}
-<li>  <a class="tags" href = "{% url 'tags:tag-detail' tag.name %}" > {{tag}} </a> x{{count}}</li>
-{% endfor %}
-</ul>

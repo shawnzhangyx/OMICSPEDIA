@@ -11,12 +11,12 @@ import markdown
 class AbstractBaseRevision(models.Model):
     # ultimately, we don't need the revision number at all,
     # we can sort the revisions by the date.
-    revision_number = models.IntegerField(_('revision number'))
+    revision_number = models.IntegerField(verbose_name=_('revision number'))
     # revision type (short summary)? correct grammar; fix link; add content; e.t.c.
-    revision_summary = models.CharField(_('revision summary'), max_length=20, blank=True)
+    revision_summary = models.CharField(max_length=20, blank=True, verbose_name=_('revision summary'))
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_("modified date"))
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
-    content = models.TextField(blank=True, verbose_name = _("content"))
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("author"))
+    content = models.TextField(blank=True, verbose_name=_("content"))
 
     def get_marked_up_content(self):
         return markdown.markdown(self.content,
@@ -31,19 +31,19 @@ class AbstractBaseRevision(models.Model):
 
 # Base content model that uses the revision.
 class AbstractBasePage(models.Model):
-    title = models.CharField(_("title"), max_length=255, unique=True)
-    tags = models.ManyToManyField("tags.Tag",blank=True)
+    title = models.CharField(max_length=255, unique=True, verbose_name=_("title"))
+    tags = models.ManyToManyField("tags.Tag",blank=True, verbose_name=_("tags"))
     class Meta:
         abstract=True
 
 
 # should refactor this to be base comment.
 class Comment(models.Model):
-    content = models.TextField(max_length=600, null=False)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    content = models.TextField(max_length=600, null=False, verbose_name=_("content"))
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("author"))
     comment_votes = GenericRelation("Vote")
     last_modified = models.DateTimeField()
-    ## enable generic foreignkey relationship with other classes, such as Page, MainPost, ReplyPost. 
+    ## enable generic foreign key relationship with other classes, such as Page, MainPost, ReplyPost. 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -64,7 +64,7 @@ class Vote(models.Model):
     # votes for a post, wiki, tool, or tag, user. Or anything else you can think.
     UP, DOWN = [1,-1]
     CHOICES = [(UP, "Up-vote"), (DOWN, "Down-vote")]
-    voter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="votes")
+    voter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="votes", verbose_name=_("voter"))
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -79,7 +79,7 @@ class Vote(models.Model):
 
 class View(models.Model):
     # viewer IP
-    ip = models.GenericIPAddressField(_('IP'), default="", null=True, blank=True)
+    ip = models.GenericIPAddressField(default="", null=True, blank=True, verbose_name=_("IP"))
     # date
     date = models.DateTimeField(auto_now=True)
     # viewed object
@@ -90,7 +90,7 @@ class View(models.Model):
 
 class Rate(models.Model):
     # rate for a post, wiki, tool, or tag, user. Or anything else you can think.
-    rating = models.IntegerField(_('rating'))
+    rating = models.IntegerField(verbose_name=_('rating'))
     rater = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="rates")
     date = models.DateField(auto_now=True)
     # Rated object

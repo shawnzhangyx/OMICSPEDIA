@@ -28,18 +28,43 @@
 
 <br><br>
   <ul class="nav nav-tabs">
-    <li {% ifequal tab "Info" %} class="active" {% endifequal %}>
-      <a href="?tab=Info"> Info </a> </li>
-    <li {% ifequal tab "Articles" %} class="active" {% endifequal %}> 
-      <a href="?tab=Articles"> Articles ({{wiki_list.count}}) </a> </li>
+    <li {% ifequal tab "Summary" %} class="active" {% endifequal %}
+    {% ifequal tab null %} class="active" {% endifequal %}>
+      <a href="?tab=Summary"> Summary </a> </li>
+    <li {% ifequal tab "Wiki" %} class="active" {% endifequal %}> 
+      <a href="?tab=Wiki"> Wiki  </a> </li>
     <li {% ifequal tab "Posts" %} class="active" {% endifequal %} >
-        <a href="?tab=Posts"> Posts ({{post_list.count}}) </a> </li>
+        <a href="?tab=Posts"> Posts  </a> </li>
     
   </ul>
 
-{% ifequal tab "Info" %}
+{% ifequal tab "Summary" %}
 
- This is the Info page of the tag
+ This is the Summary page of the tag
+ <div class="row"> 
+   <div class="section-tab col-sm-6">
+    <h3> {{wiki_list.count}} wiki page{% if wiki_list.count > 1%}s{% endif %} </h3>
+    {% for wiki in wiki_list %}
+        {% show_wiki_tab wiki %}
+    {% endfor %}    
+   </div>
+   <div class="section-tab col-sm-6">
+    <h3> {{post_list.count}} post{% if post_list.count > 1 %}s{% endif %}</h3>
+    {% for post in post_list %}
+        {% show_post_tab_sm post %}
+    {% endfor %}
+   </div>
+   
+    <div class="section-tab col-sm-6">
+    <h3> {{usertag_list.count}} user{% if usertag_list.count > 1%}s{% endif %} </h3>
+    <ul class="list-unstyled" >
+    {% for user_tag in usertag_list %}
+        {% user_answers_for_tag user_tag %}
+    {% endfor %}
+    </ul>
+    </div>
+</div>
+
 {% endifequal %}
 
 {% ifequal tab "Articles"%}

@@ -2,9 +2,11 @@ from django.db import models
 from django.db.models import F
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import m2m_changed, post_save, pre_delete
 
-from posts.models import MainPost
+from django.conf import settings
+
+from posts.models import MainPost, ReplyPost
 
 # Create your models here.
 class TagManager(models.Manager):
@@ -59,9 +61,7 @@ class Tag(models.Model):
         if action == 'pre_clear':
             instance.tags.all().update(count=F('count') - 1)
 
- #   @staticmethod
-  #  def change_tag_status(sender, instance, action, pk_set, *args, **kwargs)
-    
+
     @staticmethod
     def reset_tag_counts():
         for tag in Tag.objects.all():
@@ -93,8 +93,63 @@ class Meta:
    # def __init__(self, *args, **kwargs):
    #     pass
 
-
+# this tabel is used to save the number of answers users made on each tag
+class UserTag(models.Model):
+    tag = models.ForeignKey('Tag', related_name="usertags")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="usertags")
+    answer_count = models.IntegerField(default=0)
+    answers = models.ManyToManyField('posts.ReplyPost', null=True, blank=True)
+    
+    def __unicode__(self):
+        return u"%s,%s,%s" %(self.tag.name, self.user.user_profile.name, self.answer_count)
+    
+    
+    
+    @staticmethod
+    def answer_update_due_to_m2m_change(sender, instance, action, pk_set, *args, **kwargs):
+        "Applies answer updates upon post changes"
+        if action == 'pre_clear':
+            affected_tags = instance.tags.all()
+        elif action == 'post_add' or action == 'post_remove':
+            affected_tags = Tag.objects.filter(pk__in=pk_set)
+        else:
+            return
+            
+        for answer in instance.replies.all(): 
+            for tag in affected_tags: 
+                usertag = UserTag.objects.get_or_create(tag=tag, user=answer.author)[0]
+                if action == 'post_add':
+                    usertag.answers.add(answer)
+                    usertag.answer_count += 1
+                elif action == 'post_remove' or action == "pre_clear":
+                    usertag.answers.remove(answer)
+                    usertag.answer_count -= 1
+                usertag.save()
+                
+    @staticmethod            
+    def answer_update_due_to_answer_add(sender, instance, **kwargs):
+        #instance.save()
+        for tag in instance.mainpost.tags.all(): 
+            usertag = UserTag.objects.get_or_create(tag=tag, user=instance.author)[0]
+            if instance not in usertag.answers.all():
+                usertag.answers.add(instance)
+                usertag.answer_count += 1
+                usertag.save()
+            
+    @staticmethod   
+    def answer_update_due_to_answer_delete(sender, instance, **kwargs):
+        for tag in instance.mainpost.tags.all(): 
+            usertag = UserTag.objects.get_or_create(tag=tag, user=instance.author)[0]
+            usertag.answers.remove(instance)
+            usertag.answer_count -= 1
+            usertag.save()
+            
+    class Meta: 
+        unique_together = ('tag', 'user')
 
 # data signals
 m2m_changed.connect(Tag.update_tag_counts, sender=MainPost.tags.through)
-#m2m_changed.connect(Tag.change_tag_status, sender=MainPost.tags.through)
+m2m_changed.connect(UserTag.answer_update_due_to_m2m_change, sender=MainPost.tags.through)
+post_save.connect(UserTag.answer_update_due_to_answer_add, sender=ReplyPost)
+pre_delete.connect(UserTag.answer_update_due_to_answer_delete, sender=ReplyPost)
+

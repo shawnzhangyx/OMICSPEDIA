@@ -163,4 +163,13 @@ min-width: 250px;
 }
 
 
+/*** general framework ***/
 
+
+.section-tab{
+min-height: 200px;
+}
+
+.section-tab>h3 {
+border-bottom: solid 1px #AAAAAA;
+}

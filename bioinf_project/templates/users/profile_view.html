@@ -1,6 +1,7 @@
 {% extends "users/user_base.html" %}
 {% load tag_custom_tags %}
 {% load post_custom_tags %}
+{% load wiki_custom_tags %}
 {% load staticfiles %}
 {% load humanize %}
 
@@ -9,30 +10,30 @@
 
 {% if user == userprofile.user %} 
     {% if user.email_verified == False %}
-    <div class="alert alert-warning"> 
+        <div class="alert alert-warning"> 
         You e-mail has not been verified therefore your account is limited. Would you like to 
-        <a href="{% url 'users:email-verification-form' ''%}"> verify your e-mail address </a> now? 
+            <a href="{% url 'users:email-verification-form' ''%}"> verify your e-mail address </a> now? 
         </div>
     {% endif %}
 {% endif %}
 
 <div class="row">
 	<div class="profile-img"> 
-    {% if userprofile.portrait %}
-    <img class="profile-img-big" src="{{userprofile.portrait.url}}">
-    {% else %}
-    <img class="profile-img-big" src='{% static "images/user_default.png"%}'>
-    {% endif %}
-    <div class="profile-follow">
-      <strong class="profile-follow-num"><a href="">{{userprofile.following.count}}</a></strong> <br><p>following</p>
-    </div>
-    <div class="profile-follow">
-    <strong class="profile-follow-num"><a href="">{{userprofile.follower.count}}</a></strong> <br>follower
-    </div>
+        {% if userprofile.portrait %}
+            <img class="profile-img-big" src="{{userprofile.portrait.url}}">
+        {% else %}
+            <img class="profile-img-big" src='{% static "images/user_default.png"%}'>
+        {% endif %}
+        <div class="profile-follow">
+            <strong class="profile-follow-num"><a href="">{{userprofile.following.count}}</a></strong> <br><p>following</p>
+        </div>
+        <div class="profile-follow">
+            <strong class="profile-follow-num"><a href="">{{userprofile.follower.count}}</a></strong> <br>follower
+        </div>
 	</div>
 	<div class="profile-info">
 	  <table class="table">
-        <tr> <td>Website</td><td> {{userprofile.website}} </td></tr>
+        <tr> <td>Website</td><td> <a href="{{userprofile.website}}"> {{userprofile.website}}</a> </td></tr>
         <tr> <td>Location</td><td> {{userprofile.location}} </td></tr>
         <tr> <td>Member since</td><td> {{userprofile.date_joined|naturaltime}} </td></tr>
         <tr> <td>Last seen</td><td> {{userprofile.last_activity|naturaltime}} </td></tr>
@@ -46,8 +47,8 @@
 	</div>
 </div>
 <hr>
-<div class="row" id="profile-view-tabs">
-<div class="col-sm-6">
+<div class="row">
+<div class="section-tab col-sm-6">
 <h3> {{userprofile.user.mainpost_set.count}} question{% if userprofile.user.mainpost_set.count > 1%}s{%endif%} </h3>
 
 {% for post in userprofile.user.mainpost_set.all %}
@@ -55,7 +56,8 @@
 {% endfor %}
 
 </div>
-<div class="col-sm-6 ">
+
+<div class="section-tab col-sm-6 ">
 <h3> {{userprofile.user.replypost_set.count}} answer{% if userprofile.user.replypost_set.count > 1%}s{%endif%}</h3>
 <div>
 {% for replypost in userprofile.user.replypost_set.all %}
@@ -73,16 +75,18 @@
 {% endfor %}
 </div> 
 </div>
+
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
-<div class="col-sm-6" id="profile-view-bookmark">
-<h3> {{userprofile.user.bookmarks.count}} bookmark{% if userprofile.user.bookmarks.count > 1%}s{% endif %}
+
+<div class="section-tab col-sm-6" id="profile-view-bookmark">
+    <h3> {{userprofile.user.bookmarks.count}} bookmark{% if userprofile.user.bookmarks.count > 1%}s{% endif %}
     <small class="profile-view-tab-choice profile-view-tab-choice-on" target="bookmark-wiki-list"> wiki<sup>{{bookmark_wiki.count}}</sup> </small>
     <small class="profile-view-tab-choice profile-view-tab-choice-off" target="bookmark-post-list"> post<sup>{{bookmark_posts.count}}</sup> </small>
     <small class="profile-view-tab-choice profile-view-tab-choice-off" target="bookmark-software-list"> software<sup>{{bookmark_software.count}}</sup> </small>
 </h3>
 <div id="bookmark-wiki-list">
 {% for wiki in bookmark_wiki %}
-<li> {{wiki.title}} </li>
+        {% show_wiki_tab wiki %}
 {% endfor %}
 </div>
 <div id="bookmark-post-list">
@@ -97,9 +101,14 @@
 </div>
 
 </div>
-<div class="col-sm-6 ">
-<h3> {{tag_list.count}} tag{% if tag_list.count > 1 %}s{% endif %} </h3>
-    {% display_tag_user_contribution tag_list userprofile.user 10%}
+<div class="section-tab col-sm-6 ">
+<h3> {{usertag_list.count}} tag{% if usertag_list.count > 1 %}s{% endif %} </h3>
+    <ul class="list-unstyled" >
+    {% for user_tag in usertag_list %}
+        {% tag_answers_for_user user_tag %}
+    {% endfor %}
+    </ul>
+    
 </div>
 </div>
 

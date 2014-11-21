@@ -227,9 +227,7 @@ width: 35%;
 h1,h2,h3{
 }
 
-.software-info-tab div h3 {
-border-bottom: solid 1px grey;
-}
+
 /************** posts ************/
 
 /**** post tab ****/
@@ -444,13 +442,6 @@ cursor: pointer;
 }
 
 
-#profile-view-tabs>div  {
-min-height: 100px;
-}
-
-#profile-view-tabs div h3 {
-border-bottom: solid 1px #AAAAAA;
-}
 
 #bookmark-post-list {
 display: none;

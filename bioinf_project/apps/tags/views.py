@@ -70,7 +70,7 @@ class TagDetails(DetailView):
         context['tag_wiki'] = self.object.wiki_page
         context['wiki_list'] = self.object.pages.all()
         context['post_list'] = self.object.posts.all()
-
+        context['usertag_list'] = self.object.usertags.filter(answer_count__gt = 0)
         return context
 
 class TagDelete(DeleteView):

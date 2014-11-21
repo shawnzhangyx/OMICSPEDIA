@@ -18,7 +18,7 @@ from .models import UserProfile
 from posts.models import MainPost
 from wiki.models import Page
 from software.models import Tool
-from tags.models import Tag
+from tags.models import Tag, UserTag
 from .forms import UserCreationForm, ProfileForm
 # Create your views here.
 
@@ -84,8 +84,9 @@ class ProfileView(DetailView):
         bookmark_software = Tool.objects.filter(id__in = id)
         context['bookmark_software'] = bookmark_software
         # tags that the author contributed to 
-        tags_answered = Tag.objects.filter(posts__replies__author = self.object.user).distinct()
-        context['tag_list'] = tags_answered
+        #tags_answered = Tag.objects.filter(posts__replies__author = self.object.user).distinct()
+        usertags = UserTag.objects.filter(user = self.object.user).order_by('-answer_count')
+        context['usertag_list'] = usertags
         return context
         
 class UserListView(ListView):
