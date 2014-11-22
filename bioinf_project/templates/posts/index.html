@@ -14,16 +14,30 @@
   
   {% endif %}
   <br><br>
+  <div class="dropdown">
+  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+    Sort by {{sort}}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab={{tab}}&sort=Votes">Votes</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> Replies</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> Bookmarks</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> Views</a></li>
+  </ul>
+</div>
   <ul class="nav nav-tabs">
     <li> <h4> <b>All Posts &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </b></h4></li>
-    <li {% ifequal tab 'Latest' %} class="active" {% endifequal %}
-        {% ifequal tab null %} class="active" {% endifequal %}>
-      <a href="?tab=Latest" > Latest </a> </li>
-    <li {% ifequal tab 'Votes' %} class="active" {% endifequal %}>
-      <a href="?tab=Votes"> Votes </a> </li>
+    <li {% ifequal tab 'Question' %} class="active" {% endifequal %} >
+       <a href="?tab=Question&sort={{sort}}" > Question </a> </li>
     <li {% ifequal tab 'Unanswered' %} class="active" {% endifequal %}> 
-      <a href="?tab=Unanswered"> Unanswered </a> </li>
+      <a href="?tab=Unanswered&sort={{sort}}"> Unanswered </a> </li>
+    <li {% ifequal tab 'Discussion' %} class="active" {% endifequal %}>
+      <a href="?tab=Discussion&sort={{sort}}"> Discussion </a> </li>
+    <li {% ifequal tab 'Blog' %} class="active" {% endifequal %}>
+      <a href="?tab=Blog&sort={{sort}}"> Blog </a> </li>
+
     
   </ul>
   

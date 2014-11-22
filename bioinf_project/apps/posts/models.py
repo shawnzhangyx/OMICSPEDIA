@@ -70,7 +70,7 @@ class AbstractPost(models.Model):
     last_modified = models.DateTimeField()
     #add status of the post
     OPEN, PROTECTED, DELETED = range(3) 
-    STATUS_CHOICE = [(OPEN, "proposed"), (PROTECTED, "protected"), (DELETED, "deleted")]
+    STATUS_CHOICE = [(OPEN, "open"), (PROTECTED, "protected"), (DELETED, "deleted")]
     status = models.IntegerField(choices=STATUS_CHOICE, default=OPEN)
     #---- functions ----#
     def save(self, *args, **kwargs):
@@ -84,17 +84,36 @@ class AbstractPost(models.Model):
         abstract = True
 
 
-
+class QuestionManager(models.Manager):
+    def get_queryset(self):
+        return super(QuestionManager, self).get_queryset().filter(type=0)
+        
+class DiscussionManager(models.Manager):
+    def get_queryset(self):
+        return super(DiscussionManager, self).get_queryset().filter(type=1)
+        
+class BlogManager(models.Manager):
+    def get_queryset(self):
+        return super(BlogManager, self).get_queryset().filter(type=2)
+        
+        
 class MainPost(AbstractPost):
 
+    objects = models.Manager()
+    questions = QuestionManager()
+    discussions = DiscussionManager()
+    blogs = BlogManager()
     
-
     tags = models.ManyToManyField("tags.Tag",blank=True, related_name="posts")
 
     title = models.CharField(max_length=255,null=False)
 
     current_revision = models.OneToOneField('MainPostRevision', verbose_name=_('current revision'),
             null=True, blank=True, related_name = "revision_post")
+    # type of the posts: questions; forum/discussion; blog; 
+    QUESTION, DISCUSSION, BLOG = range(3)
+    TYPE_CHOICE = [(QUESTION, "question"), (DISCUSSION, "discussion"), (BLOG, "blog")]
+    type = models.IntegerField(choices=TYPE_CHOICE)
     # views for the post
     view_count = models.IntegerField(default=0)
 

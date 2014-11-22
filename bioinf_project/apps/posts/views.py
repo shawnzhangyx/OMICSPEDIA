@@ -23,17 +23,21 @@ class IndexView(ListView):
     paginate_by = 5
     def get_queryset(self):
         tab = self.request.GET.get('tab')
-        if tab =="Latest":
-            return MainPost.objects.order_by('-last_modified')
-        elif tab =="Votes":
-            return MainPost.objects.order_by('-vote_count')
+        sort = self.request.GET.get('sort')
+        dict = {'Votes':'vote_count'}
+        sort = dict[sort]
+        if tab =="Question":
+            return MainPost.questions.order_by(sort)
         elif tab =="Unanswered":
-            return MainPost.objects.filter(reply_count__exact=0)
-        else:
-            return MainPost.objects.all()
+            return MainPost.questions.filter(reply_count=0).order_by(sort)
+        elif tab =="Discussion":
+            return MainPost.discussions.order_by(sort)
+        elif tab =="Blog":
+            return MainPost.blogs.order_by(sort)
     def get_context_data(self,**kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['tab'] = self.request.GET.get('tab')
+        context['sort'] = self.request.GET.get('sort')
         return context
 
 class MainPostNew(CreateView):

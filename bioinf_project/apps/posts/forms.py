@@ -15,11 +15,12 @@ def validate_title(text):
 def validate_content(text):
     text = text.strip()
     if len(text) < 20: 
-        raise ValidationError("A minimum of 20 characters are required")
+        raise ValidationError("A minimum of 20 characters are required")  
     
 class MainPostForm(forms.ModelForm):
     title = forms.CharField(validators=[validate_title], help_text="Be specific with the title.")
     tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
+    type = forms.ChoiceField(choices=MainPost.TYPE_CHOICE)
     content = forms.CharField(widget=forms.Textarea, validators=[validate_content])
     
 
@@ -31,6 +32,7 @@ class MainPostForm(forms.ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 ' Create new post',
+                Field('type'),
                 Field('title'),
                 Field('tags'),
                 HTML('''<div id="wmd-button-bar"></div> '''),
@@ -45,7 +47,7 @@ class MainPostForm(forms.ModelForm):
 
     class Meta:
         model = MainPost
-        fields = ('title','tags')
+        fields = ('title','tags','type')
 
 
 
