@@ -26,9 +26,11 @@
     <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab={{tab}}&sort=Views"> Views</a></li>
   </ul>
 </div>
+<br>
   <ul class="nav nav-tabs">
-    <li> <h4> <b>All Posts &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </b></h4></li>
+    <li {% ifequal tab 'All' %} class="active" {% endifequal %} >
+       <a href="?tab=All&sort={{sort}}" > All </a>
+    </li>
     <li {% ifequal tab 'Question' %} class="active" {% endifequal %} >
        <a href="?tab=Question&sort={{sort}}" > Question </a> </li>
     <li {% ifequal tab 'Unanswered' %} class="active" {% endifequal %}> 

@@ -7,6 +7,9 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from utils import diff_match_patch
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 
 from .forms import PageForm, PageRevisionForm
 from .models import Page, PageRevision, PageComment
@@ -24,6 +27,10 @@ class WikiNew(CreateView):
     template_name = "wiki/wiki_new.html"
     form_class = PageForm
     
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(WikiNew, self).dispatch(*args, **kwargs)
+        
     def get_form(self, form_class):
         kwargs = self.get_form_kwargs()
         if 'title' in self.request.GET:
@@ -49,6 +56,10 @@ class WikiEdit(UpdateView):
     form_class = PageRevisionForm
     template_name = 'wiki/wiki_edit.html'
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(WikiEdit, self).dispatch(*args, **kwargs)
+        
     def get_object(self):
         return Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
 
@@ -77,6 +88,7 @@ class WikiEdit(UpdateView):
            del self.request.session['preview']
        return context
 
+@login_required
 def wiki_section_edit(request, **kwargs):
     header = request.GET['header']
     section = request.GET['name']
@@ -185,6 +197,10 @@ class WikiCommentAdd(CreateView):
     model = PageComment
     template_name = "wiki/wiki_comment_edit.html"
     
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(WikiCommentAdd, self).dispatch(*args, **kwargs)
+        
     def get_form_kwargs(self):
         kwargs = super(WikiCommentAdd, self).get_form_kwargs()
         page = Page.objects.get(title=self.kwargs['title'])
@@ -203,11 +219,16 @@ class WikiCommentAdd(CreateView):
         return kwargs
 
 class WikiCommentEdit(UpdateView):
+
     model = PageComment
     template_name = "wiki/wiki_comment_edit.html"
     fields = ['status','issue','detail']
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(WikiCommentEdit, self).dispatch(*args, **kwargs)
 
-
+        
 def wikilinks(request):
     context = RequestContext(request)
     if request.method=="GET":

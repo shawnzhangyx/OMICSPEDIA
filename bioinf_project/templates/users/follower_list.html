@@ -1,0 +1,15 @@
+{% extends "users/user_base.html" %}
+{% load user_custom_tags %}
+{% block content %}
+
+<h2> <a href="{% url 'users:profile-view' userprofile.id %}"> {{userprofile.name}} </a> <small> {{title}}</small></h2>
+<hr>
+<ul class="list-unstyled list-inline">
+
+{% for user in object_list %}
+<li class="profile-tab">
+{% display_user_md user %}
+ </li>
+{% endfor %}
+</ul>
+{% endblock content %}

@@ -93,7 +93,7 @@ class UserProfile(models.Model):
     biography = models.TextField(blank=True)
     portrait = models.ImageField(upload_to="user_photo", null=True, blank=True)
     reputation = models.IntegerField(default=1)
-    following = models.ManyToManyField('self',blank=True, related_name = "followers")
+    following = models.ManyToManyField('UserProfile',blank=True, related_name = "followers")
     watched_tags = models.ManyToManyField(Tag, blank=True, related_name = "user")
     date_joined = models.DateTimeField(verbose_name="date joined", editable=False)
     last_activity = models.DateTimeField(verbose_name="last activity", null=True,blank=True)

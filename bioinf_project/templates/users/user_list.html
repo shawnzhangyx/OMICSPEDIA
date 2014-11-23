@@ -1,7 +1,7 @@
 {% extends "users/user_base.html" %}
 {% load staticfiles %}
 {% load humanize %}
-
+{% load user_custom_tags %}
 {% block content %}
 
 <h2> Users: </h2>
@@ -23,18 +23,7 @@
 <ul class="list-unstyled list-inline ">
 {% for user_profile in user_profile_list %}
 <li class="profile-tab"> 
-<div class="profile-tab-info">
-<a  href="{% url 'users:profile-view' user_profile.id %}"> 
-<img class="profile-img-small" src='
-{% if user_profile.portrait %} {{user_profile.portrait.url}} 
-{% else %} {%static "images/user_default.png"%} 
-{% endif %}'></a>
-</div>
-<div class="profile-tab-info">
-<a href="{% url 'users:profile-view' user_profile.id %}"> {{user_profile.name}} </a> <br>
-&#149;&nbsp;<strong>{{user_profile.reputation}} </strong><br>
-<small>{{user_profile.last_activity|naturaltime}}</small>
-</div>
+{% display_user_md user_profile %}
  </li>
 
 {% endfor %}

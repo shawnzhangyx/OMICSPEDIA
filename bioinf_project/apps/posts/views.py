@@ -21,19 +21,26 @@ class IndexView(ListView):
     template_name = "posts/index.html"
     context_object_name = "post_list"
     paginate_by = 5
+    
     def get_queryset(self):
         tab = self.request.GET.get('tab')
         sort = self.request.GET.get('sort')
         dict = {'Votes':'vote_count','Replies':'reply_count', 'Bookmarks':'bookmark_count','Views':'view_count'}
-        sort = dict[sort]
+        if sort in dict:
+            sort_by = dict[sort]
+        else: 
+            sort_by = 'vote_count'
         if tab =="Question":
-            return MainPost.questions.order_by(sort)
+            return MainPost.questions.order_by(sort_by)
         elif tab =="Unanswered":
-            return MainPost.questions.filter(reply_count=0).order_by(sort)
+            return MainPost.questions.filter(reply_count=0).order_by(sort_by)
         elif tab =="Discussion":
-            return MainPost.discussions.order_by(sort)
+            return MainPost.discussions.order_by(sort_by)
         elif tab =="Blog":
-            return MainPost.blogs.order_by(sort)
+            return MainPost.blogs.order_by(sort_by)
+        else: 
+            return MainPost.objects.all().order_by(sort_by)
+            
     def get_context_data(self,**kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['tab'] = self.request.GET.get('tab')

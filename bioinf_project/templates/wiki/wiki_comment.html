@@ -19,14 +19,6 @@
 <h4> Add your comment:</h4>
 <form action="{% url 'wiki:wiki-comment-add' page.get_title%}" method="POST" role="form">
 {% csrf_token %}
-<!--
-Status: 
-<select class="input-xs" id="id_status" name="status">
-<option value="0" selected="selected">initialized</option>
-<option value="1">in progress</option>
-<option value="2">close pending</option>
-</select>
--->
 Type: 
 <select class="input-xs" id="id_issue" name="issue">
 <option value="">---------</option>

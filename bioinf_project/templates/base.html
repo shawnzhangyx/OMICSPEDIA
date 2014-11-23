@@ -111,7 +111,7 @@
             <li><a href= "{% url 'tags:tag-index' %}" > Tag </a> </li>
             {% endblock sidebar-tag %}
             {% block sidebar-post %}
-            <li><a href= "{% url 'posts:post-index' %}?tab=Question&sort=Votes" > Post </a> </li>
+            <li><a href= "{% url 'posts:post-index' %}?tab=All&sort=Votes" > Post </a> </li>
             {% endblock sidebar-post %}
             {% block sidebar-user %}
             <li><a href= "{% url 'users:user-list' %}" > Users </a> </li>

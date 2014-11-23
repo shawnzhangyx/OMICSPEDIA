@@ -6,15 +6,18 @@
 {% load humanize %}
 
 {% block content %}
-<h2>{{userprofile.name}} 
+<h2> <span class="pull-left">{{userprofile.name}}&nbsp;&nbsp;</span>
 {% if user.is_authenticated %}
-<form action="{% url 'users:follow' %}" method="post">
-<input > userprofile.id </input>
-<input > user.id </input>
-{% if userprofile.id in user.user_profile.following %} <button class="btn btn-xs btn-error"> Unfollow </button>
+    {% if user.user_profile.id != userprofile.id %}
+<form class="form pull-left" action="{% url 'users:change-follow' userprofile.id %}?next={{request.path}}" method="post">
+{% csrf_token %}
+<input style="display:none;" value="{{user.user_profile.id}}" name="follower"/> 
+{% if userprofile in user.user_profile.following.all %} <button class="btn btn-xs btn-error"> Unfollow </button>
 {%else%}<button class="btn btn-xs btn-info">Follow</button> {% endif %}
 </form>
+    {% endif %}
 {% endif %}
+<span>&nbsp;&nbsp;</span>
 </h2>
 
 {% if user == userprofile.user %} 
@@ -34,10 +37,10 @@
             <img class="profile-img-big" src='{% static "images/user_default.png"%}'>
         {% endif %}
         <div class="profile-follow">
-            <strong class="profile-follow-num"><a href="">{{userprofile.following.count}}</a></strong> <br><p>following</p>
+            <strong class="profile-follow-num"><a href="{% url 'users:following' userprofile.pk %}">{{userprofile.following.count}}</a></strong> <br><p>following</p>
         </div>
         <div class="profile-follow">
-            <strong class="profile-follow-num"><a href="">{{userprofile.follower.count}}</a></strong> <br>follower
+            <strong class="profile-follow-num"><a href="{% url 'users:followers' userprofile.pk %}">{{userprofile.follower.count}}</a></strong> <br>follower
         </div>
 	</div>
 	<div class="profile-info">
@@ -139,8 +142,9 @@
   {% if user == userprofile.user %}
     <a class="btn btn-default btn-sm" href = "{% url 'users:profile-edit' user.user_profile.id %}"> Edit profile? </a>
     <a class="btn btn-default btn-sm" href = "{% url 'users:password-change' %}"> Change Password? </a>
-    <a class="btn btn-default btn-sm" href = "{% url 'users:logout' %}"> log out? </a>
+    <a class="btn btn-default btn-sm" href = "{% url 'users:logout' %}?next={{request.path}}"> log out? </a>
   {% endif %}
+<br><br>
 {% endblock content %}
 
 

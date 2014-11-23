@@ -156,6 +156,43 @@ def email_verification_complete(request, uidb64=None, token=None):
     
 class FollowerEditView(UpdateView):
     model = UserProfile
+    template_name = "users/follower_list.html"
+    fields = ['following']
     
     def form_valid(self, form):
+        follower = UserProfile.objects.get(pk=int(self.request.POST.get("follower")))
+        if form.instance in follower.following.all():
+            follower.following.remove(form.instance)
+        else:
+            follower.following.add(form.instance)
+        follower.save()
         return super(FollowerEditView, self).form_valid(form)
+        
+class FollowingListView(ListView):
+    #model = UserProfile
+    template_name = "users/follower_list.html"
+
+    def get_queryset(self):
+        return UserProfile.objects.get(pk=self.kwargs['pk']).following.all()
+    
+    def get_context_data(self,**kwargs):
+        context = super(FollowingListView, self).get_context_data(**kwargs)
+        context['userprofile'] = UserProfile.objects.get(pk=self.kwargs['pk'])
+        context['title'] = 'Following'
+        return context
+    
+        
+class FollowerListView(ListView):
+    model = UserProfile
+    template_name = "users/follower_list.html"
+
+    def get_queryset(self):
+        return UserProfile.objects.get(pk=self.kwargs['pk']).followers.all()
+     
+    def get_context_data(self,**kwargs):
+        context = super(FollowerListView, self).get_context_data(**kwargs)
+        context['userprofile'] = UserProfile.objects.get(pk=self.kwargs['pk'])
+        context['title'] = 'Followers'
+
+        return context
+    
