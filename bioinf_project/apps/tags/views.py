@@ -69,7 +69,9 @@ class TagDetails(DetailView):
         context['tab'] = tab
         context['tag_wiki'] = self.object.wiki_page
         context['wiki_list'] = self.object.pages.all()
-        context['post_list'] = self.object.posts.all()
+        context['question_list'] = self.object.questions()
+        context['discussion_list'] = self.object.discussions()
+        context['blog_list'] = self.object.blogs()
         context['usertag_list'] = self.object.usertags.filter(answer_count__gt = 0)
         return context
 

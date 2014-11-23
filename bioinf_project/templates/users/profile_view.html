@@ -6,7 +6,16 @@
 {% load humanize %}
 
 {% block content %}
-<h2>{{userprofile.name}}</h2>
+<h2>{{userprofile.name}} 
+{% if user.is_authenticated %}
+<form action="{% url 'users:follow' %}" method="post">
+<input > userprofile.id </input>
+<input > user.id </input>
+{% if userprofile.id in user.user_profile.following %} <button class="btn btn-xs btn-error"> Unfollow </button>
+{%else%}<button class="btn btn-xs btn-info">Follow</button> {% endif %}
+</form>
+{% endif %}
+</h2>
 
 {% if user == userprofile.user %} 
     {% if user.email_verified == False %}
@@ -49,12 +58,11 @@
 <hr>
 <div class="row">
 <div class="section-tab col-sm-6">
-<h3> {{userprofile.user.mainpost_set.count}} question{% if userprofile.user.mainpost_set.count > 1%}s{%endif%} </h3>
+<h3> {{userprofile.user.questions.count}} question{% if userprofile.user.questions.count > 1%}s{%endif%} </h3>
 
-{% for post in userprofile.user.mainpost_set.all %}
+{% for post in userprofile.user.questions.all %}
     {% show_post_tab_sm post %}
 {% endfor %}
-
 </div>
 
 <div class="section-tab col-sm-6 ">
@@ -71,9 +79,24 @@
     <a class="post-tab-title-sm" href= "{% url 'posts:post-detail' replypost.mainpost.id %}" >{{ replypost.mainpost.title }} </a>
   </div>
     </div>
-
 {% endfor %}
 </div> 
+</div>
+
+<div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+
+<div class="section-tab col-sm-6">
+<h3> {{userprofile.user.discussions.count}} discussion{% if userprofile.user.discussions.count > 1%}s{%endif%} </h3>
+{% for post in userprofile.user.discussions.all %}
+    {% show_post_tab_sm post %}
+{% endfor %}
+</div>
+
+<div class="section-tab col-sm-6">
+<h3> {{userprofile.user.blogs.count}} blog{% if userprofile.user.blogs.count > 1%}s{%endif%} </h3>
+{% for post in userprofile.user.blogs.all %}
+    {% show_post_tab_sm post %}
+{% endfor %}
 </div>
 
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>

@@ -40,16 +40,38 @@
 
 <div class="row">
   <div class="section-tab col-xs-12 col-sm-6">
-  <h3> {{tool.page.tag.posts.count }} post{% if tool.page.tag.posts.count > 1 %}s{% endif %}</h3>
+  <h3> {{tool.page.tag.questions.count }} question{% if tool.page.tag.questions.count > 1 %}s{% endif %}</h3>
   {% if tool.page.tag == null %}
    software information not complete.
   {% else %}
-    {% for post in tool.page.tag.posts.all %}
-      {% show_post_tab_sm post %}
+    {% for question in tool.page.tag.questions %}
+      {% show_post_tab_sm question %}
     {% endfor %}
    {% endif %}
-    
   </div>
+    <div class="section-tab col-xs-12 col-sm-6">
+  <h3> {{tool.page.tag.discussions.count }} discussion{% if tool.page.tag.discussions.count > 1 %}s{% endif %}</h3>
+  {% if tool.page.tag == null %}
+   software information not complete.
+  {% else %}
+    {% for discussion in tool.page.tag.discussions %}
+      {% show_post_tab_sm discussion %}
+    {% endfor %}
+   {% endif %}
+  </div>
+  <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+
+    <div class="section-tab col-xs-12 col-sm-6">
+  <h3> {{tool.page.tag.blogs.count }} blog{% if tool.page.tag.blogs.count > 1 %}s{% endif %}</h3>
+  {% if tool.page.tag == null %}
+   software information not complete.
+  {% else %}
+    {% for blog in tool.page.tag.blogs %}
+      {% show_post_tab_sm blog %}
+    {% endfor %}
+   {% endif %}
+  </div>
+  
   <div class="section-tab col-xs-12 col-sm-6">
     <h3> 0 comment</h3>
 

@@ -154,3 +154,8 @@ def email_verification_complete(request, uidb64=None, token=None):
     return render(request, "users/email_verification_complete.html", {"validlink":validlink})
     
     
+class FollowerEditView(UpdateView):
+    model = UserProfile
+    
+    def form_valid(self, form):
+        return super(FollowerEditView, self).form_valid(form)

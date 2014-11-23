@@ -33,9 +33,12 @@
       <a href="?tab=Summary"> Summary </a> </li>
     <li {% ifequal tab "Wiki" %} class="active" {% endifequal %}> 
       <a href="?tab=Wiki"> Wiki  </a> </li>
-    <li {% ifequal tab "Posts" %} class="active" {% endifequal %} >
-        <a href="?tab=Posts"> Posts  </a> </li>
-    
+    <li {% ifequal tab "Questions" %} class="active" {% endifequal %} >
+        <a href="?tab=Questions"> Questions  </a> </li>
+    <li {% ifequal tab "Discussions" %} class="active" {% endifequal %} >
+        <a href="?tab=Discussions"> Discussions  </a> </li>
+    <li {% ifequal tab "Blogs" %} class="active" {% endifequal %} >
+        <a href="?tab=Blogs"> Blogs  </a> </li>
   </ul>
 
 {% ifequal tab "Summary" %}
@@ -49,11 +52,27 @@
     {% endfor %}    
    </div>
    <div class="section-tab col-sm-6">
-    <h3> {{post_list.count}} post{% if post_list.count > 1 %}s{% endif %}</h3>
-    {% for post in post_list %}
-        {% show_post_tab_sm post %}
+    <h3> {{question_list.count}} question{% if question_list.count > 1 %}s{% endif %}</h3>
+    {% for question in question_list %}
+        {% show_post_tab_sm question %}
     {% endfor %}
    </div>
+   <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+
+   <div class="section-tab col-sm-6">
+    <h3> {{discussion_list.count}} discussion{% if discussion_list.count > 1 %}s{% endif %}</h3>
+    {% for discussion in discussion_list %}
+        {% show_post_tab_sm discussion %}
+    {% endfor %}
+   </div>
+   <div class="section-tab col-sm-6">
+    <h3> {{blog_list.count}} blog{% if blog_list.count > 1 %}s{% endif %}</h3>
+    {% for blog in blog_list %}
+        {% show_post_tab_sm blog %}
+    {% endfor %}
+   </div>
+   <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+
    
     <div class="section-tab col-sm-6">
     <h3> {{usertag_list.count}} user{% if usertag_list.count > 1%}s{% endif %} </h3>
@@ -78,14 +97,31 @@
   </ul>
 {% endifequal %}
 
-{% if tab == "Posts"%}
+{% if tab == "Questions"%}
 <div class="container-fluid">
-{% for post in post_list %}
-  {% show_post_tab post %}
+{% for question in question_list %}
+  {% show_post_tab question %}
 {% empty %}
 No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
 {% endfor %}
 </div>
 {% endif %}
-
+{% if tab == "Discussions"%}
+<div class="container-fluid">
+{% for discussion in discussion_list %}
+  {% show_post_tab discussion %}
+{% empty %}
+No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
+{% endfor %}
+</div>
+{% endif %}
+{% if tab == "Blogs"%}
+<div class="container-fluid">
+{% for blog in blog_list %}
+  {% show_post_tab blog %}
+{% empty %}
+No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
+{% endfor %}
+</div>
+{% endif %}
 {% endblock content %}

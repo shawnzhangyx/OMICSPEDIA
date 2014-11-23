@@ -48,6 +48,16 @@ class Tag(models.Model):
     CATEGORY_CHOICE = [(REGULAR,"regular"), (WORKFLOW,"workflow"), (SOFTWARE,"software")]
     categories = models.IntegerField(choices=CATEGORY_CHOICE, default=REGULAR)
 
+    def questions(self):
+        return self.posts.filter(type=0)
+        
+    def discussions(self):
+        return self.posts.filter(type=1)
+        
+    def blogs(self):
+        return self.posts.filter(type=2)
+    
+    
     @staticmethod
     def update_tag_counts(sender, instance, action, pk_set, *args, **kwargs):
         "Applies tag count updates upon post changes"

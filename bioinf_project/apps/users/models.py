@@ -69,7 +69,15 @@ class User(AbstractBaseUser,PermissionsMixin):
     def __str__(self):# __unicode__ on Python 2
         return self.email
 
-
+    def questions(self):
+        return self.mainpost_set.filter(type=0)
+        
+    def discussions(self):
+        return self.mainpost_set.filter(type=1)
+        
+    def blogs(self):
+        return self.mainpost_set.filter(type=2)
+    
     @property
     def is_staff(self):
         "Is the user a member of staff?"
@@ -104,7 +112,10 @@ class UserProfile(models.Model):
     @staticmethod
     def create_user_profile(sender, instance, **kwargs):
         new_user = instance
-        new_user_profile = UserProfile.objects.get_or_create(user=new_user, name="user-"+str(new_user.id))
+        new_user_profile, created = UserProfile.objects.get_or_create(user=new_user)
+        if created == False: 
+            new_user_profile.name = 'user-'+str(new_user_profile.id)
+            new_user_profile.save()
 
     @staticmethod
     def reputation_from_vote(sender, instance, **kwargs):

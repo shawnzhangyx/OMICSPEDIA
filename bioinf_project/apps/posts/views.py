@@ -24,7 +24,7 @@ class IndexView(ListView):
     def get_queryset(self):
         tab = self.request.GET.get('tab')
         sort = self.request.GET.get('sort')
-        dict = {'Votes':'vote_count'}
+        dict = {'Votes':'vote_count','Replies':'reply_count', 'Bookmarks':'bookmark_count','Views':'view_count'}
         sort = dict[sort]
         if tab =="Question":
             return MainPost.questions.order_by(sort)
