@@ -17,3 +17,7 @@ def show_comment_dialog(comment,user):
 @register.inclusion_tag("wiki/templatetags/show-wiki-tab.html")
 def show_wiki_tab(wiki):
     return {'wiki':wiki}
+
+@register.inclusion_tag("wiki/templatetags/show-wiki-comment-warning.html")
+def show_wiki_comment_warning(comment):
+    return {'comment':comment}

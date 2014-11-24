@@ -12,10 +12,13 @@
 <br><br>
 {% for comment in comment_list %}
 {% show_comment_dialog comment user %}
+{% empty %}
+There is currently no comment.
 {% endfor %}
 <br>
 <hr>
 <br>
+{% if user.is_authenticated %}
 <h4> Add your comment:</h4>
 <form action="{% url 'wiki:wiki-comment-add' page.get_title%}" method="POST" role="form">
 {% csrf_token %}
@@ -37,5 +40,7 @@ Details:
 <br>
 <input class="btn btn-sm btn-default" type="submit" value="Submit" class="default" name="_save">
 </form>
-
+{% else %}
+<a class="btn btn-xs btn-default" href="{% url 'users:login' %}?next={{request.path}}"> log in </a> to add your comment. 
+{% endif %}
 {% endblock wiki-content %}

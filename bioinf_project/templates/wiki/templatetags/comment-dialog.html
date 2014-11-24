@@ -6,7 +6,7 @@
     <span class="btn btn-xs btn-default"> {{comment.get_issue_display}}</span>
   </span>
   <span class="comment-detail">
-    {{comment.detail}} -- <a href="{%url 'users:profile-view' comment.author.user_profile.id%}">{{comment.author}}</a>
+    {{comment.detail}} -- <a href="{%url 'users:profile-view' comment.author.user_profile.id%}">{{comment.author.user_profile.name}}</a>
     {{comment.created}} 
     {% if comment.init_revision != null %}
     <a class="btn btn-xs btn-default" href="{% url 'wiki:wiki-diff' comment.init_revision.id %}"> Original version </a>

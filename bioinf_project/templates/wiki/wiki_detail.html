@@ -4,6 +4,7 @@
 {% load staticfiles %}
 {% load util_custom_tags %}
 {% load tag_custom_tags %}
+{% load wiki_custom_tags %}
 {% endblock head %}
 
 
@@ -16,6 +17,16 @@
 <!-- header section -->
 
   <div class="clearfix">
+  {% if page.comments.count > 0 %}
+  <div class="alert alert-warning"> 
+    <b>This page has some issues: </b>
+    <ul>
+    {% for comment in page.comments.all %}
+        {% show_wiki_comment_warning comment %}
+    {% endfor %}
+    </ul>
+    </div>
+  {% endif %}
     <h1 class="wiki-title">{{page.title}}</h1>
     <div id="jRating" class="pull-left" data-toggle="tooltip" title="Please rate the completeness of this article" data-average="{{page.get_rate_average}}" data-id="1"> </div>
         {% display_tag_list page.tags.all %}

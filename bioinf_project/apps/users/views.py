@@ -31,7 +31,8 @@ class RegisterView(CreateView):
 class Login(FormView):
     form_class = AuthenticationForm
     template_name = "users/login.html"
-
+    success_url = '/'
+    
     def dispatch(self, request):
 	if not request.user.is_anonymous(): 
 		return HttpResponseRedirect(reverse('index'))
@@ -43,7 +44,7 @@ class Login(FormView):
         if 'next' in self.request.GET:
             return redirect(self.request.GET['next'])
         else:
-            return form_valid(self.form)
+            return super(Login, self).form_valid(form)
             
 class Logout(View):
     def get(self, request, *args, **kwargs):

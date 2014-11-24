@@ -107,9 +107,9 @@ class PageRevision(AbstractBaseRevision):
 
 class PageComment(models.Model):
     # the status of the comment
-    INITIALIZED, PROGRESS, PENDING, CLOSED = range(4)
-    STATUS_CHOICE = [(INITIALIZED, "initialized"), (PROGRESS,"in progress"), (PENDING,"close pending"), (CLOSED,"closed")]
-    status = models.IntegerField(choices=STATUS_CHOICE, default=INITIALIZED)
+    OPEN, PENDING, CLOSED = range(3)
+    STATUS_CHOICE = [(OPEN, "open"), (PENDING,"close pending"), (CLOSED,"closed")]
+    status = models.IntegerField(choices=STATUS_CHOICE, default=OPEN)
     # the type of the comment; this can be substitute as a subtype of issues. 
     ISSUE, REQUEST, DISCUSS = range(3)
     COMMENT_TYPE_CHOICE = [(ISSUE, "issue"), (REQUEST, "request"), (DISCUSS, "discuss")]
@@ -139,10 +139,22 @@ class PageComment(models.Model):
         return reverse('wiki:wiki-comment', kwargs = {'title': self.page.get_title()})
         
     def get_status_class(self):
-    # INITIALIZED, PROGRESS, PENDING, CLOSED = range(4)
-        dict = {self.INITIALIZED:"btn-danger", self.PROGRESS:"btn-info", 
+    # OPEN, PENDING, CLOSED = range(4)
+        dict = {self.OPEN:"btn-danger", 
         self.PENDING:"btn-success", self.CLOSED:"btn-default"}
         return dict[self.status]
+        
+    def get_issue_warnings_message(self):
+    # GRAMMER, WIKILINK, EXPAND, CHECK_REFERENCE, ADD_REFERENCE, IMAGE, LEAD, NEW_INFO = range(8)        
+        dict = {self.GRAMMER: 'There is grammer error in this page',
+                self.WIKILINK: 'Some wikilink may be not functional',
+                self.EXPAND: 'This page is too short, please expand it',
+                self.CHECK_REFERENCE: 'References may be inaccurate',
+                self.ADD_REFERENCE: 'Rerefences are largely missing',
+                self.IMAGE:'add some image',
+                self.LEAD:'please improve the lead section of this page',
+                self.NEW_INFO:'please provide some new information on this page'}
+        return dict[self.issue]
 # --------- #
 # a page can have several sections, instead of just one giant
 # piece of content, this will make editing more convenient.
