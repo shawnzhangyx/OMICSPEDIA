@@ -5,14 +5,10 @@
 /************ votes **************/
 .vote-box {
 float: left;
+margin-right: 15px;
 }
 .vote-widget {
 display: block;
-margin-right: 15px;
-}
-
-.vote-widget a{
-cursor:pointer;
 }
 
 .vote-up-on {
@@ -53,7 +49,7 @@ background-position: 0 -300px;
 width: 41px;
 height: 25px;
 display: block;
-cursor:pointer;
+
 }
 
 .vote-up-widget {
@@ -73,7 +69,6 @@ background-size: 100% auto;
 width: 15px;
 height: 15px;
 display: inline-block;
-cursor:pointer;
 }
 .vote-count-sm-obj {
 text-align: center;
@@ -83,6 +78,10 @@ line-height: 1em;
 padding-left: 5px;
 padding-right: 20px;
 display: inline;
+}
+
+.vote-open {
+cursor: pointer;
 }
 /************ bookmark ***********/
 .bookmark-widget {
@@ -95,6 +94,7 @@ background-position: 0 -190px;
 width: 33px;
 height: 31px;
 display: inline-block;
+cursor: pointer;
 }
 
 .bookmark-off {
@@ -103,6 +103,7 @@ background-position: 0 -150px;
 width: 33px;
 height: 31px;
 display: inline-block;
+cursor: pointer;
 }
 
 .bookmark-count {
@@ -110,10 +111,13 @@ text-align: center;
 font-size: 1.3em;
 line-height: 1em;
 padding: 0px;
-margin-right: 20px;
 color: grey;
+display: block;
 }
 /************  tags  *************/
+.tag-list {
+margin-left: 10px;
+}
 .tags {
 font-size:90%;
 color: #4a6b82;
@@ -140,6 +144,15 @@ width:20;
 #border: dotted 1px #999999;
 margin-right:5px
 }
+
+.usertag-answer-count{
+display: inline;
+background-color: #E4F4D4;
+color: #993300;
+padding: 2px 5px;
+text-align: center;
+margin: 0 10px;
+}
 /************* wiki ***************/
 
 /* wiki page of content */
@@ -147,10 +160,11 @@ margin-right:5px
 border:1px solid #000000;
 width:300px;
 padding: 5px 0px;
-margin: 10px;
+margin: 10px 0 10px 50px;
 font-size: 16px;
 background-color: #f9f9f9;
 border-color: #888888;
+
 } 
 
 .toc p {
@@ -170,7 +184,8 @@ padding-bottom: 0.1em;
 display: block-inline;
 }
 
-#wiki-content h2:before,h3:before {
+#wiki-content>h2:before,
+#wiki-content>h3:before {
 display: block;
 content: " ";
 margin-top:-40px;
@@ -218,16 +233,29 @@ color: #FF0000;
 padding-left: 20px;
 display: inline-block;
 }
+
 /********* software ********/
 
 .software-table td:first-child {
 font-weight: bold;
 width: 35%;
 }
-h1,h2,h3{
+
+
+
+.software-tab {
+background-color:#ffffff; 
+box-shadow: 2px 2px 5px #888888;
+padding-top:5px;
+margin-bottom: 10px;
 }
 
-
+.software-tab-vote {
+height:20px;
+width: 15px;
+padding-bottom: 5px;
+margin-right: 10px;
+}
 /************** posts ************/
 
 /**** post tab ****/
@@ -439,7 +467,10 @@ font-size: 14px;
 padding: 3px 0 0px 3px;
 margin-left: 15px;
 cursor: pointer;
+color: white;
+
 }
+
 
 
 

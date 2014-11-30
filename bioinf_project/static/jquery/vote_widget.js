@@ -41,14 +41,16 @@ function toggle_vote_widget(elem, response){
     if (response.yourvote == 1){
         vote_up.attr('class', 'vote-up-on');
         vote_down.attr('class', 'vote-down-off');
+        vote_up.attr('title', "you've already voted.");
+        vote_down.attr('title', "you've already voted.");
     } else if (response.yourvote == 0){
-        vote_up.attr('class', 'vote-up-off');
-        vote_down.attr('class', 'vote-down-off');
+        alert(response.message);
 
     } else if (response.yourvote == -1){
         vote_up.attr('class', 'vote-up-off');
         vote_down.attr('class', 'vote-down-on');
-
+        vote_up.attr('title', "you've already voted.");
+        vote_down.attr('title', "you've already voted.");
     }
         elem.children('div.vote-count-obj').text(response.allvote)
         console.log(vote_up.attr('class'));
@@ -63,7 +65,7 @@ function toggle_vote_up_widget(elem, response){
     if (response.yourvote == 1){
         vote_up.attr('class', 'vote-up-sm-on');
     } else if (response.yourvote == 0){
-        vote_up.attr('class', 'vote-up-sm-off');
+        alert(response.message);
     }
         elem.children('div.vote-count-sm-obj').text(response.allvote)
         console.log(vote_up.attr('class'));
@@ -77,8 +79,11 @@ function toggle_bookmark_widget(elem, response){
 
     if (bookmark.hasClass('bookmark-off')){
         bookmark.attr('class', 'bookmark-on');
+        bookmark.attr('title', 'double click to cancel bookmark');
     } else {
         bookmark.attr('class', 'bookmark-off');
+        bookmark.attr('title', 'double click to add bookmark');
+
     }
         elem.children('div.bookmark-count').text(response.bookmark_count)
         console.log(bookmark.attr('class'));
@@ -86,9 +91,9 @@ function toggle_bookmark_widget(elem, response){
 }
 
 $(document).ready(function() {
-    $('div.vote-widget a').each( function(index){
+    $('div.vote-widget>.vote-open').each( function(index){
 
-    $(this).click( function(index){
+    $(this).dblclick( function(index){
     var content_type = $(this).parent().attr('data-obj-name');
     var id = $(this).parent().attr('data-obj-id');
     var vote_status = $(this).attr('class');
@@ -102,8 +107,8 @@ $(document).ready(function() {
 });
 });
 
-$('div.vote-up-widget a').each( function(index){
-    $(this).click( function(index){
+$('div.vote-up-widget>.vote-open').each( function(index){
+    $(this).dblclick( function(index){
     var content_type = $(this).parent().attr('data-obj-name');
     var id = $(this).parent().attr('data-obj-id');
     var vote_status = $(this).attr('class');
@@ -117,7 +122,7 @@ $('div.vote-up-widget a').each( function(index){
 });
 
 $('div.bookmark-widget a').each( function(index){
-    $(this).click( function(index){
+    $(this).dblclick( function(index){
     var content_type = $(this).parent().attr('data-obj-name');
     var id = $(this).parent().attr('data-obj-id');
     var bookmark_status = $(this).attr('class');

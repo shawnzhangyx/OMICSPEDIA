@@ -64,9 +64,10 @@ def vote(request):
     voter = request.user
     obj = content_type.get_object_for_this_type(pk=obj_id)
     # the author of the voted object will gain or lose reputation depending on the vote.
-    user_profile = obj.author.user_profile
-    if voter == obj.author: 
-        return HttpResponse('error')
+    if hasattr(obj, "author"):
+        if voter == obj.author: 
+            message = "You cannot vote for yourself." 
+            return HttpResponse(json.dumps({"yourvote":0, "allvote": obj.get_vote_count(),"message":message}))
         
     try: vote = Vote.objects.get(content_type__pk=content_type.id,
                                object_id=obj_id, voter=voter)
@@ -76,39 +77,23 @@ def vote(request):
         if vote_status.startswith("vote-up"):
             vote = Vote(content_type=content_type, object_id=obj_id, voter=voter, choice=1)
             vote.save()
-            user_profile.reputation += 1
-            user_profile.save()
+
         # if clicked on "vote-down-off", vote down
         elif vote_status.startswith("vote-down"):
             vote = Vote(content_type=content_type, object_id=obj_id, voter=voter, choice=-1)
             vote.save()
-            user_profile.reputation -= 1
-            user_profile.save()
+
         else:
             return HttpReponse("error")
         obj.vote_count = obj.get_vote_count()
         obj.save()
-        return HttpResponse(json.dumps({"yourvote":vote.choice, "allvote":obj.get_vote_count()}))
+        return HttpResponse(json.dumps({"yourvote":vote.choice, "allvote":obj.get_vote_count(), }))
     # if has voted before.
     else:
-        # if change mind and want to vote the other way:
-        if vote_status.endswith('off'):
-            vote.choice = vote.choice * (-1)
-            vote.save()
-            obj.vote_count = obj.get_vote_count()
-            obj.save()
-            # the reputation will change by 2
-            user_profile.reputation += vote.choice*2
-            user_profile.save()
-            return HttpResponse(json.dumps({"yourvote":vote.choice, "allvote": obj.get_vote_count()}))
-        # if want to recall the vote
-        elif vote_status.endswith('on'):
-            user_profile.reputation -= vote.choice
-            user_profile.save()
-            vote.delete()
-        obj.vote_count = obj.get_vote_count()
-        obj.save()
-        return HttpResponse(json.dumps({"yourvote":0, "allvote": obj.get_vote_count()}))
+        # if already voted, throw an error 
+        yourvote= 0
+        message = "You've already voted."
+    return HttpResponse(json.dumps({"yourvote":0, "allvote": obj.get_vote_count(),"message":message}))
 
 @login_required
 def rate(request):
@@ -138,7 +123,6 @@ def bookmark(request):
     reader = request.user
     obj = content_type.get_object_for_this_type(pk=obj_id)
     # the author of the voted object will gain or lose reputation depending on the bookmark.
-    user_profile = obj.author.user_profile
         
     try: bookmark = Bookmark.objects.get(content_type__pk=content_type.id,
                                object_id=obj_id, reader=reader)

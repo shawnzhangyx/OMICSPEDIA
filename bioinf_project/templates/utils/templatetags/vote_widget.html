@@ -1,9 +1,9 @@
 <div class="vote-widget" data-obj-name="{{obj_type}}" data-obj-id="{{obj_id}}">
 
-  <a class="vote-up{% ifequal vote_type "up" %}-on{% else %}-off{% endifequal %}" votetype="vote-up"> 
+  <a title="{% ifequal vote_type 'open'%}double clike to vote up{%else%}{{message}}{%endifequal%}" class="vote-up{% ifequal vote_type "up" %}-on{% else %}-off{% endifequal %} {% ifequal vote_type "open"%}vote-open{% endifequal %}" votetype="vote-up"> 
   </a>
   <div class="vote-count-obj"> {{object.get_vote_count}}
   </div>
-  <a class="vote-down{% ifequal vote_type "down" %}-on{% else %}-off{% endifequal %}" votetype="vote-down">
+  <a title="{% ifequal vote_type 'open'%}double clike to vote down{%else%}{{message}}{%endifequal%}" class="vote-down{% ifequal vote_type "down" %}-on{% else %}-off{% endifequal %} {% ifequal vote_type "open"%}vote-open{% endifequal %}" votetype="vote-down">
   </a>
 </div>

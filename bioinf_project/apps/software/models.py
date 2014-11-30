@@ -36,7 +36,7 @@ class Tool(models.Model):
     # feedbacks
     tool_votes = GenericRelation("utils.Vote")
     tool_comment = GenericRelation("utils.Comment")
-
+    
     # status
     PUBLIC, PROTECTED, FREEZED = range(3)
     STATUS_CHOICE = [(PUBLIC,'open to public'), (PROTECTED,'protected'), (FREEZED,'freezed')]
@@ -45,4 +45,5 @@ class Tool(models.Model):
     def get_absolute_url(self):
         return reverse('software:software-detail', kwargs={'name':self.name})
 
-
+    def get_vote_count(self):
+        return self.tool_votes.filter(choice=1).count() - self.tool_votes.filter(choice=-1).count()

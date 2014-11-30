@@ -1,5 +1,6 @@
 {% extends 'software/software_base.html' %}
 
+{% load software_custom_tags %}
 
 {% block content %}
 <h1> Software Homepage</h1>
@@ -10,13 +11,15 @@
 <a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"> log in </a> to submit new software. 
 {% endif %}
 <hr>
+<div >
 {% if software_list %}
-<ul> 
 {% for software in software_list %}
-<li> <a href= "{% url 'software:software-detail' software.name %}" >{{software.name}} </a></li>
+
+{% display_software_tab software %}
 {% endfor %}
-</ul>
+
 {% else %}
 <p> no software available </p>
 {% endif %}
+</div>
 {% endblock content %}

@@ -51,7 +51,9 @@ def portal_tag(request):
     if request.method == "GET":
         tag_name = request.GET['tag_name']
         tag = Tag.objects.get(name = tag_name)
-        return render_to_response('utils/portal_tag.html', {'tag': tag}, context)
+        software_list = tag.pages.filter(software__isnull=False)
+        usertag_list = tag.usertags.filter(answer_count__gt = 0)
+        return render_to_response('utils/portal_tag.html', {'tag': tag,'software_list':software_list,'usertag_list':usertag_list}, context)
 
 def help_page_view(request,**kwargs):
     context = RequestContext(request)

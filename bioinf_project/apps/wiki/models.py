@@ -19,8 +19,13 @@ class Page(models.Model):
 
     title = models.CharField(_("title"), max_length=255, unique=True)
     tags = models.ManyToManyField("tags.Tag",blank=True, related_name="pages")
-    wiki_votes = GenericRelation("utils.Vote")
-    wiki_rates = GenericRelation("utils.Rate")
+    #wiki_votes = GenericRelation("utils.Vote")
+    #wiki_rates = GenericRelation("utils.Rate")
+    wiki_bookmark = GenericRelation("utils.Bookmark")
+
+    # count of things
+    bookmark_count = models.IntegerField(default=0)
+    comment_count = models.IntegerField(default=0)
     current_revision = models.OneToOneField('PageRevision', blank=True, null=True, verbose_name=_('current revision'),
                                             related_name = "revision_page")
     # redirect url
@@ -51,9 +56,7 @@ class Page(models.Model):
             return float(rate_sum)/rate_count
         else:
             return rate_sum
-    def get_vote_count(self):
-        return self.wiki_votes.filter(choice=1).count() - self.wiki_votes.filter(choice=-1).count()
-
+    
     def get_absolute_url(self):
         return reverse('wiki:wiki-detail', kwargs = {'title': self.get_title()})
 

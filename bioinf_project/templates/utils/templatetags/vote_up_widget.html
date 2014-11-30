@@ -1,6 +1,6 @@
 <div class="vote-up-widget" data-obj-name="{{obj_type}}" data-obj-id="{{obj_id}}">
   {% if user.is_authenticated %}
-  <a class="vote-up-sm{% ifequal vote_type "up" %}-on{% else %}-off{% endifequal %}" votetype="vote-up"> 
+  <a title="{% ifequal vote_type 'open'%}double clike to vote up{%else%}{{message}}{%endifequal%}" class="vote-up-sm{% ifequal vote_type "up" %}-on{% else %}-off{% endifequal %} {% ifequal vote_type "open"%}vote-open{% endifequal %}" votetype="vote-up"> 
   {% endif %}
   </a>
   <div class="vote-count-sm-obj"> {{object.get_vote_count}}</div>

@@ -1,0 +1,10 @@
+{% load staticfiles %}
+{% load tag_custom_tags %}
+<div class="col-sm-12 software-tab"><p><b><a href="{% url 'software:software-detail' tool.name %}">{{tool.name}}</a></b> 
+<span class="pull-left"> <b>{{tool.get_vote_count}}</b> <img class="software-tab-vote" src="{% static 'images/vote-up-off.jpg' %}"></span>
+    
+{{ tool.page.current_revision.content|truncatechars:100 }}
+</p>
+
+{% display_tag_list tool.page.tags.all %} 
+</div>

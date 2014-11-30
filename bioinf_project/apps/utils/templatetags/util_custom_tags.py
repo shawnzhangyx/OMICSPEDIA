@@ -17,15 +17,25 @@ def display_vote_widget(obj, user):
     try: vote = Vote.objects.get(content_type__pk=obj_type.id,
                                object_id=obj.id, voter=user)
     except (TypeError, Vote.DoesNotExist) as e:
-        vote_type = "none"
+        if user.is_authenticated():
+            message="you can vote"
+            vote_type= "open"
+            if hasattr(obj, 'author'):
+                if user == obj.author: 
+                    vote_type= "block"
+                    message = "You cannot vote yourself."
+        else: 
+            vote_type="block"
+            message = "please log in to vote."
     else:
+        message = "you've already voted."
         if vote.choice == 1:
             vote_type = "up"
         elif vote.choice == -1:
             vote_type = "down"
 
     return {"object": obj, "obj_type": obj_type.app_label+'.'+obj_type.model, 
-            "obj_id": obj.id, "user": user, "vote_type": vote_type}
+            "obj_id": obj.id, "user": user, "vote_type": vote_type, "message":message}
 
 @register.inclusion_tag("utils/templatetags/vote_up_widget.html")
 def display_vote_up(obj, user):
@@ -33,11 +43,21 @@ def display_vote_up(obj, user):
     try: vote = Vote.objects.get(content_type__pk=obj_type.id,
                                object_id=obj.id, voter=user)
     except (TypeError, Vote.DoesNotExist) as e:
-        vote_type = "none"
+        if user.is_authenticated():
+            message="you can vote"
+            vote_type= "open"
+            if hasattr(obj, 'author'):
+                if user == obj.author: 
+                    vote_type= "block"
+                    message = "You cannot vote yourself."
+        else: 
+            vote_type="block"
+            message = "please log in to vote."
     else:
+        message = "you've already voted."
         vote_type = "up"
     return {"object": obj, "obj_type": obj_type.app_label+'.'+obj_type.model, 
-            "obj_id": obj.id, "user": user, "vote_type": vote_type}
+            "obj_id": obj.id, "user": user, "vote_type": vote_type, "message":message}
             
 @register.inclusion_tag("utils/templatetags/bookmark_widget.html")
 def display_bookmark_widget(obj, user):

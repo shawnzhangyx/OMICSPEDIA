@@ -2,6 +2,7 @@
 {% load tag_custom_tags %}
 {% load post_custom_tags %}
 {% load wiki_custom_tags %}
+{% load software_custom_tags %}
 {% load staticfiles %}
 {% load humanize %}
 
@@ -59,7 +60,7 @@
 	</div>
 </div>
 <hr>
-<div class="row">
+<div class="">
 <div class="section-tab col-sm-6">
 <h3> {{userprofile.user.questions.count}} question{% if userprofile.user.questions.count > 1%}s{%endif%} </h3>
 
@@ -122,7 +123,7 @@
 </div>
 <div id="bookmark-software-list">
 {% for software in bookmark_software %}
-<li> {{software.name}} </li>
+{% display_software_tab_sm software %}
 {% endfor %}
 </div>
 
@@ -136,6 +137,8 @@
     </ul>
     
 </div>
+<div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+
 </div>
 
 <hr>

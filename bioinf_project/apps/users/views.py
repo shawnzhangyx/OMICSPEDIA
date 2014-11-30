@@ -80,9 +80,9 @@ class ProfileView(DetailView):
         bookmark_wiki = Page.objects.filter(id__in = id)
         context['bookmark_wiki'] = bookmark_wiki
         # bookmarked software
-        software_bookmarks = bookmarks.filter(content_type=ContentType.objects.get_for_model(Tool))
-        id = software_bookmarks.values_list('object_id',flat=True)
-        bookmark_software = Tool.objects.filter(id__in = id)
+        #software_bookmarks = bookmarks.filter(content_type=ContentType.objects.get_for_model(Tool))
+        #id = software_bookmarks.values_list('object_id',flat=True)
+        bookmark_software = Tool.objects.filter(page__id__in = id)
         context['bookmark_software'] = bookmark_software
         # tags that the author contributed to 
         #tags_answered = Tag.objects.filter(posts__replies__author = self.object.user).distinct()

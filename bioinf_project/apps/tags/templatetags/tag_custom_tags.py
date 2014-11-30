@@ -39,9 +39,9 @@ def display_tag_list(tag_list):
     
 @register.inclusion_tag("tags/templatetags/tag_answers_for_user.html")
 def tag_answers_for_user(usertag):
-    return {'tag':usertag.tag,'count':usertag.answer_count}
+    return {'tag':usertag.tag,'user':usertag.user,'count':usertag.answer_count}
 
     
 @register.inclusion_tag("tags/templatetags/user_answers_for_tag.html")
 def user_answers_for_tag(usertag):
-    return {'user':usertag.user,'count':usertag.answer_count}
+    return {'tag':usertag.tag, 'user':usertag.user,'count':usertag.answer_count}

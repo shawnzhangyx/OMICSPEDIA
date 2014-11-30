@@ -1,10 +1,10 @@
 {% load tag_custom_tags %}
 
-<ul class="list-unstyled list-inline">
+<span class="list-unstyled list-inline tag-list">
         {% for tag in tag_list %}
             {% display_tag tag %}
         {% empty %}
           
         {% endfor %}
-</ul>
+</span>
 

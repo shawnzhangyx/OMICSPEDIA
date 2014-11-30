@@ -1,13 +1,15 @@
 {% extends 'tags/tag_base.html' %}
+{% load staticfiles %}
 {% load tag_custom_tags %}
 {% load post_custom_tags %}
 {% load wiki_custom_tags %}
+{% load util_custom_tags %}
 {% block content %}
 
-<h1> {% show_tag_ancestor tag %} {{ tag.name }} <small> &lttag&gt </small> 
-
-{% if perms.tags.delete_tag %}
-<br>
+<h2> {% show_tag_ancestor tag %} {{ tag.name }} <small> {% if tag.wiki_page.software %}&lt;<a title="go to software page" href="{% url 'software:software-detail' tag.wiki_page.software.name %}">software</a>&gt; {% endif %}
+</small> 
+  
+    {% if perms.tags.delete_tag %}
 <a class="btn btn-xs btn-default" href="{% url 'tags:tag-edit' tag.name %}">Edit</a>
 <a class="btn btn-xs btn-default" href = "{% url 'tags:tag-delete' name=tag.name %}">Delete? </a>
 {% endif %}
@@ -15,18 +17,21 @@
 
 <a class="btn btn-xs btn-primary"  href="{% url 'tags:tag-create' parent_name=tag.name %}"> Create new tag under this tag?</a>
 {% endif %}
-</h1>
-
+</h2>
+<hr>
+<div class="vote-box">
+    {% display_bookmark_widget tag.wiki_page user %}
+</div>
  {% if tag.wiki_page == null %}
   There is no description of this tag, please add a <a href="{% url 'tags:tag-edit' tag.name %}">wiki</a> page to it. 
   {% else %}
   <div class="pull-left">
 {{tag.wiki_page.get_lead_section|safe}} 
 </div>
-<small> <a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}">&nbsp;[tag wiki]</a> </small>
+ <a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}">&nbsp;[tag wiki]</a> 
   {% endif %}
 
-<br><br>
+<br><br><br><br>
   <ul class="nav nav-tabs">
     <li {% ifequal tab "Summary" %} class="active" {% endifequal %}
     {% ifequal tab null %} class="active" {% endifequal %}>
@@ -43,7 +48,7 @@
 
 {% ifequal tab "Summary" %}
 
- This is the Summary page of the tag
+<p> This is the Summary page of the tag: </p>
  <div class="row"> 
    <div class="section-tab col-sm-6">
     <h3> {{wiki_list.count}} wiki page{% if wiki_list.count > 1%}s{% endif %} </h3>
@@ -125,3 +130,7 @@ No posts associated with this tag yet. Would you like to suggest adding some tag
 </div>
 {% endif %}
 {% endblock content %}
+
+{% block jquery %}
+  <script src="{% static 'jquery/vote_widget.js' %}"> </script>
+{% endblock jquery %}

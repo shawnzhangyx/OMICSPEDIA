@@ -1,0 +1,9 @@
+{% load staticfiles %}
+{% load tag_custom_tags %}
+<div class="col-sm-12 software-tab-sm"><p><b> <a href="{% url 'software:software-detail' tool.name %}">  {{tool.name}}</a></b> 
+<span class="pull-left"> <b>{{tool.get_vote_count}}</b> <img class="software-tab-vote" src="{% static 'images/vote-up-off.jpg' %}"></span>
+
+
+</p>
+
+</div>

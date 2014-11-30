@@ -33,7 +33,12 @@ class SoftwareDetailView(DetailView):
 
     def get_object(self, **kwargs):
         return Tool.objects.get(name=self.kwargs['name'])
-
+    
+    def get_context_data(self, **kwargs):
+        context = super(SoftwareDetailView, self).get_context_data(**kwargs)
+        if hasattr(self.object.page, 'wiki_tag'):
+            context['usertag_list'] = self.object.page.wiki_tag.usertags.filter(answer_count__gt = 0)
+        return context
 def software_precreate_view(request):
     return render(request, "software/software_pre_create.html")
 

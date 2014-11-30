@@ -1,20 +1,33 @@
 {% extends 'software/software_base.html' %}
 
+{% load staticfiles %}
 {% load post_custom_tags %}
 {% load tag_custom_tags %}
-{% block content %}
+{% load util_custom_tags %}
 
-<h2>{{tool.name}} <small>(<a href="{% url 'software:software-edit' tool.name%}">Edit</a>)</small></h2>
+
+{% block content %}
+{% if not tool.page.wiki_tag%}
+<p class="alert alert-warning"> This software entry is not complete yet. Please <a  href="{% url 'tags:tag-create' "" %}?next={% url 'software:software-detail' tool.name%}">create a tag</a> for this software.</p>
+{% endif %}
+<h2>{{tool.name}}  <small> {% if tool.page.wiki_tag %}&lt;<a title="go to tag page" href="{% url 'tags:tag-detail' tool.page.wiki_tag.name %}?tab=Summary">tag</a>&gt; {% endif %}
+</small> <a class="btn btn-xs btn-default" href="{% url 'software:software-edit' tool.name%}">Edit</a></h2>
 <hr>
-<div class="container">
+  <div class="vote-box">
+    {% display_vote_widget tool user%}
+    {% if tool.page.wiki_tag %}
+    {% display_bookmark_widget tool.page user%}
+    {% endif %}
+  </div>
+<div>
     {% display_tag_list tool.page.tags.all %} 
 </div>
 <!-- software information: -->
-
-<h3>Brief Introduction <small>[<a href= "{% url 'wiki:wiki-detail' tool.page.get_title %}">More</a>]</small></h3>
-<hr>
+<div class="pull-left">
 {{tool.page.get_lead_section|safe}}
-
+</div>
+ <a title="software wiki" href= "{% url 'wiki:wiki-detail' tool.page.get_title %}"> [More]</a>
+<br><br><br><br>
 <h3> Basic Info</h3>
 <div class="row">
   <div class="col-xs-12 col-sm-6 thumbnail pull-right">
@@ -37,24 +50,24 @@
 </table>
   </div>
 </div>
-
+{% if tool.page.wiki_tag %}
 <div class="row">
   <div class="section-tab col-xs-12 col-sm-6">
-  <h3> {{tool.page.tag.questions.count }} question{% if tool.page.tag.questions.count > 1 %}s{% endif %}</h3>
-  {% if tool.page.tag == null %}
+  <h3> {{tool.page.wiki_tag.questions.count }} question{% if tool.page.wiki_tag.questions.count > 1 %}s{% endif %}</h3>
+  {% if tool.page.wiki_tag == null %}
    software information not complete.
   {% else %}
-    {% for question in tool.page.tag.questions %}
+    {% for question in tool.page.wiki_tag.questions %}
       {% show_post_tab_sm question %}
     {% endfor %}
    {% endif %}
   </div>
     <div class="section-tab col-xs-12 col-sm-6">
-  <h3> {{tool.page.tag.discussions.count }} discussion{% if tool.page.tag.discussions.count > 1 %}s{% endif %}</h3>
-  {% if tool.page.tag == null %}
+  <h3> {{tool.page.wiki_tag.discussions.count }} discussion{% if tool.page.wiki_tag.discussions.count > 1 %}s{% endif %}</h3>
+  {% if tool.page.wiki_tag == null %}
    software information not complete.
   {% else %}
-    {% for discussion in tool.page.tag.discussions %}
+    {% for discussion in tool.page.wiki_tag.discussions %}
       {% show_post_tab_sm discussion %}
     {% endfor %}
    {% endif %}
@@ -62,20 +75,32 @@
   <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
     <div class="section-tab col-xs-12 col-sm-6">
-  <h3> {{tool.page.tag.blogs.count }} blog{% if tool.page.tag.blogs.count > 1 %}s{% endif %}</h3>
-  {% if tool.page.tag == null %}
+  <h3> {{tool.page.wiki_tag.blogs.count }} blog{% if tool.page.wiki_tag.blogs.count > 1 %}s{% endif %}</h3>
+  {% if tool.page.wiki_tag == null %}
    software information not complete.
   {% else %}
-    {% for blog in tool.page.tag.blogs %}
+    {% for blog in tool.page.wiki_tag.blogs %}
       {% show_post_tab_sm blog %}
     {% endfor %}
    {% endif %}
   </div>
-  
+  <div class="section-tab col-sm-6">
+    <h3> {{usertag_list.count}} user{% if usertag_list.count > 1%}s{% endif %} </h3>
+    <ul class="list-unstyled" >
+    {% for user_tag in usertag_list %}
+        {% user_answers_for_tag user_tag %}
+    {% endfor %}
+    </ul>
+    </div>
   <div class="section-tab col-xs-12 col-sm-6">
     <h3> 0 comment</h3>
 
   </div>
   </div>
+  {% endif %}
   <hr>
 {% endblock content %}
+
+{% block jquery %}
+  <script src="{% static 'jquery/vote_widget.js' %}"> </script>
+{% endblock jquery %}

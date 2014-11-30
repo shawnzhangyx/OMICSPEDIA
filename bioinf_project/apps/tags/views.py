@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
-from .models import Tag
+from .models import Tag, UserTag
 from posts.models import MainPost
 from wiki.models import Page, PageRevision
 from .forms import TagForm
@@ -87,7 +87,20 @@ class TagDelete(DeleteView):
     def get_object(self):
         return Tag.objects.get(name=self.kwargs['name'])
 
-
+class TagUserContributionView(ListView):
+    
+    template_name = 'tags/tag_user_post_list.html'
+    
+    def get_queryset(self):
+        usertag = UserTag.objects.get_or_create(tag__name=self.kwargs['name'], user__user_profile__name=self.kwargs['user'])[0]
+        return usertag.answers.all()
+    
+    def get_context_data(self):
+        context = super(TagUserContributionView, self).get_context_data()
+        usertag = UserTag.objects.get_or_create(tag__name=self.kwargs['name'], user__user_profile__name=self.kwargs['user'])[0]
+        context['usertag'] = usertag
+        return context 
+    
 def suggest_tags(request):
     context = RequestContext(request)
     suggest_tag_list = []

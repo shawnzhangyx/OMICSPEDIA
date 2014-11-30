@@ -1,6 +1,10 @@
 {% load staticfiles %}
-<li>  <a href = "{% url 'users:profile-view' user.user_profile.id %}" > 
+<li>  <a title="{{count}} answer{%if count > 1%}s{% endif %} by {{user.user_profile.name}}" class="usertag-answer-count" href="{% url 'tags:tag-user' tag.name user.user_profile.name %}">x{{count}} </a>
+
+<a href = "{% url 'users:profile-view' user.user_profile.id %}" > 
 <img class="profile-img-xs" src='{% if user.user_profile.portrait %} {{user.user_profile.portrait.url}} 
 {% else %} {%static "images/user_default.png"%}{% endif %}'
-> {{user.user_profile.name}} </a> x{{count}}</li>
+> {{user.user_profile.name}} </a> 
+
+</li>
 

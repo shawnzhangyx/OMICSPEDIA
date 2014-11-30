@@ -32,9 +32,12 @@ class Tag(models.Model):
     #---- fields ----#
     name = models.CharField(max_length=255, unique=True)
     icon = models.ImageField(upload_to='tags',null=True,blank=True)
-    wiki_page = models.OneToOneField("wiki.Page")
+    wiki_page = models.OneToOneField("wiki.Page", related_name='wiki_tag')
     # record the times this tag is used
     count = models.IntegerField(default=0)
+    # record the bookmark count of this tag.
+    #bookmark_count = models.IntegerField(default=0)
+
     # provide the tag structures
     # can chain Tags that have tree structures.
     parent = models.ForeignKey('self', related_name = "children",null=True, blank=True)

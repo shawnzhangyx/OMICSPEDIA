@@ -3,13 +3,13 @@
 {% load humanize %}
 <div class="post-tab-sm col-sm-12">
   <div class="post-count-box-sm">
-    <div class="post-tab-vote-sm">
+    <div title="{{post.get_vote_count}} vote{% if post.get_vote_count > 1%}s{% endif %}" class="post-tab-vote-sm">
     {{post.get_vote_count}}
     </div>
-    <div class="post-tab-reply-sm {% if post.accepted_answer != null%}post-tab-reply-accepted{% endif %}">
+    <div title="{{post.reply_count}} {% if post.reply_count > 1%}replies{% else %}reply{% endif %}" class="post-tab-reply-sm {% if post.accepted_answer != null%}post-tab-reply-accepted{% endif %}">
     {{post.reply_count}} 
     </div>
-    <div class="post-tab-view-sm">
+    <div title="{{post.view_count}} view{% if post.view_count > 1%}s{% endif %}" class="post-tab-view-sm">
     {{post.view_count}}
     </div>
   </div>

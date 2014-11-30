@@ -141,5 +141,5 @@ class UserProfile(models.Model):
         return reverse("users:profile-view", kwargs={'pk':self.pk})
     
 post_save.connect(UserProfile.create_user_profile, sender=User)
-#post_save.connect(UserProfile.reputation_from_vote, sender=Vote)
-#pre_delete.connect(UserProfile.reputation_rollback_from_vote, sender=Vote)
+post_save.connect(UserProfile.reputation_from_vote, sender=Vote)
+pre_delete.connect(UserProfile.reputation_rollback_from_vote, sender=Vote)
