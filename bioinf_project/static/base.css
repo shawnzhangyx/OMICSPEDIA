@@ -183,3 +183,12 @@ padding-left: 10px;
 .right-to-left li {
 float:right;
 }
+
+#footer {
+background-color: #428bca;
+border-top: solid 3px #428bca;
+}
+
+#footer a {
+color: white;
+}
