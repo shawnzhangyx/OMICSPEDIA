@@ -10,15 +10,15 @@ def validate_title(text):
     #validate form input for title
     words = text.strip().split(' ')
     if len(words) < 4: 
-        raise ValidationError("A minimum of four words is required")
+        raise ValidationError("A minimum of four words is required.")
     
 def validate_content(text):
     text = text.strip()
     if len(text) < 20: 
-        raise ValidationError("A minimum of 20 characters are required")  
+        raise ValidationError("A minimum of 20 characters are required.")  
     
 class MainPostForm(forms.ModelForm):
-    title = forms.CharField(validators=[validate_title], help_text="Be specific with the title.")
+    title = forms.CharField(validators=[validate_title], help_text="Be specific with the title. A minimum of four words is required.")
     tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
     type = forms.ChoiceField(choices=MainPost.TYPE_CHOICE)
     content = forms.CharField(widget=forms.Textarea, validators=[validate_content])
@@ -37,6 +37,7 @@ class MainPostForm(forms.ModelForm):
                 Field('tags'),
                 HTML('''<div id="wmd-button-bar"></div> '''),
                 Field('content', id="wmd-input"),
+                Div(css_id="content-string-count"),
             ),
             ButtonHolder(
                 HTML('''<span class="btn btn-primary" data-toggle="modal" 
@@ -53,7 +54,7 @@ class MainPostForm(forms.ModelForm):
 
 class MainPostRevisionForm(forms.ModelForm):
 
-    title = forms.CharField(validators=[validate_title], help_text="Be specific with the title.")
+    title = forms.CharField(validators=[validate_title], help_text="Be specific with the title. A minimum of four words is required.")
     tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
     content = forms.CharField(widget=forms.Textarea, validators=[validate_content])
     summary = forms.CharField()
@@ -70,6 +71,7 @@ class MainPostRevisionForm(forms.ModelForm):
                 Field('tags'),
                 HTML('''<div id="wmd-button-bar"></div> '''),
                 Field('content', id="wmd-input"),
+                Div(css_id="content-string-count"),
                 Field('summary'),
             ),
             ButtonHolder(
@@ -94,6 +96,7 @@ class ReplyPostForm(forms.ModelForm):
                 ' Create new reply',
                 HTML('''<div id="wmd-button-bar"></div> '''),
                 Field('content', id="wmd-input"),
+                Div(css_id="content-string-count"),
             ),
             ButtonHolder(
                 HTML('''<span class="btn btn-primary" data-toggle="modal" 
@@ -121,6 +124,7 @@ class ReplyPostRevisionForm(forms.ModelForm):
                 'Editing post',
                 HTML('''<div id="wmd-button-bar"></div> '''),
                 Field('content', id="wmd-input"),
+                Div(css_id="content-string-count"),
                 Field('summary'),
             ),
             ButtonHolder(
@@ -134,5 +138,5 @@ class ReplyPostRevisionForm(forms.ModelForm):
         fields = ()
         
         
-MainPostForm.base_fields['tags'].help_text = 'Please type your tags'
-MainPostRevisionForm.base_fields['tags'].help_text = 'Please type your tags'
+MainPostForm.base_fields['tags'].help_text = 'Please type your tags. Tags are important for users to quickly locate relevant contents'
+MainPostRevisionForm.base_fields['tags'].help_text = 'Please type your tags. Tags are important for users to quickly locate relevant contents'

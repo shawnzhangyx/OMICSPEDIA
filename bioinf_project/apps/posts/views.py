@@ -25,11 +25,11 @@ class IndexView(ListView):
     def get_queryset(self):
         tab = self.request.GET.get('tab')
         sort = self.request.GET.get('sort')
-        dict = {'Votes':'vote_count','Replies':'reply_count', 'Bookmarks':'bookmark_count','Views':'view_count'}
+        dict = {'Votes':'-vote_count','Replies':'reply_count', 'Bookmarks':'bookmark_count','Views':'view_count'}
         if sort in dict:
             sort_by = dict[sort]
         else: 
-            sort_by = 'vote_count'
+            sort_by = '-vote_count'
         if tab =="Question":
             return MainPost.questions.order_by(sort_by)
         elif tab =="Unanswered":
@@ -104,7 +104,14 @@ class PostDetails(DetailView):
         return obj
     def get_context_data(self, **kwargs):
         context = super(PostDetails, self).get_context_data(**kwargs)
-        context['replypost_list'] = ReplyPost.objects.filter(mainpost=context['mainpost'])
+        tab = self.request.GET.get('tab')
+        if not tab:
+            tab = 'votes'
+        sort_dict = {'votes':'-vote_count','oldest':'created'}
+        sort_value = sort_dict[tab]
+        replies = ReplyPost.objects.filter(mainpost=context['mainpost']).order_by(sort_value)
+        context['replypost_list'] = replies
+        context['tab'] = tab
         return context
     #need to display everything in the same subject.
 

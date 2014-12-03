@@ -179,3 +179,7 @@ background-color: #777777;
 color: #ffffff;
 padding-left: 10px;
 }
+
+.right-to-left li {
+float:right;
+}

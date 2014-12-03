@@ -17,8 +17,15 @@
 {% display_post_body mainpost user "is_question"%}
 
 <br>
-<h4><b> {{mainpost.reply_count}} Answer{%if mainpost.reply_count > 1%}s{% endif %}</b></h4>
-<hr>
+<h4 class="pull-left"><b> {{mainpost.reply_count}} answer{%if mainpost.reply_count > 1%}s{% endif %}</b></h4>
+
+  <ul class="nav nav-tabs right-to-left">
+    <li {% ifequal tab "votes" %} class="active" {% endifequal %}
+    {% ifequal tab null %} class="active" {% endifequal %}>
+      <a href="?tab=votes"> votes </a> </li>
+    <li {% ifequal tab "oldest" %} class="active" {% endifequal %}> 
+      <a href="?tab=oldest"> oldest  </a> </li>
+</ul>
 {% for reply in replypost_list %}
   {% display_post_body reply user "is_answer" %}
 <hr>
@@ -35,10 +42,15 @@
          <div class="wmd-panel">
             <div id="wmd-button-bar"></div>
             <textarea class="form-control" rows=5 id="wmd-input" name="content"> </textarea>
+            <br>
+            <div id="content-string-count"></div>
+         
+            <input class="btn btn-default" type="submit" value="Post reply">
+
         </div>
-</div>
-<br>
-<input class="btn btn-default" type="submit" value="Post reply">
+        
+        </div>
+
 </form>
 {% else %}
 please <a href = "{% url 'users:login' %}"> log in </a> to post a response 
@@ -64,4 +76,5 @@ please <a href = "{% url 'users:login' %}"> log in </a> to post a response
 
 {% block jquery %}
   <script src="{% static 'jquery/vote_widget.js' %}"> </script>
+  <script src="{% static 'jquery/post.js' %}"> </script>
 {% endblock jquery %}
