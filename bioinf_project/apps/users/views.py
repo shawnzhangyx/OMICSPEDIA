@@ -158,7 +158,7 @@ def email_verification_complete(request, uidb64=None, token=None):
 class FollowerEditView(UpdateView):
     model = UserProfile
     template_name = "users/follower_list.html"
-    fields = ['following']
+    fields = []
     
     def form_valid(self, form):
         follower = UserProfile.objects.get(pk=int(self.request.POST.get("follower")))
@@ -167,6 +167,7 @@ class FollowerEditView(UpdateView):
         else:
             follower.following.add(form.instance)
         follower.save()
+        form.instance.save()
         return super(FollowerEditView, self).form_valid(form)
         
 class FollowingListView(ListView):

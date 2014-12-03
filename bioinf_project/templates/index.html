@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load post_custom_tags %}
+
 {% load staticfiles %}
 {% block head %}
 {% endblock head %}
@@ -42,25 +44,26 @@
   
 </div>
 <hr>
-<div class="row">
-<div class="col-sm-6">
+<div>
+<div class="section-tab col-sm-6">
 <h3> Hot posts this month </h3>
+{% for post in post_list %}
+    {% show_post_tab_sm post %}
+{% endfor %}
 <hr>
 </div>
 
-<div class="col-sm-6">
+<div class="section-tab col-sm-6">
 <h3> Most viewed wiki  </h3>
-<hr>
 </div>
+<div class="clearfix block-sm-visible block-md-visible"> </div> 
 
-<div class="col-sm-6">
+<div class="section-tab col-sm-6">
 <h3> Hot tags this month  </h3>
-<hr>
 </div>
 
-<div class="col-sm-6">
+<div class="section-tab col-sm-6">
 <h3> Contributors this month  </h3>
-<hr>
 </div>
  {% endblock content %}
 

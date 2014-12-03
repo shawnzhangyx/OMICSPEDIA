@@ -203,7 +203,7 @@ class WikiCommentAdd(CreateView):
         
     def get_form_kwargs(self):
         kwargs = super(WikiCommentAdd, self).get_form_kwargs()
-        page = Page.objects.get(title=self.kwargs['title'])
+        page = Page.objects.get(title=self.kwargs['title'].replace("_", " " ))
         post_data = kwargs['data'].copy()
         post_data.update({'status':0,
                           'comment_type':0,

@@ -33,7 +33,7 @@ $.ajaxSetup({
 
 
 $(document).ready(function() {
-    var wiki_title = $('#wiki-content h1').html();
+    var wiki_title = $('#wiki-content h1').attr('title');
 
     // add an [edit] span to the end of each section. 
     $('#wiki-content h2,h3,h4,h5,h6').each( function(){

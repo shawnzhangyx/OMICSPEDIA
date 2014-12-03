@@ -113,7 +113,7 @@ class UserProfile(models.Model):
     def create_user_profile(sender, instance, **kwargs):
         new_user = instance
         new_user_profile, created = UserProfile.objects.get_or_create(user=new_user)
-        if created == False: 
+        if created == True: 
             new_user_profile.name = 'user-'+str(new_user_profile.id)
             new_user_profile.save()
 

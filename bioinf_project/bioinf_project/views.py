@@ -2,6 +2,7 @@ from django.views.generic import TemplateView, ListView
 from django.http import HttpResponse
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
+from datetime import datetime, timedelta
 
 from tags.models import Tag
 from wiki.models import Page
@@ -11,6 +12,11 @@ from posts.models import MainPost
 class IndexView(TemplateView):
     template_name = "index.html"
 
+    def get_context_data(self):
+        context = super(IndexView, self).get_context_data()
+        posts = MainPost.objects.filter(created__gte=datetime.today() - timedelta(days=30)).order_by('-vote_count')
+        context['post_list'] = posts
+        return context
 
 def search(request):
 #    template_name = "search.html"
