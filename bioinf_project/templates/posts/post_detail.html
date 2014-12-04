@@ -13,12 +13,18 @@
 {% block content %}
 <h3> {{mainpost.title}}  </h3>
 <hr>
-
+{% ifequal type "question" %}
 {% display_post_body mainpost user "is_question"%}
-
+{% endifequal %}
+{% ifequal type "blog" %}
+{% display_blog_body mainpost user %}
+{% endifequal %}
 <br>
+{% ifnotequal type 'blog' %}
 <h4 class="pull-left"><b> {{mainpost.reply_count}} answer{%if mainpost.reply_count > 1%}s{% endif %}</b></h4>
-
+{% else %}
+<h4 class="pull-left"><b> {{mainpost.get_comments.count}} comment{%if mainpost.get_comments.count > 1%}s{% endif %}</b></h4>
+{% endifnotequal %}
   <ul class="nav nav-tabs right-to-left">
     <li {% ifequal tab "votes" %} class="active" {% endifequal %}
     {% ifequal tab null %} class="active" {% endifequal %}>
@@ -31,9 +37,10 @@
 <hr>
 {% endfor %}
 
-<!-- add reply -->
+<!-- add reply or comment -->
 
 {% if user.is_authenticated %}
+    {% ifnotequal type "blog" %}
 <form role="form" action='{% url "posts:replypost-new" mainpost_id=mainpost.id %}' method="post">
 {% csrf_token %}
 <h4> Add your reply: </h4>
@@ -52,6 +59,16 @@
         </div>
 
 </form>
+{% else %}
+<h4> Add your comment: </h4>
+
+<form role="form" action='{% url "comment-new" comment_on="posts" pk=mainpost.id %}' method="post">
+{% csrf_token %}
+<textarea class="form-control" id="id_content" name="content" rows="5"> </textarea>
+<br>
+<input class="btn btn-default" type="submit" value="Post comment">
+</form>
+{% endifnotequal %}
 {% else %}
 please <a href = "{% url 'users:login' %}"> log in </a> to post a response 
 {% endif %}

@@ -39,8 +39,7 @@ class TagCreate(CreateView):
                 tag = tag.parent
             message = "This tag will be created under: " + message
         else:
-            message = '''Tips: if you want to create a new tag nested under another tags,
-                       please do that in the respective tag page.'''
+            message = '''Tips: Each tag should associate with a wiki page. So before creating a tag, find or create a wiki page with the same name.'''
         context['message'] = message
         return context
 

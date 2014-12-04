@@ -186,7 +186,9 @@ float:right;
 
 #footer {
 background-color: #428bca;
-border-top: solid 3px #428bca;
+border-top: solid 1px #428bca;
+margin-top: 50px;
+margin-bottom: 150px;
 }
 
 #footer a {

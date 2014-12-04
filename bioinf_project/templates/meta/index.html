@@ -5,8 +5,8 @@
 {% endblock head %}
 
 {% block content %}
-  <h1> OmicsPedia <small>META</a> </h1>
-  <p> place where you can comment and suggestions about this website</p>
+  <h1> OmicsPedia <small>META</small> </h1>
+  <p> Please leave comments and suggestions about this website here. We highly appreciate your input!</p>
 {% if user.is_authenticated %}  
   <a class="btn btn-default" href="{% url 'meta:report-new' %}"> Make suggestions</a>
 {% else %}

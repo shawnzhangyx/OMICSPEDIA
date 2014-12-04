@@ -59,7 +59,7 @@ display: inline-block;
 background-image: url('images/vote-up-on.jpg');
 background-size: 100% auto;
 width: 15px;
-height: 15px;
+height: 16px;
 display: inline-block;
 }
 
@@ -67,7 +67,7 @@ display: inline-block;
 background-image: url('images/vote-up-off.jpg');
 background-size: 100% auto;
 width: 15px;
-height: 15px;
+height: 16px;
 display: inline-block;
 }
 .vote-count-sm-obj {

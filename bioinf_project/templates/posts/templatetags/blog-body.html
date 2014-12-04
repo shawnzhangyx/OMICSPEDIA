@@ -1,0 +1,76 @@
+{% load util_custom_tags %}
+{% load tag_custom_tags %}
+{% load humanize %}
+{% load staticfiles %}
+
+<div class="post-container">
+  <div class="vote-box">
+    {% display_vote_widget post user%}
+    {% display_bookmark_widget post user%}
+    </div>
+  <div class="post-body">
+    <p> {{ post.current_revision.get_marked_up_content|safe }} </p>
+    <!-- display the tag list -->
+    {% display_tag_list post.tags.all %}
+
+    <div class="clearfix post-authorship">
+
+      <div class="pull-right post-edition">
+        
+        {% ifnotequal post.current_revision.revision_number 1 %}
+        <div class="post-body-author">
+        <div> <small> modified 
+          <a href="{% url 'posts:mainpost-revhistory' post.id %}">
+          {{post.current_revision.modified_date|naturaltime}}</a> </small></div>
+          <div class="profile-tab-info">
+<a  href="{% url 'users:profile-view' post.current_revision.author.user_profile.id %}"> 
+<img class="profile-img-small" src='
+{% if post.current_revision.author.user_profile.portrait %} {{post.current_revision.author.user_profile.portrait.url}} 
+{% else %} {%static "images/user_default.png"%} 
+{% endif %}'></a>
+</div>
+<div class="profile-tab-info">
+<a href="{% url 'users:profile-view' post.current_revision.author.user_profile.id %}"> {{post.current_revision.author.user_profile.name}} </a> <br>
+&#149;&nbsp;<strong>{{post.current_revision.author.user_profile.reputation}} </strong><br>
+{{post.current_revision.author.user_profile.location}}
+</div>
+
+               </div>
+        {% endifnotequal %}
+     
+        <div class="post-body-author">
+        <div><small> posted 
+       {{post.created|naturaltime}} </small></div>
+       <div class="profile-tab-info">
+<a  href="{% url 'users:profile-view' post.author.user_profile.id %}"> 
+<img class="profile-img-small" src='
+{% if post.author.user_profile.portrait %} {{post.author.user_profile.portrait.url}} 
+{% else %} {%static "images/user_default.png"%} 
+{% endif %}'></a>
+</div>
+    <div class="profile-tab-info">
+<a href="{% url 'users:profile-view' post.author.user_profile.id %}"> {{post.author.user_profile.name}} </a> <br>
+&#149;&nbsp;<strong>{{post.author.user_profile.reputation}} </strong><br>
+{{post.author.user_profile.location}}
+    </div>
+       
+       </div>
+      </div>
+    </div>
+    
+<!-- comments -->    
+    {% if post.get_comments.count > 0 %}
+    <div class="comments-all">
+      {% for comment in post.get_comments %}
+      <div class="comment-row">
+        {% display_vote_up comment user %}
+        <span class="comment-text"> {{comment.content}} &nbsp;&mdash; <a href="{% url 'users:profile-view' comment.author.user_profile.id %}"> {{comment.author.user_profile.name}}</a>  <small>{{comment.last_modified|naturaltime}}</small> </span> 
+        
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+
