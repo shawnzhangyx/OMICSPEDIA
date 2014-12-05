@@ -34,7 +34,7 @@
     <li {% ifequal tab 'Question' %} class="active" {% endifequal %} >
        <a href="?tab=Question&sort={{sort}}" > Question </a> </li>
     <li {% ifequal tab 'Unanswered' %} class="active" {% endifequal %}> 
-      <a href="?tab=Unanswered&sort={{sort}}"> Unanswered </a> </li>
+      <a href="?tab=Unanswered&sort={{sort}}"> Unanswered <span class="badge"> {{unanswered_count}}</span></a> </li>
     <li {% ifequal tab 'Discussion' %} class="active" {% endifequal %}>
       <a href="?tab=Discussion&sort={{sort}}"> Discussion </a> </li>
     <li {% ifequal tab 'Blog' %} class="active" {% endifequal %}>

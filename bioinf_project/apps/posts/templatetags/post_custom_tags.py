@@ -23,9 +23,9 @@ def display_post_body(post, user, post_type):
         is_question = False
     return {'post':post, 'user':user,'is_question':is_question}        
 
-@register.inclusion_tag("posts/templatetags/post-body.html")
+@register.inclusion_tag("posts/templatetags/discussion-body.html")
 def display_discussion_body(post, user, post_type):
-    if post_type == "is_main":
+    if post_type == "is_question":
         is_question = True
     else: 
         is_question = False

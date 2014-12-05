@@ -11,10 +11,13 @@
 {% endblock head %}
 
 {% block content %}
-<h3> {{mainpost.title}}  </h3>
+<h3>{{mainpost.title}} <small>&lt;{{type}}&gt;</small></h3>
 <hr>
 {% ifequal type "question" %}
 {% display_post_body mainpost user "is_question"%}
+{% endifequal %}
+{% ifequal type "discussion" %}
+{% display_discussion_body mainpost user "is_question"%}
 {% endifequal %}
 {% ifequal type "blog" %}
 {% display_blog_body mainpost user %}
@@ -33,7 +36,12 @@
       <a href="?tab=oldest"> oldest  </a> </li>
 </ul>
 {% for reply in replypost_list %}
-  {% display_post_body reply user "is_answer" %}
+  {% ifequal type "question" %}
+    {% display_post_body reply user "is_answer" %}
+  {% endifequal %}
+  {% ifequal type "discussion" %}
+    {% display_discussion_body reply user "is_answer" %}
+  {% endifequal %}
 <hr>
 {% endfor %}
 

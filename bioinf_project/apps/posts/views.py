@@ -25,7 +25,7 @@ class IndexView(ListView):
     def get_queryset(self):
         tab = self.request.GET.get('tab')
         sort = self.request.GET.get('sort')
-        dict = {'Votes':'-vote_count','Replies':'reply_count', 'Bookmarks':'bookmark_count','Views':'view_count'}
+        dict = {'Votes':'-vote_count','Replies':'-reply_count', 'Bookmarks':'bookmark_count','Views':'view_count'}
         if sort in dict:
             sort_by = dict[sort]
         else: 
@@ -45,6 +45,7 @@ class IndexView(ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['tab'] = self.request.GET.get('tab')
         context['sort'] = self.request.GET.get('sort')
+        context['unanswered_count'] = MainPost.questions.filter(reply_count=0).count()
         return context
 
 class MainPostNew(CreateView):
@@ -106,7 +107,7 @@ class PostDetails(DetailView):
         context = super(PostDetails, self).get_context_data(**kwargs)
         tab = self.request.GET.get('tab')
         if not tab:
-            if self.object.get_type_display == "question":
+            if self.object.get_type_display() == "question":
                 tab = 'votes'
             else: 
                 tab = "oldest"
