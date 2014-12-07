@@ -230,10 +230,10 @@ color: #FF0000;
 }
 
 .wiki-tab {
-padding: 5px 5px;
-margin: 3px 15px;
+padding: 2px 5px;
+margin: 2px 15px;
 display: inline-block;
-border: solid 1px blue;
+border: solid 1px #BBBBBB;
 background-color: white;
 }
 
@@ -243,7 +243,7 @@ width: 18px;
 }
 
 .wiki-tab span{
-font-size: 18px;
+font-size: 16px;
 }
 /********* software ********/
 
