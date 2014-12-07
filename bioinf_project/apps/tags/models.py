@@ -7,7 +7,7 @@ from django.db.models.signals import m2m_changed, post_save, pre_delete
 from django.conf import settings
 
 from posts.models import MainPost, ReplyPost
-
+from wiki.models import Page, PageRevision
 # Create your models here.
 class TagManager(models.Manager):
 
@@ -59,7 +59,17 @@ class Tag(models.Model):
         
     def blogs(self):
         return self.posts.filter(type=2)
-    
+
+    @classmethod
+    def create(cls, name, categories, icon, author):
+        wiki_page,created = Page.objects.get_or_create(title=name)
+        if created == True: 
+            new_revision = PageRevision(content='', revision_summary='',page=wiki_page, author=author)
+            new_revision.save()
+            wiki_page.current_revision = new_revision
+            wiki_page.save()
+        tag = cls(name=name, wiki_page=wiki_page, categories=categories, icon=icon)
+        return tag
     
     @staticmethod
     def update_tag_counts(sender, instance, action, pk_set, *args, **kwargs):
@@ -100,7 +110,8 @@ class Tag(models.Model):
     def adjust_pos():
         pass
 
-class Meta:
+
+    class Meta:
         get_latest_by= 'node_position'
     #---- methods ----#
    # def __init__(self, *args, **kwargs):

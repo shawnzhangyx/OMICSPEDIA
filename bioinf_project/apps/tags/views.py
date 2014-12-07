@@ -7,7 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from .models import Tag, UserTag
 from posts.models import MainPost
 from wiki.models import Page, PageRevision
-from .forms import TagForm
+from .forms import TagForm, TagCreateForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -21,14 +21,17 @@ class TagList(ListView):
 
 
 class TagCreate(CreateView):
-    form_class = TagForm
+    form_class = TagCreateForm
     template_name = "tags/tag_create.html"
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(TagCreate, self).dispatch(*args, **kwargs)
 
-        return form_class(**kwargs)
+    def form_valid(self, form):
+        form.instance = Tag.create(form.instance.name, form.instance.categories, form.instance.icon, self.request.user)
+        return super(TagCreate, self).form_valid(form)
+    
     def get_context_data(self, **kwargs):
         context = super(TagCreate,self).get_context_data(**kwargs)
         if self.kwargs['parent_name'] !='':

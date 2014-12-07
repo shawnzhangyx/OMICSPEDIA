@@ -1,6 +1,12 @@
 {% load util_custom_tags %}
+{% load staticfiles %}
 {% load humanize %}
 <div class="wiki-tab">
-    <h4><a class='' href= "{% url 'wiki:wiki-detail' wiki.get_title %}" >{{ wiki.title }} </a>
-    </h4>
+    <span>{{ wiki.bookmark_count}}
+    <img src="{% static 'images/star.png' %}"></span>
+    <span> {{ wiki.comments.count}}
+    <img src="{% static 'images/exclamation.jpg' %}"></span>
+    &nbsp;
+    <span> <a class='' href= "{% url 'wiki:wiki-detail' wiki.get_title %}" >{{ wiki.title }} </a>
+    </span>
 </div>

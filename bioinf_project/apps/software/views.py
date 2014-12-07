@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.shortcuts import render
 #from .forms import WikiForm
 from .models import Tool
-from .forms import ToolForm
+from .forms import ToolForm, ToolNewForm
 # Create your views here.
 
 
@@ -16,9 +16,16 @@ class IndexView(ListView):
     context_object_name = "software_list"
     
 class SoftwareNew(CreateView):
-    form_class = ToolForm
+    form_class = ToolNewForm
     template_name = "software/software_edit.html"
-
+        
+    def form_valid(self, form):
+        form.instance = Tool.create(form.instance.name, self.request.user)
+        return super(SoftwareNew, self).form_valid(form)
+        
+    def get_success_url(self):
+        return reverse('software:software-edit', kwargs={'name':self.object.name})
+    
 class SoftwareEditView(UpdateView):
     #model = Tool
     form_class = ToolForm
@@ -39,6 +46,4 @@ class SoftwareDetailView(DetailView):
         if hasattr(self.object.page, 'wiki_tag'):
             context['usertag_list'] = self.object.page.wiki_tag.usertags.filter(answer_count__gt = 0)
         return context
-def software_precreate_view(request):
-    return render(request, "software/software_pre_create.html")
 

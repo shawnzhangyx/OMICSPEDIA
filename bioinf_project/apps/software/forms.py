@@ -44,10 +44,32 @@ class ToolForm(forms.ModelForm):
             Div('page', css_class="col-sm-6"),
 
             ButtonHolder(
-                Submit('submit', 'Submit')
+                Submit('submit', 'Save')
             )
         )
 
     class Meta:
         model = Tool
         #fields = ('name','page')
+        
+
+        
+class ToolNewForm(forms.ModelForm):
+    name = forms.CharField(required=True)
+    
+    def __init__(self, *args, **kwargs):
+        super(ToolNewForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "software-form"
+        self.helper.layout = Layout(
+            HTML('<h3> Software name</h3>'),
+            Div('name', css_class="col-sm-12"),
+
+            ButtonHolder(
+                Submit('submit', 'Submit')
+            )
+        )
+
+    class Meta:
+        model = Tool
+        fields = ('name',)

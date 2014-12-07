@@ -16,6 +16,31 @@ def validate_icon(image):
 def validate_name(name):
     if name.find("_") >= 0:
         raise ValidationError("'_' is not allowed in the tag name")
+
+class TagCreateForm(forms.ModelForm):
+    name = forms.CharField(validators=[validate_name],help_text="the name of the tag")
+    icon = forms.ImageField(label="Icon", required=False, validators=[validate_icon], help_text="24px * 24px")
+    categories = forms.ChoiceField(choices=Tag.CATEGORY_CHOICE, 
+    help_text='select category')
+    
+    def __init__(self, *args, **kwargs):
+        super(TagCreateForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "tag-form"
+        self.helper.layout = Layout(
+            Div('name', css_class="col-sm-6"),
+            Div('categories',css_class="col-sm-6"),
+            Div('icon', css_class="col-sm-6"),
+            Div('', css_class="clearfix visible-sm-block visible-md-block visible-lg-block"),
+            ButtonHolder(
+                Submit('submit', 'Submit'), css_class="col-sm-6"
+            )
+        )
+        
+    class Meta:
+        model = Tag
+        fields = ('name', 'categories','icon')
+        
         
 class TagForm(forms.ModelForm):
     name = forms.CharField(validators=[validate_name],help_text="the name of the tag")

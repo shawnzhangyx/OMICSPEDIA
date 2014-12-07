@@ -230,10 +230,21 @@ color: #FF0000;
 }
 
 .wiki-tab {
-padding-left: 20px;
+padding: 5px 5px;
+margin: 3px 15px;
 display: inline-block;
+border: solid 1px blue;
+background-color: white;
 }
 
+.wiki-tab img {
+height: 18px;
+width: 18px;
+}
+
+.wiki-tab span{
+font-size: 18px;
+}
 /********* software ********/
 
 .software-table td:first-child {

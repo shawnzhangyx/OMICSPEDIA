@@ -53,7 +53,7 @@ class Report(models.Model):
         return self.report_comments.all()
         
     def get_comment_count(self):
-        return 0#self.report_comments.all.count()
+        return self.report_comments.all().count()
 
     def get_absolute_url(self):
         return reverse('meta:meta-index')

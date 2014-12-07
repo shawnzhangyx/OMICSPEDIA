@@ -15,12 +15,13 @@
      <a href="{% url 'wiki:wiki-comment' page.get_title %}">  Comment <span class="badge"> {{page.comments.count}}</span></a> 
     </li>
     {% endblock wiki-comment %}
-    {% block wiki-edit %}
-    <li> <a href="{% url 'wiki:wiki-edit' page.get_title %}"> Edit </a> </li>
-    {% endblock wiki-edit %}
     {% block wiki-history %}
-    <li> <a href="{% url 'wiki:wiki-history' page.get_title %}"> History </a> </li>
+    <li class="pull-right"> <a href="{% url 'wiki:wiki-history' page.get_title %}"> History </a> </li>
     {% endblock wiki-history %}
+    {% block wiki-edit %}
+    <li class="pull-right"> <a href="{% url 'wiki:wiki-edit' page.get_title %}"> Edit </a> </li>
+    {% endblock wiki-edit %}
+
   </ul>
 
   <div id="wiki-content">

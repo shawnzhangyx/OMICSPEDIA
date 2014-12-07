@@ -3,7 +3,8 @@ from django.forms import ModelForm
 from django.contrib.contenttypes.generic import GenericRelation 
 from django.core.urlresolvers import reverse
 
-from wiki.models import Page 
+from wiki.models import Page, PageRevision
+from tags.models import Tag
 from django.utils import timezone
 
 # Create your models here.
@@ -47,3 +48,19 @@ class Tool(models.Model):
 
     def get_vote_count(self):
         return self.tool_votes.filter(choice=1).count() - self.tool_votes.filter(choice=-1).count()
+
+    @classmethod
+    def create(cls, name, author):
+        wiki_page, created = Page.objects.get_or_create(title=name)
+        if created == True: 
+            new_revision = PageRevision(content='', revision_summary='',page=wiki_page, author=author)
+            new_revision.save()
+            wiki_page.current_revision = new_revision
+            wiki_page.save()
+        tag, created = Tag.objects.get_or_create(wiki_page=wiki_page)
+        if created == True: 
+            tag.name = name
+            tag.categories = 2
+            tag.save()
+        tool = cls(name=name, page=wiki_page)
+        return tool
