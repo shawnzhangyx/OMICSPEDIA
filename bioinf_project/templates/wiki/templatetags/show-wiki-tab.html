@@ -2,10 +2,13 @@
 {% load staticfiles %}
 {% load humanize %}
 <div class="wiki-tab">
-    <span>{{ wiki.bookmark_count}}
-    <img src="{% static 'images/star.png' %}"></span>
-    <span> {{ wiki.comments.count}}
-    <img src="{% static 'images/exclamation.jpg' %}"></span>
+
+    <span> <img src="{% static 'images/star.png' %}"> {{ wiki.bookmark_count}}
+    
+</span>
+<!--    <span> {{ wiki.comments.count}}
+    <img src="{% static 'images/exclamation.jpg' %}">
+</span> -->
     &nbsp;
     <span> <a class='' href= "{% url 'wiki:wiki-detail' wiki.get_title %}" >{{ wiki.title }} </a>
     </span>

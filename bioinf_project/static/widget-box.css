@@ -119,11 +119,11 @@ display: block;
 margin-left: 10px;
 }
 .tags {
-font-size:90%;
+#font-size:90%;
 color: #4a6b82;
 cursor:pointer;
 font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;
-padding: 1px 5px 1px 2px;
+padding: 1px 4px 1px 4px;
 background-color: #e0eaf1;
 margin: 5px 2px 5px 0;
 line-height: 1.4;
@@ -131,6 +131,18 @@ white-space: nowrap;
 display: inline-block;
 border: 1px solid #c4dae9;
 min-height:24px;
+}
+
+.tags-software {
+background-color: #FFaaaa;
+border: 1px solid #FF8888;
+color: white;
+}
+
+.tags-workflow {
+background-color: #CCCCCC;
+border: 1px solid #AAAAAA;
+color: #555555;
 }
 
 .tags:hover {
@@ -183,7 +195,10 @@ margin-bottom: 0.25em;
 padding-bottom: 0.1em;
 display: block-inline;
 }
-
+#wiki-content {
+background-color: white;
+padding: 0 10px;
+}
 #wiki-content>h2:before,
 #wiki-content>h3:before {
 display: block;
@@ -213,6 +228,13 @@ visibility:hidden;
 border-bottom: 1px solid #aaa;
 }
 
+#wiki-content table {
+margin-left: 30px;
+}
+#wiki-content table th,td{
+border: solid 1px grey;
+padding: 2px 5px;
+}
 /**** wiki comment tab ****/
 .wiki-comment-tab
 {
