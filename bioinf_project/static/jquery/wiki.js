@@ -100,5 +100,17 @@ $(document).ready(function() {
       }
       );
 
-
+    $('.userpage-collapse').click(function(){
+       value = $(this).html();
+       if (value == "expand"){
+        $(this).next().css("display", "block");
+        console.log($(this).next());
+        $(this).html("collapse");
+       }
+       else {
+        $(this).next().css("display", "none");
+        $(this).html("expand");
+        }
+        });
+      
 });

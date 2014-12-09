@@ -44,6 +44,8 @@
         <a href="?tab=Discussions"> Discussions  </a> </li>
     <li {% ifequal tab "Blogs" %} class="active" {% endifequal %} >
         <a href="?tab=Blogs"> Blogs  </a> </li>
+    <li {% ifequal tab "Contributors" %} class="active" {% endifequal %} >
+        <a href="?tab=Contributors"> Contributors </a> </li>
   </ul>
 
 {% ifequal tab "Summary" %}
@@ -51,38 +53,39 @@
 <p> This is the Summary page of the tag: </p>
  <div class="row"> 
    <div class="section-tab col-sm-6">
-    <h3> {{wiki_list.count}} wiki page{% if wiki_list.count > 1%}s{% endif %} </h3>
-    {% for wiki in wiki_list %}
-        {% show_wiki_tab wiki %}
+    <h3> <a href="?tab=Wiki">{{wiki_list.count}} wiki page{% if wiki_list.count > 1%}s{% endif %}</a> </h3>
+    <ul class="list-unstyled">
+    {% for wiki in wiki_list|slice:":5" %}
+    <li>    {% show_wiki_tab wiki %} </li>
     {% endfor %}    
+    </ul>
    </div>
    <div class="section-tab col-sm-6">
-    <h3> {{question_list.count}} question{% if question_list.count > 1 %}s{% endif %}</h3>
-    {% for question in question_list %}
+    <h3> <a href="?tab=Questions">{{question_list.count}} question{% if question_list.count > 1 %}s{% endif %}</a></h3>
+    {% for question in question_list|slice:":5" %}
         {% show_post_tab_sm question %}
     {% endfor %}
    </div>
    <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
    <div class="section-tab col-sm-6">
-    <h3> {{discussion_list.count}} discussion{% if discussion_list.count > 1 %}s{% endif %}</h3>
-    {% for discussion in discussion_list %}
+    <h3> <a href="?tab=Discussions">{{discussion_list.count}} discussion{% if discussion_list.count > 1 %}s{% endif %}</a></h3>
+    {% for discussion in discussion_list|slice:":5" %}
         {% show_post_tab_sm discussion %}
     {% endfor %}
    </div>
    <div class="section-tab col-sm-6">
-    <h3> {{blog_list.count}} blog{% if blog_list.count > 1 %}s{% endif %}</h3>
-    {% for blog in blog_list %}
+    <h3> <a href="?tab=Blogs">{{blog_list.count}} blog{% if blog_list.count > 1 %}s{% endif %}</a></h3>
+    {% for blog in blog_list|slice:":5" %}
         {% show_post_tab_sm blog %}
     {% endfor %}
    </div>
    <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
-
    
     <div class="section-tab col-sm-6">
-    <h3> {{usertag_list.count}} user{% if usertag_list.count > 1%}s{% endif %} </h3>
+    <h3> <a href="?tab=Contributors">{{usertag_list.count}} contributor{% if usertag_list.count > 1%}s{% endif %}</a> </h3>
     <ul class="list-unstyled" >
-    {% for user_tag in usertag_list %}
+    {% for user_tag in usertag_list|slice:":5" %}
         {% user_answers_for_tag user_tag %}
     {% endfor %}
     </ul>
@@ -129,6 +132,38 @@ No posts associated with this tag yet. Would you like to suggest adding some tag
 {% endfor %}
 </div>
 {% endif %}
+
+{% if tab == "Contributors"%}
+<br>
+<div>
+    <ul class="list-unstyled">
+{% for usertag in usertag_list %}
+        {% user_answers_for_tag usertag %}
+{% empty %}
+No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
+{% endfor %}
+</ul>
+</div>
+{% endif %}
+
+      {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a class='btn btn-xs btn-default' href="{% url 'posts:post-index'%}?tab={{tab}}&page={{ page_obj.previous_page_number }}">Prev</a>
+                {% endif %}
+                <span class="page-current">
+                    Page <b>{{ page_obj.number }}</b> of <b>{{ page_obj.paginator.num_pages }}</b>.
+                </span>
+                {% if page_obj.has_next %}
+                    <a class='btn btn-xs btn-default' href="{% url 'posts:post-index'%}?tab={{tab}}&page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+                <form action="" class="pagination-form" method="get">  <input type="text" size="1" name="page" placeholder="1"> <input style="display:none" type="text" size="1" name="tab" value="{{tab}}"> <input type="submit" class="btn btn-default btn-xs" value="Go">
+                </form>
+            </span>
+        </div>
+    {% endif %}
+    
 {% endblock content %}
 
 {% block jquery %}

@@ -12,7 +12,7 @@ from django.utils.decorators import method_decorator
 
 
 from .forms import PageForm, PageRevisionForm
-from .models import Page, PageRevision, PageComment
+from .models import Page, PageRevision, PageComment, UserPage
 import markdown
 import json
 # Create your views here.
@@ -228,6 +228,18 @@ class WikiCommentEdit(UpdateView):
     def dispatch(self, *args, **kwargs):
         return super(WikiCommentEdit, self).dispatch(*args, **kwargs)
 
+class UserPageView(ListView):
+    template_name = "wiki/wiki_userpage.html"
+    context_object_name = "userpage_list"
+    
+    def get_queryset(self):
+        return UserPage.objects.filter(page__title=self.kwargs['title'].replace('_', ' ')).order_by('-added')
+        
+    def get_context_data(self):
+        context = super(UserPageView, self).get_context_data()
+        context['page'] = Page.objects.get(title=self.kwargs['title'].replace('_',' '))
+        return context
+    
         
 def wikilinks(request):
     context = RequestContext(request)

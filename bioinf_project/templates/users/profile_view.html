@@ -140,7 +140,21 @@
 </div>
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
+<div class="section-tab col-sm-6 ">
+<h3> {{userpage_list.count}} wiki page{% if usertag_list.count > 1 %}s{% endif %} </h3>
+    <ul class="list-unstyled" >
+    {% for userpage in userpage_list %}
+    <li> <a href="{% url 'wiki:wiki-detail' userpage.page.get_title %}"> {{userpage.page.title}}</a> (
+    <span class="ins">+{{userpage.added}}</span> / <span class="del">-{{userpage.deleted}}</span> / <span><b>{{userpage.edits}} edit{% if userpage.edits > 1%}s{%endif%} </b></span> )
+    </li>
+    {% endfor %}
+    </ul>
+    
 </div>
+
+<div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+</div>
+
 
 <hr>
   {% if user == userprofile.user %}

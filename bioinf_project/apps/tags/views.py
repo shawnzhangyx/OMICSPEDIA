@@ -74,7 +74,7 @@ class TagDetails(DetailView):
         context['question_list'] = self.object.questions()
         context['discussion_list'] = self.object.discussions()
         context['blog_list'] = self.object.blogs()
-        context['usertag_list'] = self.object.usertags.filter(answer_count__gt = 0)
+        context['usertag_list'] = self.object.usertags.filter(answer_count__gt = 0).order_by('-answer_count')
         return context
 
 class TagDelete(DeleteView):

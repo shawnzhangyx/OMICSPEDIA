@@ -4,6 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericRelation 
 from django.utils import timezone
+from django.db.models.signals import m2m_changed, post_save, pre_delete
+
 #from django.contrib.auth.models import User
 import markdown
 from utils import diff_match_patch
@@ -62,7 +64,7 @@ class Page(models.Model):
 
 class PageRevision(AbstractBaseRevision):
 
-    page = models.ForeignKey(Page, on_delete = models.CASCADE, verbose_name=_("page"))
+    page = models.ForeignKey(Page, on_delete = models.CASCADE, verbose_name=_("page"), related_name="all_revisions")
     total_chars = models.IntegerField(_('total_chars'))
     added_chars = models.IntegerField(_('added_chars'))
     deleted_chars = models.IntegerField(_('deleted_chars'))
@@ -74,7 +76,7 @@ class PageRevision(AbstractBaseRevision):
     def save(self, *args, **kwargs):
         if not self.revision_number:
             try:
-                previous_revision = self.page.pagerevision_set.latest()
+                previous_revision = self.page.all_revisions.latest()
                 self.revision_number = previous_revision.revision_number + 1
             except PageRevision.DoesNotExist:
                 self.revision_number = 1
@@ -159,7 +161,62 @@ class PageComment(models.Model):
                 self.NEW_INFO:'please provide some new information on this page'}
         return dict[self.issue]
 # --------- #
-# a page can have several sections, instead of just one giant
-# piece of content, this will make editing more convenient.
-# setting it up now, but will not use it in demonstration.
 
+class UserPage(models.Model):
+    page = models.ForeignKey('Page', related_name="userpage")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name ="userpage")
+    revisions = models.ManyToManyField('PageRevision', null=True, blank=True)
+    edits = models.IntegerField(default=0)
+    added = models.IntegerField(default=0)
+    deleted = models.IntegerField(default=0)
+    
+    @staticmethod 
+    def update_due_to_new_revision(sender, instance, **kwargs):
+        userpage = UserPage.objects.get_or_create(page=instance.page, user=instance.author)[0]
+        userpage.edits += 1
+        userpage.added += instance.added_chars
+        userpage.deleted += instance.deleted_chars
+        userpage.revisions.add(instance)
+        userpage.save()
+        
+    @staticmethod 
+    def update_due_to_deleted_revision(sender, instance, **kwargs):
+        userpage = UserPage.objects.get_or_create(page=instance.page, user=instance.author)[0]
+        userpage.edits -= 1
+        userpage.added -= instance.added_chars
+        userpage.deleted -= instance.deleted_chars
+        userpage.revisions.remove(instance)
+        userpage.save()
+        
+    def reset_userpage(self):
+        page = self.page
+        revisions = page.all_revisions.filter(author=self.user)
+        self.edits = revisions.count()
+        self.added = 0
+        self.deleted = 0
+        if revisions.count() >= 1:
+            for revision in revisions:
+                self.added += revision.added_chars
+                self.deleted += revision.deleted_chars
+                self.revisions.add(revision)
+        self.save()
+    
+    @staticmethod
+    def collect_userpage():
+        userpage_list = []
+        for page in Page.objects.all():
+            for revision in page.all_revisions.all():
+                userpage = UserPage.objects.get_or_create(page=page, user=revision.author)[0]
+                if userpage not in userpage_list:
+                    userpage_list.append(userpage)
+        
+        for userpage in userpage_list:
+            userpage.reset_userpage()
+        
+        
+    class Meta: 
+        unique_together = ('page', 'user')
+        
+        
+post_save.connect(UserPage.update_due_to_new_revision, sender=PageRevision)
+pre_delete.connect(UserPage.update_due_to_deleted_revision, sender=PageRevision)

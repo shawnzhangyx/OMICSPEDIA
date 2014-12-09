@@ -231,7 +231,13 @@ border-bottom: 1px solid #aaa;
 #wiki-content table {
 margin-left: 30px;
 }
-#wiki-content table th,td{
+#wiki-content>table>th
+{
+border: solid 1px grey;
+padding: 2px 5px;
+}
+#wiki-content>table>td
+{
 border: solid 1px grey;
 padding: 2px 5px;
 }

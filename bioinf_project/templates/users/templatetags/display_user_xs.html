@@ -1,0 +1,6 @@
+{% load staticfiles %}
+
+<a href = "{% url 'users:profile-view' user.user_profile.id %}" > 
+<img class="profile-img-xs" src='{% if user.user_profile.portrait %} {{user.user_profile.portrait.url}} 
+{% else %} {%static "images/user_default.png"%}{% endif %}'
+> {{user.user_profile.name}} </a> 

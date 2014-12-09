@@ -180,6 +180,10 @@ color: #ffffff;
 padding-left: 10px;
 }
 
+.section-tab>h3>a {
+color: white;
+}
+
 .right-to-left li {
 float:right;
 }

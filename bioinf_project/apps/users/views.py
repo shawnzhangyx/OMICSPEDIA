@@ -16,7 +16,7 @@ from django.http import HttpResponseRedirect
 
 from .models import UserProfile
 from posts.models import MainPost
-from wiki.models import Page
+from wiki.models import Page, UserPage
 from software.models import Tool
 from tags.models import Tag, UserTag
 from .forms import UserCreationForm, ProfileForm
@@ -88,6 +88,9 @@ class ProfileView(DetailView):
         #tags_answered = Tag.objects.filter(posts__replies__author = self.object.user).distinct()
         usertags = UserTag.objects.filter(user = self.object.user).order_by('-answer_count')
         context['usertag_list'] = usertags
+        userpages = UserPage.objects.filter(user = self.object.user).order_by('-added')
+        context['userpage_list'] = userpages
+        
         return context
         
 class UserListView(ListView):

@@ -34,5 +34,5 @@
 <p> no revision history available </p>
 {% endif %}
 <hr>
-<p> <a href = "{% url 'wiki:wiki-index' %}"> Go back to wiki homepage</a> </p>
+<p> <a href = "{% url 'wiki:wiki-contributors' revision_list.0.page.get_title %}"> See user contribution</a> </p>
 {% endblock wiki-content %}

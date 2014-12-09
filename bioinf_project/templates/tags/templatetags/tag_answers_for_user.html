@@ -1,3 +1,6 @@
 {% load tag_custom_tags %}
-<li>  {% display_tag tag %} x{{count}}</li>
+<li>  <a title="{{count}} answer{%if count > 1%}s{% endif %} tagged {{tag.name}}" class="usertag-answer-count" href="{% url 'tags:tag-user' tag.name user.user_profile.name %}">x{{count}} </a>
+
+ {% display_tag tag %}
+</li>
 

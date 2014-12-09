@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^(?P<title>[^/]+)/comment/add$', views.WikiCommentAdd.as_view(), name='wiki-comment-add'),
     url(r'^[^/]+/comment/(?P<pk>\d+)/edit$', views.WikiCommentEdit.as_view(), name='wiki-comment-edit'),
     url(r'^(?P<title>[^/]+)/history/$', views.WikiHistory.as_view(), name='wiki-history'),
+    url(r'^(?P<title>[^/]+)/user-contribtion/$', views.UserPageView.as_view(), name='wiki-contributors'),
     url(r'^(?P<pk>\d+)/diff/$', views.WikiDiff.as_view(), name='wiki-diff'),
     url(r'^ajax/wikilinks/$', views.wikilinks, name='wikilinks'),
     )

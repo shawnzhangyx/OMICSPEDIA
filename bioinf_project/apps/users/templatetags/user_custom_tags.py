@@ -9,3 +9,8 @@ register = template.Library()
 @register.inclusion_tag("users/templatetags/display_user_md.html")
 def display_user_md(user):
     return {'user_profile': user}
+    
+    
+@register.inclusion_tag("users/templatetags/display_user_xs.html")
+def display_user_xs(user):
+    return {'user': user}
