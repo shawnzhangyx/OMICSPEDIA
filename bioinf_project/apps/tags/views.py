@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from utils import pagination
 
 from .models import Tag, UserTag
 from posts.models import MainPost
@@ -66,15 +67,52 @@ class TagDetails(DetailView):
         return Tag.objects.get(name=self.kwargs['name'])
         
     def get_context_data(self, **kwargs):
+        page_limit = 5
         context = super(TagDetails, self).get_context_data(**kwargs)
         tab = self.request.GET.get('tab')
+        if not tab:
+            tab = 'Summary'
+        page = self.request.GET.get('page')
+        # lists that are paginated. 
+        wiki_list = self.object.pages.all()
+        question_list = self.object.questions()
+        discussion_list = self.object.discussions()
+        blog_list = self.object.blogs()
+        usertag_list = self.object.usertags.filter(answer_count__gt = 0).order_by('-answer_count')
+        # get the count 
+        wiki_list_count = wiki_list.count()
+        question_list_count = question_list.count()
+        discussion_list_count = discussion_list.count()
+        blog_list_count = blog_list.count()
+        usertag_list_count = usertag_list.count()
+        
+        # paginate the list 
+        wiki_list = pagination(wiki_list,page,page_limit)
+        question_list = pagination(question_list,page,page_limit)
+        discussion_list = pagination(discussion_list,page,page_limit)
+        blog_list = pagination(blog_list,page,page_limit)
+        usertag_list = pagination(usertag_list,page,page_limit)
+        # 
+        tab_list_dict = {'Wiki':wiki_list,'Questions':question_list, 'Discussions':discussion_list, 'Blogs':blog_list, 'Contributors':usertag_list, 'Summary':False,'':False}
+        page_obj = tab_list_dict[tab]
+        
         context['tab'] = tab
         context['tag_wiki'] = self.object.wiki_page
-        context['wiki_list'] = self.object.pages.all()
-        context['question_list'] = self.object.questions()
-        context['discussion_list'] = self.object.discussions()
-        context['blog_list'] = self.object.blogs()
-        context['usertag_list'] = self.object.usertags.filter(answer_count__gt = 0).order_by('-answer_count')
+        context['wiki_list'] = wiki_list#self.object.pages.all()
+        context['question_list'] = question_list #self.object.questions()
+        context['discussion_list'] = discussion_list #self.object.discussions()
+        context['blog_list'] = blog_list #self.object.blogs()
+        context['usertag_list'] = usertag_list #self.object.usertags.filter(answer_count__gt = 0).order_by('-answer_count')
+        # list count 
+        context['wiki_list_count'] = wiki_list_count 
+        context['question_list_count'] = question_list_count 
+        context['discussion_list_count'] = discussion_list_count 
+        context['blog_list_count'] = blog_list_count 
+        context['usertag_list_count'] = usertag_list_count 
+        context['page_obj'] = page_obj 
+        if page_obj != False:
+            context['is_paginated']=True
+ 
         return context
 
 class TagDelete(DeleteView):

@@ -301,6 +301,7 @@ margin-right: 10px;
 .post-tab {
 border-bottom: 1px solid #DDDDDD;
 margin-bottom: 0px;
+display: block;
 }
 
 .post-count-box{
@@ -511,8 +512,6 @@ color: white;
 }
 
 
-
-
 #bookmark-post-list {
 display: none;
 }
@@ -520,6 +519,22 @@ display: none;
 #bookmark-software-list {
 display: none;
 }
+ 
+.bookmark-sidebar {
+width: 80px;
+float: left;
+border-right: 1px solid #bbbbbb;
+}
+.bookmark-sidebar li a{
+text-align: center;
+}
 
+.bookmark-sidebar > .active > a, 
+.bookmark-sidebar > .active > a:hover,
+.bookmark-sidebar > .active > a:focus
+{
+  color: #fff;
+  background-color: #428bca;
+}
 
 /******* omics portal ******/

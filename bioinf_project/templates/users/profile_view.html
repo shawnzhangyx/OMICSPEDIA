@@ -61,27 +61,51 @@
 	</div>
 </div>
 <hr>
+
+<!-- tabs --> 
+  <ul class="nav nav-tabs">
+    <li {% ifequal tab "Summary" %} class="active" {% endifequal %}
+    {% ifequal tab null %} class="active" {% endifequal %}>
+      <a href="?tab=Summary"> Summary </a> </li>
+    <li {% ifequal tab "Questions" %} class="active" {% endifequal %} >
+        <a href="?tab=Questions"> Questions  </a> </li>
+    <li {% ifequal tab "Answers" %} class="active" {% endifequal %} >
+        <a href="?tab=Answers"> Answers  </a> </li>
+    <li {% ifequal tab "Discussions" %} class="active" {% endifequal %} >
+        <a href="?tab=Discussions"> Discussions  </a> </li>
+    <li {% ifequal tab "Blogs" %} class="active" {% endifequal %} >
+        <a href="?tab=Blogs"> Blogs  </a> </li>
+    <li {% ifequal tab "Bookmarks" %} class="active" {% endifequal %} >
+        <a href="?tab=Bookmarks"> Bookmarks </a> </li>
+    <li {% ifequal tab "Tags" %} class="active" {% endifequal %}> 
+      <a href="?tab=Tags"> Tags  </a> </li>
+    <li {% ifequal tab "Wiki" %} class="active" {% endifequal %}> 
+      <a href="?tab=Wiki"> Wiki  </a> </li>
+  </ul>
+
+<!-- summary tabs -->
+{% ifequal tab 'Summary' %}
 <div class="">
 <div class="section-tab col-sm-6">
-<h3> {{userprofile.user.questions.count}} question{% if userprofile.user.questions.count > 1%}s{%endif%} </h3>
+<h3> <a href="?tab=Questions">{{question_count}} question{% if question_count > 1%}s{%endif%}</a></h3>
 
-{% for post in userprofile.user.questions.all %}
-    {% show_post_tab_sm post %}
+{% for question in questions|slice:':5' %}
+    {% show_post_tab_sm question %}
 {% endfor %}
 </div>
 
 <div class="section-tab col-sm-6 ">
-<h3> {{userprofile.user.replypost_set.count}} answer{% if userprofile.user.replypost_set.count > 1%}s{%endif%}</h3>
+<h3> <a href="?tab=Answers">{{answer_count}} answer{% if answer_count > 1%}s{%endif%}</a></h3>
 <div>
-{% for replypost in userprofile.user.replypost_set.all %}
+{% for answer in answers|slice:':5' %}
   <div class="post-tab-sm col-sm-12">
   <div class="post-count-box-sm">
-    <div class="post-tab-reply-sm {% if replypost.accepted_root.count == 1 %}post-tab-reply-accepted{% endif %}">
-    {{replypost.get_vote_count}}
+    <div class="post-tab-reply-sm {% if answer.accepted_root.count == 1 %}post-tab-reply-accepted{% endif %}">
+    {{answer.get_vote_count}}
     </div>
   </div>
   <div>
-    <a class="post-tab-title-sm" href= "{% url 'posts:post-detail' replypost.mainpost.id %}" >{{ replypost.mainpost.title }} </a>
+    <a class="post-tab-title-sm" href= "{% url 'posts:post-detail' answer.mainpost.id %}" >{{ answer.mainpost.title }} </a>
   </div>
     </div>
 {% endfor %}
@@ -91,15 +115,15 @@
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
 <div class="section-tab col-sm-6">
-<h3> {{userprofile.user.discussions.count}} discussion{% if userprofile.user.discussions.count > 1%}s{%endif%} </h3>
-{% for post in userprofile.user.discussions.all %}
+<h3> <a href="?tab=Discussions">{{discussion_count}} discussion{% if discussion_count > 1%}s{%endif%}</a> </h3>
+{% for post in discussions|slice:':5' %}
     {% show_post_tab_sm post %}
 {% endfor %}
 </div>
 
 <div class="section-tab col-sm-6">
-<h3> {{userprofile.user.blogs.count}} blog{% if userprofile.user.blogs.count > 1%}s{%endif%} </h3>
-{% for post in userprofile.user.blogs.all %}
+<h3> <a href="?tab=Blogs">{{blog_count}} blog{% if blog_count > 1%}s{%endif%}</a></h3>
+{% for post in blogs|slice:':5' %}
     {% show_post_tab_sm post %}
 {% endfor %}
 </div>
@@ -107,32 +131,32 @@
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
 <div class="section-tab col-sm-6" id="profile-view-bookmark">
-    <h3> {{userprofile.user.bookmarks.count}} bookmark{% if userprofile.user.bookmarks.count > 1%}s{% endif %}
-    <small class="profile-view-tab-choice profile-view-tab-choice-on" target="bookmark-wiki-list"> wiki<sup>{{bookmark_wiki.count}}</sup> </small>
-    <small class="profile-view-tab-choice profile-view-tab-choice-off" target="bookmark-post-list"> post<sup>{{bookmark_posts.count}}</sup> </small>
-    <small class="profile-view-tab-choice profile-view-tab-choice-off" target="bookmark-software-list"> software<sup>{{bookmark_software.count}}</sup> </small>
+    <h3> <a href="?tab=Bookmarks">{{bookmark_count}} bookmark{% if bookmark_count > 1%}s{% endif %}</a>
+    <small class="profile-view-tab-choice profile-view-tab-choice-on" target="bookmark-wiki-list"> wiki<sup>{{bookmark_wiki_count}}</sup> </small>
+    <small class="profile-view-tab-choice profile-view-tab-choice-off" target="bookmark-post-list"> post<sup>{{bookmark_post_count}}</sup> </small>
+    <small class="profile-view-tab-choice profile-view-tab-choice-off" target="bookmark-software-list"> software<sup>{{bookmark_software_count}}</sup> </small>
 </h3>
 <div id="bookmark-wiki-list">
-{% for wiki in bookmark_wiki %}
+{% for wiki in bookmark_wiki|slice:':5' %}
         {% show_wiki_tab wiki %}
 {% endfor %}
 </div>
 <div id="bookmark-post-list">
-{% for post in bookmark_posts %}
+{% for post in bookmark_posts|slice:':5' %}
     {% show_post_tab_sm post %}
 {% endfor %}
 </div>
 <div id="bookmark-software-list">
-{% for software in bookmark_software %}
+{% for software in bookmark_software|slice:':5' %}
 {% display_software_tab_sm software %}
 {% endfor %}
 </div>
 
 </div>
 <div class="section-tab col-sm-6 ">
-<h3> {{usertag_list.count}} tag{% if usertag_list.count > 1 %}s{% endif %} </h3>
+<h3> <a href="?tab=Tags">{{usertag_count}} tag{% if usertag_count > 1 %}s{% endif %}</a> </h3>
     <ul class="list-unstyled" >
-    {% for user_tag in usertag_list %}
+    {% for user_tag in usertag_list|slice:':5' %}
         {% tag_answers_for_user user_tag %}
     {% endfor %}
     </ul>
@@ -141,21 +165,129 @@
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
 <div class="section-tab col-sm-6 ">
-<h3> {{userpage_list.count}} wiki page{% if usertag_list.count > 1 %}s{% endif %} </h3>
+<h3> <a href="?tab=Wiki">{{userpage_count}} wiki page{% if userpage_count > 1 %}s{% endif %}</a> </h3>
     <ul class="list-unstyled" >
-    {% for userpage in userpage_list %}
-    <li> <a href="{% url 'wiki:wiki-detail' userpage.page.get_title %}"> {{userpage.page.title}}</a> (
-    <span class="ins">+{{userpage.added}}</span> / <span class="del">-{{userpage.deleted}}</span> / <span><b>{{userpage.edits}} edit{% if userpage.edits > 1%}s{%endif%} </b></span> )
+    {% for userpage in userpage_list|slice:':5' %}
+    <li> {% show_wiki_tab userpage.page%} (
+    <span class="ins">+{{userpage.added}}</span> / <span class="del">-{{userpage.deleted}}</span> / <span><a href="{% url 'wiki:wiki-contributors' userpage.page.get_title %}"><b>{{userpage.edits}} edit{% if userpage.edits > 1%}s{%endif%} </b></a></span> )
     </li>
     {% endfor %}
     </ul>
     
 </div>
 
-<div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 </div>
+{% endifequal %}
+<!-- question tab -->
+{% ifequal tab 'Questions' %}
+{% for question in questions %}
+    {% show_post_tab question %}
+{% endfor %}
+{% endifequal %}
+
+<!-- answers tab -->
+{% ifequal tab 'Answers' %}
+<br>
+{% for answer in answers %}
+  <div class="post-tab-sm col-sm-12">
+  <div class="post-count-box-sm">
+    <div class="post-tab-reply-sm {% if answer.accepted_root.count == 1 %}post-tab-reply-accepted{% endif %}">
+    {{answer.get_vote_count}}
+    </div>
+  </div>
+  <div>
+    <a class="post-tab-title-sm" href= "{% url 'posts:post-detail' answer.mainpost.id %}" >{{ answer.mainpost.title }} </a>
+  </div>
+    </div>
+{% endfor %}
+{% endifequal %}
+
+<!-- discussion tab -->
+{% ifequal tab 'Discussions' %}
+{% for discussion in discussions %}
+    {% show_post_tab discussion %}
+{% endfor %}
+{% endifequal %}
+
+<!-- blog tab -->
+{% ifequal tab 'Blogs' %}
+{% for blog in blogs %}
+    {% show_post_tab blog %}
+{% endfor %}
+{% endifequal %}
 
 
+<!-- bookmark tab -->
+{% ifequal tab 'Bookmarks' %}
+<ul class="bookmark-sidebar nav">
+<li {% ifequal mark 'wiki'%}class="active"{% endifequal %}><a href="?tab=Bookmarks&mark=wiki">wiki</a></li>
+<li {% ifequal mark 'posts'%}class="active"{% endifequal %}><a href="?tab=Bookmarks&mark=posts">posts</a></li>
+<li {% ifequal mark 'software'%}class="active"{% endifequal %}><a href="?tab=Bookmarks&mark=software">software</a></li>
+</ul>
+  {% ifequal mark 'wiki' %}
+    {% for wiki in bookmark_wiki %} 
+        {% show_wiki_tab wiki %}
+    {% endfor %}
+  {% endifequal %}
+  
+  {% ifequal mark 'posts' %}
+  <div class="pull-left">
+    {% for post in bookmark_posts %} 
+        {% show_post_tab_sm post %}
+    {% endfor %}
+  </div>
+  {% endifequal %}
+
+  {% ifequal mark 'software' %}
+  <div class="pull-left">
+    {% for software in bookmark_software %} 
+        {% display_software_tab_sm software %}
+    {% endfor %}
+  </div>
+  {% endifequal %}
+  
+{% endifequal %}
+
+<!-- tag tab -->
+{% ifequal tab 'Tags' %}
+    <ul class="list-unstyled">
+{% for usertag in usertag_list %}
+    {% tag_answers_for_user usertag %}
+{% endfor %}
+    </ul>
+{% endifequal %}
+
+<!-- wiki tab -->
+{% ifequal tab 'Wiki' %}
+<ul class="list-unstyled" >
+{% for userpage in userpage_list %}
+<li> {% show_wiki_tab userpage.page %} (
+    <span class="ins">+{{userpage.added}}</span> / <span class="del">-{{userpage.deleted}}</span> / <span><a href="{% url 'wiki:wiki-contributors' userpage.page.get_title %}"><b>{{userpage.edits}} edit{% if userpage.edits > 1%}s{%endif%} </b></a></span> )
+    </li>
+{% endfor %}
+</ul>
+{% endifequal %}
+
+<div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+<hr> 
+
+      {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a class='btn btn-xs btn-default' href="{% url 'users:profile-view' userprofile.id %}?tab={{tab}}&page={{ page_obj.previous_page_number }}">Prev</a>
+                {% endif %}
+                <span class="page-current">
+                    Page <b>{{ page_obj.number }}</b> of <b>{{ page_obj.paginator.num_pages }}</b>.
+                </span>
+                {% if page_obj.has_next %}
+                    <a class='btn btn-xs btn-default' href="{% url 'users:profile-view' userprofile.id %}?tab={{tab}}&page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+                <form action="" class="pagination-form" method="get">  <input type="text" size="1" name="page" placeholder="1"> <input style="display:none" type="text" size="1" name="tab" value="{{tab}}"> <input type="submit" class="btn btn-default btn-xs" value="Go">
+                </form>
+            </span>
+        </div>
+    {% endif %}
 <hr>
   {% if user == userprofile.user %}
     <a class="btn btn-default btn-sm" href = "{% url 'users:profile-edit' user.user_profile.id %}"> Edit profile? </a>

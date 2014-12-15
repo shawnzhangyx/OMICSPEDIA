@@ -13,6 +13,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.sites.models import get_current_site
 from django.template import loader
 from django.http import HttpResponseRedirect
+from utils import pagination
 
 from .models import UserProfile
 from posts.models import MainPost
@@ -67,30 +68,91 @@ class ProfileView(DetailView):
     
     
     def get_context_data(self, **kwargs):
+        page_limit = 20
         context = super(ProfileView, self).get_context_data(**kwargs)
+        tab = self.request.GET.get('tab')
+        if not tab: 
+            tab = "Summary" 
+        mark = self.request.GET.get('mark')
+        if not mark:
+            mark = 'posts'
+        page = self.request.GET.get('page')
+        # 1. questions 
+        questions = self.object.user.questions()
+        # 2. answers
+        answers = self.object.user.replypost_set.all()
+        # 3. discussions
+        discussions = self.object.user.discussions()
+        # 4. blogs 
+        blogs = self.object.user.blogs()
+        # 5. bookmarks
         bookmarks = self.object.user.bookmarks.all()
         # bookmarked posts
         post_bookmarks = bookmarks.filter(content_type=ContentType.objects.get_for_model(MainPost))
         id = post_bookmarks.values_list('object_id',flat=True)
         bookmark_posts = MainPost.objects.filter(id__in = id)
-        context['bookmark_posts'] = bookmark_posts
         # bookmarked wiki
         wiki_bookmarks = bookmarks.filter(content_type=ContentType.objects.get_for_model(Page))
         id = wiki_bookmarks.values_list('object_id',flat=True)
         bookmark_wiki = Page.objects.filter(id__in = id)
-        context['bookmark_wiki'] = bookmark_wiki
-        # bookmarked software
-        #software_bookmarks = bookmarks.filter(content_type=ContentType.objects.get_for_model(Tool))
-        #id = software_bookmarks.values_list('object_id',flat=True)
         bookmark_software = Tool.objects.filter(page__id__in = id)
-        context['bookmark_software'] = bookmark_software
         # tags that the author contributed to 
-        #tags_answered = Tag.objects.filter(posts__replies__author = self.object.user).distinct()
         usertags = UserTag.objects.filter(user = self.object.user).order_by('-answer_count')
-        context['usertag_list'] = usertags
-        userpages = UserPage.objects.filter(user = self.object.user).order_by('-added')
-        context['userpage_list'] = userpages
-        
+        # wikis that authors contribute to. 
+        userpages = UserPage.objects.filter(user = self.object.user, edits__gt = 0).order_by('-added')
+        # list count 
+        question_count = questions.count()
+        answer_count = answers.count()
+        discussion_count = discussions.count()
+        blog_count = blogs.count()
+        bookmark_count = bookmarks.count()+bookmark_software.count()
+        bookmark_wiki_count = bookmark_wiki.count()
+        bookmark_post_count = bookmark_posts.count()
+        bookmark_software_count = bookmark_software.count()
+        usertag_count = usertags.count()
+        userpage_count = userpages.count()
+        # paginate the list 
+        question_list = pagination(questions, page, page_limit)
+        answer_list = pagination(answers, page, page_limit)
+        discussion_list = pagination(discussions, page, page_limit)
+        blog_list = pagination(blogs, page, page_limit)
+        bookmark_post_list = pagination(bookmark_posts, page, page_limit)
+        bookmark_wiki_list = pagination(bookmark_wiki, page, page_limit)
+        bookmark_software_list = pagination(bookmark_software, page, page_limit)
+        usertag_list = pagination(usertags, page, page_limit)
+        userpage_list = pagination(userpages, page, page_limit)
+        tab_list_dict = {'Questions':question_list, 'Answers':answer_list,'Discussions':discussion_list, 'Blogs':blog_list, 'Bookmarks':{'wiki':bookmark_wiki,'posts':bookmark_posts, 'software':bookmark_software}, 'Tags':usertag_list,'Wiki':userpage_list, 'Summary':False,  '':False}
+        page_obj = tab_list_dict[tab]
+        # if page obj is one of the bookmark. 
+        if tab == 'Bookmarks':
+            page_obj = page_obj[mark]
+        # adding the list to the context. 
+        context['tab'] = tab
+        context['mark'] = mark
+        context['page_obj'] = page_obj
+        context['questions'] = question_list
+        context['answers'] = answer_list
+        context['discussions'] = discussion_list
+        context['blogs'] = blog_list 
+        context['bookmark_posts'] = bookmark_post_list
+        context['bookmark_wiki'] = bookmark_wiki_list
+        context['bookmark_software'] = bookmark_software_list
+        context['usertag_list'] = usertag_list
+        context['userpage_list'] = userpage_list
+        # list count
+        context['question_count'] = question_count
+        context['answer_count'] = answer_count
+        context['discussion_count'] = discussion_count
+        context['blog_count'] = blog_count
+        context['bookmark_count'] = bookmark_count
+        context['bookmark_wiki_count'] = bookmark_wiki_count
+        context['bookmark_post_count'] = bookmark_post_count
+        context['bookmark_software_count'] = bookmark_software_count
+        context['usertag_count'] = usertag_count
+        context['userpage_count'] = userpage_count
+        if page_obj != False:
+            context['is_paginated']=True
+ 
         return context
         
 class UserListView(ListView):
