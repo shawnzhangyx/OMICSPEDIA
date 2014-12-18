@@ -1,5 +1,6 @@
 {% extends 'tags/tag_base.html' %}
 {% load staticfiles %}
+{% load post_custom_tags %}
 {% block content %}
 <h3> <a href="{% url 'tags:tag-detail' usertag.tag.name%}?tab=Summary"> {{usertag.tag.name}}</a> questions answered by <a href = "{% url 'users:profile-view' usertag.user.user_profile.id %}" > 
 <img class="profile-img-xs" src='{% if usertag.user.user_profile.portrait %} {{usertag.user.user_profile.portrait.url}} 
@@ -7,17 +8,8 @@
 > {{usertag.user.user_profile.name}} </a> </h3>
 <hr>
 
-{% for replypost in object_list %}
-  <div class="post-tab-sm col-sm-12">
-  <div class="post-count-box-sm">
-    <div class="post-tab-reply-sm {% if replypost.accepted_root.count == 1 %}post-tab-reply-accepted{% endif %}">
-    {{replypost.get_vote_count}}
-    </div>
-  </div>
-  <div>
-    <a class="post-tab-title-sm" href= "{% url 'posts:post-detail' replypost.mainpost.id %}" >{{ replypost.mainpost.title }} </a>
-  </div>
-    </div>
+{% for answer in object_list %}
+    {% show_answer_tab_sm answer %}
 {% endfor %}
 
 {% endblock content %}

@@ -5,15 +5,15 @@
   <div class="post-count-box">
     <div class="post-tab-vote">
     <h3>{{post.get_vote_count}} </h3> 
-    votes
+    vote{%if post.get_vote_count > 1 %}s{%endif%}
     </div>
     <div class="post-tab-reply {% if post.accepted_answer != null%}post-tab-reply-accepted{% endif %}">
     <h3>{{post.reply_count}} </h3> 
-    Replies 
+    repl{%if post.reply_count > 1 %}ies{%else%}y{%endif%} 
     </div>
     <div class="post-tab-views">
     <h3>{{post.view_count}} </h3> 
-    views 
+    view{%if post.view_count > 1 %}s{%endif%} 
     </div>
   </div>
   <div class="post-tab-detail">

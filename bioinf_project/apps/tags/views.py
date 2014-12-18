@@ -93,8 +93,7 @@ class TagDetails(DetailView):
         blog_list = pagination(blog_list,page,page_limit)
         usertag_list = pagination(usertag_list,page,page_limit)
         # 
-        tab_list_dict = {'Wiki':wiki_list,'Questions':question_list, 'Discussions':discussion_list, 'Blogs':blog_list, 'Contributors':usertag_list, 'Summary':False,'':False}
-        page_obj = tab_list_dict[tab]
+        
         
         context['tab'] = tab
         context['tag_wiki'] = self.object.wiki_page
@@ -109,10 +108,20 @@ class TagDetails(DetailView):
         context['discussion_list_count'] = discussion_list_count 
         context['blog_list_count'] = blog_list_count 
         context['usertag_list_count'] = usertag_list_count 
+        # for workflow tags: 
+        #if self.object.get_categories_display == "workflow":
+        software_list = self.object.pages.filter(software__isnull=False)
+        software_list_count = software_list.count()
+        software_list = pagination(software_list, page, page_limit)
+        context['software_list'] = software_list
+        context['software_list_count'] = software_list_count
+        # pagination object. 
+        tab_list_dict = {'Wiki':wiki_list,'Software':software_list, 'Questions':question_list, 'Discussions':discussion_list, 'Blogs':blog_list, 'Contributors':usertag_list, 'Summary':False,'':False}
+        page_obj = tab_list_dict[tab]
         context['page_obj'] = page_obj 
+
         if page_obj != False:
             context['is_paginated']=True
- 
         return context
 
 class TagDelete(DeleteView):

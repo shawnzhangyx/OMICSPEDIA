@@ -23,10 +23,9 @@
     {% display_tag_list tool.page.tags.all %} 
 </div>
 <!-- software information: -->
-<div class="pull-left">
 {{tool.page.get_lead_section|safe}}
-</div>
- <a title="software wiki" href= "{% url 'wiki:wiki-detail' tool.page.get_title %}"> [More]</a>
+
+ <a title="software wiki" href= "{% url 'wiki:wiki-detail' tool.page.get_title %}"> [More...]</a>
 <br><br><br><br>
 <h3> Basic Info</h3>
 <div class="row">
@@ -53,49 +52,34 @@
 {% if tool.page.wiki_tag %}
 <div class="row">
   <div class="section-tab col-xs-12 col-sm-6">
-  <h3> {{tool.page.wiki_tag.questions.count }} question{% if tool.page.wiki_tag.questions.count > 1 %}s{% endif %}</h3>
-  {% if tool.page.wiki_tag == null %}
-   software information not complete.
-  {% else %}
+  <h3> <a href="{% url 'tags:tag-detail' tool.page.wiki_tag.name %}?tab=Questions">{{tool.page.wiki_tag.questions.count }} question{% if tool.page.wiki_tag.questions.count > 1 %}s{% endif %}</a></h3>
+ 
     {% for question in tool.page.wiki_tag.questions %}
       {% show_post_tab_sm question %}
     {% endfor %}
-   {% endif %}
   </div>
     <div class="section-tab col-xs-12 col-sm-6">
-  <h3> {{tool.page.wiki_tag.discussions.count }} discussion{% if tool.page.wiki_tag.discussions.count > 1 %}s{% endif %}</h3>
-  {% if tool.page.wiki_tag == null %}
-   software information not complete.
-  {% else %}
+  <h3> <a href="{% url 'tags:tag-detail' tool.page.wiki_tag.name %}?tab=Discussions">{{tool.page.wiki_tag.discussions.count }} discussion{% if tool.page.wiki_tag.discussions.count > 1 %}s{% endif %}</a></h3>
     {% for discussion in tool.page.wiki_tag.discussions %}
       {% show_post_tab_sm discussion %}
     {% endfor %}
-   {% endif %}
   </div>
   <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
     <div class="section-tab col-xs-12 col-sm-6">
-  <h3> {{tool.page.wiki_tag.blogs.count }} blog{% if tool.page.wiki_tag.blogs.count > 1 %}s{% endif %}</h3>
-  {% if tool.page.wiki_tag == null %}
-   software information not complete.
-  {% else %}
+  <h3> <a href="{% url 'tags:tag-detail' tool.page.wiki_tag.name %}?tab=Blogs">{{tool.page.wiki_tag.blogs.count }} blog{% if tool.page.wiki_tag.blogs.count > 1 %}s{% endif %}</a></h3>
     {% for blog in tool.page.wiki_tag.blogs %}
       {% show_post_tab_sm blog %}
     {% endfor %}
-   {% endif %}
   </div>
   <div class="section-tab col-sm-6">
-    <h3> {{usertag_list.count}} user{% if usertag_list.count > 1%}s{% endif %} </h3>
+    <h3> <a href="{% url 'tags:tag-detail' tool.page.wiki_tag.name %}?tab=Contributors">{{usertag_list.count}} user{% if usertag_list.count > 1%}s{% endif %} </a></h3>
     <ul class="list-unstyled" >
     {% for user_tag in usertag_list %}
         {% user_answers_for_tag user_tag %}
     {% endfor %}
     </ul>
     </div>
-  <div class="section-tab col-xs-12 col-sm-6">
-    <h3> 0 comment</h3>
-
-  </div>
   </div>
   {% endif %}
   <hr>

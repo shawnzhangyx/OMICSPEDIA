@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% load post_custom_tags %}
+{% load wiki_custom_tags %}
+{% load tag_custom_tags %}
+{% load user_custom_tags %}
 
 {% load staticfiles %}
 {% block head %}
@@ -13,16 +16,16 @@
     <a href="{% url 'wiki:wiki-index'%}" class="thumbnail">
       <img src="{% static 'images/wiki.png'%}" alt='...'>
       <h4> Learn from wiki</h4> 
-      <p> Wiki pages of most updated 
+      <p> Wiki pages of the 
       analysis methods for OMICS data</p>
     </a>
   </div>
     
   <div class="col-xs-6 col-md-3">
-    <a href="{% url 'posts:post-new' %}" class="thumbnail">
+    <a href="{% url 'posts:post-index' %}" class="thumbnail">
       <img src="{% static 'images/qa.png'%}" alt='...'>
       <h4> Ask a question</h4>
-      <p> We've all been there. Let us help you solve your problem and you can help others, too. </p>
+      <p> We've all been there. Let us help you solve your problem. </p>
     </a>
   </div>
   <div class="clearfix visible-xs-block visible-sm-block"></div>
@@ -30,41 +33,109 @@
     <a href="{% url 'software:software-index' %}" class="thumbnail">
       <img src="{% static 'images/software.png'%}" alt='...'>
       <h4> Find a software</h4>
-      <p> A large software database that is ready to get you started in the analysis </p>
+      <p> A software database that can get you started in the analysis </p>
     </a>
   </div>
   <div class="col-xs-6 col-md-3">
-    <a href="{% url 'help-page' 'index'%}" class="thumbnail">
+    <a href="{% url 'portal' ''%}" class="thumbnail">
       <img src="{% static 'images/tour.png'%}" alt='...'>
-      <h4> 2-min Tour</h4>
-      <p> join this 2-min tour to learn what is on this website and how to use it. </p>
+      <h4> OMICS portal</h4>
+      <p> a powerful portal that can get you oriented. </p>
     </a>
   </div>
   
   
 </div>
 <hr>
-<div>
+
+  <ul class="nav nav-tabs right-to-left">
+    <li {% ifequal tab "Users" %} class="active" {% endifequal %} >
+        <a href="?tab=Users"> Users  </a> </li>
+    <li {% ifequal tab "Tags" %} class="active" {% endifequal %} >
+        <a href="?tab=Tags"> Tags  </a> </li>
+    <li {% ifequal tab "Posts" %} class="active" {% endifequal %} >
+        <a href="?tab=Posts"> Posts  </a> </li>
+    <li {% ifequal tab "Wiki" %} class="active" {% endifequal %}> 
+      <a href="?tab=Wiki"> Wiki  </a> </li>
+    <li {% ifequal tab "Summary" %} class="active" {% endifequal %}
+    {% ifequal tab null %} class="active" {% endifequal %}>
+      <a href="?tab=Summary"> Summary </a> </li>
+
+
+
+
+  </ul>
+  
+{% ifequal tab "Summary" %}
+
 <div class="section-tab col-sm-6">
 <h3> Hot posts this month </h3>
-{% for post in post_list %}
+{% for post in post_list|slice:':5' %}
     {% show_post_tab_sm post %}
 {% endfor %}
 <hr>
 </div>
 
 <div class="section-tab col-sm-6">
-<h3> Most viewed wiki  </h3>
+<h3> Most favorite wiki  </h3>
+<ul class="list-unstyled">
+{% for wiki in wiki_list|slice:':5' %}
+<li>    {% show_wiki_tab wiki %} </li>
+{% endfor %}
+</ul>
 </div>
 <div class="clearfix block-sm-visible block-md-visible"> </div> 
 
 <div class="section-tab col-sm-6">
 <h3> Hot tags this month  </h3>
+<ul class="list-unstyled">
+{% for tag in tag_list %}
+<li> {% display_tag tag %} x{{tag.monthly_count}} 
+</li>
+ {% endfor %}
+ </ul>
 </div>
 
 <div class="section-tab col-sm-6">
 <h3> Contributors this month  </h3>
+<ul class="list-unstyled">
+{% for user in user_list %}
+<li> {% display_user_xs user %} <span title='{{user.user_profile.name}} contributed {{user.monthly_answer_count}} answer{% if user.monthly_answer_count > 1%}s{% endif %} this month'> x{{user.monthly_answer_count}}</span>
+{% endfor %}
+</ul>
 </div>
+{% endifequal %}
+
+{% ifequal tab 'Wiki' %}
+  <ul class="list-unstyled">
+  {% for wiki in wiki_list|slice:':50' %}
+  <li> {% show_wiki_tab wiki %}</li>
+  {% endfor %}
+  </ul>
+{% endifequal %}  
+
+{% ifequal tab 'Posts' %}
+    {% for post in post_list|slice:':30' %}
+    {% show_post_tab post %}
+    {% endfor %}
+{% endifequal %}
+
+{% ifequal tab 'Tags' %}
+<ul class="list-unstyled">
+{% for tag in tag_list|slice:':30' %}
+<li> {% display_tag tag %} x{{tag.monthly_count}} 
+</li>
+ {% endfor %}
+ </ul>
+{% endifequal %}
+
+{% ifequal tab 'Users' %}
+<ul class="list-unstyled">
+{% for user in user_list %}
+<li> {% display_user_xs user %} <span title='{{user.user_profile.name}} contributed {{user.monthly_answer_count}} answer{% if user.monthly_answer_count > 1%}s{% endif %} this month'> x{{user.monthly_answer_count}}</span>
+{% endfor %}
+</ul>
+{% endifequal %}
    <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
  {% endblock content %}

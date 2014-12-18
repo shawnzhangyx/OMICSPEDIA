@@ -4,6 +4,7 @@
 {% load post_custom_tags %}
 {% load wiki_custom_tags %}
 {% load util_custom_tags %}
+{% load software_custom_tags %}
 {% block content %}
 
 <h2> {% show_tag_ancestor tag %} {{ tag.name }} <small> {% if tag.wiki_page.software %}&lt;<a title="go to software page" href="{% url 'software:software-detail' tag.wiki_page.software.name %}">software</a>&gt; {% endif %}
@@ -38,6 +39,10 @@
       <a href="?tab=Summary"> Summary </a> </li>
     <li {% ifequal tab "Wiki" %} class="active" {% endifequal %}> 
       <a href="?tab=Wiki"> Wiki  </a> </li>
+    {% ifequal tag.get_categories_display 'workflow' %}
+      <li {% ifequal tab "Software" %} class="active" {% endifequal %}> 
+      <a href="?tab=Software"> Software  </a> </li>
+    {% endifequal %}
     <li {% ifequal tab "Questions" %} class="active" {% endifequal %} >
         <a href="?tab=Questions"> Questions  </a> </li>
     <li {% ifequal tab "Discussions" %} class="active" {% endifequal %} >
@@ -90,6 +95,16 @@
     {% endfor %}
     </ul>
     </div>
+    {% ifequal tag.get_categories_display 'workflow' %}
+    <div class="section-tab col-sm-6">
+    <h3> <a href="?tab=Software">{{software_list_count}} software</a> </h3>
+    <ul class="list-unstyled" >
+    {% for software in software_list|slice:":5" %}
+        {% display_software_tab_sm software.software %}
+    {% endfor %}
+    </ul>
+    </div>
+    {% endifequal %}
 </div>
 
 {% endifequal %}
@@ -106,31 +121,26 @@
 {% endifequal %}
 
 {% if tab == "Questions"%}
-<div class="container-fluid">
 {% for question in question_list %}
   {% show_post_tab question %}
 {% empty %}
 No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
 {% endfor %}
-</div>
 {% endif %}
+
 {% if tab == "Discussions"%}
-<div class="container-fluid">
 {% for discussion in discussion_list %}
   {% show_post_tab discussion %}
 {% empty %}
 No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
 {% endfor %}
-</div>
 {% endif %}
 {% if tab == "Blogs"%}
-<div class="container-fluid">
 {% for blog in blog_list %}
   {% show_post_tab blog %}
 {% empty %}
 No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
 {% endfor %}
-</div>
 {% endif %}
 
 {% if tab == "Contributors"%}
@@ -139,13 +149,20 @@ No posts associated with this tag yet. Would you like to suggest adding some tag
     <ul class="list-unstyled">
 {% for usertag in usertag_list %}
         {% user_answers_for_tag usertag %}
-{% empty %}
-No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
 {% endfor %}
 </ul>
 </div>
 {% endif %}
 
+{% if tab == "Software" %}
+    
+    <ul class="list-unstyled" >
+    {% for software in software_list|slice:":5" %}
+        {% display_software_tab software.software %}
+    {% endfor %}
+    </ul>
+    {% endif %}
+<hr>
       {% if is_paginated %}
         <div class="pagination">
             <span class="page-links">

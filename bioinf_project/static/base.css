@@ -5,7 +5,8 @@
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
   margin-top: 50px;
-  background-color: #F7F7F7;
+  #  background-color: #F7F7F7;
+  background-color: #FBFBFB;
 }
 
 hr {
@@ -174,10 +175,11 @@ min-height: 100px;
 
 .section-tab>h3 {
 border-bottom: solid 1px #AAAAAA;
-#background-color: #529bca;
-background-color: #777777;
+#background-color: #428bca;
+background-color: #428bca;
 color: #ffffff;
 padding-left: 10px;
+box-shadow: 5px 5px 10px #888888;
 }
 
 .section-tab>h3>a {

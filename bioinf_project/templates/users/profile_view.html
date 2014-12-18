@@ -98,16 +98,7 @@
 <h3> <a href="?tab=Answers">{{answer_count}} answer{% if answer_count > 1%}s{%endif%}</a></h3>
 <div>
 {% for answer in answers|slice:':5' %}
-  <div class="post-tab-sm col-sm-12">
-  <div class="post-count-box-sm">
-    <div class="post-tab-reply-sm {% if answer.accepted_root.count == 1 %}post-tab-reply-accepted{% endif %}">
-    {{answer.get_vote_count}}
-    </div>
-  </div>
-  <div>
-    <a class="post-tab-title-sm" href= "{% url 'posts:post-detail' answer.mainpost.id %}" >{{ answer.mainpost.title }} </a>
-  </div>
-    </div>
+    {% show_answer_tab_sm answer %}
 {% endfor %}
 </div> 
 </div>
@@ -188,17 +179,8 @@
 <!-- answers tab -->
 {% ifequal tab 'Answers' %}
 <br>
-{% for answer in answers %}
-  <div class="post-tab-sm col-sm-12">
-  <div class="post-count-box-sm">
-    <div class="post-tab-reply-sm {% if answer.accepted_root.count == 1 %}post-tab-reply-accepted{% endif %}">
-    {{answer.get_vote_count}}
-    </div>
-  </div>
-  <div>
-    <a class="post-tab-title-sm" href= "{% url 'posts:post-detail' answer.mainpost.id %}" >{{ answer.mainpost.title }} </a>
-  </div>
-    </div>
+{% for answer in answers %} 
+    {% show_answer_tab_sm answer %}
 {% endfor %}
 {% endifequal %}
 

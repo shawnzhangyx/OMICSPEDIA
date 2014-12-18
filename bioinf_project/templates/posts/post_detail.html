@@ -49,6 +49,13 @@
 
 {% if user.is_authenticated %}
     {% ifnotequal type "blog" %}
+        {% if user.exceed_new_answer_limit %}
+        <h4> Add your reply: </h4>
+
+          <div class="alert alert-warning">Sorry, you have exceeded your daily maximum number of answers. 
+          </div>
+        {% else %}  
+         
 <form role="form" action='{% url "posts:replypost-new" mainpost_id=mainpost.id %}' method="post">
 {% csrf_token %}
 <h4> Add your reply: </h4>
@@ -67,6 +74,7 @@
         </div>
 
 </form>
+        {% endif %}
 {% else %}
 <h4> Add your comment: </h4>
 

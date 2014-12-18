@@ -8,7 +8,7 @@
 <h1> Help center</h1>
 <hr>
 <div class="row">
-  <div class="col-xs-6">
+  <div class="col-xs-6 section-tab">
     <h3> <a href="{% url 'help-page' 'basics/basics' %}">Basics </a></h3>
     <ul> 
     <li><a href="{% url 'help-page' 'basics/how-to-use-markdown'%}"> How do I format the wiki and posts using Markdown? </a></li>
@@ -17,9 +17,9 @@
 
     </ul>
     </div>
-<div class="row">
-    <h3> Community Rules</h3>
-
+    <div class="col-xs-6 section-tab">
+    <h3> <a href=""> Community Rules</a></h3>
+    </div>
 </div>
 
  {% endblock content %}

@@ -3,6 +3,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permis
 from django.core.urlresolvers import reverse
 from django.db.models.signals import post_save, post_delete, pre_delete
 from django.utils import timezone
+from datetime import datetime, timedelta
 
 from tags.models import Tag
 from utils.models import Vote
@@ -84,6 +85,34 @@ class User(AbstractBaseUser,PermissionsMixin):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+    def exceed_new_post_limit(self):
+        post_past_24h = self.mainpost_set.filter(created__gte = datetime.now() - timedelta(hours=24))
+        if post_past_24h.count() >= 10: # will elaborate on this limit in the future. 
+            return True
+        else:
+            return False
+            
+    def exceed_new_answer_limit(self):
+        answer_past_24h = self.replypost_set.filter(created__gte = datetime.now() - timedelta(hours=24), mainpost__type = 0)
+        if answer_past_24h.count() >= 10:
+            return True
+        else: 
+            return False
+            
+    def exceed_new_reply_limit(self):
+        answer_past_hour = self.replypost_set.filter(created__gte = datetime.now() - timedelta(hours=1))
+        if answer_past_hour.count() >= 10:
+            return True
+        else: 
+            return False
+            
+    def exceed_new_comment_limit(self):
+        comment_past_24h = self.comment_set.filter(created__gte = datetime.now() - timedelta(hours=24))
+        if comment_past_24h.count() >= 20:
+            return True
+        else: 
+            return False        
+        
 class UserProfile(models.Model):
 
     user = models.OneToOneField("User", related_name="user_profile")

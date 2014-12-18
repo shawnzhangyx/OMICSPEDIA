@@ -95,10 +95,19 @@ class MainPostEdit(UpdateView):
 
 
 class PostDetails(DetailView):
-    template_name = "posts/post_detail.html"
+    #template_name = "posts/post_detail.html"
     model = MainPost
     context_object_name = "mainpost"
 
+    def get_template_names(self):
+        if self.object.type == 0:
+            return  ['posts/question_detail.html']
+        elif self.object.type == 1:
+            return  ['posts/discussion_detail.html']
+        elif self.object.type == 2:
+            return  ['posts/blog_detail.html']
+        else: 
+            return  ['posts/post_detail.html']
     def get_object(self):
         obj = super(PostDetails, self).get_object()
         MainPost.update_post_views(obj, request=self.request)

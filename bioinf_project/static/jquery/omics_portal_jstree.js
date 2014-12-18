@@ -62,8 +62,9 @@ $(function() {
 
 });
 
-
-
+function hide_message(){
+$('#message-dissmisable').css('display', 'none');
+}
 // send empty string initially so every tag would show up.
 /*
 var query = "";

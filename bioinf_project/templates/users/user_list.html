@@ -4,10 +4,10 @@
 {% load user_custom_tags %}
 {% block content %}
 
-<h2> Users: </h2>
+<h2> {{user_profile_list.count}} users </h2>
 
   <ul class="nav nav-tabs">
-    <li> <h4> <b> Users &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    <li> <h4> <b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </b></h4></li>
     <li {% ifequal tab 'Reputation' %} class="active" {% endifequal %}
         {% ifequal tab null %} class="active" {% endifequal %}>

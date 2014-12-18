@@ -42,6 +42,7 @@ class Comment(models.Model):
     content = models.TextField(max_length=600, null=False, verbose_name=_("content"))
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("author"))
     comment_votes = GenericRelation("Vote")
+    created = models.DateTimeField(verbose_name=_("created time"))
     last_modified = models.DateTimeField()
     ## enable generic foreign key relationship with other classes, such as Page, MainPost, ReplyPost. 
     content_type = models.ForeignKey(ContentType)
@@ -50,10 +51,14 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return self.content[:25]
+        
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
+        if not self.created:
+            self.created = timezone.now()
         self.last_modified = timezone.now()
         return super(Comment, self).save(*args, **kwargs)
+        
     def get_vote_count(self):
         return self.comment_votes.filter(choice=1).count() - self.comment_votes.filter(choice=-1).count()
     class Meta:

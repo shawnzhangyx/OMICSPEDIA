@@ -15,6 +15,10 @@ def show_post_tab(post):
 def show_post_tab_sm(post):
     return {'post':post}
 
+@register.inclusion_tag("posts/templatetags/answer-tab-sm.html")
+def show_answer_tab_sm(answer):
+    return {'answer':answer}
+    
 @register.inclusion_tag("posts/templatetags/post-body.html")
 def display_post_body(post, user, post_type):
     if post_type == "is_question":
@@ -30,7 +34,6 @@ def display_discussion_body(post, user, post_type):
     else: 
         is_question = False
     return {'post':post, 'user':user,'is_question':is_question}        
-
     
 @register.inclusion_tag("posts/templatetags/blog-body.html")
 def display_blog_body(post, user):

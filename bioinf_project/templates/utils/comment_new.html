@@ -2,11 +2,13 @@
 {% block content %}
 <h1> Post a new comment</h1>
 
-
+{% if user.exceed_new_comment_limit %}
+     <div class="alert alert-warning">Sorry, you have exceeded your daily maximum number of comments. </div>
+{% else %}
 <form action = "" method="post"> 
 {% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit">
 </form>
-
+{% endif %}
 {% endblock content %}

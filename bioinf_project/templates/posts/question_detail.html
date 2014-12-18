@@ -1,0 +1,87 @@
+{% extends 'posts/post_base.html' %}
+{% load post_custom_tags %}
+{% load staticfiles %}
+<!-- this is the link to edit the post. 
+-->
+{% block head %}
+        <link rel="stylesheet" type="text/css" href="{% static 'lib/pagedown/demo.css'%}" />
+        <script type="text/javascript" src="{% static 'lib/pagedown/Markdown.Converter.js' %}"></script>
+        <script type="text/javascript" src="{% static 'lib/pagedown/Markdown.Sanitizer.js' %}"></script>
+        <script type="text/javascript" src="{% static 'lib/pagedown/Markdown.Editor.js' %}"></script>
+{% endblock head %}
+
+{% block content %}
+<h3>{{mainpost.title}} <small>&lt;{{type}}&gt;</small></h3>
+<hr>
+{% display_post_body mainpost user "is_question"%}
+<br>
+
+<h4 class="pull-left"><b> {{mainpost.reply_count}} answer{%if mainpost.reply_count > 1%}s{% endif %}</b></h4>
+
+  <ul class="nav nav-tabs right-to-left">
+    <li {% ifequal tab "votes" %} class="active" {% endifequal %}
+    {% ifequal tab null %} class="active" {% endifequal %}>
+      <a href="?tab=votes"> votes </a> </li>
+    <li {% ifequal tab "oldest" %} class="active" {% endifequal %}> 
+      <a href="?tab=oldest"> oldest  </a> </li>
+</ul>
+{% for reply in replypost_list %}
+    {% display_post_body reply user "is_answer" %}
+ 
+<hr>
+{% endfor %}
+
+<!-- add reply or comment -->
+
+{% if user.is_authenticated %}
+    {% if user.exceed_new_answer_limit %}
+        <h4> Add your answer: </h4>
+
+          <div class="alert alert-warning">Sorry, you have exceeded your daily maximum number of answers. 
+          </div>
+    {% else %}  
+         
+<form role="form" action='{% url "posts:replypost-new" mainpost_id=mainpost.id %}' method="post">
+{% csrf_token %}
+<h4> Add your answer: </h4>
+
+<div class="row">
+         <div class="wmd-panel">
+            <div id="wmd-button-bar"></div>
+            <textarea class="form-control" rows=5 id="wmd-input" name="content"> </textarea>
+            <br>
+            <div id="content-string-count"></div>
+         
+            <input class="btn btn-default" type="submit" value="Post reply">
+
+        </div>
+        
+        </div>
+</form>
+    {% endif %}
+{% else %}
+please <a href = "{% url 'users:login' %}"> log in </a> to post a response 
+{% endif %}
+
+<!-- script for text input control panel -->
+<script type="text/javascript">
+            (function () {
+                var converter1 = Markdown.getSanitizingConverter();
+                
+                converter1.hooks.chain("preBlockGamut", function (text, rbg) {
+                    return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
+                        return "<blockquote>" + rbg(inner) + "</blockquote>\n";
+                    });
+                });
+                
+                var editor1 = new Markdown.Editor(converter1);
+                
+                editor1.run();
+                })();
+               </script>
+{% endblock content %}
+
+{% block jquery %}
+  <script src="{% static 'jquery/vote_widget.js' %}"> </script>
+  <script src="{% static 'jquery/post.js' %}"> </script>
+{% endblock jquery %}

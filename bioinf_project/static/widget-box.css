@@ -199,8 +199,11 @@ display: block-inline;
 background-color: white;
 padding: 0 10px;
 }
+
 #wiki-content>h2:before,
-#wiki-content>h3:before {
+#wiki-content>h3:before,
+.post-container:before
+{
 display: block;
 content: " ";
 margin-top:-40px;

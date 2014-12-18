@@ -150,7 +150,8 @@ class WikiHistory(ListView):
     model = PageRevision
     template_name = "wiki/wiki_revision_history.html"
     context_object_name = "revision_list"
-
+    paginate_by = 25
+    
     def get_queryset(self):
         return PageRevision.objects.filter(page__title = self.kwargs['title'].replace('_', ' ')).order_by('-modified_date')
 

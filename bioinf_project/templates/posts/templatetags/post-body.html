@@ -3,7 +3,7 @@
 {% load humanize %}
 {% load staticfiles %}
 
-<div class="post-container">
+<div {%if not is_question %}id="{{post.id}}"{% endif %} class="post-container">
   <div class="vote-box">
     {% display_vote_widget post user%}
     {% if is_question %}

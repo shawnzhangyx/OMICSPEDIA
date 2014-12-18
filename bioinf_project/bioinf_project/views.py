@@ -6,16 +6,37 @@ from datetime import datetime, timedelta
 
 from tags.models import Tag
 from wiki.models import Page
-from posts.models import MainPost
-
+from posts.models import MainPost, ReplyPost
+from users.models import User
 
 class IndexView(TemplateView):
     template_name = "index.html"
 
     def get_context_data(self):
         context = super(IndexView, self).get_context_data()
+        tab = self.request.GET.get('tab')
+        if not tab:
+            tab = "Summary"
+        # new posts this month
         posts = MainPost.objects.filter(created__gte=datetime.today() - timedelta(days=30)).order_by('-vote_count')
+        pages = Page.objects.order_by('-bookmark_count')
+        # tags that are associated with the new posts.
+        tags = Tag.objects.filter(posts__in = posts).distinct()
+        for idx in range(len(tags)):
+            tags[idx].monthly_count = posts.filter(tags = tags[idx]).count()
+        tags = sorted(tags, key=lambda x:-x.monthly_count)
+        # authors who answered in the last month. 
+        answers = ReplyPost.objects.filter(created__gte=datetime.today()-timedelta(days=30), mainpost__type = 0)
+        authors = User.objects.filter(replypost__in = answers).distinct()
+        for idx in range(len(authors)):
+            authors[idx].monthly_answer_count = answers.filter(author = authors[idx]).count()
+        authors = sorted(authors, key=lambda x:-x.monthly_answer_count)
+        # context objects
+        context['tab'] = tab
         context['post_list'] = posts
+        context['wiki_list'] = pages
+        context['tag_list'] = tags
+        context['user_list'] = authors
         return context
 
 def search(request):

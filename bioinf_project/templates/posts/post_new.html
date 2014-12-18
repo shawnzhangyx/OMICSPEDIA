@@ -10,13 +10,19 @@
 {% endblock head %}
 
 {% block content %}
+{% if user.exceed_new_post_limit %}
+<br>
+<div class="alert alert-warning">Sorry, you have exceeded your daily maximum number of posts. 
+    <a href=" {% url 'posts:post-index' %}"> Go back?</a>
+</div>
+{% else %}
 <div class="row">
 <form role="form" class="col-xs-8 col-xs-offset-1" action = "" method="post"> 
 
 {% crispy form %}
 </form>
 </div>
-
+{% endif %}
 <div id="preview-mkd-text"class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 {% include "utils/preview_markdown.html" with mkd_content=mkd_content %}
 </div>
