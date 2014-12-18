@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h3> <a href="{% url 'help-page' 'help-center'%}">Help center</a> &gt; <a href="{% url 'help-page' 'basics/basics'%}"> Basics</a>  </h3>
+<h3> <a href="{% url 'help-page' 'help-center'%}">Help center</a> &gt; <a href="{% url 'help-page' 'basics/toc'%}"> Basics</a>  </h3>
 <hr>
 {% block help-content %}
 <ul>
     <li><a href="{% url 'help-page' 'basics/how-to-use-markdown'%}"> How do I format the wiki and posts using Markdown? </a></li>
     <li><a href="{% url 'help-page' 'basics/how-to-write-good-wiki'%}"> How do I write good wiki pages? </a></li>
     <li><a href="{% url 'help-page' 'basics/post-types'%}"> What are different post types? </a></li>
+    <li><a href="{% url 'help-page' 'basics/how-to-use-tags' %}"> What is tag? How to use tag? </a></li>
+
 </ul>
 {% endblock help-content %}
 

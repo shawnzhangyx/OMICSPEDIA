@@ -1,0 +1,10 @@
+{% extends "help/basics/toc.html" %}
+{% load staticfiles %}
+{% block help-content %}
+<h3 class="help-title"><span>What is tag? How to use tag?<span> </h3>
+<h4> Tag types </h4>
+<p> Tags can be identified into three categories: <ol> <li> <a class="tags">Regular tag</a> basic type of tags</li> <li> <a class="tags tags-software">Software tag</a> specialty tag that represents a software; used to identify posts that address the software. </li> <li> <a class="tags tags-workflow">Workflow tags</a> specialty tag that represents an OMICS workflow; used to identify posts that relate to a workflow. Workflow tags have hierarchical structures, and will show in the OMICS Portal.</li> </ol>
+<h4> Tag privileges </h4>
+<p> <em>Verified users (:subject to change)</em> can submit and edit new tags. Once a tag reaches a certain post count, it will be examined and become protected tags. protected tags is static and can no longer be edited.</p>
+</p>
+{% endblock help-content %}

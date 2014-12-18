@@ -1,6 +1,17 @@
-{% extends "help/basics/basics.html" %}
+{% extends "help/basics/toc.html" %}
 
 {% block help-content %}
-<h3>How to write good wiki? </h3>
-
+<h3 class="help-title"><span>How to improve wiki pages?</span> </h3>
+<h4> Example </h4>
+Examples are often worth a thousand words. Here is a wiki article on <a href="/wiki/ChIP-Seq/">ChIP-Seq</a> which can serve as a good example.
+<h4> Content <small>bioinformatics-oriented</small> </h4> 
+The wiki pages on this website are for different audiences than a public website like <a href="http://wikipedia.com/">Wikipedia</a>. This is for people who's eager to learn about <b>bioinformatics </b> analysis of the biological data. So the wiki pages will focus on the bioinformatics analysis workflows, and will be detail-oriented. We treasure the enormous information already deposited in Wikipedia on many bioinformatics related terms, and we need to point our readers to them, instead of duplicating the message. Copy and paste is strongly discouraged.
+<h4> Structures </h4>
+<ul> 
+    <li> <b>Leading paragraph:</b> A short description of the subject </li> 
+    <li> <b>Sections:</b> break the text into several sections</li>
+    <li> <b>References:</b>list the original sources. </li>
+</ul>
+<h4> Wiki comments</h4>
+Use the wiki comment functions to report issues of the wiki article. Issues include but not limited to: improve lead paragraph, add references, fix wikilinks...
 {% endblock help-content %}

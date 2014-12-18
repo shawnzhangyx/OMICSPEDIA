@@ -174,8 +174,6 @@ min-height: 100px;
 }
 
 .section-tab>h3 {
-border-bottom: solid 1px #AAAAAA;
-#background-color: #428bca;
 background-color: #428bca;
 color: #ffffff;
 padding-left: 10px;
@@ -199,4 +197,12 @@ margin-bottom: 150px;
 
 #footer a {
 color: white;
+}
+
+h3.help-title>span {
+background-color: #DDDDDD;
+#color: #ffffff;
+font-weight: bold;
+padding-left: 10px;
+box-shadow: 2px 1px 5px #888888;
 }

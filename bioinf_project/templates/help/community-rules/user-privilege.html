@@ -1,0 +1,31 @@
+{% extends 'help/community-rules/toc.html'%}
+
+{% block help-content %}
+<h3 class="help-title"> <span>User privileges</span> </h3>
+<h4> <b>User privilege levels</b> </h4>
+<ol>
+    <li>Anonymous users 
+        <ul> 
+        <li> can view all contents </li>
+        </ul>
+    </li>
+    <li>Registered users:
+        <ul>
+        <li> own a user profile </li>
+        <li> bookmark wiki, tags, posts </li>
+        </ul>
+    </li>
+    <li> E-mail verified users: 
+        <ul> 
+        <li> create wiki, tags, software, posts, comments </li>
+        <li> edit wiki, tags, software, posts </li>
+        <li> edit your own comments </li>
+</ol>
+<h4> <b>Post and comment limitations </b></h4>
+<p> To encourage high-quality posts and comments, we set limitations on how many new posts or comments a user could create every day. 
+<ul>  
+    <li>No more than 10 questions within 24 hours </li>
+    <li>No more than 10 answers within 24 hours </li>
+    <li>No more than 10 replies(including answers) <b>within an hour</b> </li>
+    <li>No more than 20 comments within 24 hours </li>
+{% endblock help-content %}

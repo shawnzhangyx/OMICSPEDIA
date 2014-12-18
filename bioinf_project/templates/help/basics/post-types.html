@@ -1,15 +1,23 @@
-{% extends "help/basics/basics.html" %}
-
+{% extends "help/basics/toc.html" %}
+{% load staticfiles %}
 {% block help-content %}
-<h3>What are different post types and what they are for? </h3>
-There are three post types: questions, discussions, and blogs. 
+<h3 class="help-title"><span>What are different post types and what they are for?</span> </h3>
+There are three major post types: <b>questions</b>, <b>discussions</b>, and <b>blogs</b>. Illustrated below: 
+<br>
+<br>
+<div class="row">
+<img class="col-xs-8 col-xs-offset-2" src="{% static 'images/post_types.png' %}">
+</div>
 <h4> Questions </h4>
-Questions should be as specific as possible and provide enough details for others to answer the question. The user who is asking a question should be looking for a solution to a problem. Example.   
+Questions are for users who's looking for a solution to a problem. The question should be as specific as possible and provide enough details for others to answer the question. Answers and comments can be attempted for questions. The original question creater could select a best answer for his question. 
+Example.   
 <h4> Discussions </h4>
-Dicussions are usually open-ended questions or observations that would potentially lead to extended discussions. Example.   
+Dicussions are usually open-ended questions or observations that would potentially lead to extended discussions. Replies could be added to the thread, just like a regular forum. Comments are disabled. When a discussion inspires useful reply chains, users/moderators are encouraged to summarize the discussion so that late-comers can digest the information easily.   
+Example.   
 
 <h4> Blogs </h4> 
-Users can use blogs to share personal experiences, ideas and any other content. Only comments are available for blogs. Example.   
+Users can use blogs to share personal experiences, ideas and any other content. Only comments are available for blogs. 
+Example.   
 
 
 {% endblock help-content %}

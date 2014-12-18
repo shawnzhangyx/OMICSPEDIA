@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% block head %}
+{% endblock head %}
+
+{% block content %}
+<h3> <a href="{% url 'help-page' 'help-center'%}">Help center</a> &gt; <a href="{% url 'help-page' 'community-rules/toc'%}"> Community Rules</a>  </h3>
+<hr>
+{% block help-content %}
+<ul> 
+    <li> <a href="{%url 'help-page' 'community-rules/user-privilege'%}"> User privilege</a> </li>
+    
+</ul>
+{% endblock help-content %}
+{% endblock content %}
+
+
+   

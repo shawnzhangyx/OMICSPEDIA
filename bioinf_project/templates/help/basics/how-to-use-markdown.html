@@ -1,12 +1,12 @@
-{% extends "help/basics/basics.html" %}
+{% extends "help/basics/toc.html" %}
 
 {% block help-content %}
-<h3>How do I format the wiki and posts using Markdown? </h3>
+<h3 class="help-title"><span>How do I format the wiki and posts using Markdown?</span> </h3>
 
 <p> Omicspedia uses <b>Markdown</b> for most of the text contents, except for comments. If you're new to Markdown, you may want to visit <a href="http://daringfireball.net/projects/markdown/syntax">John Gruber's offical Markdown webiste</a> for syntax reference. </p>
 
-<p>here are some example syntax uses and an example page:</p>
-<h4> Headers </h4>
+<p>here are some example syntax uses and an <a href="/wiki/ChIP-Seq/">example page</a>:</p>
+<h4> <b>Headers</b> </h4>
 <p> We recommend using atx-style headers (use 1-6 hash characters at the start of the line, corresponding to header levels 1-6). For example: </p>
 <pre>
 # This is an H1
@@ -15,7 +15,7 @@
 </pre>
 
 <h4> Blockquotes </h4>
-<h4> Lists </h4>
+<h4> <b>Lists</b> </h4>
 Unordered lists uses asterisks, pluses and hyphens --interchangably -- as list markers: 
 <pre>
 *   Red
@@ -28,14 +28,52 @@ Ordered lists use numbers followed by periods:
 2.   Green
 3.   Blue
 </pre>
-<h4> Code Blocks </h4>
-<h4> Inline Code Blocks </h4>
-<h4> Horizontal Rules </h4>
+<h4> <b>Code Blocks</b> </h4>
+To produce a code block, leave 4 spaces before each line of the code. For example:
+<pre>
+This is a regular paragraph. 
+    this is code block 
+    code block continued
+</pre>
+You can also create a code block by including the code block within more than 4 ~ symbols. You can also specify the programing language. 
+<pre>~~~~~~~{.python}
+def funtion(var1, var2):
+    sum = var1+var2
+~~~~~~~
+</pre>
+<h4> <b>Inline Code Blocks</b> </h4>
+To produce an inline code block, include the code within two ` symbols.
+<pre> This is an `inline code block`.</pre>
+<h4> <b>Horizontal Rules</b> </h4>
+You can produce a horizontal rule tag (&lt;hr /&gt;) by placing three or more hyphens, asterisks, or underscores on a line by themselves. 
+<pre>***
+_______
+
+-----------------
+</pre>
 <h4> Images </h4>
-<h4> Links </h4>
-<h4> Wikilinks </h4>
-<h4> Table of Content </h4>
-<h4> Footnote/References </h4>
 
+<h4> <b>Links</b> </h4>
+Markdown supports two styles of links: inline and reference. To create an inline link, use a set of regular parenthesis immediately after the link's closing square bracket. Inside the parenthesis, put the URL and an optional title for the link. 
+<pre> This is [an example](http://example.com/ "Title") inline link.
+[This link](http://example.net/) has no title attribute.
+</pre>
+To create a reference-style link, use a square bracket instead of parenthesis, and put ID inside the square bracket. Then, anywhere in the text, you can define the link ID in a sparate line: 
+<pre> This is an [example][id] reference-style link. 
+...
+[id]: http://example.com/ 'optional title'
+</pre>
+<h4> <b>Wikilinks</b> </h4>
+To produce links to wiki phrases, simply put two square brackets around the wiki phrases. 
+<pre> [[wiki words]]</pre>
+<h4> <b>Table of Content</b> </h4>
+To produce a table of content, put the following line anywhere you want the table of content to be. 
+<pre> [TOC] </pre>
+<h4> <b>Footnote/References</b> </h4>
+To produce a footnote or reference, put a footnote ID inside square brackets and insert the content anywhere in the text.
+<pre> Footnotes[^1] have a label[^@#$%] and the footnote's content.
 
+[^1]: This is a footnote content.
+[^@#$%]: A footnote on the label: "@#$%".
+</pre>
 {% endblock help-content %}

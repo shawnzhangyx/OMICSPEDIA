@@ -1,7 +1,7 @@
 
   <div class="post-tab-sm col-sm-12">
   <div class="post-count-box-sm">
-    <div title='{{answer.get_vote_count}} votes{% if answer.accepted_root.count == 1 %}, best answer{%endif%}' class="post-tab-reply-sm {% if answer.accepted_root.count == 1 %}post-tab-reply-accepted{% endif %}">
+    <div title='{{answer.get_vote_count}} vote{% if answer.get_vote_count > 1 %}s{%endif%}{% if answer.accepted_root.count == 1 %}, best answer{%endif%}' class="post-tab-reply-sm {% if answer.accepted_root.count == 1 %}post-tab-reply-accepted{% endif %}">
     {{answer.get_vote_count}}
     </div>
   </div>
