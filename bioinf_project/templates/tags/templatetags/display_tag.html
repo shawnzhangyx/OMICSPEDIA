@@ -1,4 +1,4 @@
-<a class="tags {% ifequal tag.get_categories_display 'software'%}tags-software{% endifequal %} {% ifequal tag.get_categories_display 'workflow' %}tags-workflow{% endifequal %}" href = "{% url 'tags:tag-detail' tag.name %}?tab=Summary" >
+<a class="tags {% ifequal tag.get_categories_display 'software'%}tags-software{% endifequal %} {% ifequal tag.get_categories_display 'workflow' %}tags-workflow{% endifequal %} {% ifequal tag.get_status_display 'proposed'%}tags-proposed{%endifequal%}" href = "{% url 'tags:tag-detail' tag.name %}?tab=Summary" >
     {% if tag.icon.url != null%}
         <img class="tag-icon" src="{{tag.icon.url}}" > 
     {% endif %}

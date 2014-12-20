@@ -8,7 +8,7 @@ from utils import pagination
 from .models import Tag, UserTag
 from posts.models import MainPost
 from wiki.models import Page, PageRevision
-from .forms import TagForm, TagCreateForm
+from .forms import TagForm, TagCreateForm, WorkflowTagForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -18,7 +18,7 @@ class TagList(ListView):
 #    model = Tag
     template_name = "tags/index.html"
     paginate_by = 20
-    queryset = Tag.objects.filter(parent__isnull=True)
+    queryset = Tag.objects.order_by('-count')#filter(parent__isnull=True)
 
 
 class TagCreate(CreateView):
@@ -48,7 +48,7 @@ class TagCreate(CreateView):
         return context
 
 class TagEdit(UpdateView):
-    form_class = TagForm
+    #form_class = TagForm
     template_name = "tags/tag_edit.html"
 
     @method_decorator(login_required)
@@ -58,7 +58,12 @@ class TagEdit(UpdateView):
     def get_object(self):
         return Tag.objects.get(name=self.kwargs['name'].replace('_',' '))
 
-
+    def get_form_class(self):
+        if self.object.get_categories_display() == "workflow":
+            return WorkflowTagForm
+        else: 
+            return TagForm
+        
 class TagDetails(DetailView):
     template_name = 'tags/tag_detail.html'
     model = Tag

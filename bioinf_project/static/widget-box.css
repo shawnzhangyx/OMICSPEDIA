@@ -145,6 +145,9 @@ border: 1px solid #AAAAAA;
 color: #555555;
 }
 
+.tags-proposed {
+border-style: dashed;
+}
 .tags:hover {
     background-color: #c4dae9;
     color: #4a6b82;
