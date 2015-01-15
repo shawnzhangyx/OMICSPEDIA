@@ -47,6 +47,7 @@ class TagCreate(CreateView):
         context['message'] = message
         return context
 
+
 class TagEdit(UpdateView):
     #form_class = TagForm
     template_name = "tags/tag_edit.html"

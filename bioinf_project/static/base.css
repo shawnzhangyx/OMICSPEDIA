@@ -36,6 +36,9 @@ color: #CC3333;
 font-weight: bold;
 }
 
+.navbar-inverse .navbar-nav>li>a {
+color: white;
+}
 /*
  * Global add-ons
  */
@@ -67,6 +70,9 @@ font-weight: bold;
   !important;
 }
 
+.navbar-nav > li:hover{
+background-color: #444444;
+}
 .navbar-form {
   margin-top:6px;
   margin-bottom:6px;

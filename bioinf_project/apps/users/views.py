@@ -15,7 +15,7 @@ from django.template import loader
 from django.http import HttpResponseRedirect
 from utils import pagination
 
-from .models import UserProfile
+from .models import UserProfile, Notification
 from posts.models import MainPost
 from wiki.models import Page, UserPage
 from software.models import Tool
@@ -262,4 +262,11 @@ class FollowerListView(ListView):
         context['title'] = 'Followers'
 
         return context
+
+class NotificationListView(ListView):
+    #model = Notification
+    template_name = "users/notification_list.html"
+    context_object_name = 'notification_list'
     
+    def get_queryset(self):
+        return Notification.objects.filter(user__id = self.kwargs['pk']).order_by('unread')

@@ -1,0 +1,14 @@
+{% extends 'users/user_base.html' %}
+
+{% block content %}
+<h2> Notifications </h2>
+<table class="table">
+<tr> <th>unread</th> <th> message </th></tr>
+{% for notification in notification_list %}
+<tr>
+    <td> {{notification.unread}} </td>
+    <td> {{notification.message|safe}} </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock content %}

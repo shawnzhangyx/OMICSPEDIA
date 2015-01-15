@@ -543,4 +543,15 @@ text-align: center;
   background-color: #428bca;
 }
 
+
+.notification {
+background-image: url('images/notification.png');
+background-size: 75% 25px;
+background-repeat: no-repeat;
+background-position: 7px 10px;
+}
+
+a.notification:hover {
+color:#990000;
+}
 /******* omics portal ******/

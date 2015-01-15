@@ -5,7 +5,7 @@
 {% endblock head %}
 
 {% block content %}
-  <h1> Posts</h1>
+  <h1> Posts <small> {{question_count}} questions, {{discussion_count}} discussions, {{blog_count}} blogs</small></h1>
 {% if user.is_authenticated %}
   <a class="btn btn-default" href="{% url 'posts:post-new' %}"> Create new post</a>
   

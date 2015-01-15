@@ -45,6 +45,9 @@ class IndexView(ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['tab'] = self.request.GET.get('tab')
         context['sort'] = self.request.GET.get('sort')
+        context['question_count'] = MainPost.questions.count()
+        context['discussion_count'] = MainPost.discussions.count()
+        context['blog_count'] = MainPost.blogs.count()
         context['unanswered_count'] = MainPost.questions.filter(reply_count=0).count()
         return context
 

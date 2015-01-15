@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 
 from tags.models import Tag
 from utils.models import Vote
+from posts.models import ReplyPost
 # Create your models here.
 
 
@@ -85,6 +86,10 @@ class User(AbstractBaseUser,PermissionsMixin):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+    @property
+    def unread_notification_count(self):
+        return self.notifications.filter(unread = True).count()
+    
     def exceed_new_post_limit(self):
         post_past_24h = self.mainpost_set.filter(created__gte = datetime.now() - timedelta(hours=24))
         if post_past_24h.count() >= 10: # will elaborate on this limit in the future. 
@@ -114,7 +119,7 @@ class User(AbstractBaseUser,PermissionsMixin):
             return False        
         
 class UserProfile(models.Model):
-
+    # user profile information. 
     user = models.OneToOneField("User", related_name="user_profile")
     name = models.CharField(verbose_name="user name", max_length=255, null=False, blank=False)
     location = models.CharField(verbose_name="location", max_length=255, blank=True)
@@ -172,3 +177,43 @@ class UserProfile(models.Model):
 post_save.connect(UserProfile.create_user_profile, sender=User)
 post_save.connect(UserProfile.reputation_from_vote, sender=Vote)
 pre_delete.connect(UserProfile.reputation_rollback_from_vote, sender=Vote)
+
+class Notification(models.Model):
+    # notification for items that the user bookmarked
+    user = models.ForeignKey("User", related_name="notifications")
+    message = models.TextField(blank=True)
+    created = models.DateTimeField()
+    unread = models.BooleanField(default=True)
+    POSTS, WIKI, TAG, USER = range(4)
+    TYPE_CHOICES = [(POSTS, 'posts'), (WIKI, 'wiki'), (TAG, 'tag'), (USER, 'user')]
+    type = models.IntegerField(choices=TYPE_CHOICES)
+    
+    @staticmethod
+    def message_from_posts(sender, instance, **kwargs):
+        link = reverse('posts:post-detail', kwargs={'pk':instance.mainpost.id})
+        if instance.mainpost.type == 0:
+            message = "New answer added to "
+        elif instance.mainpost.type == 1: 
+            message = "New reply added to "
+        message += "post <a href='"+link+"#"+str(instance.pk)+"'>" +instance.mainpost.title+"</a>"
+        bookmarks = instance.mainpost.post_bookmark.all()
+        if bookmarks.count() < 1: 
+            return # exit
+        for bookmark in bookmarks:
+            user = bookmark.reader
+            try: 
+                notification = Notification.objects.get(message=message, type=0, user=user)
+            except Notification.DoesNotExist:
+                notification = Notification(user=user, message=message, created=timezone.now(), unread=True, type=0)
+            else:
+                notification.created = timezone.now()
+                notification.unread = True
+            notification.save()
+    
+    class Meta:
+        unique_together = ('user', 'message', 'type')
+        
+post_save.connect(Notification.message_from_posts, sender=ReplyPost)
+#class Timeline(models.Model):
+    # timeline of the user.   
+   
