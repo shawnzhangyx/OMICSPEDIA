@@ -12,7 +12,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.sites.models import get_current_site
 from django.template import loader
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+
 from utils import pagination
 
 from .models import UserProfile, Notification
@@ -269,4 +270,18 @@ class NotificationListView(ListView):
     context_object_name = 'notification_list'
     
     def get_queryset(self):
-        return Notification.objects.filter(user__id = self.kwargs['pk']).order_by('unread')
+        return Notification.objects.filter(user__id = self.kwargs['pk']).order_by('-created')
+    
+    def get_context_data(self):
+        context = super(NotificationListView, self).get_context_data()
+        context['unread_count'] = Notification.objects.filter(user__id = self.kwargs['pk'], unread = True).count()
+        return context
+        
+        
+def read_notification(request):
+    pk = int(request.POST['pk'])
+    notification = Notification.objects.get(pk=pk)
+    notification.unread = False
+    notification.save()
+    return HttpResponse('1')
+    

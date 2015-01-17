@@ -1,14 +1,17 @@
 {% extends 'users/user_base.html' %}
-
+{% load staticfiles %}
 {% block content %}
-<h2> Notifications </h2>
+<h2> Notifications <small>{{notification_list.count}} total ,{{unread_count}} unread</small></h2>
 <table class="table">
-<tr> <th>unread</th> <th> message </th></tr>
 {% for notification in notification_list %}
 <tr>
-    <td> {{notification.unread}} </td>
-    <td> {{notification.message|safe}} </td>
+    <td class="notification-row {%if notification.unread %}notification-unread{%else%}notification-read{%endif%}" notification-pk="{{notification.pk}}"> {{notification.message|safe}} 
+        &nbsp;&nbsp;-{{notification.created}}</td>
 </tr>
 {% endfor %}
 </table>
 {% endblock content %}
+
+{% block jquery %}
+  <script src="{% static 'jquery/profile-view.js' %}"> </script>
+{% endblock jquery %}

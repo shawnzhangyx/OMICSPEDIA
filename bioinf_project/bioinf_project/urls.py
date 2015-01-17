@@ -33,6 +33,8 @@ urlpatterns = patterns('',
     url(r'^ajax/rate/$', rate, name='rate'),
     url(r'^ajax/bookmark/$', bookmark, name='bookmark'),
     url(r'^ajax/preview-markdown/$', preview_markdown, name="preview-markdown"),
+    url(r'^ajax/read-notification/$', preview_markdown, name="preview-markdown"),
+
     )
 
 

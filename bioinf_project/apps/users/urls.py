@@ -22,4 +22,6 @@ url(r'^password/reset/done/$', password_reset_done, {'template_name': 'users/pas
 url(r'^password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_confirm, {'template_name':'users/password_reset_confirm.html', 'post_reset_redirect':'/accounts/password/reset/complete/'}, name="password-reset-confirm"),
 url(r'^password/reset/complete/$', password_reset_complete, {'template_name': 'users/password_reset_complete.html'}),
 
+url(r'^ajax/read-notification/$', views.read_notification, name="read-notification"),
+
 )

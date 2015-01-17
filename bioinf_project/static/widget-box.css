@@ -554,4 +554,12 @@ background-position: 7px 10px;
 a.notification:hover {
 color:#990000;
 }
+
+.notification-unread {
+font-weight: bold;
+}
+
+.notification-read {
+color: grey;
+}
 /******* omics portal ******/

@@ -69,7 +69,7 @@
 {% ifequal tab "Summary" %}
 
 <div class="section-tab col-sm-6">
-<h3> Hot posts this month </h3>
+<h3> <a href="?tab=Posts"> Hot posts this month </a></h3>
 {% for post in post_list|slice:':5' %}
     {% show_post_tab_sm post %}
 {% endfor %}
@@ -77,7 +77,7 @@
 </div>
 
 <div class="section-tab col-sm-6">
-<h3> Most favorite wiki  </h3>
+<h3> <a href="?tab=Wiki">Most favorite wiki </a></h3>
 <ul class="list-unstyled">
 {% for wiki in wiki_list|slice:':5' %}
 <li>    {% show_wiki_tab wiki %} </li>
@@ -87,7 +87,7 @@
 <div class="clearfix block-sm-visible block-md-visible"> </div> 
 
 <div class="section-tab col-sm-6">
-<h3> Hot tags this month  </h3>
+<h3> <a href="?tab=Tags">Hot tags this month</a>  </h3>
 <ul class="list-unstyled">
 {% for tag in tag_list %}
 <li> {% display_tag tag %} x{{tag.monthly_count}} 
@@ -97,7 +97,7 @@
 </div>
 
 <div class="section-tab col-sm-6">
-<h3> Contributors this month  </h3>
+<h3> <a href="?tab=Users"> Contributors this month </a></h3>
 <ul class="list-unstyled">
 {% for user in user_list %}
 <li> {% display_user_xs user %} <span title='{{user.user_profile.name}} contributed {{user.monthly_answer_count}} answer{% if user.monthly_answer_count > 1%}s{% endif %} this month'> x{{user.monthly_answer_count}}</span>
