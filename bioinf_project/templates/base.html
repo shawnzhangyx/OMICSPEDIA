@@ -75,7 +75,7 @@
             </li>
             <li> 
                 {% if user.is_authenticated %}
-                <a class="notification" title="unread messages" href="{% url 'users:notifications' user.id%}">{{user.unread_notification_count}}</a>
+                <a class="notification" title="unread messages" href="{% url 'users:notifications' user.id 'unread'%}">{{user.unread_notification_count}}</a>
                 {% endif %}
                 </li>
             <li class="dropdown">

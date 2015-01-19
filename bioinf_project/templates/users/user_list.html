@@ -22,8 +22,12 @@
 {% if user_profile_list %}
 <ul class="list-unstyled list-inline ">
 {% for user_profile in user_profile_list %}
-<li class="profile-tab"> 
-{% display_user_md user_profile %}
+<li class="profile-tab">
+ {% ifequal tab 'Activity'%} 
+   {% display_user_md user_profile 'activity' %}
+ {% else %}
+   {% display_user_md user_profile 'location' %}
+ {% endifequal %}
  </li>
 
 {% endfor %}

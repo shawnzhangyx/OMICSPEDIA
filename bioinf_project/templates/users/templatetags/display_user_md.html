@@ -10,5 +10,10 @@
 <div class="profile-tab-info">
 <a href="{% url 'users:profile-view' user_profile.id %}"> {{user_profile.name}} </a> <br>
 &#149;&nbsp;<strong>{{user_profile.reputation}} </strong><br>
+{% if field == 'activity' %}
 <small>{{user_profile.last_activity|naturaltime}}</small>
+{% endif %}
+{% ifequal field 'location' %}
+{{user_profile.location }}
+{% endifequal %}
 </div>

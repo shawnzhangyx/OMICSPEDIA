@@ -270,11 +270,16 @@ class NotificationListView(ListView):
     context_object_name = 'notification_list'
     
     def get_queryset(self):
-        return Notification.objects.filter(user__id = self.kwargs['pk']).order_by('-created')
-    
+        type = self.kwargs['type']
+        if type =='all':
+            return Notification.objects.filter(user__id = self.kwargs['pk']).order_by('-created')
+        elif type == 'unread':
+            return Notification.objects.filter(user__id = self.kwargs['pk'], unread = True).order_by('-created')
+            
     def get_context_data(self):
         context = super(NotificationListView, self).get_context_data()
         context['unread_count'] = Notification.objects.filter(user__id = self.kwargs['pk'], unread = True).count()
+        context['total_count'] = Notification.objects.filter(user__id = self.kwargs['pk']).count()
         return context
         
         

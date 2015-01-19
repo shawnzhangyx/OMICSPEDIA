@@ -1,7 +1,7 @@
 {% extends 'users/user_base.html' %}
 {% load staticfiles %}
 {% block content %}
-<h2> Notifications <small>{{notification_list.count}} total ,{{unread_count}} unread</small></h2>
+<h2> Notifications <small>{{total_count}} <a href="{%url 'users:notifications' user.id 'all'%}"> total</a>, {{unread_count}} <a href="{%url 'users:notifications' user.id 'unread'%}">unread</a></small></h2>
 <table class="table">
 {% for notification in notification_list %}
 <tr>

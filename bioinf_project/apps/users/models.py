@@ -188,6 +188,7 @@ class Notification(models.Model):
     TYPE_CHOICES = [(POSTS, 'posts'), (WIKI, 'wiki'), (TAG, 'tag'), (USER, 'user')]
     type = models.IntegerField(choices=TYPE_CHOICES)
     
+
     @staticmethod
     def message_from_posts(sender, instance, **kwargs):
         link = reverse('posts:post-detail', kwargs={'pk':instance.mainpost.id})
