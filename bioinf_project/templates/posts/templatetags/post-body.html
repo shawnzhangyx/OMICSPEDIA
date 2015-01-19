@@ -1,5 +1,6 @@
 {% load util_custom_tags %}
 {% load tag_custom_tags %}
+{% load user_custom_tags %}
 {% load humanize %}
 {% load staticfiles %}
 
@@ -41,18 +42,7 @@
           <a href="{% url 'posts:replypost-revhistory' post.id %}">
         {% endif %}
           {{post.current_revision.modified_date|naturaltime}}</a> </small></div>
-          <div class="profile-tab-info">
-<a  href="{% url 'users:profile-view' post.current_revision.author.user_profile.id %}"> 
-<img class="profile-img-small" src='
-{% if post.current_revision.author.user_profile.portrait %} {{post.current_revision.author.user_profile.portrait.url}} 
-{% else %} {%static "images/user_default.png"%} 
-{% endif %}'></a>
-</div>
-<div class="profile-tab-info">
-<a href="{% url 'users:profile-view' post.current_revision.author.user_profile.id %}"> {{post.current_revision.author.user_profile.name}} </a> <br>
-&#149;&nbsp;<strong>{{post.current_revision.author.user_profile.reputation}} </strong><br>
-{{post.current_revision.author.user_profile.location}}
-</div>
+          {% display_user_md post.current_revision.author.user_profile 'location' %}
 
                </div>
         {% endifnotequal %}
@@ -60,18 +50,7 @@
         <div class="post-body-author">
         <div><small> {% if is_question %}asked {% else %}answered{% endif %}
        {{post.created|naturaltime}} </small></div>
-       <div class="profile-tab-info">
-<a  href="{% url 'users:profile-view' post.author.user_profile.id %}"> 
-<img class="profile-img-small" src='
-{% if post.author.user_profile.portrait %} {{post.author.user_profile.portrait.url}} 
-{% else %} {%static "images/user_default.png"%} 
-{% endif %}'></a>
-</div>
-    <div class="profile-tab-info">
-<a href="{% url 'users:profile-view' post.author.user_profile.id %}"> {{post.author.user_profile.name}} </a> <br>
-&#149;&nbsp;<strong>{{post.author.user_profile.reputation}} </strong><br>
-{{post.author.user_profile.location}}
-    </div>
+       {% display_user_md post.author.user_profile 'location' %}
        
        </div>
       </div>
