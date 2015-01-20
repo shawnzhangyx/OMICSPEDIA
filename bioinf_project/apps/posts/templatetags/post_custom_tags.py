@@ -28,12 +28,12 @@ def display_post_body(post, user, post_type):
     return {'post':post, 'user':user,'is_question':is_question}        
 
 @register.inclusion_tag("posts/templatetags/discussion-body.html")
-def display_discussion_body(post, user, post_type):
+def display_discussion_body(post, user, post_type, reply_number):
     if post_type == "is_question":
         is_question = True
     else: 
         is_question = False
-    return {'post':post, 'user':user,'is_question':is_question}        
+    return {'post':post, 'user':user,'is_question':is_question, 'reply_number':reply_number}        
     
 @register.inclusion_tag("posts/templatetags/blog-body.html")
 def display_blog_body(post, user):

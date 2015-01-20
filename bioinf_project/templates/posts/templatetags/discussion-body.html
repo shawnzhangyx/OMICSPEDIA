@@ -4,22 +4,27 @@
 {% load humanize %}
 {% load staticfiles %}
 
-<div class="post-container">
-  <div class="vote-box">
+<table class="post-container">
+  <tr><td colspan='2' class="post-action">
+     {{post.created}} &nbsp;&nbsp;
+    {% if is_question %}
+      <a  href='{% url "posts:mainpost-edit" post.id %}'>&lt;edit&gt;</a> 
+    {% else %}
+      <a  href='{% url "posts:replypost-edit" post.id %}'>&lt;edit&gt;</a> 
+    {% endif %}
+    <a href='#wmd-button-bar'>&lt;reply&gt;</a> 
+        <span class='pull-right'>#{{reply_number}}<span>
+  </td></tr>
+
+      <tr>
+  <td class="vote-box">
     {% display_vote_widget post user%}
     {% if is_question %}
     {% display_bookmark_widget post user%}
     {% endif %}
-  </div>
-  <div class="post-body">
-  <div class="post-action">
-        {% if is_question %}
-          <a href='{% url "posts:mainpost-edit" post.id %}'>edit</a> 
-        {% else %}
-          <a href='{% url "posts:replypost-edit" post.id %}'>edit</a> 
-        {% endif %}
-          
-      </div>
+  </td>
+  <td class="post-body">
+
     <p> {{ post.current_revision.get_marked_up_content|safe }} </p>
     <!-- display the tag list -->
     {% if is_question %}
@@ -53,6 +58,7 @@
             
     </div>
     
-  </div>
-</div>
+  </td>
+  </tr>
+</table>
 

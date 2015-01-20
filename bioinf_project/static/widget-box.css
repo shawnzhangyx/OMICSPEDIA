@@ -4,8 +4,10 @@
 
 /************ votes **************/
 .vote-box {
-float: left;
-margin-right: 15px;
+width: 40px;
+background-color: #eeeeee;
+vertical-align: top;
+
 }
 .vote-widget {
 display: block;
@@ -16,7 +18,7 @@ background-image: url('stackoverflow/sprites.png');
 background-position: 0 -230px;
 width: 41px;
 height: 25px;
-display: inline-block;
+display: block;
 }
 
 .vote-up-off {
@@ -86,15 +88,15 @@ cursor: pointer;
 /************ bookmark ***********/
 .bookmark-widget {
 display: block;
-margin-left: 5px;
 }
 .bookmark-on {
 background-image: url('stackoverflow/sprites.png');
 background-position: 0 -190px;
 width: 33px;
 height: 31px;
-display: inline-block;
+display: block;
 cursor: pointer;
+margin-left: 5px;
 }
 
 .bookmark-off {
@@ -102,8 +104,9 @@ background-image: url('stackoverflow/sprites.png');
 background-position: 0 -150px;
 width: 33px;
 height: 31px;
-display: inline-block;
+display: block;
 cursor: pointer;
+margin-left: 5px;
 }
 
 .bookmark-count {
@@ -363,7 +366,6 @@ margin-bottom: 10px;
 float: left;
 padding: 2px 5px;
 text-align: center;
-
 font-size: 14px;
 }
 .post-tab-vote-sm {
@@ -391,6 +393,26 @@ color: #555555;
 }
 
 /**** post body ****/
+.post-container{
+width: 100%;
+border: 1px solid #5C7099;
+border-collapse: initial;
+margin: 3px 0;
+}
+
+.post-body {
+border-left: solid 1px #aaaaaa;
+padding-left: 5px;
+}
+.post-action {
+background-color: #5C7099;
+color: white;
+padding-left: 10px;
+}
+
+.post-action > a{
+color: #dddddd;
+}
 .accepted-answer {
 background-image: url('stackoverflow/sprites.png');
 background-position: 0 -460px;
