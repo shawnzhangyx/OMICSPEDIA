@@ -1,5 +1,7 @@
 {% extends 'posts/post_base.html' %}
 {% load post_custom_tags %}
+{% load util_custom_tags %}
+{% load humanize %}
 {% load staticfiles %}
 <!-- this is the link to edit the post. 
 -->
@@ -11,7 +13,8 @@
 {% endblock head %}
 
 {% block content %}
-<h3>{{mainpost.title}} <small>&lt;{{type}}&gt;</small></h3>
+<h3>{{mainpost.title}} <small>&lt;{{type}}&gt;
+          <a class="btn btn-default btn-xs" href='{% url "posts:mainpost-edit" mainpost.id %}'>edit</a> </small></h3>
 <hr>
 {% display_blog_body mainpost user %}
 <br>
@@ -25,12 +28,30 @@
       <a href="?tab=oldest"> oldest  </a> </li>
 </ul>
 
-<!-- add reply or comment -->
-
+<!-- comments -->    
+    {% if mainpost.get_comments.count > 0 %}
+    <table class='blog-comment-table'>
+      {% for comment in mainpost.get_comments %}
+      <tr>
+      <td class='blog-comment-author' rowspan='2'> <a  href="{% url 'users:profile-view' comment.author.user_profile.id %}"> 
+       <img class="profile-img-small" src='
+        {% if comment.author.user_profile.portrait %} {{comment.author.user_profile.portrait.url}} 
+        {% else %} {%static "images/user_default.png"%} 
+        {% endif %}'></a></td>
+        <td class='blog-comment-info'><a href="{% url 'users:profile-view' comment.author.user_profile.id %}"> {{comment.author.user_profile.name}}</a> &nbsp;<small>{{comment.last_modified|naturaltime}}</small>&nbsp;&nbsp;<span>{% display_vote_up comment user %} </span></td> 
+      </tr>
+      <tr>
+        <td class="blog-comment-text"> {{comment.content}}  </td> 
+        
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    
+<!-- add comment -->
 {% if user.is_authenticated %}
    {% if user.exceed_new_comment_limit %}
    <h4> Add your comment: </h4>
-
           <div class="alert alert-warning">Sorry, you have exceeded your daily maximum number of comments. 
           </div>
    {% else %}

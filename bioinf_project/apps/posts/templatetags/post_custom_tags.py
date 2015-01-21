@@ -19,8 +19,8 @@ def show_post_tab_sm(post):
 def show_answer_tab_sm(answer):
     return {'answer':answer}
     
-@register.inclusion_tag("posts/templatetags/post-body.html")
-def display_post_body(post, user, post_type):
+@register.inclusion_tag("posts/templatetags/question-body.html")
+def display_question_body(post, user, post_type):
     if post_type == "is_question":
         is_question = True
     else: 

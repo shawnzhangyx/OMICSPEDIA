@@ -5,7 +5,6 @@
 /************ votes **************/
 .vote-box {
 width: 40px;
-background-color: #eeeeee;
 vertical-align: top;
 
 }
@@ -393,21 +392,43 @@ color: #555555;
 }
 
 /**** post body ****/
+.question-container {
+width: 100%;
+margin: 5px 0;
+border-top: 1px solid #eeeeee;
+}
+
 .post-container{
 width: 100%;
 border: 1px solid #5C7099;
 border-collapse: initial;
 margin: 3px 0;
 }
+.post-container tr td.vote-box {
+background-color: #eeeeee;
+}
+
+
+.blog-container{
+width:100%;
+}
+
+.question-body {
+padding-left: 10px;
+}
 
 .post-body {
 border-left: solid 1px #aaaaaa;
-padding-left: 5px;
+padding-left: 10px;
 }
+.blog-body {
+padding-left: 10px;
+}
+
 .post-action {
 background-color: #5C7099;
 color: white;
-padding-left: 10px;
+padding: 0 10px;
 }
 
 .post-action > a{
@@ -420,15 +441,24 @@ width: 39px;
 height: 40px;
 display: inline-block;
 }
+
 .post-authorship{
-margin-left: 56px;
-padding-top: 40px;
+padding-top: 20px;
 }
 
+.blog-body-author {
+float:right;
+padding: 10px;
+}
 .post-body-author {
-display: inline-block;
-#border: dashed 1px red;
+float:right;
 padding: 2px;
+}
+
+.blog-foot {
+#margin-top: 20px;
+overflow: hidden;
+border-top: dotted 1px #aaaaaa;
 }
 
 
@@ -454,6 +484,24 @@ padding-right:30px;
 color: red;
 }
 
+.blog-comment-table{
+width: 100%;
+margin-top:10px;
+}
+.blog-comment-author {
+width:70px;
+height: 100px;
+vertical-align: top;
+}
+.blog-comment-info{
+height:20px;
+border-bottom: dotted 1px #aaaaaa;
+vertical-align: top;
+}
+.blog-comment-text{
+padding: 0px;
+vertical-align: top;
+}
 
 /*********** users **********/
 

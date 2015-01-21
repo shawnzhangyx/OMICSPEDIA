@@ -12,10 +12,8 @@
 
 {% block content %}
 <h3>{{mainpost.title}} <small>&lt;{{type}}&gt;</small></h3>
-<hr>
-{% display_post_body mainpost user "is_question"%}
+{% display_question_body mainpost user "is_question"%}
 <br>
-
 <h4 class="pull-left"><b> {{mainpost.reply_count}} answer{%if mainpost.reply_count > 1%}s{% endif %}</b></h4>
 
   <ul class="nav nav-tabs right-to-left">
@@ -26,9 +24,7 @@
       <a href="?tab=oldest"> oldest  </a> </li>
 </ul>
 {% for reply in replypost_list %}
-    {% display_post_body reply user "is_answer" %}
- 
-<hr>
+    {% display_question_body reply user "is_answer" %}
 {% endfor %}
 
 <!-- add reply or comment -->

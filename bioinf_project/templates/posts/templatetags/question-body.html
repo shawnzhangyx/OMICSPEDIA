@@ -1,0 +1,74 @@
+{% load util_custom_tags %}
+{% load tag_custom_tags %}
+{% load user_custom_tags %}
+{% load humanize %}
+{% load staticfiles %}
+
+<table {%if not is_question %}id="{{post.id}}"{% endif %} class="question-container">
+  <tr>
+  <td class="vote-box">
+    {% display_vote_widget post user%}
+    {% if is_question %}
+    {% display_bookmark_widget post user%}
+    {% else %}
+        {% if post.accepted_root.get.id == post.mainpost.id %}
+        <div class="accepted-answer"></div> 
+        {% endif %}
+    {% endif %}
+  </td>
+  <td class="question-body">
+    <p> {{ post.current_revision.get_marked_up_content|safe }} </p>
+    <!-- display the tag list -->
+    {% if is_question %}
+    {% display_tag_list post.tags.all %}
+    {% endif %}
+    <div class="clearfix post-authorship">
+      <span class="post-action">
+        {% if is_question %}
+          <a href='{% url "posts:mainpost-edit" post.id %}'>edit</a> | <a href="{% url 'comment-new' comment_on="posts" pk=post.id %}">comment</a>
+        {% else %}
+          <a href='{% url "posts:replypost-edit" post.id %}'>edit</a> | <a href="{% url 'comment-new' comment_on="replyposts" pk=post.id %}">comment</a>
+        {% if post.mainpost.accepted_answer == null %} {% if user == post.mainpost.author %} | <a href="{% url 'posts:replypost-accept' post.id %}"> accept?</a> {% endif %}{% endif %}
+        {% endif %}
+          
+      </span>
+      <div class="pull-right post-edition">
+        
+        {% ifnotequal post.current_revision.revision_number 1 %}
+        <div class="post-body-author">
+        <div> <small> edited 
+        {% if is_question %}
+          <a href="{% url 'posts:mainpost-revhistory' post.id %}">
+        {% else %}
+          <a href="{% url 'posts:replypost-revhistory' post.id %}">
+        {% endif %}
+          {{post.current_revision.modified_date|naturaltime}}</a> </small></div>
+          {% display_user_md post.current_revision.author.user_profile 'location' %}
+
+               </div>
+        {% endifnotequal %}
+     
+        <div class="post-body-author">
+        <div><small> {% if is_question %}asked {% else %}answered{% endif %}
+       {{post.created|naturaltime}} </small></div>
+       {% display_user_md post.author.user_profile 'location' %}
+       
+       </div>
+      </div>
+    </div>
+    
+    {% if post.get_comments.count > 0 %}
+    <div class="comments-all">
+      {% for comment in post.get_comments %}
+      <div class="comment-row">
+        {% display_vote_up comment user %}
+        <span class="comment-text"> {{comment.content}} &nbsp;&mdash; <a href="{% url 'users:profile-view' comment.author.user_profile.id %}"> {{comment.author.user_profile.name}}</a>  <small>{{comment.last_modified|naturaltime}}</small> </span> 
+        
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </td>
+</tr>
+</table>
+
