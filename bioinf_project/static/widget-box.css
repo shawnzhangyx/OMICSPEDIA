@@ -309,13 +309,15 @@ margin-right: 10px;
 .post-tab {
 border-bottom: 1px solid #DDDDDD;
 margin-bottom: 0px;
+min-height:65px;
 display: block;
+width: 100%;
 }
 
 .post-count-box{
 float: left;
 background-color: #F4F4F4;
-margin-top: 10px;
+margin-top: 0px;
 }
 
 .post-count-box div{
@@ -344,13 +346,14 @@ color: #999999;
 
 .post-tab-detail {
 margin-left:160px;
+height: 100%;
 }
 .post-tab-tags {
 float:left;
 display: inline-block;
 }
 .post-created {
-float:right;
+text-align: right;
 color: #999999;
 }
 
@@ -402,7 +405,7 @@ border-top: 1px solid #eeeeee;
 width: 100%;
 border: 1px solid #5C7099;
 border-collapse: initial;
-margin: 3px 0;
+margin: 5px 0;
 }
 .post-container tr td.vote-box {
 background-color: #eeeeee;
@@ -490,7 +493,7 @@ margin-top:10px;
 }
 .blog-comment-author {
 width:70px;
-height: 100px;
+height: 80px;
 vertical-align: top;
 }
 .blog-comment-info{

@@ -1,7 +1,7 @@
 {% load util_custom_tags %}
 {% load tag_custom_tags %}
 {% load humanize %}
-<div class="col-sm-12 post-tab">
+<div class="post-tab">
   <div class="post-count-box">
     <div class="post-tab-vote">
     <h3>{{post.get_vote_count}} </h3> 
@@ -17,11 +17,11 @@
     </div>
   </div>
   <div class="post-tab-detail">
-    <div class="">
+    <div>
       <h4> <a href= "{% url 'posts:post-detail' post.id %}" >{{ post.title }} </a> </h4>
-      {{post.current_revision.content|truncatechars:200}}
+      {{post.current_revision.content|truncatechars:150}}
     </div>
-    
+    <div>
     <div class="post-tab-tags">
     {% display_tag_list post.tags.all %}
 
@@ -29,6 +29,7 @@
     <div class="post-created">
      active {{post.last_modified|naturaltime}} <br>
     asked {{post.created|naturaltime}} by <a href="{%url 'users:profile-view' post.author.user_profile.id%}">{{post.author.user_profile.name}}</a>
+    </div>
     </div>
   </div>
 </div>

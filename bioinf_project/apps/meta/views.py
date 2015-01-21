@@ -54,6 +54,14 @@ class ReportDetails(DetailView):
         return obj
     def get_context_data(self, **kwargs):
         context = super(ReportDetails, self).get_context_data(**kwargs)
-        #context['comment_list'] = ReplyPost.objects.filter(mainpost=context['mainpost'])
+        tab = self.request.GET.get('tab')
+        if not tab:
+            tab = 'votes'
+        
+        sort_dict = {'votes':'-vote_count','oldest':'created'}
+        sort_value = sort_dict[tab]
+        context['comments'] = context['report'].get_comments().order_by(sort_value)
+        context['tab'] = tab
+
         return context
 

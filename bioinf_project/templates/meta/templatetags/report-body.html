@@ -1,71 +1,36 @@
 {% load util_custom_tags %}
+{% load user_custom_tags %}
 {% load tag_custom_tags %}
 {% load staticfiles %}
 {% load humanize %}
 
-<div class="post-container">
-  <div class="vote-box">
+<table class="post-container">
+  <tr> <td colspan='2' class="post-action">
+  {{report.created}}&nbsp;&nbsp;
+          <a href='{% url "meta:report-edit" report.id %}'>&lt;edit&gt;</a>
+          <a href='#id_content'> &lt;comment&gt;</a>
+  </td></tr>
+  <tr>
+  <td class="vote-box">
     {% display_vote_widget report user%}
-  </div>
-  <div class="post-body">
-    <p> {{ report.current_revision.content }} </p>
+  </td>
+  <td class="post-body">
+    <p> {{ report.current_revision.get_marked_up_content|safe }} </p>
     <div class="clearfix post-authorship">
-      <div class="post-action">
-          <a href='{% url "meta:report-edit" report.id %}'>edit</a>
-      </div>
-      
       <div class="pull-right post-edition">
       {% ifnotequal report.current_revision.revision_number 1 %}
         <div class="post-body-author">
         <div> <small> modified 
           {{report.current_revision.modified_date|naturaltime}}</a> </small></div>
-          <div class="profile-tab-info">
-<a  href="{% url 'users:profile-view' report.current_revision.author.user_profile.id %}"> 
-<img class="profile-img-small" src='
-{% if report.current_revision.author.user_profile.portrait %} {{report.current_revision.author.user_profile.portrait.url}} 
-{% else %} {%static "images/user_default.png"%} 
-{% endif %}'></a>
-</div>
-<div class="profile-tab-info">
-<a href="{% url 'users:profile-view' report.current_revision.author.user_profile.id %}"> {{report.current_revision.author.user_profile.name}} </a> <br>
-&#149;&nbsp;<strong>{{report.current_revision.author.user_profile.reputation}} </strong><br>
-{{report.current_revision.author.user_profile.location}}
-</div>
-
-               </div>
+          {% display_user_md report.current_revision.author.user_profile 'location' %}
+         </div>
         {% endifnotequal %}
-     
         <div class="post-body-author">
         <div><small> posted
        {{report.created|naturaltime}} </small></div>
-       <div class="profile-tab-info">
-<a  href="{% url 'users:profile-view' report.author.user_profile.id %}"> 
-<img class="profile-img-small" src='
-{% if report.author.user_profile.portrait %} {{report.author.user_profile.portrait.url}} 
-{% else %} {%static "images/user_default.png"%} 
-{% endif %}'></a>
-</div>
-    <div class="profile-tab-info">
-<a href="{% url 'users:profile-view' report.author.user_profile.id %}"> {{report.author.user_profile.name}} </a> <br>
-&#149;&nbsp;<strong>{{report.author.user_profile.reputation}} </strong><br>
-{{report.author.user_profile.location}}
-</div>
+         {% display_user_md report.author.user_profile 'location' %}
     </div>
 </div>
 </div>
-    {% if report.get_comments.count > 0 %}
-    <div class="comments-all">
-
-      {% for comment in report.get_comments %}
-       <div class="comment-row">
-        {% display_vote_up comment user %}
-        <span class="comment-text"> {{comment.content}} &nbsp;&mdash; <a href="{% url 'users:profile-view' comment.author.user_profile.id %}"> {{comment.author.user_profile.name}}</a>  <small>{{comment.last_modified|naturaltime}}</small> </span> 
-        
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-  </div>
-
-</div>
-
+</td>
+</table>

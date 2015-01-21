@@ -1,3 +1,7 @@
-<li >
-{{comment.get_issue_warnings_message}}
-</li>
+<b>This page has some issues: </b>
+<ul> 
+{% for warning in warnings%}
+<li> {{warning}} </li>
+</ul>
+{% endfor %}
+<p> Please go to <em>comment page</em> located above to see details. </p>

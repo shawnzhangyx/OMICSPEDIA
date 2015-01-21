@@ -19,12 +19,7 @@
   <div class="clearfix">
   {% if page.comments.count > 0 %}
   <div class="alert alert-warning"> 
-    <b>This page has some issues: </b>
-    <ul>
-    {% for comment in page.comments.all %}
-        {% show_wiki_comment_warning comment %}
-    {% endfor %}
-    </ul>
+    {% show_wiki_comment_warning page.comments.all %}
     </div>
   {% endif %}
     <h1 class="wiki-title" title={{page.title}}>{{page.title}} {% if page.software %} <small>&lt;<a title="this is a software" href="{% url 'software:software-detail' page.software.name %}">software</a>&gt;</small>{% endif %} 

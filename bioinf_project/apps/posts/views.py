@@ -20,7 +20,7 @@ class IndexView(ListView):
     model = MainPost
     template_name = "posts/index.html"
     context_object_name = "post_list"
-    paginate_by = 5
+    paginate_by = 20
     
     def get_queryset(self):
         tab = self.request.GET.get('tab')
@@ -129,6 +129,7 @@ class PostDetails(DetailView):
         context['replypost_list'] = replies
         context['tab'] = tab
         context['type'] = self.object.get_type_display
+        context['comments'] = context['mainpost'].get_comments().order_by(sort_value)
         return context
     #need to display everything in the same subject.
 

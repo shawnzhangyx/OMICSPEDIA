@@ -41,6 +41,7 @@ class AbstractBasePage(models.Model):
 class Comment(models.Model):
     content = models.TextField(max_length=600, null=False, verbose_name=_("content"))
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("author"))
+    vote_count = models.IntegerField(default=0)
     comment_votes = GenericRelation("Vote")
     created = models.DateTimeField(verbose_name=_("created time"))
     last_modified = models.DateTimeField()

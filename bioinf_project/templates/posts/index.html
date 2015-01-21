@@ -43,14 +43,13 @@
     
   </ul>
   
-  <div>
+
   {% for post in post_list %}
     {% show_post_tab post %}
   {% empty %}
     <p> No posts created yet.</p>
   {% endfor %}
   
-  </div>
       {% if is_paginated %}
         <div class="pagination">
             <span class="page-links">

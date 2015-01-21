@@ -29,9 +29,9 @@
 </ul>
 
 <!-- comments -->    
-    {% if mainpost.get_comments.count > 0 %}
+    {% if comments.count > 0 %}
     <table class='blog-comment-table'>
-      {% for comment in mainpost.get_comments %}
+      {% for comment in comments %}
       <tr>
       <td class='blog-comment-author' rowspan='2'> <a  href="{% url 'users:profile-view' comment.author.user_profile.id %}"> 
        <img class="profile-img-small" src='
@@ -69,24 +69,9 @@ please <a href = "{% url 'users:login' %}"> log in </a> to post a response
 {% endif %}
 
 <!-- script for text input control panel -->
-<script type="text/javascript">
-            (function () {
-                var converter1 = Markdown.getSanitizingConverter();
-                
-                converter1.hooks.chain("preBlockGamut", function (text, rbg) {
-                    return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
-                        return "<blockquote>" + rbg(inner) + "</blockquote>\n";
-                    });
-                });
-                
-                var editor1 = new Markdown.Editor(converter1);
-                
-                editor1.run();
-                })();
-               </script>
+
 {% endblock content %}
 
 {% block jquery %}
   <script src="{% static 'jquery/vote_widget.js' %}"> </script>
-  <script src="{% static 'jquery/post.js' %}"> </script>
 {% endblock jquery %}
