@@ -3,13 +3,13 @@
 {% load humanize %}
 <div class="wiki-tab">
 
-    <span> <img src="{% static 'images/star.png' %}"> {{ wiki.bookmark_count}}
-    
-</span>
-<!--    <span> {{ wiki.comments.count}}
-    <img src="{% static 'images/exclamation.jpg' %}">
-</span> -->
-    &nbsp;
-    <span> <a class='' href= "{% url 'wiki:wiki-detail' wiki.get_title %}" >{{ wiki.title }} </a>
+    <span class="wiki-tab-star" title="{{wiki.bookmark_count}} people bookmarked this page">  {{ wiki.bookmark_count}}
     </span>
+    <span class="wiki-tab-view" title="{{wiki.view_count}} people visited this page"> {{wiki.view_count}}</span>
+    
+    <span> <a class='wiki-tab-title' href= "{% url 'wiki:wiki-detail' wiki.get_title %}" >{{ wiki.title }} </a>
+    </span>
+    {% if wiki.comments.count > 0 %} <span title="This wiki has some unresolved issues" class="wiki-tab-warning">
+    <img src="{% static 'images/exclamation.jpg' %}">
+</span> {% endif %}
 </div>

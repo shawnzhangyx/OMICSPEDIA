@@ -136,9 +136,9 @@ class WikiDetails(DetailView):
             return super(WikiDetails, self).dispatch(*args, **kwargs)
 
     def get_object(self):
-        return Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
-
-
+        obj = Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
+        Page.update_wiki_views(obj, request=self.request)
+        return obj
 
     def get_context_data(self, **kwargs):
         context = super(WikiDetails, self).get_context_data(**kwargs)
