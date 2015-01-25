@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
@@ -9,7 +10,7 @@ from django.db.models.signals import m2m_changed, post_save, pre_delete
 #from django.contrib.auth.models import User
 import markdown
 from utils import diff_match_patch
-from utils.models import AbstractBaseRevision
+from utils.models import AbstractBaseRevision, View
 import re
 from django.conf import settings
 # Create your models here.
@@ -23,6 +24,8 @@ class Page(models.Model):
     tags = models.ManyToManyField("tags.Tag",blank=True, related_name="pages")
     #wiki_votes = GenericRelation("utils.Vote")
     #wiki_rates = GenericRelation("utils.Rate")
+    wiki_views = GenericRelation("utils.View")
+    view_count = models.IntegerField(default=0)
     wiki_bookmark = GenericRelation("utils.Bookmark")
 
     # count of things
@@ -58,6 +61,31 @@ class Page(models.Model):
             return float(rate_sum)/rate_count
         else:
             return rate_sum
+    
+    @staticmethod
+    def update_wiki_views(wiki, request, hours=24):
+        "Views are updated per user session"
+
+        # Extract the IP number from the request.
+        ip1 = request.META.get('REMOTE_ADDR', '')
+        ip2 = request.META.get('HTTP_X_FORWARDED_FOR', '').split(",")[0].strip()
+        # 'localhost' is not a valid ip address.
+        ip1 = '' if ip1.lower() == 'localhost' else ip1
+        ip2 = '' if ip2.lower() == 'localhost' else ip2
+        ip = ip1 or ip2 or '0.0.0.0'
+
+        now = timezone.now()
+        since = now - timezone.timedelta(hours=hours)
+
+        obj_type = ContentType.objects.get_for_model(wiki)
+        obj_id =wiki.id
+
+        # One view per time interval from each IP address.
+        if not wiki.wiki_views.filter(ip=ip, date__gt=since):
+            new_view = View(ip=ip, content_object=wiki, date=now)
+            new_view.save()
+            Page.objects.filter(id=wiki.id).update(view_count=F('view_count') + 1)
+        return wiki
     
     def get_absolute_url(self):
         return reverse('wiki:wiki-detail', kwargs = {'title': self.get_title()})

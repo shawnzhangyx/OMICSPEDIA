@@ -137,7 +137,7 @@ class MainPost(AbstractPost):
         return self.title
 
     @staticmethod
-    def update_post_views(post, request, minutes=60):
+    def update_post_views(post, request, hours=24):
         "Views are updated per user session"
 
         # Extract the IP number from the request.
@@ -149,7 +149,7 @@ class MainPost(AbstractPost):
         ip = ip1 or ip2 or '0.0.0.0'
 
         now = timezone.now()
-        since = now - timezone.timedelta(minutes=minutes)
+        since = now - timezone.timedelta(hours=hours)
 
         obj_type = ContentType.objects.get_for_model(post)
         obj_id =post.id
