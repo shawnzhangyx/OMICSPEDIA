@@ -27,7 +27,7 @@ class Page(models.Model):
     wiki_views = GenericRelation("utils.View")
     view_count = models.IntegerField(default=0)
     wiki_bookmark = GenericRelation("utils.Bookmark")
-
+    image_attachment = GenericRelation("utils.ImageAttachment")
     # count of things
     bookmark_count = models.IntegerField(default=0)
     comment_count = models.IntegerField(default=0)

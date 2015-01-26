@@ -127,6 +127,14 @@ class Bookmark(models.Model):
     class Meta: 
         unique_together = ("reader", "content_type", "object_id")        
 
+def generate_image_
         
-    
+class ImageAttachment(models.Model):
+    image = models.ImageField(upload_to="attachments")
+    # object that owns this image. 
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+
     
