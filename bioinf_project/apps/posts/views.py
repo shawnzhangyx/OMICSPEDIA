@@ -73,7 +73,7 @@ class MainPostNew(CreateView):
 
 class MainPostEdit(UpdateView):
     form_class = MainPostRevisionForm
-    template_name = 'posts/post_new.html'
+    template_name = 'posts/post_edit.html'
     
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -162,7 +162,7 @@ class ReplyPostNew(CreateView):
         return super(ReplyPostNew, self).form_valid(form)
 
 class ReplyPostEdit(UpdateView):
-    template_name = "posts/post_new.html"
+    template_name = "posts/post_edit.html"
     form_class = ReplyPostRevisionForm
     
     @method_decorator(login_required)

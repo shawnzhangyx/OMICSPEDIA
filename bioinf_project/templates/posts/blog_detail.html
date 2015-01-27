@@ -14,7 +14,8 @@
 
 {% block content %}
 <h3>{{mainpost.title}} <small>&lt;{{type}}&gt;
-          <a class="btn btn-default btn-xs" href='{% url "posts:mainpost-edit" mainpost.id %}'>edit</a> </small></h3>
+{% ifequal user mainpost.author %}
+          <a class="btn btn-default btn-xs" href='{% url "posts:mainpost-edit" mainpost.id %}'>edit</a> {% endifequal %} </small> </h3>
 <hr>
 {% display_blog_body mainpost user %}
 <br>

@@ -6,13 +6,38 @@ from django.utils import timezone
 from django.shortcuts import render
 #from .forms import WikiForm
 from .models import Tool
+from tags.models import Tag
 from .forms import ToolForm, ToolNewForm
 # Create your views here.
 
 
 class IndexView(ListView):
     model = Tool
-    template_name = "software/index.html"
+    template_name = 'software/index.html'
+    context_object_name = "software_list"
+    
+    def get_queryset(self):
+        if self.kwargs['tag'] !='root':
+            tag = Tag.objects.get(name=self.kwargs['tag'])
+            return Tool.objects.filter(page__tags__in = [tag])
+        else:
+            return 
+    def get_context_data(self, **kwargs):
+        context = super(IndexView,self).get_context_data(**kwargs)
+        if self.kwargs['tag'] =='root':
+            tags = Tag.objects.filter(categories=1, parent__isnull=True)
+        else: 
+            parent = Tag.objects.get(name=self.kwargs['tag'])
+            tags = parent.children.all()
+            context['parent'] = parent
+        context['tag_list'] = tags
+        context['software_count'] = Tool.objects.all().count()
+        
+        return context
+    
+class SoftwareListView(ListView):
+    model = Tool
+    template_name = "software/software_list.html"
     context_object_name = "software_list"
     
 class SoftwareNew(CreateView):

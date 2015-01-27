@@ -33,11 +33,13 @@ class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True)
     icon = models.ImageField(upload_to='tags',null=True,blank=True)
     wiki_page = models.OneToOneField("wiki.Page", related_name='wiki_tag')
-    # record the times this tag is used
+    # record the times this tag is used in posts
     count = models.IntegerField(default=0)
     # record the bookmark count of this tag.
     #bookmark_count = models.IntegerField(default=0)
-
+    # record the software count of this tag
+    tool_count = models.IntegerField(default=0)
+    
     # provide the tag structures
     # can chain Tags that have tree structures.
     parent = models.ForeignKey('self', related_name = "children",null=True, blank=True)
@@ -84,7 +86,35 @@ class Tag(models.Model):
         if action == 'pre_clear':
             instance.tags.all().update(count=F('count') - 1)
 
+    @staticmethod
+    def change_tag_software_count_recursive(tags, amount):
+        for tag in tags:
+            tag.tool_count = tag.tool_count + amount
+            tag.save()
+            if tag.parent:
+                Tag.change_tag_software_count_recursive([tag.parent], amount) 
+        return 
+        
+    @staticmethod
+    def update_tag_software_counts(sender, instance, action, pk_set, *args, **kwargs):
+        "Applies tag software count updates upon software changes"
+        if not instance.software:
+            return 
+        if action == 'pre_clear':
+            tags = instance.tags.all()
+        elif action =="post_add" or action =="post_remove": 
+            tags = Tag.objects.filter(pk__in=pk_set)
+            
+        if action == 'post_add':
+            Tag.change_tag_software_count_recursive(tags, 1)
 
+        if action == 'post_remove':
+            Tag.change_tag_software_count_recursive(tags, -1)
+
+        if action == 'pre_clear':
+            Tag.change_tag_software_count_recursive(tags, -1)
+
+            
     @staticmethod
     def reset_tag_counts():
         for tag in Tag.objects.all():
@@ -172,8 +202,14 @@ class UserTag(models.Model):
         unique_together = ('tag', 'user')
 
 # data signals
+# tag count change signals
 m2m_changed.connect(Tag.update_tag_counts, sender=MainPost.tags.through)
+# will need to deduct tag count after post deletion. 
+
+# answer count change singals
 m2m_changed.connect(UserTag.answer_update_due_to_m2m_change, sender=MainPost.tags.through)
 post_save.connect(UserTag.answer_update_due_to_answer_add, sender=ReplyPost)
 pre_delete.connect(UserTag.answer_update_due_to_answer_delete, sender=ReplyPost)
 
+# software count change signals
+m2m_changed.connect(Tag.update_tag_software_counts, sender=Page.tags.through)

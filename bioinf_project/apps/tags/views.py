@@ -29,8 +29,18 @@ class TagCreate(CreateView):
     def dispatch(self, *args, **kwargs):
         return super(TagCreate, self).dispatch(*args, **kwargs)
 
+    def get_form(self, form_class):
+        kwargs = self.get_form_kwargs()
+        kwargs['initial'].update({'categories':1})
+        return form_class(**kwargs)
+
     def form_valid(self, form):
+        
         form.instance = Tag.create(form.instance.name, form.instance.categories, form.instance.icon, self.request.user)
+        if self.kwargs['parent_name']!='':
+            parent = Tag.objects.get(name = self.kwargs['parent_name'])
+            form.instance.parent = parent
+            form.save()
         return super(TagCreate, self).form_valid(form)
     
     def get_context_data(self, **kwargs):

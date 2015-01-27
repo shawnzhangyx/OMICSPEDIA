@@ -10,14 +10,14 @@
 <h2> {% show_tag_ancestor tag %} {{ tag.name }} <small> {% if tag.wiki_page.software %}&lt;<a title="go to software page" href="{% url 'software:software-detail' tag.wiki_page.software.name %}">software</a>&gt; {% endif %}
 </small> 
   
-    {% if perms.tags.delete_tag %}
+{% if perms.tags.eidt_tag and tag.status == 0 %}
 <a class="btn btn-xs btn-default" href="{% url 'tags:tag-edit' tag.name %}">Edit</a>
+{% endif %}
+{% if perms.tags.delete_tag %}
 <a class="btn btn-xs btn-default" href = "{% url 'tags:tag-delete' name=tag.name %}">Delete? </a>
 {% endif %}
-{% if tag.get_category_display == "workflow"%}
 
-<a class="btn btn-xs btn-primary"  href="{% url 'tags:tag-create' parent_name=tag.name %}"> Create new tag under this tag?</a>
-{% endif %}
+
 </h2>
 <hr>
 <div class="vote-box pull-left">
@@ -32,6 +32,16 @@
  <a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}">&nbsp;[tag wiki]</a> 
   {% endif %}
 
+  <br><br><br><br><hr>
+{% if tag.get_categories_display == "workflow"%}
+<h4> children tags in &lt;{{tag.name}}&gt;: </h4>
+{% for tag in tag.children.all %}
+  {% display_tag tag %}
+{% empty %}
+None
+{% endfor %}
+<a class="btn btn-sm btn-default"  href="{% url 'tags:tag-create' parent_name=tag.name %}"> Create new tag under this tag?</a>
+{% endif %}
 <br><br><br><br>
   <ul class="nav nav-tabs">
     <li {% ifequal tab "Summary" %} class="active" {% endifequal %}

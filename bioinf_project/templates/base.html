@@ -113,7 +113,7 @@
             <li><a href= "{% url 'wiki:wiki-index' %}" > Wiki </a> </li>
             {% endblock sidebar-wiki %}
             {% block sidebar-software %}
-            <li><a href= "{% url 'software:software-index' %}" > Software </a> </li>
+            <li><a href= "{% url 'software:software-index' 'root'%}" > Software </a> </li>
             {% endblock sidebar-software %}
             {% block sidebar-tag %}
             <li><a href= "{% url 'tags:tag-index' %}" > Tag </a> </li>

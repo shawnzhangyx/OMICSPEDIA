@@ -1,0 +1,56 @@
+{% extends 'posts/post_base.html' %}
+{% load crispy_forms_tags %}
+{% load util_custom_tags %}
+{% load staticfiles %}
+
+{% block head %}
+        <link rel="stylesheet" type="text/css" href="{% static 'lib/pagedown/demo.css'%}" />
+        <script type="text/javascript" src="{% static 'lib/pagedown/Markdown.Converter.js' %}"></script>
+        <script type="text/javascript" src="{% static 'lib/pagedown/Markdown.Sanitizer.js' %}"></script>
+        <script type="text/javascript" src="{% static 'lib/pagedown/Markdown.Editor.js' %}"></script>
+{% endblock head %}
+
+{% block content %}
+{% if user.exceed_new_post_limit %}
+<br>
+<div class="alert alert-warning">Sorry, you have exceeded your daily maximum number of posts. 
+    <a href=" {% url 'posts:post-index' %}"> Go back?</a>
+</div>
+{% else %}
+<div class="row">
+<form role="form" class="col-xs-8 col-xs-offset-1" action = "" method="post"> 
+
+{% crispy form %}
+</form>
+<div class="col-xs-3 image-widget">
+{% display_image_widget object user request.path%}
+</div>
+</div>
+{% endif %}
+<div id="preview-mkd-text"class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+{% include "utils/preview_markdown.html" with mkd_content=mkd_content %}
+</div>
+
+<script type="text/javascript">
+            (function () {
+                var converter1 = Markdown.getSanitizingConverter();
+                
+                converter1.hooks.chain("preBlockGamut", function (text, rbg) {
+                    return text.replace(/^ {0,3}""" *\n((?:.*?\n)+?) {0,3}""" *$/gm, function (whole, inner) {
+                        return "<blockquote>" + rbg(inner) + "</blockquote>\n";
+                    });
+                });
+                
+                var editor1 = new Markdown.Editor(converter1);
+                
+                editor1.run();
+                })();
+               </script>
+               
+{% endblock content %}
+
+{% block jquery %}
+<script src="{% static 'jquery/preview_markdown.js' %}"> </script>
+<script src="{% static 'jquery/post.js' %}"> </script>
+
+{% endblock jquery %}
