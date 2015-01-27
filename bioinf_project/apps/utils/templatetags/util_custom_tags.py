@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from django.utils.timesince import timesince
 from utils import diff_match_patch
 
-from utils.models import Vote, Bookmark
+from utils.models import Vote, Bookmark, ImageAttachment
 register = template.Library()
 
 # Show the vote number and provide
@@ -92,3 +92,12 @@ def age(value):
     if difference <= timedelta(minutes=1):
         return 'just now'
     return '%(time)s ago' % {'time': timesince(value).split(', ')[0]}
+
+@register.inclusion_tag("utils/templatetags/image_widget.html")
+def display_image_widget(obj, user, path):
+    obj_type = ContentType.objects.get_for_model(obj)
+    images = ImageAttachment.objects.filter(content_type__pk=obj_type.id,
+            object_id=obj.id)
+           
+    return {"images":images, "user":user, "type_id":obj_type.id, "obj_id":obj.id, "path":path}
+    

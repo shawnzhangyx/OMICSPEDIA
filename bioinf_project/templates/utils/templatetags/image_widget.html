@@ -1,0 +1,29 @@
+<h4> Available images:</h4>
+<table class='table'>
+{% for image in images %}
+    <tr> <td> image{{forloop.counter}}</td>
+    <td > <a target="_blank" href="{{image.image.url}}">view </a> </td> 
+    <td> link</td> 
+    </tr>
+    {% endfor %}
+    </table>
+<hr>
+<h4> Upload new image:</h4>
+<form role="form" enctype="multipart/form-data" action="{%url 'image-upload' %}?next={{path}}" method="post"> 
+{% csrf_token %}
+<div class="controls">
+<select style="display:none;" id="id_uploader" name="uploader">
+<option value="{{user.pk}}" selected="selected">{{user.email}}</option>
+</select>
+<select style="display:none;" id="id_content_type" name="content_type">
+<option value="{{type_id}}" selected="selected">{{type_id}}</option>
+</select>
+<input style="display:none;" name="object_id" type="number" value="{{obj_id}}">
+
+<input class="clearablefileinput" id="id_image" name="image" type="file">
+<br>
+<button class="btn btn-xs btn-default">Upload</button>
+
+</div>
+</form>
+

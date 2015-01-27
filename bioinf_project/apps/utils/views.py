@@ -9,7 +9,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from .models import Comment, Vote, Rate, Bookmark
+from .models import Comment, Vote, Rate, Bookmark, ImageAttachment
 from wiki.models import Page
 from posts.models import MainPost, ReplyPost
 from meta.models import Report
@@ -19,7 +19,7 @@ class CommentNew(CreateView):
     template_name = "utils/comment_new.html"
     model = Comment
     fields = ['content']
-
+    
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(CommentNew, self).dispatch(*args, **kwargs)
@@ -157,3 +157,19 @@ def preview_markdown(request):
     return render_to_response('utils/preview_markdown.html', {'mkd_content': mkd_content}, context)
 
 
+class ImageUploadView(CreateView):
+    model = ImageAttachment
+    template_name = "utils/image_new.html"
+    fileds = []
+    
+    def form_valid(self, form):
+       # obj_type = ContentType.objects.get(pk=int(self.request.POST.get('type_id')))
+       # obj_id = int(self.request.POST.get('obj_id'))
+       # form.instance.content_type = obj_type
+       # form.instance.object_id = obj_id
+       # form.instance.uploader = self.request.user
+       # form.instance.save()
+        return super(ImageUploadView, self).form_valid(form)
+    
+    def get_success_url(self):  
+        return self.request.GET.get('next')

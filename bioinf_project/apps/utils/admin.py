@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Comment, Vote, View, Rate, Bookmark
+from .models import Comment, Vote, View, Rate, Bookmark, ImageAttachment
 # Register your models here.
-admin.site.register((Comment,Vote, View, Rate, Bookmark))
+admin.site.register((Comment,Vote, View, Rate, Bookmark, ImageAttachment))
 
