@@ -113,8 +113,24 @@ class Tag(models.Model):
 
         if action == 'pre_clear':
             Tag.change_tag_software_count_recursive(tags, -1)
-
-            
+    
+    def reset_tag_software_recursive(self):
+        if self.children.count() < 1:
+            self.tool_count = self.pages.filter(software__isnull = False).count()      
+        else:
+            count = 0
+            for tag in self.children.all():
+                count += tag.reset_tag_software_recursive()
+            self.tool_count = count
+        self.save()   
+        return self.tool_count
+        
+    @staticmethod
+    def reset_tag_software_counts():
+        tags = Tag.objects.filter(categories=1, parent__isnull=True)
+        for tag in tags:
+            tag.reset_tag_software_recursive()
+        
     @staticmethod
     def reset_tag_counts():
         for tag in Tag.objects.all():
