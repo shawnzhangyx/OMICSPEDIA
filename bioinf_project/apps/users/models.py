@@ -160,9 +160,10 @@ class UserProfile(models.Model):
         obj_id = instance.object_id
         obj = content_type.get_object_for_this_type(pk=obj_id)
         choice = instance.choice
-        user_profile = obj.author.user_profile
-        user_profile.reputation += choice
-        user_profile.save()
+        if hasattr(obj, 'author'): 
+            user_profile = obj.author.user_profile
+            user_profile.reputation += choice
+            user_profile.save()
     
     @staticmethod
     def reputation_rollback_from_vote(sender, instance, **kwargs):
@@ -170,9 +171,10 @@ class UserProfile(models.Model):
         obj_id = instance.object_id
         obj = content_type.get_object_for_this_type(pk=obj_id)
         choice = instance.choice
-        user_profile = obj.author.user_profile
-        user_profile.reputation -= choice
-        user_profile.save()    
+        if hasattr(obj, 'author'): 
+            user_profile = obj.author.user_profile
+            user_profile.reputation -= choice
+            user_profile.save()    
         
     def get_absolute_url(self):
         return reverse("users:profile-view", kwargs={'pk':self.pk})

@@ -38,6 +38,9 @@ class Tool(models.Model):
     tool_votes = GenericRelation("utils.Vote")
     tool_comment = GenericRelation("utils.Comment")
     
+    vote_count = models.IntegerField(default=0)
+    bug_count = models.IntegerField(default=0)
+    
     # status
     PUBLIC, PROTECTED, FREEZED = range(3)
     STATUS_CHOICE = [(PUBLIC,'open to public'), (PROTECTED,'protected'), (FREEZED,'freezed')]

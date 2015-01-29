@@ -22,6 +22,16 @@
  {% display_workflow_tab tag %}</li>
  {% endfor %}
 </div>
+{% if tag %}
+  <ul class="nav nav-tabs">
+    <li {% ifequal tab 'Votes' %} class="active" {% endifequal %} >
+       <a href="?tab=Votes" > highest votes </a>
+    </li>
+    <li {% ifequal tab 'Bugs' %} class="active" {% endifequal %} >
+       <a href="?tab=Bugs" > least bugs </a> </li>
+  </ul>
+{% endif %}
+
 <div >
 {% if software_list %}
 {% for software in software_list %}
@@ -35,4 +45,22 @@
     <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
 </div>
+ {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a class='btn btn-xs btn-default' href="{% url 'software:software-index' tag.name%}?tab={{tab}}&page={{ page_obj.previous_page_number }}">Prev</a>
+                {% endif %}
+                <span class="page-current">
+                    Page <b>{{ page_obj.number }}</b> of <b>{{ page_obj.paginator.num_pages }}</b>.
+                </span>
+                {% if page_obj.has_next %}
+                    <a class='btn btn-xs btn-default' href="{% url 'software:software-index' tag.name%}?tab={{tab}}&page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+                <form action="" class="pagination-form" method="get">  <input type="text" size="1" name="page" placeholder="1"> <input style="display:none" type="text" size="1" name="tab" value="{{tab}}"> <input type="submit" class="btn btn-default btn-xs" value="Go">
+                </form>
+            </span>
+        </div>
+    {% endif %}
+
 {% endblock content %}

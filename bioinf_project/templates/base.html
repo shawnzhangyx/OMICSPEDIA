@@ -88,7 +88,7 @@
             </li>
           </ul>
 
-          <form class="navbar-form navbar-right" action="{% url 'search' %}" method="get" role="search">
+          <form class="navbar-form" action="{% url 'search' %}" method="get" role="search">
             <select class="form-control input-sm" name = "search_field">
                 <option value ="All"> All </option>
                 <option value ="Wiki"> Wiki </option>
@@ -113,7 +113,7 @@
             <li><a href= "{% url 'wiki:wiki-index' %}" > Wiki </a> </li>
             {% endblock sidebar-wiki %}
             {% block sidebar-software %}
-            <li><a href= "{% url 'software:software-index' 'root'%}" > Software </a> </li>
+            <li><a href= "{% url 'software:software-index' 'root'%}?sort=Votes" > Software </a> </li>
             {% endblock sidebar-software %}
             {% block sidebar-tag %}
             <li><a href= "{% url 'tags:tag-index' %}" > Tag </a> </li>

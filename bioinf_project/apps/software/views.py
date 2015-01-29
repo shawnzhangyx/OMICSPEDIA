@@ -15,15 +15,21 @@ class IndexView(ListView):
     model = Tool
     template_name = 'software/index.html'
     context_object_name = "software_list"
-    
+    paginate_by = 1
+
     def get_queryset(self):
+        tab = self.request.GET.get('tab')
         if self.kwargs['tag'] !='root':
             tag = Tag.objects.get(name=self.kwargs['tag'])
-            return Tool.objects.filter(page__tags__in = [tag])
+            if tab == "Votes":
+                return Tool.objects.filter(page__tags__in = [tag]).order_by('-vote_count')
+            elif tab == "Bugs":
+                return Tool.objects.filter(page__tags__in = [tag]).order_by('-bug_count')
+
         else:
             return 
     def get_context_data(self, **kwargs):
-        context = super(IndexView,self).get_context_data(**kwargs)
+        context = super(IndexView,self).get_context_data(**kwargs)    
         if self.kwargs['tag'] =='root':
             tags = Tag.objects.filter(categories=1, parent__isnull=True)
         else: 
@@ -32,7 +38,7 @@ class IndexView(ListView):
             context['parent'] = parent
         context['tag_list'] = tags
         context['software_count'] = Tool.objects.all().count()
-        
+        context['tab'] = self.request.GET.get('tab')
         return context
     
 class SoftwareListView(ListView):
