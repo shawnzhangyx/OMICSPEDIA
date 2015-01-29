@@ -1,0 +1,6 @@
+ {% load staticfiles %}
+<div class="workflow-tab">
+    <img src="{%if tag.icon %} {{tag.icon.url}} {% else %} {% static 'images/tool.png'%} {% endif %}">
+
+    <span class="workflow-tab-title"> <a  href="{% url 'software:software-index' tag.name %}"> {{tag.name}} </a>  ({{tag.tool_count}})</span>
+</div>

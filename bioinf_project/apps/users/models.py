@@ -118,6 +118,9 @@ class User(AbstractBaseUser,PermissionsMixin):
         else: 
             return False        
         
+def generate_image_path(instance, filename):
+    return '/'.join(['user_portrait','user-'+str(instance.pk), filename])
+        
 class UserProfile(models.Model):
     # user profile information. 
     user = models.OneToOneField("User", related_name="user_profile")
@@ -125,7 +128,7 @@ class UserProfile(models.Model):
     location = models.CharField(verbose_name="location", max_length=255, blank=True)
     website = models.URLField(blank=True)
     biography = models.TextField(blank=True)
-    portrait = models.ImageField(upload_to="user_photo", null=True, blank=True)
+    portrait = models.ImageField(upload_to=generate_image_path, null=True, blank=True)
     reputation = models.IntegerField(default=1)
     following = models.ManyToManyField('UserProfile',blank=True, related_name = "followers")
     watched_tags = models.ManyToManyField(Tag, blank=True, related_name = "user")

@@ -24,6 +24,9 @@ class TagManager(models.Manager):
 #            cat.url = encode_url(tag.name)
         return tag_list
 
+def generate_image_path(instance, filename):
+    return '/'.join(['tags',instance.name])
+        
 class Tag(models.Model):
 
     #custom manager
@@ -31,7 +34,7 @@ class Tag(models.Model):
 
     #---- fields ----#
     name = models.CharField(max_length=255, unique=True)
-    icon = models.ImageField(upload_to='tags',null=True,blank=True)
+    icon = models.ImageField(upload_to=generate_image_path,null=True,blank=True)
     wiki_page = models.OneToOneField("wiki.Page", related_name='wiki_tag')
     # record the times this tag is used in posts
     count = models.IntegerField(default=0)

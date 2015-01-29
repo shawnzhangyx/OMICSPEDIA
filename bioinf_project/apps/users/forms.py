@@ -5,6 +5,7 @@ from .models import User, UserProfile
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Fieldset, Div, Submit, ButtonHolder, HTML
 from django.core.exceptions import ValidationError
+from django.core.files.images import get_image_dimensions
 
 # Create your forms here.
 
@@ -15,6 +16,8 @@ def validate_email(email):
     else:
         raise ValidationError( user.email+" has been already been registered.")
 
+    
+        
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
@@ -46,12 +49,19 @@ class UserCreationForm(forms.ModelForm):
         return user
 
         
+def validate_portrait(image):
+    w, h = get_image_dimensions(image)
+    if w > 400 or h > 400: 
+        raise ValidationError("the uploaded image must be smaller than 400px in width or height. Your image: width: %d; height: %d"% (w,h))
+    elif (float(w)/h < 0.95 or float(w)/h >1.05): 
+        raise ValidationError("Please make sure the height and width are approximately same (5 percent difference), otherwise the image will be distorted. Your image: width: %d; height: %d"% (w,h))
+        
 class ProfileForm(forms.ModelForm):
     name = forms.CharField(required=False)
     location = forms.CharField(required=False)
     website = forms.URLField(required=False)
     biography = forms.CharField(widget=forms.Textarea, required=False)
-    portrait = forms.ImageField(required=False)
+    portrait = forms.ImageField(required=False, validators=[validate_portrait], help_text="400px*400px")
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)

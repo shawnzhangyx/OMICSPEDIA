@@ -3,16 +3,22 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Fieldset, Div, Submit, ButtonHolder, HTML, Column
 from django.core.exceptions import ValidationError
+from django.core.files.images import get_image_dimensions
 
 from .models import Tool
 from wiki.models import Page
 #from tags.models import Tag
 
+def validate_image(image):
+    w, h = get_image_dimensions(image)
+    if w > 400 or h > 400: 
+        raise ValidationError("the uploaded image must be smaller than 400px in width or height. Your image: width: %d; height: %d"% (w,h))
+        
 class ToolForm(forms.ModelForm):
     name = forms.CharField(required=True)
     page = forms.ModelChoiceField(label="page", queryset=Page.objects.all())
     # select tags that are software. 
-    image = forms.ImageField(required=False)
+    image = forms.ImageField(required=False, validators=[validate_image],help_text="400px*400px MAX")
     url = forms.URLField(required=False)
     language = forms.CharField(required=False)
     OS = forms.CharField(required=False)

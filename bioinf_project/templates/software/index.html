@@ -1,6 +1,6 @@
 {% extends 'software/software_base.html' %}
-
 {% load software_custom_tags %}
+{% load tag_custom_tags %}
 {% block content %}
 <h1> Software <small title="{{software_count}} submitted"> x{{software_count}} <a href="{% url 'software:software-list'%}">&lt;view all&gt;</a> </small></h1>
 
@@ -9,20 +9,18 @@
 {% else %}
 <a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"> log in </a> to submit new software. 
 {% endif %}
-<h3>Browser by workflows: {{parent.name}} 
+<h3>Browser by workflows: {% if parent %} [{{parent.name}}] {% endif %}
 {% ifnotequal parent null %}<small>
  {% ifequal parent.parent null %} <a href="{% url 'software:software-index' 'root' %}">
  {% else %}
-<a href="{% url 'software:software-index' parent.parent.name %}"> {% endifequal %} up one level</a></small>{% endifnotequal %}
+<a href="{% url 'software:software-index' parent.parent.name %}"> {% endifequal %} &lt;up one level&gt;</a></small>{% endifnotequal %}
 </h3>
 <hr>
 <div>
 
-<ul class="list-inline list-unstyled">
 {% for tag in tag_list %}
-<li><a href="{% url 'software:software-index' tag.name %}"> {{tag.name}} </a> x{{tag.tool_count}}</li>
+ {% display_workflow_tab tag %}</li>
  {% endfor %}
- </ul>
 </div>
 <div >
 {% if software_list %}

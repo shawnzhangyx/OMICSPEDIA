@@ -45,3 +45,7 @@ def tag_answers_for_user(usertag):
 @register.inclusion_tag("tags/templatetags/user_answers_for_tag.html")
 def user_answers_for_tag(usertag):
     return {'tag':usertag.tag, 'user':usertag.user,'count':usertag.answer_count}
+    
+@register.inclusion_tag("tags/templatetags/workflow_tab.html")
+def display_workflow_tab(tag):
+    return {'tag':tag}

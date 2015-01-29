@@ -131,14 +131,20 @@ margin-left: 10px;
 color: #4a6b82;
 cursor:pointer;
 font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif;
-padding: 1px 4px 1px 4px;
+padding:  2px 4px 1px 4px;
 background-color: #e0eaf1;
 margin: 5px 2px 5px 0;
 line-height: 1.4;
 white-space: nowrap;
 display: inline-block;
 border: 1px solid #c4dae9;
-min-height:24px;
+min-height:28px;
+font-size: 14px;
+vertical-align: middle;
+}
+.tags > img {
+height: 24px;
+width: 24px;
 }
 
 .tags-software {
@@ -175,6 +181,25 @@ color: #993300;
 padding: 2px 5px;
 text-align: center;
 margin: 0 10px;
+}
+
+.workflow-tab {
+display: inline-block;
+margin:  5px 10px;
+padding-right: 5px;
+background-color: #EEEEEE;
+box-shadow: 3px 3px 5px #888888;
+
+}
+.workflow-tab > img {
+height: 40px;
+width: 40px;
+}
+.workflow-tab-title,
+.workflow-tab-title> a
+{
+font-size: 18px;
+vertical-align: top;
 }
 /************* wiki ***************/
 
