@@ -18,11 +18,37 @@ import json
 # Create your views here.
 
 
-class IndexView(ListView):
-    model = Page
+class IndexView(TemplateView):
     template_name = "wiki/index.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        SLICE = 5
+        all = Page.objects.all()
+        bookmarked = all.order_by('-bookmark_count')[:SLICE]
+        viewed = all.order_by('-view_count')[:SLICE]
+        commented = all.filter(comment_count__gt = 0).order_by('-comment_count')[:SLICE]
+        context['bookmark'] = bookmarked
+        context['view'] = viewed
+        context['comment'] = commented
+        return context
+        
+class WikiListView(ListView):
+    #model = Page
+    template_name = "wiki/wiki_list.html"
     context_object_name = "wiki_list"
-
+    paginate_by = 40
+    
+    def get_queryset(self): 
+        tab = self.request.GET.get('tab') or 'Bookmark'
+        dict = {'Bookmark':'-bookmark_count', 'View':'-view_count', 'Comment':'-comment_count'}
+        return Page.objects.all().order_by(dict[tab])
+    
+    def get_context_data(self, **kwargs):
+        context = super(WikiListView, self).get_context_data(**kwargs)
+        context['tab'] = self.request.GET.get('tab') or 'Bookmark'
+        return context
+    
 class WikiNew(CreateView):
     template_name = "wiki/wiki_new.html"
     form_class = PageForm

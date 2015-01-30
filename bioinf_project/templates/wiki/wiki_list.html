@@ -1,0 +1,53 @@
+{% extends 'wiki/wiki_base.html' %}
+{% load wiki_custom_tags %}
+{% block content %}
+<h1> OMICS wiki <small> x{{wiki_list.count}} <a href="{% url 'wiki:wiki-index' %}">browse by categories</a></small> </h1>
+{% if user.is_authenticated %}
+<h3> <a class="btn btn-default" href = "{% url 'wiki:wiki-new' %}"> Create new wiki </a> </h3>
+{% else %}
+<a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"> log in </a> to create new wiki. 
+{% endif %}
+
+<hr>
+  <ul class="nav nav-tabs">
+    <li {% ifequal tab 'Bookmark' %} class="active" {% endifequal %} >
+       <a href="?tab=Bookmark" > Bookmark </a> </li>
+    <li {% ifequal tab 'View' %} class="active" {% endifequal %} >
+       <a href="?tab=View" > View </a> </li>
+    <li {% ifequal tab 'Comment' %} class="active" {% endifequal %}> 
+      <a href="?tab=Comment"> Comment </a> </li>
+  </ul>
+<div class="row">
+{% if wiki_list %}
+<ul class="col-sm-6 list-unstyled">
+{% for wiki in wiki_list|slice:':20' %}
+<li>{% show_wiki_tab wiki %} </li>
+{% endfor %}
+</ul>
+<ul class="col-sm-6 list-unstyled">
+{% for wiki in wiki_list|slice:'20:40' %}
+<li>{% show_wiki_tab wiki %}</li>
+{% endfor %}
+</ul>
+{% endif %}
+</div>
+
+ {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a class='btn btn-xs btn-default' href="{% url 'wiki:wiki-index' %}?tab={{tab}}&page={{ page_obj.previous_page_number }}">Prev</a>
+                {% endif %}
+                <span class="page-current">
+                    Page <b>{{ page_obj.number }}</b> of <b>{{ page_obj.paginator.num_pages }}</b>.
+                </span>
+                {% if page_obj.has_next %}
+                    <a class='btn btn-xs btn-default' href="{% url 'wiki:wiki-index' %}?tab={{tab}}&page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+                <form action="" class="pagination-form" method="get">  <input type="text" size="1" name="page" placeholder="1"> <input style="display:none" type="text" size="1" name="tab" value="{{tab}}"> <input type="submit" class="btn btn-default btn-xs" value="Go">
+                </form>
+            </span>
+        </div>
+    {% endif %}
+    
+{% endblock content %}

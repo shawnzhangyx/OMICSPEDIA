@@ -15,36 +15,38 @@ class IndexView(ListView):
     model = Tool
     template_name = 'software/index.html'
     context_object_name = "software_list"
-    paginate_by = 1
+    paginate_by = 20
 
     def get_queryset(self):
         tab = self.request.GET.get('tab')
         if self.kwargs['tag'] !='root':
             tag = Tag.objects.get(name=self.kwargs['tag'])
-            if tab == "Votes":
+            if tab == "Votes" or not tab:
                 return Tool.objects.filter(page__tags__in = [tag]).order_by('-vote_count')
             elif tab == "Bugs":
                 return Tool.objects.filter(page__tags__in = [tag]).order_by('-bug_count')
-
         else:
-            return 
+            return Tool.objects.none()
+            
     def get_context_data(self, **kwargs):
         context = super(IndexView,self).get_context_data(**kwargs)    
         if self.kwargs['tag'] =='root':
-            tags = Tag.objects.filter(categories=1, parent__isnull=True)
+            tags = Tag.objects.filter(categories=1, parent__isnull=True).order_by('-tool_count')
         else: 
             parent = Tag.objects.get(name=self.kwargs['tag'])
-            tags = parent.children.all()
+            tags = parent.children.all().order_by('-tool_count')
             context['parent'] = parent
         context['tag_list'] = tags
         context['software_count'] = Tool.objects.all().count()
-        context['tab'] = self.request.GET.get('tab')
+        context['tab'] = self.request.GET.get('tab') or 'Votes'
         return context
     
 class SoftwareListView(ListView):
     model = Tool
     template_name = "software/software_list.html"
     context_object_name = "software_list"
+    paginate_by = 20
+
     
 class SoftwareNew(CreateView):
     form_class = ToolNewForm

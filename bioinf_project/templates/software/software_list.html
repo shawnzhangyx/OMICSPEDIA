@@ -24,4 +24,23 @@
     <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
 </div>
+
+ {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a class='btn btn-xs btn-default' href="{% url 'software:software-list' %}?page={{ page_obj.previous_page_number }}">Prev</a>
+                {% endif %}
+                <span class="page-current">
+                    Page <b>{{ page_obj.number }}</b> of <b>{{ page_obj.paginator.num_pages }}</b>.
+                </span>
+                {% if page_obj.has_next %}
+                    <a class='btn btn-xs btn-default' href="{% url 'software:software-list' %}?page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+                <form action="" class="pagination-form" method="get">  <input type="text" size="1" name="page" placeholder="1"> <input type="submit" class="btn btn-default btn-xs" value="Go">
+                </form>
+            </span>
+        </div>
+    {% endif %}
+    
 {% endblock content %}

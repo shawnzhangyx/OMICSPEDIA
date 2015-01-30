@@ -87,6 +87,12 @@ class Page(models.Model):
             Page.objects.filter(id=wiki.id).update(view_count=F('view_count') + 1)
         return wiki
     
+    @staticmethod
+    def reset_comment_count():
+        for wiki in Page.objects.all():
+            wiki.comment_count = wiki.comments.all().count()
+            wiki.save()
+            
     def get_absolute_url(self):
         return reverse('wiki:wiki-detail', kwargs = {'title': self.get_title()})
 
