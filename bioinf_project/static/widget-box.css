@@ -12,8 +12,8 @@ border: solid 1px blue;
 .vote-box {
 width: 40px;
 vertical-align: top;
-
 }
+
 .vote-widget {
 display: block;
 }
@@ -62,6 +62,7 @@ display: block;
 .vote-up-widget {
 display: inline-block;
 }
+
 .vote-up-sm-on {
 background-image: url('images/vote-up-on.jpg');
 background-size: 100% auto;
@@ -276,17 +277,30 @@ border-bottom: 1px solid #aaa;
 }
 
 #wiki-content table {
-#margin-left: 30px;
+width:90%;
+margin: 0 auto;
+border: solid 2px black;
+text-align: right;
 }
-#wiki-content>table>th
+#wiki-content table tr th
 {
 border: solid 1px grey;
 padding: 2px 5px;
+
 }
-#wiki-content>table>td
+#wiki-content table tr td
 {
 border: solid 1px grey;
 padding: 2px 5px;
+border: solid 1px grey;
+}
+
+#wiki-content pre {
+border: none;
+padding: 0;
+}
+#wiki-content pre code {
+background-color: #eee;
 }
 /**** wiki comment tab ****/
 .wiki-comment-tab
@@ -312,17 +326,13 @@ border: solid 1px #BBBBBB;
 background-color: white;
 }
 
-.wiki-tab-warning img{
-height: 15px;
-width: 15px;
-position: relative;
-top: -3px;
-}
+
 
 .wiki-tab-title{
 font-size: 17px;
 color: grey;
 font-weight: bold;
+padding-left: 10px;
 }
 
 .wiki-tab-star {
@@ -341,10 +351,24 @@ background-repeat: no-repeat;
 background-position: -2px -2px;
 line-height: 20px;
 font-size: 13px;
+padding-left: 18px;}
+
+
+.wiki-tab-comment {
+background-image: url('images/exclamation.jpg');
+background-size: 14px 14px;
+background-repeat: no-repeat;
+line-height: 20px;
+font-size: 13px;
 padding-left: 18px;
-padding-right: 10px;
 }
 
+.wiki-tab-warning img{
+height: 15px;
+width: 15px;
+position: relative;
+top: -3px;
+}
 /********* software ********/
 
 .software-table td:first-child {

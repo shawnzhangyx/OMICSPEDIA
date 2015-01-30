@@ -46,7 +46,17 @@ class SoftwareListView(ListView):
     template_name = "software/software_list.html"
     context_object_name = "software_list"
     paginate_by = 20
-
+    
+    def get_queryset(self): 
+        tab = self.request.GET.get('tab') or 'Vote'
+        dict = {'Vote':'-vote_count',}
+        return Tool.objects.all().order_by(dict[tab])
+    
+    def get_context_data(self, **kwargs):
+        context = super(SoftwareListView, self).get_context_data(**kwargs)
+        context['tab'] = self.request.GET.get('tab') or 'Vote'
+        return context
+    
     
 class SoftwareNew(CreateView):
     form_class = ToolNewForm

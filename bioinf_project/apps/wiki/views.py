@@ -19,7 +19,7 @@ import json
 
 
 class IndexView(TemplateView):
-    template_name = "wiki/index.html"
+    template_name = "wiki/wiki_index.html"
     
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)

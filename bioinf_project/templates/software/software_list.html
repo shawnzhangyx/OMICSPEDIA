@@ -11,6 +11,10 @@
 <a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"> log in </a> to submit new software. 
 {% endif %}
 <hr>
+  <ul class="nav nav-tabs right-to-left">
+    <li {% ifequal tab 'Vote' %} class="active" {% endifequal %} >
+       <a href="?tab=Vote" > Vote </a> </li>
+  </ul>
 <div >
 {% if software_list %}
 {% for software in software_list %}

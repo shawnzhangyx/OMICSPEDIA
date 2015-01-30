@@ -7,9 +7,8 @@
     </span>
     <span class="wiki-tab-view" title="{{wiki.view_count}} people visited this page"> {{wiki.view_count}}</span>
     
-    <span> <a class='wiki-tab-title' href= "{% url 'wiki:wiki-detail' wiki.get_title %}" >{{ wiki.title }} </a>
-    </span>
-    {% if wiki.comments.count > 0 %} <span title="This wiki has some unresolved issues" class="wiki-tab-warning">
-    <img src="{% static 'images/exclamation.jpg' %}">
-</span> {% endif %}
+    <span> <a class='wiki-tab-title' href= "{% url 'wiki:wiki-detail' wiki.get_title %}" >{{ wiki.title }} </a> </span>
+
+{% if wiki.comments.count > 0 %} <span title="This wiki has some unresolved issues" class="wiki-tab-comment">{{wiki.comment_count}}</span> {% endif %}
+
 </div>
