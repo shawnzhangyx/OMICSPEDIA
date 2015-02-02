@@ -25,7 +25,7 @@ class TagManager(models.Manager):
         return tag_list
 
 def generate_image_path(instance, filename):
-    return '/'.join(['tags',instance.name])
+    return '/'.join(['tags',instance.name, filename])
         
 class Tag(models.Model):
 
