@@ -1,3 +1,4 @@
 *.pyc
 *.swp
 bioinf_project/sqlite.dat
+bioinf_project/media/*
