@@ -18,7 +18,7 @@
   </div>
   <div class="post-tab-detail">
     <div>
-      <h4> <a href= "{% url 'posts:post-detail' post.id %}" >{{ post.title }} </a> </h4>
+      <h4> &lt;{{post.get_type_display}}&gt; <a href= "{% url 'posts:post-detail' post.id %}" >{{ post.title }} </a> </h4>
       {{post.current_revision.content|truncatechars:150}}
     </div>
     <div>

@@ -93,6 +93,8 @@ class View(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
+    def __unicode__(self):
+        return u"%s, %s, %s" % (self.ip,  self.date.date(), self.content_object.title,)
 
 class Rate(models.Model):
     # rate for a post, wiki, tool, or tag, user. Or anything else you can think.
