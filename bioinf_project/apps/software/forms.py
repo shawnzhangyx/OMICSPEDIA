@@ -7,7 +7,7 @@ from django.core.files.images import get_image_dimensions
 
 from .models import Tool
 from wiki.models import Page
-#from tags.models import Tag
+from tags.models import Tag
 
 def validate_image(image):
     w, h = get_image_dimensions(image)
@@ -17,7 +17,7 @@ def validate_image(image):
 class ToolForm(forms.ModelForm):
     name = forms.CharField(required=True)
     page = forms.ModelChoiceField(label="page", queryset=Page.objects.all())
-    # select tags that are software. 
+    tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
     image = forms.ImageField(required=False, validators=[validate_image],help_text="400px*400px MAX")
     url = forms.URLField(required=False)
     language = forms.CharField(required=False)
@@ -37,7 +37,7 @@ class ToolForm(forms.ModelForm):
             HTML('<h3> Software and description</h3>'),
             Div('name', css_class="col-sm-6"),
             Div('url', css_class="col-sm-6"),
-            Div('image', css_class="col-sm-6"),
+            Div('tags', css_class="col-sm-12"),
   #          HTML('<h3 class="clearfix"> Environment</h3>'),
             Div('language', css_class="col-sm-6"),
             Div('OS', css_class="col-sm-6"),
@@ -48,7 +48,7 @@ class ToolForm(forms.ModelForm):
             Div('first_release_date', css_class="col-sm-6"),
             Div('latest_release_date', css_class="col-sm-6"),
             Div('page', css_class="col-sm-6"),
-
+            Div('image', css_class="col-sm-6"),
             ButtonHolder(
                 Submit('submit', 'Save')
             )
@@ -56,8 +56,9 @@ class ToolForm(forms.ModelForm):
 
     class Meta:
         model = Tool
-        #fields = ('name','page')
+        fields = ('name','page', 'image', 'url','language','OS','citation','author_name','author_affiliation', 'author_contacts', 'first_release_date', 'latest_release_date',)
         
+ToolForm.base_fields['tags'].help_text = 'Please specify workflow tags for the software'
 
         
 class ToolNewForm(forms.ModelForm):

@@ -6,9 +6,11 @@
 
 <table class="post-container">
   <tr> <td colspan='2' class="post-action">
-  {{report.created}}&nbsp;&nbsp;
+  {{report.created}}&nbsp;&nbsp; 
+  {% ifequal report.get_status_display 'open' %}
           <a href='{% url "meta:report-edit" report.id %}'>&lt;edit&gt;</a>
           <a href='#id_content'> &lt;comment&gt;</a>
+  {% endifequal %}
   </td></tr>
   <tr>
   <td class="vote-box">

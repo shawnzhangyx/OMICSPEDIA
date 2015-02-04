@@ -42,7 +42,7 @@
     </table>
     {% endif %}
 <!-- add reply -->
-{% if user.is_authenticated %}
+{% if user.is_authenticated %} {% ifequal report.get_status_display 'open' %}
 <h4> Add your comment: </h4>
 <form role="form" action='{% url "comment-new" comment_on="reports" pk=report.id %}' method="post">
 {% csrf_token %}
@@ -51,6 +51,7 @@
 <br>
 <input class="btn btn-default" type="submit" value="Post comment">
 </form>
+{% endifequal %}
 {% else %}
 please <a href = "{% url 'users:login' %}"> log in </a> to post a response 
 {% endif %}

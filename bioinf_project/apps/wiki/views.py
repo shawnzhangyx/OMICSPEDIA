@@ -65,7 +65,7 @@ class WikiNew(CreateView):
     
     def form_valid(self, form):
         form.save()
-        new_revision = PageRevision(content=self.request.POST['content'],
+        new_revision = PageRevision(content=form.cleaned_data['content'],
                        revision_summary='',
                        page=form.instance, author=self.request.user)
         new_revision.save()
@@ -96,8 +96,8 @@ class WikiEdit(UpdateView):
 
     def form_valid(self, form):
      
-        new_revision = PageRevision(content=self.request.POST['content'],
-                       revision_summary=self.request.POST['summary'],
+        new_revision = PageRevision(content=form.cleaned_data['content'],
+                       revision_summary=form.cleaned_data['summary'],
                        page=self.object, author = self.request.user)
         new_revision.save()
         self.object.current_revision=new_revision

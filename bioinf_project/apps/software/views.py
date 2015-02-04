@@ -4,7 +4,10 @@ from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.shortcuts import render
-#from .forms import WikiForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+# specific modules
 from .models import Tool
 from tags.models import Tag
 from .forms import ToolForm, ToolNewForm
@@ -62,6 +65,10 @@ class SoftwareNew(CreateView):
     form_class = ToolNewForm
     template_name = "software/software_edit.html"
         
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SoftwareNew, self).dispatch(*args, **kwargs)
+        
     def form_valid(self, form):
         form.instance = Tool.create(form.instance.name, self.request.user)
         return super(SoftwareNew, self).form_valid(form)
@@ -70,13 +77,28 @@ class SoftwareNew(CreateView):
         return reverse('software:software-edit', kwargs={'name':self.object.name})
     
 class SoftwareEditView(UpdateView):
-    #model = Tool
     form_class = ToolForm
     template_name = "software/software_edit.html"
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(SoftwareEditView, self).dispatch(*args, **kwargs)
+        
     def get_object(self):
         return Tool.objects.get(name=self.kwargs['name'])
-
+        
+    def get_form(self, form_class):
+        kwargs = self.get_form_kwargs()
+        tags = self.object.page.tags.all()
+        kwargs['initial'].update({'tags':tags})
+        return form_class(**kwargs)
+        
+    def form_valid(self, form):
+        self.object.page.tags  = form.cleaned_data['tags']
+        self.object.page.save()
+        return super(SoftwareEditView, self).form_valid(form)
+        
+    
 class SoftwareDetailView(DetailView):
     model = Tool
     template_name = "software/software_detail.html"

@@ -34,6 +34,9 @@ class Report(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,blank=False,null=False)
     created = models.DateTimeField()
     last_modified = models.DateTimeField()
+    OPEN, PROTECTED, CLOSED = range(3) 
+    STATUS_CHOICE = [(OPEN, "open"), (PROTECTED, "protected"), (CLOSED, "closed")]
+    status = models.IntegerField(choices=STATUS_CHOICE, default=OPEN)
 
     #---- functions ----#
     def save(self, *args, **kwargs):
@@ -59,7 +62,7 @@ class Report(models.Model):
         return reverse('meta:meta-index')
 
     @staticmethod
-    def update_report_views(report, request, minutes=60):
+    def update_report_views(report, request, hours=24):
         "Views are updated per user session"
 
         # Extract the IP number from the request.
@@ -71,7 +74,7 @@ class Report(models.Model):
         ip = ip1 or ip2 or '0.0.0.0'
 
         now = timezone.now()
-        since = now - timezone.timedelta(minutes=minutes)
+        since = now - timezone.timedelta(hours=hours)
 
         obj_type = ContentType.objects.get_for_model(report)
         obj_id =report.id

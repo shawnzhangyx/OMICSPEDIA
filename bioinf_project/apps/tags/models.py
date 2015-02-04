@@ -101,7 +101,7 @@ class Tag(models.Model):
     @staticmethod
     def update_tag_software_counts(sender, instance, action, pk_set, *args, **kwargs):
         "Applies tag software count updates upon software changes"
-        if not instance.software:
+        if not hasattr(instance, 'software'):
             return 
         if action == 'pre_clear':
             tags = instance.tags.all()
