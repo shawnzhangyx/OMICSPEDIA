@@ -95,13 +95,13 @@ class WikiEdit(UpdateView):
         return form_class(**kwargs)
 
     def form_valid(self, form):
-     
-        new_revision = PageRevision(content=form.cleaned_data['content'],
+        if form.cleaned_data['content'] != self.object.current_revision.content:
+            new_revision = PageRevision(content=form.cleaned_data['content'],
                        revision_summary=form.cleaned_data['summary'],
                        page=self.object, author = self.request.user)
-        new_revision.save()
-        self.object.current_revision=new_revision
-        self.object.save()
+            new_revision.save()
+            self.object.current_revision=new_revision
+            self.object.save()
         return super(WikiEdit, self).form_valid(form)
 
     def get_context_data(self, **kwargs):

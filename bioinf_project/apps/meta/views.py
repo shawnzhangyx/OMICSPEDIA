@@ -63,12 +63,13 @@ class ReportEdit(UpdateView):
         return form_class(**kwargs)
 
     def form_valid(self, form):
-        new_revision = ReportRevision(content=self.request.POST['content'],
+        if form.cleaned_data['content'] != self.object.current_revision.content:
+            new_revision = ReportRevision(content=self.request.POST['content'],
                        revision_summary=self.request.POST['summary'], report=self.object,
                        author=self.request.user)
-        new_revision.save()
-        self.object.current_revision=new_revision
-        self.object.save()
+            new_revision.save()
+            self.object.current_revision=new_revision
+            self.object.save()
         return super(ReportEdit, self).form_valid(form)
 
 

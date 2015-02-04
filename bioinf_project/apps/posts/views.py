@@ -88,12 +88,14 @@ class MainPostEdit(UpdateView):
         return form_class(**kwargs)
 
     def form_valid(self, form):
-        new_revision = MainPostRevision(content=self.request.POST['content'],
-                       revision_summary=self.request.POST['summary'], post=self.object,
+        # if the content is different from the last revision, will save new revision.
+        if form.cleaned_data['content'] != self.object.current_revision.content:
+            new_revision = MainPostRevision(content=form.cleaned_data['content'],
+                       revision_summary=form.cleaned_data['summary'], post=self.object,
                        author=self.request.user)
-        new_revision.save()
-        self.object.current_revision=new_revision
-        self.object.save()
+            new_revision.save()
+            self.object.current_revision=new_revision
+            self.object.save()
         return super(MainPostEdit, self).form_valid(form)
 
 
