@@ -20,13 +20,14 @@
     {% endif %}
   </div>
 <div>
-    {% display_tag_list tool.page.tags.all %} 
 </div>
 <!-- software information: -->
 {{tool.page.get_lead_section|safe}}
 
- <a title="software wiki" href= "{% url 'wiki:wiki-detail' tool.page.get_title %}"> [More...]</a>
-<br><br><br><br>
+ <div> <a title="software wiki" href= "{% url 'wiki:wiki-detail' tool.page.get_title %}"> [More wiki...]</a> </div>
+<div> tags: {% display_tag_list tool.page.tags.all %} </div>
+
+<br><br>
 <h3> Basic Info</h3>
 <div class="row">
   <div class="col-xs-12 col-sm-4 thumbnail pull-right">

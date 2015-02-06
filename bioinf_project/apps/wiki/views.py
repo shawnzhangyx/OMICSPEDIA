@@ -31,6 +31,7 @@ class IndexView(TemplateView):
         context['bookmark'] = bookmarked
         context['view'] = viewed
         context['comment'] = commented
+        context['page_total'] = all.count()
         return context
         
 class WikiListView(ListView):
