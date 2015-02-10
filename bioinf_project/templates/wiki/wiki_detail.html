@@ -22,12 +22,12 @@
     {% show_wiki_comment_warning page.comments.all %}
     </div>
   {% endif %}
-    <h1 class="wiki-title" title={{page.title}}>{{page.title}} {% if page.software %} <small>&lt;<a title="this is a software" href="{% url 'software:software-detail' page.software.name %}">software</a>&gt;</small>{% endif %} 
+    <h1 class="wiki-title" title='{{page.title}}'>{{page.title}} {% if page.software %} <small>&lt;<a title="this is a software" href="{% url 'software:software-detail' page.software.name %}">software</a>&gt;</small>{% endif %} 
     {% if page.wiki_tag %} <small>&lt;<a title="this is also a tag" href="{% url 'tags:tag-detail' page.wiki_tag.name %}?tab=Summary">tag</a>&gt;</small>{% endif %}
         </h1>
     </div>
 
-<div class="vote-box pull-left">
+<div class="vote-box pull-right">
     {% display_bookmark_widget page user %}
 </div>
 

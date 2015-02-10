@@ -117,11 +117,11 @@ class WikiEdit(UpdateView):
 
 @login_required
 def wiki_section_edit(request, **kwargs):
-    header = request.GET['header']
+    header = request.GET.get('header')
     section = request.GET['name']
     section = re.escape(section)
     # Find the associate wiki and its most current content. 
-    page = Page.objects.get(title=kwargs['title'])
+    page = Page.objects.get(title=kwargs['title'].replace('_', ' '))
 
     if request.method == "GET":
         page_content = page.current_revision.content
@@ -158,7 +158,7 @@ class WikiDetails(DetailView):
         try: Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
         except Page.DoesNotExist:
             #return HttpResponseRedirect(reverse("wiki:wiki-new"))
-            return render(self.request, 'wiki/wiki_not_found.html',{'title':self.kwargs['title']})
+            return render(self.request, 'wiki/wiki_not_found.html',{'title':self.kwargs['title'].replace('_',' ')})
         else:
             return super(WikiDetails, self).dispatch(*args, **kwargs)
 
