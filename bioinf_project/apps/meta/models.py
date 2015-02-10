@@ -71,7 +71,7 @@ class Report(models.Model):
         # 'localhost' is not a valid ip address.
         ip1 = '' if ip1.lower() == 'localhost' else ip1
         ip2 = '' if ip2.lower() == 'localhost' else ip2
-        ip = ip1 or ip2 or '0.0.0.0'
+        ip = ip2 or ip1 or '0.0.0.0'
 
         now = timezone.now()
         since = now - timezone.timedelta(hours=hours)

@@ -72,14 +72,13 @@ class Page(models.Model):
         # 'localhost' is not a valid ip address.
         ip1 = '' if ip1.lower() == 'localhost' else ip1
         ip2 = '' if ip2.lower() == 'localhost' else ip2
-        ip = ip1 or ip2 or '0.0.0.0'
+        ip = ip2 or ip1 or '0.0.0.0'
 
         now = timezone.now()
         since = now - timezone.timedelta(hours=hours)
 
         obj_type = ContentType.objects.get_for_model(wiki)
         obj_id =wiki.id
-
         # One view per time interval from each IP address.
         if not wiki.wiki_views.filter(ip=ip, date__gt=since):
             new_view = View(ip=ip, content_object=wiki, date=now)
