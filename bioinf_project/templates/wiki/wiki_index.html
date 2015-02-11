@@ -34,6 +34,14 @@
     {% endfor %}
     </ul>
    </div>
+<div class="section-tab col-sm-6">
+    <h3> <a href="{% url 'wiki:wiki-revision-list'%}">Recent changes</a></h3>
+    <ul class="list-unstyled">
+    {% for revision in update %}
+        <li>{% show_wiki_revision_tab revision %}</li>
+    {% endfor %}
+    </ul>
+   </div>
 </div>
 
     

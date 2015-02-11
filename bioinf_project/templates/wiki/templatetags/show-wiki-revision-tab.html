@@ -1,0 +1,18 @@
+        <small>{{ revision.modified_date }}</small>
+
+<a href="{% url 'users:profile-view' revision.author.user_profile.id %}"> 
+    {{revision.author.user_profile.name}} </a>
+    {% ifequal revision.revision_number 1 %} created {%else%} edited {% endifequal %} 
+    <a href=""><b>{{revision.page.title}} </b></a>
+
+    (
+    {% if revision.added_chars > 0 %}
+    <span class="ins">+{{revision.added_chars}}</span> 
+    	{% if revision.deleted_chars > 0 %}
+    		/
+    	{% endif %}
+    {% endif %}
+    {% if revision.deleted_chars > 0 %}
+    <span class="del">-{{revision.deleted_chars}}</span>
+    {% endif %}
+    )

@@ -28,9 +28,11 @@ class IndexView(TemplateView):
         bookmarked = all.order_by('-bookmark_count')[:SLICE]
         viewed = all.order_by('-view_count')[:SLICE]
         commented = all.filter(comment_count__gt = 0).order_by('-comment_count')[:SLICE]
+        update = PageRevision.objects.order_by('-modified_date')[:SLICE]
         context['bookmark'] = bookmarked
         context['view'] = viewed
         context['comment'] = commented
+        context['update'] = update
         context['page_total'] = all.count()
         return context
         
@@ -49,6 +51,14 @@ class WikiListView(ListView):
         context = super(WikiListView, self).get_context_data(**kwargs)
         context['tab'] = self.request.GET.get('tab') or 'Bookmark'
         return context
+    
+class PageRevisionListView(ListView):
+    template_name = "wiki/wiki_revision_list.html"
+    context_object_name = "revision_list"
+    paginate_by = 50
+    
+    def get_queryset(self):
+        return PageRevision.objects.order_by('-modified_date')
     
 class WikiNew(CreateView):
     template_name = "wiki/wiki_new.html"

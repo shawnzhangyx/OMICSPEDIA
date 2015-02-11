@@ -39,3 +39,7 @@ def show_wiki_comment_warning(comments):
         warning_list.append(dict[issue])
    
     return {'warnings':warning_list}
+    
+@register.inclusion_tag("wiki/templatetags/show-wiki-revision-tab.html")
+def show_wiki_revision_tab(revision):
+    return {'revision':revision}
