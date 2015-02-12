@@ -1,11 +1,12 @@
 {% extends 'wiki/wiki_base.html' %}
 {% load wiki_custom_tags %}
+{% load staticfiles %}
 {% block content %}
 <h1> OMICS wiki <small> x{{wiki_list.count}} <a href="{% url 'wiki:wiki-index' %}">browse by categories</a></small> </h1>
 {% if user.is_authenticated %}
 <h3> <a class="btn btn-default" href = "{% url 'wiki:wiki-new' %}"> Create new wiki </a> </h3>
 {% else %}
-<a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"> log in </a> to create new wiki. 
+<a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"><img src="{% static 'icons/enter3.png' %}"> log in </a> to create new wiki. 
 {% endif %}
 
 <hr>

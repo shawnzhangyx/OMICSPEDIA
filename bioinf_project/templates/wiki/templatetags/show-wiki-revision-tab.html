@@ -3,7 +3,7 @@
 <a href="{% url 'users:profile-view' revision.author.user_profile.id %}"> 
     {{revision.author.user_profile.name}} </a>
     {% ifequal revision.revision_number 1 %} created {%else%} edited {% endifequal %} 
-    <a href=""><b>{{revision.page.title}} </b></a>
+    <a href="{%url 'wiki:wiki-detail' revision.page.get_title %}"><b>{{revision.page.title}} </b></a>
 
     (
     {% if revision.added_chars > 0 %}

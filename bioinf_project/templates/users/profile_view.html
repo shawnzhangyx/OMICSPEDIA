@@ -19,13 +19,13 @@
 {% csrf_token %}
 <input style="display:none;" value="{{user.user_profile.id}}" name="follower"/> 
 {{form.as_p}}
-{% if userprofile in user.user_profile.following.all %} <button class="btn btn-sm btn-default">  <img src="{% static 'images/delete199.png' %}"> Unfollow </button>
-{%else%}<button class="btn btn-sm btn-default"><img src="{% static 'images/add199.png' %}"> Follow</button> {% endif %}
+{% if userprofile in user.user_profile.following.all %} <button class="btn btn-sm btn-default">  <img src="{% static 'icons/delete199.png' %}"> Unfollow </button>
+{%else%}<button class="btn btn-sm btn-default"><img src="{% static 'icons/add199.png' %}"> Follow</button> {% endif %}
 </form>
     {% else %}
-    <a class="btn btn-default btn-sm" href = "{% url 'users:profile-edit' user.user_profile.id %}"> <img src="{% static 'images/pen29.png' %}"> Edit profile </a>
-    <a class="btn btn-default btn-sm" href = "{% url 'users:password-change' %}">  <img src="{% static 'images/key162.png' %}"> Change Password </a>
-    <a class="btn btn-default btn-sm" href = "{% url 'users:logout' %}?next={{request.path}}">  <img src="{% static 'images/door13.png' %}"> Log out </a>
+    <a class="btn btn-default btn-sm" href = "{% url 'users:profile-edit' user.user_profile.id %}"> <img src="{% static 'icons/pen29.png' %}"> Edit profile </a>
+    <a class="btn btn-default btn-sm" href = "{% url 'users:password-change' %}">  <img src="{% static 'icons/key162.png' %}"> Change Password </a>
+    <a class="btn btn-default btn-sm" href = "{% url 'users:logout' %}?next={{request.path}}">  <img src="{% static 'icons/door9.png' %}"> Log out </a>
     {% endif %}
 {% endif %}
 <span>&nbsp;&nbsp;</span>

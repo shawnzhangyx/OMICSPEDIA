@@ -1,4 +1,5 @@
 {% extends 'meta/meta_base.html' %}
+{% load staticfiles %}
 {% load meta_custom_tags %}
 
 {% block head %}
@@ -11,7 +12,7 @@
   <a class="btn btn-default" href="{% url 'meta:report-new' %}"> Make suggestions</a>
 {% else %}
 <p> Please 
- <a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"> log in </a> 
+ <a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"><img src="{% static 'icons/enter3.png' %}"> log in </a> 
  to leave your feedbacks and make suggestions to improve our community! </p>
   {% endif %}
 <br>

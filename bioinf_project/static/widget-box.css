@@ -297,13 +297,11 @@ border: solid 1px grey;
 
 pre {
 border: none;
-padding: 0;
+padding: 0 5px;
 background-color: #eee;
+}
 
-}
-code {
-background-color: #eee;
-}
+
 /**** wiki comment tab ****/
 .wiki-comment-tab
 {
