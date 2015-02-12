@@ -8,7 +8,7 @@
 {% endblock jquery %}
 
 {% block content %}
-<h1> Tags</h1>
+<h1> Tags <small> x{{tag_list.count}}</small></h1>
 {% if user.is_authenticated %}
 <button type='button' class="btn btn-default" onclick='location.href="{% url "tags:tag-create" parent_name='' %}"'> Create new tag </button>
 {% else %}

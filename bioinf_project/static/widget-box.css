@@ -295,11 +295,13 @@ padding: 2px 5px;
 border: solid 1px grey;
 }
 
-#wiki-content pre {
+pre {
 border: none;
 padding: 0;
+background-color: #eee;
+
 }
-#wiki-content pre code {
+code {
 background-color: #eee;
 }
 /**** wiki comment tab ****/
@@ -396,6 +398,7 @@ margin-right: 10px;
 /**** post tab ****/
 .post-tab {
 border-bottom: 1px solid #DDDDDD;
+padding-bottom: 10px;
 margin-bottom: 0px;
 min-height:65px;
 display: block;
@@ -436,6 +439,12 @@ color: #999999;
 margin-left:160px;
 height: 100%;
 }
+
+.post-tab-title{
+font-size: 16px;
+font-weight: bold;
+}
+
 .post-tab-tags {
 float:left;
 display: inline-block;

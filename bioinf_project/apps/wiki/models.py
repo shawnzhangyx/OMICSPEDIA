@@ -141,7 +141,7 @@ class PageRevision(AbstractBaseRevision):
         self.deleted_chars = deleted
         self.total_chars = len(text2)
     class Meta:
-        get_latest_by= '-revision_number'
+        get_latest_by= 'revision_number'
 
 class PageComment(models.Model):
     # the status of the comment
