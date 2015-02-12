@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
 {% block content %}
-
-<form action="" method="post">
+<h2>Register at omicspedia</h2>
+<hr>
+<form action="" class="col-xs-12 col-sm-6 col-sm-offset-3" method="post">
 {% csrf_token %}
-{{ form.as_p }}
-
-<input type="submit" value = "Register" name="submit"/>
+{% crispy form %}
 </form>
 {% endblock content %}
 

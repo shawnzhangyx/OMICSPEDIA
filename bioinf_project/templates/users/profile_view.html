@@ -7,6 +7,11 @@
 {% load humanize %}
 
 {% block content %}
+
+  {% if user == userprofile.user %}
+    
+  {% endif %}
+  
 <h2> <span class="pull-left">{{userprofile.name}}&nbsp;&nbsp;</span>
 {% if user.is_authenticated %}
     {% if user.user_profile.id != userprofile.id %}
@@ -14,9 +19,13 @@
 {% csrf_token %}
 <input style="display:none;" value="{{user.user_profile.id}}" name="follower"/> 
 {{form.as_p}}
-{% if userprofile in user.user_profile.following.all %} <button class="btn btn-xs btn-error"> Unfollow </button>
-{%else%}<button class="btn btn-xs btn-info">Follow</button> {% endif %}
+{% if userprofile in user.user_profile.following.all %} <button class="btn btn-sm btn-default">  <img src="{% static 'images/delete199.png' %}"> Unfollow </button>
+{%else%}<button class="btn btn-sm btn-default"><img src="{% static 'images/add199.png' %}"> Follow</button> {% endif %}
 </form>
+    {% else %}
+    <a class="btn btn-default btn-sm" href = "{% url 'users:profile-edit' user.user_profile.id %}"> <img src="{% static 'images/pen29.png' %}"> Edit profile </a>
+    <a class="btn btn-default btn-sm" href = "{% url 'users:password-change' %}">  <img src="{% static 'images/key162.png' %}"> Change Password </a>
+    <a class="btn btn-default btn-sm" href = "{% url 'users:logout' %}?next={{request.path}}">  <img src="{% static 'images/door13.png' %}"> Log out </a>
     {% endif %}
 {% endif %}
 <span>&nbsp;&nbsp;</span>
@@ -270,13 +279,6 @@
             </span>
         </div>
     {% endif %}
-<hr>
-  {% if user == userprofile.user %}
-    <a class="btn btn-default btn-sm" href = "{% url 'users:profile-edit' user.user_profile.id %}"> Edit profile? </a>
-    <a class="btn btn-default btn-sm" href = "{% url 'users:password-change' %}"> Change Password? </a>
-    <a class="btn btn-default btn-sm" href = "{% url 'users:logout' %}?next={{request.path}}"> log out? </a>
-  {% endif %}
-<br><br>
 {% endblock content %}
 
 

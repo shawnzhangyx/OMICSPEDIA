@@ -6,12 +6,17 @@ Bioinformatics site that consists of wiki, software database and Q&amp;A.
 ### system requriement ###
 This is built on python 2.7 and django 1.6.5
 
+### Resources ###
+Icons are from http://www.flaticon.com/
+
+
 ### Dependencies ###
 * bootstrap
 * select2
 * highlight
 * jstree
 This list is incomplete. 
+
 
 ### Demo ###
 A development server of most current progress is hosted at here: 

@@ -2,15 +2,24 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h2> Log in</h2>
+<h2> Log in to omicspedia</h2>
+<hr>
 <div class="row">
-<form class="col-xs-8 col-xs-offset-2" action="" method="post">
+<form class="col-xs-6 col-xs-offset-3" action="" method="post">
 {% csrf_token %}
-{{ form.as_p }}
+<div class="form-group">
+{{form.username.errors}}<label for="{{form.username.id_for_label}}">Your E-mail address </label>
+<input id="id_username" class="form-control" maxlength="254" name="username" type="text">
+</div>
+<div class="form-group">
+{{form.password.errors}}<label for="{{form.password.id_for_label}}">Your password </label>
+<input id="id_password" class="form-control" name="password" type="password">
+</div>
 
-<input class="btn btn-default btn-sm" type="submit" value = "Log in" name="submit"/>
-<a class="btn btn-default btn-sm" href = "{% url 'users:register' %}"> Sign-up </a>
-<a class="btn btn-default btn-sm" href = "{% url 'users:password-reset' %}"> Forgot password? </a>
+<input class="btn btn-default btn-md" type="submit" value = "Log in" name="submit"/>
+<a class="btn btn-default btn-md" href = "{% url 'users:register' %}"> Sign-up </a>
+<a class="btn btn-default btn-md" href = "{% url 'users:password-reset' %}"> Forgot password? </a>
+
 </form>
 <br>
 </div>

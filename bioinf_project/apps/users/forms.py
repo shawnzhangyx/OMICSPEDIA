@@ -24,7 +24,22 @@ class UserCreationForm(forms.ModelForm):
     email = forms.EmailField(label="Email Address", validators=[validate_email])
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    
+    def __init__(self, *args, **kwargs):
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Fieldset('',
+                Field('email'),
+                Field('password1'),
+                Field('password2'),
 
+            ),
+            ButtonHolder(
+                Submit('submit', 'Register')
+            )
+        )
+        
     class Meta:
         model = User
         fields = ('email',)
