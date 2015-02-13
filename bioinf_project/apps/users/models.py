@@ -119,7 +119,6 @@ class User(AbstractBaseUser,PermissionsMixin):
             return False        
         
     def exceed_vote_limit(self):
-        return True
         vote_past_24h = self.votes.filter(date__gte = datetime.now() - timedelta(hours=24))
         if vote_past_24h.count() >= 20:
             return True
