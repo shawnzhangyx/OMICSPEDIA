@@ -18,12 +18,15 @@ def display_vote_widget(obj, user):
                                object_id=obj.id, voter=user)
     except (TypeError, Vote.DoesNotExist) as e:
         if user.is_authenticated():
-            message="you can vote"
+            message="you can vote" 
             vote_type= "open"
             if hasattr(obj, 'author'):
                 if user == obj.author: 
                     vote_type= "block"
                     message = "You cannot vote yourself."
+                elif user.exceed_vote_limit():
+                    vote_type="block"
+                    message = "You've reached daily vote limit"
         else: 
             vote_type="block"
             message = "please log in to vote."
@@ -50,6 +53,9 @@ def display_vote_up(obj, user):
                 if user == obj.author: 
                     vote_type= "block"
                     message = "You cannot vote yourself."
+                elif user.exceed_vote_limit():
+                    vote_type="block"
+                    message = "You've reached daily vote limit"
         else: 
             vote_type="block"
             message = "please log in to vote."

@@ -444,12 +444,12 @@ font-weight: bold;
 }
 
 .post-tab-tags {
-float:left;
-display: inline-block;
+display: inline;
 }
 .post-created {
 text-align: right;
 color: #999999;
+font-size:12px;
 }
 
 .post-count-box-sm{

@@ -75,7 +75,7 @@ class Vote(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     choice = models.IntegerField(choices=CHOICES)
-    date = models.DateField(auto_now=True)
+    date = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return u"%s, %s, %s" %( self.get_choice_display(), self.voter.email, self.content_type.id)

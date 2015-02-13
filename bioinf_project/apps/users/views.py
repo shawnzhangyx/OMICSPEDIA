@@ -44,7 +44,11 @@ class Login(FormView):
     def form_valid(self, form):
         login(self.request, form.get_user())
         if 'next' in self.request.GET:
-            return redirect(self.request.GET['next'])
+            next = self.request.GET.get('next')
+            if next == '/accounts/register/':
+                return HttpResponseRedirect(reverse('index'))
+            else:
+                return redirect(next)
         else:
             return super(Login, self).form_valid(form)
             

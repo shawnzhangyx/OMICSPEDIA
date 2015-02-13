@@ -91,7 +91,7 @@ background-color: #444444;
 }
 /* control the search bar width. */
 .navbar-form input.form-control {
-width: 35%;
+#width: 35%;
 
 }
 
