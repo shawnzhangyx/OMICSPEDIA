@@ -9,7 +9,7 @@ from .models import Tag, UserTag
 from posts.models import MainPost
 from wiki.models import Page, PageRevision
 from .forms import TagForm, TagCreateForm, WorkflowTagForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 
 # Create your views here.
@@ -25,7 +25,7 @@ class TagCreate(CreateView):
     form_class = TagCreateForm
     template_name = "tags/tag_create.html"
 
-    @method_decorator(login_required)
+    @method_decorator(permission_required("tags.add_tag",login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(TagCreate, self).dispatch(*args, **kwargs)
 
@@ -62,7 +62,7 @@ class TagEdit(UpdateView):
     #form_class = TagForm
     template_name = "tags/tag_edit.html"
 
-    @method_decorator(login_required)
+    @method_decorator(permission_required("tags.change_tag",login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(TagEdit, self).dispatch(*args, **kwargs)
         

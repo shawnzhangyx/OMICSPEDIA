@@ -188,7 +188,7 @@ class UserListView(ListView):
         #elif tab == "Moderators":
             #return UserProfile.objects.filter(user__groups = '')
         else: 
-            return UserProfile.objects.order_by('-reputation')
+            return UserProfile.objects.order_by('-last_activity')
             
     def get_context_data(self,**kwargs):
         context = super(UserListView, self).get_context_data(**kwargs)

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, TemplateView, UpdateView, CreateView, DeleteView
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 # specific imports
 from .models import Report,ReportRevision
@@ -33,7 +33,7 @@ class ReportNew(CreateView):
     template_name = "meta/report_new.html"
     form_class = ReportForm
     
-    @method_decorator(login_required)
+    @method_decorator(permission_required("meta.add_report",login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(ReportNew, self).dispatch(*args, **kwargs)
         
@@ -50,7 +50,7 @@ class ReportEdit(UpdateView):
     form_class = ReportRevisionForm
     template_name = 'meta/report_new.html'
     
-    @method_decorator(login_required)
+    @method_decorator(permission_required("meta.change_report",login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(ReportEdit, self).dispatch(*args, **kwargs)
         

@@ -4,7 +4,7 @@ from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 
 # specific modules
@@ -65,7 +65,7 @@ class SoftwareNew(CreateView):
     form_class = ToolNewForm
     template_name = "software/software_edit.html"
         
-    @method_decorator(login_required)
+    @method_decorator(permission_required("software.add_tool",login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(SoftwareNew, self).dispatch(*args, **kwargs)
         
@@ -80,7 +80,7 @@ class SoftwareEditView(UpdateView):
     form_class = ToolForm
     template_name = "software/software_edit.html"
 
-    @method_decorator(login_required)
+    @method_decorator(permission_required("software.change_tool",login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(SoftwareEditView, self).dispatch(*args, **kwargs)
         

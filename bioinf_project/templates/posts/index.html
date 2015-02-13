@@ -9,8 +9,7 @@
 {% block content %}
   <h1> Posts <small> {{question_count}} questions, {{discussion_count}} discussions, {{blog_count}} blogs</small></h1>
 {% if user.is_authenticated %}
-  <a class="btn btn-default" href="{% url 'posts:post-new' %}" {%if not perms.posts.add_mainpost %} disabled/{% endif %}> Create new post</a> 
-  {% if not perms.posts.add_mainpost %} {% display_verification_message %} {% endif %}
+  <a class="btn btn-default" href="{% url 'posts:post-new' %}" > Create new post</a> 
   {% else %}
   <a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"><img src="{% static 'icons/enter3.png' %}"> log in </a> to create new post
   

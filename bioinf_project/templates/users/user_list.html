@@ -9,10 +9,10 @@
   <ul class="nav nav-tabs">
     <li> <h4> <b> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
     &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </b></h4></li>
-    <li {% ifequal tab 'Reputation' %} class="active" {% endifequal %}
-        {% ifequal tab null %} class="active" {% endifequal %}>
+    <li {% ifequal tab 'Reputation' %} class="active" {% endifequal %}>
       <a href="?tab=Reputation" > Reputation </a> </li>
-    <li {% ifequal tab 'Activity' %} class="active" {% endifequal %}>
+    <li {% ifequal tab 'Activity' %} class="active" {% endifequal %}
+    {% ifequal tab null %} class="active" {% endifequal %}>
       <a href="?tab=Activity"> Activity </a> </li>
     <li {# ifequal tab 'Moderators' #} class="disabled" {# endifequal #}> 
       <a href="?tab=Moderators"> Moderators </a> </li>

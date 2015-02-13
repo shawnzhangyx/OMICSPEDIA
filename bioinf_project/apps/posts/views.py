@@ -55,7 +55,7 @@ class MainPostNew(CreateView):
     template_name = "posts/post_new.html"
     form_class = MainPostForm
     
-    @method_decorator(permission_required('posts.add_mainpost', raise_exception=True))
+    @method_decorator(permission_required('posts.add_mainpost', login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(MainPostNew, self).dispatch(*args, **kwargs)
         
@@ -75,7 +75,7 @@ class MainPostEdit(UpdateView):
     form_class = MainPostRevisionForm
     template_name = 'posts/post_edit.html'
     
-    @method_decorator(permission_required('posts.change_mainpost', raise_exception=True))
+    @method_decorator(permission_required('posts.change_mainpost', login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(MainPostEdit, self).dispatch(*args, **kwargs)
         
@@ -141,7 +141,7 @@ class ReplyPostNew(CreateView):
     form_class = ReplyPostForm
     #will need to redirect to the main post; will implement later.
     
-    @method_decorator(permission_required('posts.add_replypost', raise_exception=True))
+    @method_decorator(permission_required('posts.add_replypost', login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(ReplyPostNew, self).dispatch(*args, **kwargs)
         
@@ -167,7 +167,7 @@ class ReplyPostEdit(UpdateView):
     template_name = "posts/post_edit.html"
     form_class = ReplyPostRevisionForm
     
-    @method_decorator(permission_required('posts.change_replypost', raise_exception=True))
+    @method_decorator(permission_required('posts.change_replypost', login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(ReplyPostEdit, self).dispatch(*args, **kwargs)
 
@@ -193,7 +193,7 @@ class ReplyPostDelete(DeleteView):
     template_name = 'posts/replypost_delete.html'
     #success_url = reverse_lazy('posts:post-index')
     
-    @method_decorator(permission_required('posts.delete_replypost', raise_exception=True))
+    @method_decorator(permission_required('posts.delete_replypost', login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(ReplyPostDelete, self).dispatch(*args, **kwargs)
         

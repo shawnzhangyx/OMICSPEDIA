@@ -1,13 +1,21 @@
 {% extends "users/user_base.html" %}
-
+{% load staticfiles %}
 
 {% block content %}
+{% if sent != 'sent' %}
+<h2 > <img src ="{% static 'images/warning.png'%}"> Why you see this page </h2>
+<hr>
+Before you can change any content on this website, we need to ensure that you're a responsible human being, not a robot.
+This is to protect the wonderful resources contributed by people who are using this site. <a href="{% url 'help-page' 'community-rules/user-privilege'%}">Here</a> you can find the user privilege descriptions, and decide if you'd like to continue the verification process.
+
+{% endif %}
+
 <h2> E-mail verification </h2>
 <hr>
+
     {% if sent == 'sent' %} Verification e-mail has been sent to <b>{{ user.email }}</b>. Please check your e-mail box. It may take up to several minutes to see the e-mail...
     {% else %}
-    <p> An e-mail with a verification link will be sent to the following address. 
-    <p>Please verify that the e-mail address is correct.</p>
+    <p> For verification, an e-mail with a verification link will be sent to your registered address. After you click the link, the verification process is done. </p>
 
 <form action="" method="post">
     {% csrf_token %}

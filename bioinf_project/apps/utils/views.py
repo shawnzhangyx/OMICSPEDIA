@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 import markdown
 import json
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 
 from .models import Comment, Vote, Rate, Bookmark, ImageAttachment
@@ -20,7 +20,7 @@ class CommentNew(CreateView):
     model = Comment
     fields = ['content']
     
-    @method_decorator(login_required)
+    @method_decorator(permission_required("utils.add_comment",login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(CommentNew, self).dispatch(*args, **kwargs)
    
@@ -55,7 +55,6 @@ class CommentNew(CreateView):
 
 @login_required
 def vote(request):
-
     content_type_name = request.POST.get("ct")
     obj_id = int(request.POST.get("id"))
     vote_status = request.POST.get("vstat")

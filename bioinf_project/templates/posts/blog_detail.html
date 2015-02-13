@@ -15,7 +15,7 @@
 
 {% block content %}
 <h3>{{mainpost.title}} <small>&lt;{{type}}&gt;
-{% if perms.posts.change_mainpost %}
+{% if user.is_authenticated %}
           <a class="btn btn-default btn-xs" href='{% url "posts:mainpost-edit" mainpost.id %}'>edit</a> {% endif %} </small> </h3>
 <hr>
 {% display_blog_body mainpost user perms %}
