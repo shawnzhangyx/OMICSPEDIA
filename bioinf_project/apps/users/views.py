@@ -192,7 +192,7 @@ class UserListView(ListView):
             
     def get_context_data(self,**kwargs):
         context = super(UserListView, self).get_context_data(**kwargs)
-        context['tab'] = self.request.GET.get('tab')
+        context['tab'] = self.request.GET.get('tab') or 'Activity'
         return context
     
 @login_required
