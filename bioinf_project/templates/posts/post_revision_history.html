@@ -3,10 +3,10 @@
 {% block content %}
 <h2>  <small>Revision history of post:
   </small>
-  {% if revision_list.1.post.mainpost == null %}
-  {{revision_list.1.post.title}}
+  {% if revision_list.0.post.mainpost == null %}
+  {{revision_list.0.post.title}}
   {% else %}
-  {{revision_list.1.post.mainpost.title}}
+  {{revision_list.0.post.mainpost.title}}
   {% endif %}
  </h2>
 <br>
@@ -14,7 +14,7 @@
   {% for revision in revision_list %}
     <h4> Revision {{revision.revision_number }}
     <small> {{revision.modified_date}} by
-    <a href="{% url "users:profile-view" revision.author.user_profile.id %}">{{revision.author.username}}
+    <a href="{% url 'users:profile-view' revision.author.user_profile.id %}">{{revision.author.user_profile.name}}
     </a> </small> </h4>
     <br>
   {% ifnotequal forloop.last True %}
@@ -30,10 +30,10 @@
 {% endif %}
 
 Return to the <a href="
-  {% if revision_list.1.post.mainpost == null %}
-  {% url 'posts:post-detail' revision_list.1.post.id %}
+  {% if revision_list.0.post.mainpost == null %}
+  {% url 'posts:post-detail' revision_list.0.post.id %}
   {% else %}
-  {% url 'posts:post-detail' revision_list.1.post.mainpost.id %}
+  {% url 'posts:post-detail' revision_list.0.post.mainpost.id %}
   {% endif %}
     ">post</a>
 {% endblock content %}

@@ -13,6 +13,8 @@ from django.utils.encoding import force_bytes
 from django.contrib.sites.models import get_current_site
 from django.template import loader
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
 from utils import pagination
 
@@ -28,7 +30,11 @@ from .forms import UserCreationForm, ProfileForm
 class RegisterView(CreateView):
     template_name = "users/register.html"
     form_class = UserCreationForm
-    success_url = '/'
+
+    def get_success_url(self):
+        email = self.request.POST.get('email')
+        return reverse('users:login')+'?email='+email
+    
 
 class Login(FormView):
     form_class = AuthenticationForm
@@ -36,8 +42,8 @@ class Login(FormView):
     success_url = '/'
     
     def dispatch(self, request):
-	if not request.user.is_anonymous(): 
-		return HttpResponseRedirect(reverse('index'))
+        if not request.user.is_anonymous(): 
+            return HttpResponseRedirect(reverse('index'))
         else: 
             return super(Login, self).dispatch(request)
 
@@ -52,6 +58,13 @@ class Login(FormView):
         else:
             return super(Login, self).form_valid(form)
             
+    def get_context_data(self, **kwargs):
+        context = super(Login, self).get_context_data(**kwargs)
+        if self.request.GET.get('email'):
+            email = self.request.GET.get('email')
+            context['message'] = 'Congratulations, your email '+ email +' has been succesfully registered. Log in to your account.'
+        return context
+        
 class Logout(View):
     def get(self, request, *args, **kwargs):
         logout(request)
@@ -182,7 +195,11 @@ class UserListView(ListView):
         context['tab'] = self.request.GET.get('tab')
         return context
     
-def email_verification_form(request,sent="no"):
+@login_required
+def email_verification_form(request,sent=""):
+    if request.user.email_verified:
+        return HttpResponseRedirect('/')
+    
     if request.method == "POST":
         user = request.user
         email_template_name = "users/verification_email.html"
@@ -218,7 +235,11 @@ def email_verification_complete(request, uidb64=None, token=None):
     if user is not None and default_token_generator.check_token(user, token):
         validlink = True
         user.email_verified = True
-        user.set_password(user.password)
+        # add the user to the verified group
+        group = Group.objects.get(name = 'verified_users')
+        user.groups.add(group)
+        #resaving the password will change the token
+        user.set_password(user.password) 
         user.save()
     else: 
         validlink = False

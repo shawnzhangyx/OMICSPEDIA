@@ -3,7 +3,7 @@ from django.views.generic import DetailView, ListView, TemplateView, UpdateView,
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils import timezone
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 
 # models 
@@ -55,7 +55,7 @@ class MainPostNew(CreateView):
     template_name = "posts/post_new.html"
     form_class = MainPostForm
     
-    @method_decorator(login_required)
+    @method_decorator(permission_required('posts.add_mainpost', raise_exception=True))
     def dispatch(self, *args, **kwargs):
         return super(MainPostNew, self).dispatch(*args, **kwargs)
         
@@ -75,7 +75,7 @@ class MainPostEdit(UpdateView):
     form_class = MainPostRevisionForm
     template_name = 'posts/post_edit.html'
     
-    @method_decorator(login_required)
+    @method_decorator(permission_required('posts.change_mainpost', raise_exception=True))
     def dispatch(self, *args, **kwargs):
         return super(MainPostEdit, self).dispatch(*args, **kwargs)
         
@@ -141,7 +141,7 @@ class ReplyPostNew(CreateView):
     form_class = ReplyPostForm
     #will need to redirect to the main post; will implement later.
     
-    @method_decorator(login_required)
+    @method_decorator(permission_required('posts.add_replypost', raise_exception=True))
     def dispatch(self, *args, **kwargs):
         return super(ReplyPostNew, self).dispatch(*args, **kwargs)
         
@@ -167,7 +167,7 @@ class ReplyPostEdit(UpdateView):
     template_name = "posts/post_edit.html"
     form_class = ReplyPostRevisionForm
     
-    @method_decorator(login_required)
+    @method_decorator(permission_required('posts.change_replypost', raise_exception=True))
     def dispatch(self, *args, **kwargs):
         return super(ReplyPostEdit, self).dispatch(*args, **kwargs)
 
@@ -193,7 +193,7 @@ class ReplyPostDelete(DeleteView):
     template_name = 'posts/replypost_delete.html'
     #success_url = reverse_lazy('posts:post-index')
     
-    @method_decorator(login_required)
+    @method_decorator(permission_required('posts.delete_replypost', raise_exception=True))
     def dispatch(self, *args, **kwargs):
         return super(ReplyPostDelete, self).dispatch(*args, **kwargs)
         

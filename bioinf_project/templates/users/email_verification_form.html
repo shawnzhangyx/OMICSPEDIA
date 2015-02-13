@@ -3,10 +3,11 @@
 
 {% block content %}
 <h2> E-mail verification </h2>
+<hr>
     {% if sent == 'sent' %} Verification e-mail has been sent to <b>{{ user.email }}</b>. Please check your e-mail box. It may take up to several minutes to see the e-mail...
     {% else %}
-    
-    <p>Please verify that the following e-mail is correct.</p>
+    <p> An e-mail with a verification link will be sent to the following address. 
+    <p>Please verify that the e-mail address is correct.</p>
 
 <form action="" method="post">
     {% csrf_token %}

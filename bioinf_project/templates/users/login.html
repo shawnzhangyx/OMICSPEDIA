@@ -4,9 +4,13 @@
 {% block content %}
 <h2> Log in to omicspedia</h2>
 <hr>
+{% if message %}
+<div class="alert alert-success"> {{message}} </div>
+{% endif %}
 <div class="row">
 <form class="col-xs-6 col-xs-offset-3" action="" method="post">
 {% csrf_token %}
+{% if form.non_field_errors %} <div class="alert alert-warning">{{ form.non_field_errors }}</div> {% endif %}
 <div class="form-group">
 {{form.username.errors}}<label for="{{form.username.id_for_label}}">Your E-mail address </label>
 <input id="id_username" class="form-control" maxlength="254" name="username" type="text">

@@ -23,11 +23,11 @@
     {% display_tag_list post.tags.all %}
     {% endif %}
     <div class="clearfix post-authorship">
-      <span class="post-action">
+      <span class="question-action">
         {% if is_question %}
-          <a href='{% url "posts:mainpost-edit" post.id %}'>edit</a> | <a href="{% url 'comment-new' comment_on="posts" pk=post.id %}">comment</a>
+          {% if perms.posts.change_mainpost %}<a href='{% url "posts:mainpost-edit" post.id %}'>edit</a> | {% endif %} {% if perms.utils.add_comment %}<a href="{% url 'comment-new' comment_on='posts' pk=post.id %}">comment</a> {%endif %}
         {% else %}
-          <a href='{% url "posts:replypost-edit" post.id %}'>edit</a> | <a href="{% url 'comment-new' comment_on="replyposts" pk=post.id %}">comment</a>
+          {% if perms.posts.change_replypost %}<a href='{% url "posts:replypost-edit" post.id %}'>edit</a> | {% endif %}{% if perms.utils.add_comment %}<a href="{% url 'comment-new' comment_on='replyposts' pk=post.id %}">comment</a>{%endif %}
         {% if post.mainpost.accepted_answer == null %} {% if user == post.mainpost.author %} | <a href="{% url 'posts:replypost-accept' post.id %}"> accept?</a> {% endif %}{% endif %}
         {% endif %}
           

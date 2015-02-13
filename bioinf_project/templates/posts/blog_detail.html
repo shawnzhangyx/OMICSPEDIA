@@ -1,5 +1,6 @@
 {% extends 'posts/post_base.html' %}
 {% load post_custom_tags %}
+{% load user_custom_tags %}
 {% load util_custom_tags %}
 {% load humanize %}
 {% load staticfiles %}
@@ -14,10 +15,10 @@
 
 {% block content %}
 <h3>{{mainpost.title}} <small>&lt;{{type}}&gt;
-{% ifequal user mainpost.author %}
-          <a class="btn btn-default btn-xs" href='{% url "posts:mainpost-edit" mainpost.id %}'>edit</a> {% endifequal %} </small> </h3>
+{% if perms.posts.change_mainpost %}
+          <a class="btn btn-default btn-xs" href='{% url "posts:mainpost-edit" mainpost.id %}'>edit</a> {% endif %} </small> </h3>
 <hr>
-{% display_blog_body mainpost user %}
+{% display_blog_body mainpost user perms %}
 <br>
 <h4 class="pull-left"><b> {{mainpost.get_comments.count}} comment{%if mainpost.get_comments.count > 1%}s{% endif %}</b></h4>
 
@@ -58,11 +59,13 @@
    {% else %}
 <h4> Add your comment: </h4>
 
+{% if not perms.utils.add_comment %} {% display_verification_message %}<br><br> {% endif %}
+
 <form role="form" action='{% url "comment-new" comment_on="posts" pk=mainpost.id %}' method="post">
 {% csrf_token %}
-<textarea class="form-control" id="id_content" name="content" rows="5"> </textarea>
+<textarea class="form-control" id="id_content" name="content" rows="5" {% if not perms.utils.add_comment %} disabled{% endif %}> </textarea>
 <br>
-<input class="btn btn-default" type="submit" value="Post comment">
+<input class="btn btn-default" type="submit" value="Post comment" {% if not perms.utils.add_comment %} disabled{% endif %}>
 </form>
     {% endif %}
 {% else %}

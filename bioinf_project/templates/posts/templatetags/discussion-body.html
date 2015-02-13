@@ -8,9 +8,9 @@
   <tr><td colspan='2' class="post-action">
      {{post.created}} &nbsp;&nbsp;
     {% if is_question %}
-      <a  href='{% url "posts:mainpost-edit" post.id %}'>&lt;edit&gt;</a> 
+    {% if perms.posts.change_mainpost %}<a  href='{% url "posts:mainpost-edit" post.id %}'>&lt;edit&gt;</a>{% endif %}
     {% else %}
-      <a  href='{% url "posts:replypost-edit" post.id %}'>&lt;edit&gt;</a> 
+    {% if perms.posts.change_replypost %}<a  href='{% url "posts:replypost-edit" post.id %}'>&lt;edit&gt;</a>{% endif %}
     {% endif %}
     <a href='#wmd-button-bar'>&lt;reply&gt;</a> 
         <span class='pull-right'>#{{reply_number}}<span>

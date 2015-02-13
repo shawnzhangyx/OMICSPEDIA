@@ -1,5 +1,7 @@
 {% extends 'posts/post_base.html' %}
 {% load post_custom_tags %}
+{% load user_custom_tags %}
+
 {% load staticfiles %}
 <!-- this is the link to edit the post. 
 -->
@@ -12,7 +14,7 @@
 
 {% block content %}
 <h3>{{mainpost.title}} <small>&lt;{{type}}&gt;</small></h3>
-{% display_question_body mainpost user "is_question"%}
+{% display_question_body mainpost user perms "is_question"%}
 <br>
 <h4 class="pull-left"><b> {{mainpost.reply_count}} answer{%if mainpost.reply_count > 1%}s{% endif %}</b></h4>
 
@@ -24,7 +26,7 @@
       <a href="?tab=oldest"> oldest  </a> </li>
 </ul>
 {% for reply in replypost_list %}
-    {% display_question_body reply user "is_answer" %}
+    {% display_question_body reply user perms "is_answer" %}
 {% endfor %}
 
 <!-- add reply -->
@@ -40,15 +42,15 @@
 <form role="form" action='{% url "posts:replypost-new" mainpost_id=mainpost.id %}' method="post">
 {% csrf_token %}
 <h4> Add your answer: </h4>
-
+{% if not perms.posts.add_replypost %}  {% display_verification_message %} {% endif %}
 <div class="row">
          <div class="wmd-panel">
             <div id="wmd-button-bar"></div>
-            <textarea class="form-control" rows=5 id="wmd-input" name="content"> </textarea>
+            <textarea class="form-control" rows=5 id="wmd-input" name="content"  {% if not perms.posts.add_replypost %}disabled {%endif%}> </textarea>
             <br>
             <div id="content-string-count"></div>
          
-            <input class="btn btn-default" type="submit" value="Post reply">
+            <input class="btn btn-default" type="submit" value="Post reply" {% if not perms.posts.add_replypost %}disabled {%endif%}>
 
         </div>
         
