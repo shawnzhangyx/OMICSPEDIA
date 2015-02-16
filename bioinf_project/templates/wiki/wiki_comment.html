@@ -1,5 +1,8 @@
 {% extends 'wiki/wiki_base.html' %}
 {% load wiki_custom_tags %}
+{% load user_custom_tags %}
+{% load staticfiles %}
+
 {% block head %}
 {% endblock head %}
 
@@ -17,14 +20,16 @@ There is currently no comment.
 {% endfor %}
 <br>
 <hr>
-<br>
 {% if user.is_authenticated %}
 <h4> Add your comment:</h4>
+{% if not perms.wiki.add_pagecomment %} {% display_verification_message %}{% endif %}
+
 <form action="{% url 'wiki:wiki-comment-add' page.get_title%}" method="POST" role="form">
 {% csrf_token %}
-Type: 
-<select class="input-xs" id="id_issue" name="issue">
-<option value="">---------</option>
+<p><b> Type: </b> select the type of your comment.</p>
+<div class="row">
+  <div class="col-xs-12 col-sm-4">
+<select class="form-control" id="id_issue" name="issue" {% if not perms.wiki.add_pagecomment %}disabled {%endif%}>
 <option value="0">fix spelling and gramma</option>
 <option value="1" selected="selected">fix wikilink</option>
 <option value="2">expand short article</option>
@@ -34,13 +39,15 @@ Type:
 <option value="6">Improve lead section</option>
 <option value="7">add new information</option>
 </select>
+  </div>
+</div>
 <br>
-Details: 
-<textarea class="form-control" id="id_detail" name="detail"></textarea>
+<b>Details: </b>
+<textarea class="form-control" id="id_detail" name="detail" {% if not perms.wiki.add_pagecomment %}disabled {%endif%}></textarea>
 <br>
-<input class="btn btn-sm btn-default" type="submit" value="Submit" class="default" name="_save">
+<input class="btn btn-md btn-primary" type="submit" value="Submit" class="default" name="_save">
 </form>
 {% else %}
-<a class="btn btn-xs btn-default" href="{% url 'users:login' %}?next={{request.path}}"> log in </a> to add your comment. 
+<a class="btn btn-xs btn-default" href="{% url 'users:login' %}?next={{request.path}}"> <img src="{% static 'icons/enter3.png' %}" > log in </a> to add your comment. 
 {% endif %}
 {% endblock wiki-content %}

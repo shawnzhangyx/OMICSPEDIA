@@ -30,7 +30,6 @@
 {% endfor %}
 
 <!-- add reply -->
-
 {% if user.is_authenticated %}
     {% if user.exceed_new_answer_limit %}
         <h4> Add your answer: </h4>
@@ -58,7 +57,7 @@
 </form>
     {% endif %}
 {% else %}
-please <a href = "{% url 'users:login' %}"> log in </a> to post a response 
+please <a href = "{% url 'users:login' %}" class="btn btn-xs btn-default"> <img src="{% static 'icons/enter3.png' %}" > log in </a> to post a response 
 {% endif %}
 
 <!-- script for text input control panel -->
