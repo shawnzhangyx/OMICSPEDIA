@@ -3,9 +3,8 @@ from django.db.models import F
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import m2m_changed, post_save, pre_delete
-
 from django.conf import settings
-
+from itertools import chain
 from posts.models import MainPost, ReplyPost
 from wiki.models import Page, PageRevision
 # Create your models here.
@@ -14,7 +13,9 @@ class TagManager(models.Manager):
     def get_tag_search_list(self, max_results=0, contains=''):
         tag_list = []
         if contains:
-            tag_list = self.filter(name__icontains=contains)
+            exact_match = self.filter(name__iexact = contains)
+            part_match = self.filter(name__icontains=contains).exclude(name__iexact = contains).order_by('-count')
+            tag_list = chain(exact_match, part_match)
         else:
             tag_list = self.all()
         if max_results > 0:

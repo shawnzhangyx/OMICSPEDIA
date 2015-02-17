@@ -21,7 +21,7 @@ Type to find tags: <input class="form" type="text" name="suggestion" id="suggest
 
 <ul class="list-unstyled list-inline">
         {% for tag in tag_list %}
-        <li>  {% display_tag tag %} <small>x{{tag.count}}</small></li>
+        <li class="col-xs-6 col-sm-3">  {% display_tag tag %} x{{tag.count}}</li>
         {% empty %}
           
         {% endfor %}
@@ -31,6 +31,8 @@ Type to find tags: <input class="form" type="text" name="suggestion" id="suggest
 <div id="tags">
 {% include "tags/tag_suggest_list.html" with suggest_tag_list=suggest_tag_list %}
 </div>
+
+<div class="clearfix"> </div>
 <hr>
 {% if is_paginated %}
         <div class="pagination">
@@ -51,7 +53,7 @@ Type to find tags: <input class="form" type="text" name="suggestion" id="suggest
     {% endif %}
     
 <br>
-Legend: <a class="tags"> regular tags</a> <a class="tags tags-software"> software</a> <a class="tags tags-workflow"> OMICS workflow</a>
+Legend: <a class="tags" href="?type=0"> regular tags</a>  <a class="tags tags-workflow" href="?type=1"> OMICS workflow</a> <a class="tags tags-software" href="?type=2"> software</a> <a class="btn btn-default btn-sm" href="?"> All</a>
 
 
     

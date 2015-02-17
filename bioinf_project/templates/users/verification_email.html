@@ -3,8 +3,8 @@ You're receiving this e-mail because you requested to verify your e-mail address
 
 Please click on the following link to verify your e-mail address:
 {% block reset_link %}
-{% if 0 %} {{ protocol }}://{{ domain }}{% url "users:email-verification-complete" uidb64=uid token=token %} {% endif %}
-{{ protocol }}://ones.ccmb.med.umich.edu{% url "users:email-verification-complete" uidb64=uid token=token %}
+{% if domain == "127.0.0.1:8000" %} {{ protocol }}://{{ domain }}{% url "users:email-verification-complete" uidb64=uid token=token %} {% else %}
+{{ protocol }}://ones.ccmb.med.umich.edu{% url "users:email-verification-complete" uidb64=uid token=token %} {% endif %}
 
 {% endblock reset_link %}
 

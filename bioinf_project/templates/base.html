@@ -81,6 +81,9 @@
                 </a>
                 {% endif %}
                 </li>
+                <li> <a href="{% url 'help-page' 'help-center' %}"> <img src="{% static 'icons/faq8.png' %}"> Help</a></li>
+                
+                <!--
             <li class="dropdown">
               <a role="button" class="dropdown-toggle" data-toggle="dropdown" href="#"> Help<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu"> 
@@ -89,6 +92,7 @@
 
               </ul>
             </li>
+            -->
           </ul>
 
           <form class="navbar-form" action="{% url 'search' %}" method="get" role="search">

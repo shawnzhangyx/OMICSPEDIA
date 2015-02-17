@@ -21,13 +21,13 @@
   <div class="alert alert-warning"> 
     {% show_wiki_comment_warning page.comments.all %}
     </div>
-  {% endif %}
+  {% endif %}    
+
     <h1 class="wiki-title" title='{{page.title}}'>{{page.title}} {% if page.software %} <small>&lt;<a title="this is a software" href="{% url 'software:software-detail' page.software.name %}">software</a>&gt;</small>{% endif %} 
     {% if page.wiki_tag %} <small>&lt;<a title="this is also a tag" href="{% url 'tags:tag-detail' page.wiki_tag.name %}?tab=Summary">tag</a>&gt;</small>{% endif %}
-        </h1>
+    <small>  {% if page.tags.count > 0 %} {% display_tag_list page.tags.all %} {% endif %} </small> </h1>
     </div>
-
-<div class="vote-box pull-right">
+<div class="vote-box pull-left">
     {% display_bookmark_widget page user %}
 </div>
 
@@ -36,7 +36,7 @@
 <hr>
 
 <p> last edited: {{page.current_revision.modified_date}} </p>
- tags: {% display_tag_list page.tags.all %}
+
 
 {% endblock wiki-content %}
 

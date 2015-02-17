@@ -17,8 +17,13 @@ from django.utils.decorators import method_decorator
 class TagList(ListView):
 #    model = Tag
     template_name = "tags/index.html"
-    paginate_by = 20
-    queryset = Tag.objects.order_by('-count')#filter(parent__isnull=True)
+    paginate_by = 50
+    
+    def get_queryset(self):
+        type = self.request.GET.get('type')
+        if type:
+            return Tag.objects.filter(categories = type).order_by('-count')
+        return Tag.objects.order_by('-count')#filter(parent__isnull=True)
 
 
 class TagCreate(CreateView):
@@ -171,6 +176,6 @@ def suggest_tags(request):
     suggest_tag_list = []
     contains = ''
     if request.method == 'GET':
-            contains = request.GET['suggestion']
+            contains = request.GET.get('suggestion')
     suggest_tag_list = Tag.objects.get_tag_search_list(0, contains)
     return render_to_response('tags/tag_suggest_list.html', {'suggest_tag_list': suggest_tag_list, 'suggest':contains }, context)

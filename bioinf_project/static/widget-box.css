@@ -12,6 +12,7 @@ border: solid 1px blue;
 .vote-box {
 width: 40px;
 vertical-align: top;
+margin:0 15px 20px 5px;
 }
 
 .vote-widget {
@@ -144,8 +145,8 @@ font-size: 14px;
 vertical-align: middle;
 }
 .tags > img {
-height: 24px;
-width: 24px;
+height: 23px;
+width: 23px;
 }
 
 .tags-software {
