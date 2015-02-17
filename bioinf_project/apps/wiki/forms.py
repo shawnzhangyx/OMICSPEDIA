@@ -9,12 +9,14 @@ from crispy_forms.layout import Layout, Field, Fieldset, Div, Submit, ButtonHold
 
 
 def validate_title(name):
-    if name.find("_") >= 0:
-        raise ValidationError("'_' is not allowed in the wiki title")
+    invalidChars = '!"#$%&\'()*+-/:;<=>?@[\\]^_`{|}~'
+    for char in name:
+        if char in invalidChars:
+            raise ValidationError("special character " + char + " is not allowed in the wiki title")
         
         
 class PageForm(forms.ModelForm):
-    title = forms.CharField(validators=[validate_title],help_text="title of the wiki")
+    title = forms.CharField(validators=[validate_title],help_text='title of the wiki. Special characters such as !"#$%&\'()*+-/:;<=>?@[\\]^_`{|}~ are not allowed')
     tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
     content = forms.CharField(widget=forms.Textarea)
 
@@ -48,7 +50,7 @@ PageForm.base_fields['tags'].help_text = 'Please type your tags'
 
 class PageRevisionForm(forms.ModelForm):
 
-    title = forms.CharField(validators=[validate_title],help_text="title of the wiki")
+    title = forms.CharField(validators=[validate_title],help_text='title of the wiki. Special characters such as !"#$%&\'()*+-/:;<=>?@[\\]^_`{|}~ are not allowed')
     tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(),required=False)
     content = forms.CharField(widget=forms.Textarea)
     summary = forms.CharField()

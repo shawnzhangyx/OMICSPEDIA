@@ -20,7 +20,7 @@ def validate_content(text):
 class MainPostForm(forms.ModelForm):
     title = forms.CharField(validators=[validate_title], help_text="Be specific with the title. A minimum of four words is required.")
     tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
-    type = forms.ChoiceField(choices=MainPost.TYPE_CHOICE)
+    type = forms.ChoiceField(widget=forms.RadioSelect, choices=MainPost.TYPE_CHOICE, help_text="Choose the right type of posts.")
     content = forms.CharField(widget=forms.Textarea, validators=[validate_content])
     
 
