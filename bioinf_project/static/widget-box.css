@@ -143,6 +143,7 @@ border: 1px solid #c4dae9;
 min-height:28px;
 font-size: 14px;
 vertical-align: middle;
+box-shadow: 2px 2px 1px #888888;
 }
 .tags > img {
 height: 23px;
@@ -150,19 +151,19 @@ width: 23px;
 }
 
 .tags-software {
-background-color: #FFaaaa;
+#background-color: #FFaaaa;
 border: 1px solid #FF8888;
-color: white;
+#color: white;
 }
 
 .tags-workflow {
-background-color: #CCCCCC;
-border: 1px solid #AAAAAA;
-color: #555555;
+#background-color: #aaffaa;
+border: 1px solid #666666;
+#color: #555555;
 }
 
 .tags-proposed {
-border-style: dashed;
+#border-style: dashed;
 }
 .tags:hover {
     background-color: #c4dae9;

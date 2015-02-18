@@ -7,7 +7,6 @@ from django.contrib.contenttypes.generic import GenericRelation
 from django.utils import timezone
 from django.db.models.signals import m2m_changed, post_save, pre_delete
 
-#from django.contrib.auth.models import User
 import markdown
 from utils import diff_match_patch
 from utils.models import AbstractBaseRevision, View
@@ -62,6 +61,9 @@ class Page(models.Model):
         else:
             return rate_sum
     
+    def get_active_comment_count(self):
+        return self.comments.filter(status__lt = 2).count()
+        
     @staticmethod
     def update_wiki_views(wiki, request, hours=24):
         "Views are updated per user session"
@@ -89,11 +91,18 @@ class Page(models.Model):
     @staticmethod
     def reset_comment_count():
         for wiki in Page.objects.all():
-            wiki.comment_count = wiki.comments.filter(issue__lt = 2).count()
+            wiki.comment_count = wiki.comments.filter(status__lt = 2).count()
             wiki.save()
             
+    @staticmethod        
+    def update_comment_count(sender, instance, **kwargs):
+        page = instance.page
+        page.comment_count = page.comments.filter(status__lt = 2).count()
+        page.save()
+        
     def get_absolute_url(self):
         return reverse('wiki:wiki-detail', kwargs = {'title': self.get_title()})
+
 
 class PageRevision(AbstractBaseRevision):
 
@@ -175,7 +184,7 @@ class PageComment(models.Model):
         
     def get_absolute_url(self):
         return reverse('wiki:wiki-comment', kwargs = {'title': self.page.get_title()})
-        
+            
         
     def get_issue_warnings_message(self):
     # GRAMMER, WIKILINK, EXPAND, CHECK_REFERENCE, ADD_REFERENCE, IMAGE, LEAD, NEW_INFO = range(8)        
@@ -189,6 +198,9 @@ class PageComment(models.Model):
                 self.NEW_INFO:'please provide some new information on this page'}
         return dict[self.issue]
 # --------- #
+
+post_save.connect(Page.update_comment_count, sender=PageComment)
+
 
 class UserPage(models.Model):
     page = models.ForeignKey('Page', related_name="userpage")

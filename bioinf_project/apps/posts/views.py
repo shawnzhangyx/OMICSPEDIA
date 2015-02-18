@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
+from itertools import chain
 
 # models 
 from .models import MainPost, ReplyPost, MainPostRevision, ReplyPostRevision
@@ -127,7 +128,12 @@ class PostDetails(DetailView):
                 tab = "oldest"
         sort_dict = {'votes':'-vote_count','oldest':'created'}
         sort_value = sort_dict[tab]
-        replies = ReplyPost.objects.filter(mainpost=context['mainpost']).order_by(sort_value)
+        if self.object.type == 0:
+            best_answer = self.object.replies.filter(best_answer = True)
+            other_answers = self.object.replies.exclude(best_answer = True).order_by(sort_value)
+            replies = chain(best_answer, other_answers)
+        else:
+            replies = ReplyPost.objects.filter(mainpost=self.object).order_by(sort_value)
         context['replypost_list'] = replies
         context['tab'] = tab
         context['type'] = self.object.get_type_display
@@ -215,7 +221,9 @@ class ReplyPostAccept(UpdateView):
     def form_valid(self, form):
         self.object.mainpost.accepted_answer=self.object
         self.object.mainpost.save()
+        self.object.best_answer = True
         return super(ReplyPostAccept, self).form_valid(form)
+        
     def get_success_url(self):
         return self.object.get_absolute_url()
         

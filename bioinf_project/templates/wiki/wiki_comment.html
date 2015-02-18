@@ -8,7 +8,7 @@
 
 {% block wiki-comment %}
   <li class="active"> <a href="{% url 'wiki:wiki-comment' page.get_title %}"> Comment 
-    <span class="badge"> {{page.comments.count}}</span></a> </li>
+    <span class="badge"> {{page.get_active_comment_count}}</span></a> </li>
 {% endblock wiki-comment %}
 
 {% block wiki-content %}
@@ -29,7 +29,8 @@
 {% endfor %}
 </div>
 {% endif %}
-{% if closed_comment_list.count > 0 %}
+
+{% if closed_comment_list.count > 0 and user.is_moderator %}
 <div class="wiki-comment-fence">
 <p class='wiki-comment-closed'> <b> CLOSED: </b> closed tickets</p>
 {% for comment in closed_comment_list %}
