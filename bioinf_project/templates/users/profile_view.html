@@ -137,9 +137,11 @@
     <small class="profile-view-tab-choice profile-view-tab-choice-off" target="bookmark-software-list"> software<sup>{{bookmark_software_count}}</sup> </small>
 </h3>
 <div id="bookmark-wiki-list">
+<ul class="list-unstyled">
 {% for wiki in bookmark_wiki|slice:':5' %}
-        {% show_wiki_tab wiki %}
+        <li>{% show_wiki_tab wiki %}</li>
 {% endfor %}
+</ul>
 </div>
 <div id="bookmark-post-list">
 {% for post in bookmark_posts|slice:':5' %}
@@ -216,9 +218,11 @@
 <li {% ifequal mark 'software'%}class="active"{% endifequal %}><a href="?tab=Bookmarks&mark=software">software</a></li>
 </ul>
   {% ifequal mark 'wiki' %}
+  <ul class="list-unstyled">
     {% for wiki in bookmark_wiki %} 
-        {% show_wiki_tab wiki %}
+       <li> {% show_wiki_tab wiki %} </li>
     {% endfor %}
+  </ul>
   {% endifequal %}
   
   {% ifequal mark 'posts' %}
