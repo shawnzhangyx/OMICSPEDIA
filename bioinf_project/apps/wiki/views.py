@@ -144,17 +144,23 @@ def wiki_section_edit(request, **kwargs):
         return render(request, 'wiki/wiki_edit_section.html',{'page':page,'header':header,'section':section, 'content':section_content})
     elif request.method=="POST":
         page_content = page.current_revision.content
-        section_content = request.POST['content']
+        section_content = request.POST.get('content')
         header_level = header[1]
         pattern = re.compile(u'(^|\r\n)(#{'+header_level+u'}\s*'+section+ '(.|\n)*?)(\r\n#{'+header_level+u'}[^#]|$)')
         match = re.search(pattern, page_content)
         revised_page_content = re.sub(pattern, match.group(1) +section_content + match.group(4), page_content)
-        new_revision = PageRevision(content=revised_page_content,
-                       revision_summary=request.POST['summary'], 
+        # if there is no summary
+        if not request.POST.get('summary'):
+           summary_errors = 'This field is required' 
+           return render(request, 'wiki/wiki_edit_section.html',{'page':page,'header':header,'section':section, 'content':section_content, 'summary_errors':summary_errors})
+           
+        if revised_page_content != page_content:
+            new_revision = PageRevision(content=revised_page_content,
+                       revision_summary=request.POST.get('summary'), 
                        page=page, author = request.user)
-        new_revision.save()
-        page.current_revision=new_revision
-        page.save()
+            new_revision.save()
+            page.current_revision=new_revision
+            page.save()
         #return render(request, 'wiki/wiki_edit_section.html',{'page':page,'header':header,'section':section, 'content':revised_page_content})
         return HttpResponseRedirect(reverse("wiki:wiki-detail", kwargs={'title':kwargs['title']}))
     #pat = re.compile(u'(^|\r\n)(#\s+section 2(.|\n)*?)(\r\n#[^#]|$)') # stop when reach next section, the end of file,or higher level of section. 

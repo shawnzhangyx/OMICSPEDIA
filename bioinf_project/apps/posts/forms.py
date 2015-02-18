@@ -72,7 +72,7 @@ class MainPostRevisionForm(forms.ModelForm):
                 HTML('''<div id="wmd-button-bar"></div> '''),
                 Field('content', id="wmd-input"),
                 Div(css_id="content-string-count"),
-                Field('summary'),
+                Field('summary', placeholder="Briefly explain your changes (fix spelling, gramma, added content...)"),
             ),
             ButtonHolder(
             HTML('''<span class="btn btn-primary" data-toggle="modal" 

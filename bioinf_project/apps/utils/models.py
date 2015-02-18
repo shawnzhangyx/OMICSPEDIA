@@ -13,7 +13,7 @@ class AbstractBaseRevision(models.Model):
     # we can sort the revisions by the date.
     revision_number = models.IntegerField(verbose_name=_('revision number'))
     # revision type (short summary)? correct grammar; fix link; add content; e.t.c.
-    revision_summary = models.CharField(max_length=20, blank=True, verbose_name=_('revision summary'))
+    revision_summary = models.CharField(max_length=255, blank=True, verbose_name=_('revision summary'))
     modified_date = models.DateTimeField(auto_now=True, verbose_name=_("modified date"))
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("author"))
     content = models.TextField(blank=True, verbose_name=_("content"))

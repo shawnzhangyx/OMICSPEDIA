@@ -25,8 +25,13 @@
 <h4>Content:</h4>
 <div id="wmd-button-bar"></div>
 <textarea class="form-control" rows='10' cols='80' id="wmd-input" name="content">{{content|default:page.current_revision.content}}</textarea> <br>
-<h4>Revision summary: </h4>
-<textarea class="form-control" rows='1' cols='80' name='summary'>No summary</textarea> <br>
+<div class="form-group {% if summary_errors %}has-error {% endif %}">
+<label for="id_summary" class="control-label  requiredField">
+				Summary<span class="asteriskField">*</span></label>
+<textarea class="form-control" id="id_summary" rows='1' cols='80' name='summary' placeholder="Briefly explain your changes (fix spelling, gramma, added content...)"></textarea> 
+{% if summary_errors %}<span class="help-block">{{summary_errors}}</span> {% endif %}
+</div>
+<br>
 <span class="btn btn-primary" data-toggle="modal" data-target="#preview-mkd-text" id="preview-click">Preview</span>
 <input class="btn btn-primary" type="submit" value = "Submit revision" name="submit" /> 
 </form>
