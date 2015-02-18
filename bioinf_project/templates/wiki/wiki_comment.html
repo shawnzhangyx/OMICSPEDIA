@@ -12,13 +12,34 @@
 {% endblock wiki-comment %}
 
 {% block wiki-content %}
-<br><br>
-{% for comment in comment_list %}
-{% show_comment_dialog comment user %}
-{% empty %}
-There is currently no comment.
-{% endfor %}
 <br>
+{% if open_comment_list.count > 0 %}
+<div class="wiki-comment-fence">
+<p> <b> OPEN </b></p>
+{% for comment in open_comment_list %}
+{% show_comment_dialog comment user %}
+{% endfor %}
+</div>
+<br>
+{% endif %}
+{% if pending_comment_list.count > 0 %}
+<div class="wiki-comment-fence">
+<p> <b> PENDING </b></p>
+{% for comment in pending_comment_list %}
+{% show_comment_dialog comment user %}
+{% endfor %}
+</div>
+<br>
+{% endif %}
+{% if closed_comment_list.count > 0 %}
+<div class="wiki-comment-fence">
+<p> <b> CLOSED </b></p>
+{% for comment in closed_comment_list %}
+{% show_comment_dialog comment user %}
+{% endfor %}
+</div>
+<br>
+{% endif %}
 <hr>
 {% if user.is_authenticated %}
 <h4> Add your comment:</h4>
@@ -30,14 +51,15 @@ There is currently no comment.
 <div class="row">
   <div class="col-xs-12 col-sm-4">
 <select class="form-control" id="id_issue" name="issue" {% if not perms.wiki.add_pagecomment %}disabled {%endif%}>
-<option value="0">fix spelling and gramma</option>
-<option value="1" selected="selected">fix wikilink</option>
-<option value="2">expand short article</option>
-<option value="3">check reference</option>
-<option value="4">add reference</option>
-<option value="5">add image</option>
-<option value="6">Improve lead section</option>
-<option value="7">add new information</option>
+<option value="1">fix spelling and gramma</option>
+<option value="2" selected="selected">fix wikilink</option>
+<option value="3">expand short article</option>
+<option value="4">check reference</option>
+<option value="5">add reference</option>
+<option value="6">add image</option>
+<option value="7">Improve lead section</option>
+<option value="8">add new information</option>
+<option value="0">other</option>
 </select>
   </div>
 </div>

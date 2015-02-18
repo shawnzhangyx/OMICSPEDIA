@@ -306,9 +306,31 @@ background-color: #eee;
 /**** wiki comment tab ****/
 .wiki-comment-tab
 {
-border: 1px dotted #CCCCCC;
-padding: 8px 5px;
-margin: 5px 0px;
+padding: 5px 5px;
+margin: 5px 5px;
+background-color: #FFFFFF;
+border-radius: 3px;
+box-shadow: 1px 1px 1px #aaaaaa;
+
+}
+
+.wiki-comment-fence {
+background-color: #dddddd;
+border-radius: 3px;
+padding: 0 5px 5px 5px;
+}
+.wiki-comment-type {
+color: #FF6633;
+text-shadow: 1px 0px #FF6633;
+width: 160px;
+padding-right:5px;
+text-align: right;
+display: inline-block;
+}
+
+.wiki-comment-detail {
+color: #777777;
+text-shadow: 0px 1px #bbbbbb;
 }
 
 .wikilink {
@@ -356,7 +378,7 @@ padding-left: 18px;}
 
 
 .wiki-tab-comment {
-background-image: url('images/exclamation.jpg');
+background-image: url('icons/bug3.png');
 background-size: 14px 14px;
 background-repeat: no-repeat;
 line-height: 20px;
