@@ -8,7 +8,7 @@
 <div class="alert alert-success"> {{message}} </div>
 {% endif %}
 <div class="row">
-<form class="col-xs-6 col-xs-offset-3" action="" method="post">
+<form class="col-xs-12 col-sm-6 col-sm-offset-3" action="" method="post">
 {% csrf_token %}
 {% if form.non_field_errors %} <div class="alert alert-warning">{{ form.non_field_errors }}</div> {% endif %}
 <div class="form-group">

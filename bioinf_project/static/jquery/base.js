@@ -31,9 +31,6 @@ $.ajaxSetup({
 });
 
 
-$(window).on('load resize',  function () {
-    $('.nav-sidebar').toggleClass('nav-pills', $(window).width() < 768);
-});
 
 $(document).ready(function() {
 

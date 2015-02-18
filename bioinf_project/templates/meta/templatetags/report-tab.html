@@ -4,21 +4,21 @@
 <div class="post-tab">
   <div class="post-count-box">
     <div class="post-tab-vote">
-    <h3>{{report.get_vote_count}} </h3> 
-    votes
+    <div>{{report.get_vote_count}} </div> 
+        <span> vote{%if report.get_vote_count > 1 %}s{%endif%} </span>
     </div>
     <div class="post-tab-reply">
-    <h3>{{report.get_comment_count}} </h3> 
-    Replies
+    <div>{{report.get_comment_count}} </div> 
+    <span>repl{%if post.reply_count > 1 %}ies{%else%}y{%endif%}</span>
     </div>
     <div class="post-tab-views">
-    <h3>{{report.view_count}} </h3> 
-    views
+    <div>{{report.view_count}} </div> 
+    <span>view{%if post.view_count > 1 %}s{%endif%}</span>
     </div>
   </div>
   <div class="post-tab-detail">
-    <div class="">
-      <h4> <a href= "{% url 'meta:report-detail' report.id %}" >{{ report.title }} </a> </h4> 
+    <div class="post-tab-title">
+       <a href= "{% url 'meta:report-detail' report.id %}" >{{ report.title }} </a> 
           <!--  {{report.current_revision.content|truncatechars:150}} -->
 
     </div>

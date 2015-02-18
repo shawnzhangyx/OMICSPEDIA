@@ -4,16 +4,16 @@
 <div class="post-tab">
   <div class="post-count-box">
     <div class="post-tab-vote">
-    <h3>{{post.get_vote_count}} </h3> 
-    vote{%if post.get_vote_count > 1 %}s{%endif%}
+    <div>{{post.get_vote_count}} </div> 
+    <span> vote{%if post.get_vote_count > 1 %}s{%endif%} </span>
     </div>
     <div class="post-tab-reply {% if post.accepted_answer != null%}post-tab-reply-accepted{% endif %}">
-    <h3>{{post.reply_count}} </h3> 
-    repl{%if post.reply_count > 1 %}ies{%else%}y{%endif%} 
+    <div>{{post.reply_count}} </div> 
+    <span>repl{%if post.reply_count > 1 %}ies{%else%}y{%endif%}</span>
     </div>
     <div class="post-tab-views">
-    <h3>{{post.view_count}} </h3> 
-    view{%if post.view_count > 1 %}s{%endif%} 
+    <div>{{post.view_count}} </div> 
+    <span>view{%if post.view_count > 1 %}s{%endif%}</span>
     </div>
   </div>
   <div class="post-tab-detail">
