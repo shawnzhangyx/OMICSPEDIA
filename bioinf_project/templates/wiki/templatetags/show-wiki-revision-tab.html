@@ -1,5 +1,5 @@
-        <small>{{ revision.modified_date }}</small>
-
+{% load humanize %}
+        <span title="{{revision.modified_date}} OTC">{{ revision.modified_date|naturaltime}}</span>
 <a href="{% url 'users:profile-view' revision.author.user_profile.id %}"> 
     {{revision.author.user_profile.name}} </a>
     {% ifequal revision.revision_number 1 %} created {%else%} edited {% endifequal %} 
