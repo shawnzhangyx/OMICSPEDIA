@@ -2,7 +2,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import Page
+from .models import Page, PageComment
 from tags.models import Tag
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Fieldset, Div, Submit, ButtonHolder, HTML
@@ -83,3 +83,27 @@ class PageRevisionForm(forms.ModelForm):
     
 PageRevisionForm.base_fields['tags'].help_text = 'Please type your tags'
 
+class PageCommentForm(forms.ModelForm):
+    status = forms.ChoiceField(choices = PageComment.STATUS_CHOICE[0:2])
+    issue = forms.ChoiceField(choices = PageComment.ISSUE_CHOICE)
+    detail = forms.CharField(widget=forms.Textarea)
+    
+    def __init__(self, *args, **kwargs):
+        super(PageCommentForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "page-comment-form"
+        self.helper.layout = Layout(
+            Fieldset(
+                '',
+                Div('status', css_class="col-xs-8 col-sm-4"),
+                Div('issue', css_class="col-xs-8 col-sm-4"),
+                Div('detail', css_class="col-xs-12"),
+            ),
+             ButtonHolder(
+                Submit('submit', 'Submit')
+            )
+
+        )
+    class Meta:
+        model = PageComment
+        fields = ('status','issue', 'detail')

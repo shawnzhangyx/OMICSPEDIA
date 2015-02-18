@@ -1,34 +1,11 @@
 {% extends 'wiki/wiki_base.html' %}
+{% load crispy_forms_tags %}
+
 {% block content %}
 <h1> Edit comment</h1>
 
 <form action="" method="POST" role="form">
-{% csrf_token %}
-
-
-Status: 
-<select class="input-xs" id="id_status" name="status">
-<option value="0" selected="selected">open</option>
-<option value="1">close pending</option>
-</select>
-Type: 
-<select class="input-xs" id="id_issue" name="issue">
-<option value="">---------</option>
-<option value="0">fix spelling and gramma</option>
-<option value="1" selected="selected">fix wikilink</option>
-<option value="2">expand short article</option>
-<option value="3">check reference</option>
-<option value="4">add reference</option>
-<option value="5">add image</option>
-<option value="6">Improve lead section</option>
-<option value="7">add new information</option>
-</select>
-<br>
-Details:
-<textarea class="form-control" id="id_detail" name="detail">{{form.detail.value}}</textarea> 
-
-<br>
-<input class="btn btn-sm btn-default" type="submit" value="Submit" class="default" name="_save">
+{% crispy form %}
 </form>
 
 

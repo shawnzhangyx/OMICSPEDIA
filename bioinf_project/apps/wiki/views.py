@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 
 
-from .forms import PageForm, PageRevisionForm
+from .forms import PageForm, PageRevisionForm, PageCommentForm
 from .models import Page, PageRevision, PageComment, UserPage
 import markdown
 import json
@@ -262,14 +262,21 @@ class WikiCommentAdd(CreateView):
 
 class WikiCommentEdit(UpdateView):
 
-    model = PageComment
+    #model = PageComment
+    form_class = PageCommentForm
     template_name = "wiki/wiki_comment_edit.html"
-    fields = ['status','issue','detail']
+    #fields = ['status','issue','detail']
     
     @method_decorator(permission_required("wiki.change_pagecomment", login_url="/accounts/email-verification/"))
     def dispatch(self, *args, **kwargs):
         return super(WikiCommentEdit, self).dispatch(*args, **kwargs)
 
+    def get_object(self):
+        return PageComment.objects.get(pk= self.kwargs['pk'])
+
+    #def get_form(self):
+        
+    
 class UserPageView(ListView):
     template_name = "wiki/wiki_userpage.html"
     context_object_name = "userpage_list"

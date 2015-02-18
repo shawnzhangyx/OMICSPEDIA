@@ -89,7 +89,7 @@ class Page(models.Model):
     @staticmethod
     def reset_comment_count():
         for wiki in Page.objects.all():
-            wiki.comment_count = wiki.comments.all().count()
+            wiki.comment_count = wiki.comments.filter(issue__lt = 2).count()
             wiki.save()
             
     def get_absolute_url(self):

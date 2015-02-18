@@ -5,7 +5,7 @@
   <span class="wiki-comment-type"> {{comment.get_issue_display}}</span>
   <span class="wiki-comment-detail">
     {{comment.detail}}  </span> -- <a href="{%url 'users:profile-view' comment.author.user_profile.id%}">{{comment.author.user_profile.name}}</a>
-    {{comment.created}} 
+    <small> {{comment.created}} OTC </small>
     {% if comment.init_revision != null %}
     <a class="btn btn-xs btn-default" href="{% url 'wiki:wiki-diff' comment.init_revision.id %}"> Original version </a>
     {% endif %}
@@ -16,8 +16,8 @@
     <a class="btn btn-xs btn-default" href=""> Compare</a>
     {% endif %}
     
-    {% if user.is_authenticated and user == comment.author %}
-        <a href="{% url 'wiki:wiki-comment-edit' pk=comment.pk %}">edit </a>
+    {% if user.is_authenticated and user == comment.author and comment.get_status_display != 'closed'%}
+        <a href="{% url 'wiki:wiki-comment-edit' pk=comment.pk %}" class="btn btn-xs btn-default">edit </a>
     {% endif %}
  
 </div>
