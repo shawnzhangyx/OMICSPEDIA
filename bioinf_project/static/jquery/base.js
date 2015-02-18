@@ -31,8 +31,12 @@ $.ajaxSetup({
 });
 
 
+$(window).on('load resize',  function () {
+    $('.nav-sidebar').toggleClass('nav-pills', $(window).width() < 768);
+});
 
 $(document).ready(function() {
+
 
 // this could enable tooltip on generated elements 
 $('body').tooltip({ selector:'[data-toggle=tooltip]'});

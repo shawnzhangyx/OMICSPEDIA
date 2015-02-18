@@ -107,8 +107,9 @@ background-color: #444444;
 
 /* Hide for mobile, show later */
 .sidebar {
-  display: none;
-  width:150px;
+display: block;
+background-color: #eeeeee;
+
 }
 @media (min-width: 768px) {
   .sidebar {
