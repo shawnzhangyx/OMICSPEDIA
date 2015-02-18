@@ -153,9 +153,9 @@ class PageComment(models.Model):
     COMMENT_TYPE_CHOICE = [(ISSUE, "issue"), (REQUEST, "request"), (DISCUSS, "discuss")]
     comment_type = models.IntegerField(choices=COMMENT_TYPE_CHOICE, default="discuss")
     # This is only required when the user report issue
-    GRAMMER, WIKILINK, EXPAND, CHECK_REFERENCE, ADD_REFERENCE, IMAGE, LEAD, NEW_INFO = range(8)
-    ISSUE_CHOICE = [(GRAMMER,'fix spelling and gramma'),
-            (WIKILINK, 'fix wikilink'), (EXPAND, 'expand short article'),
+    OTHER, GRAMMER, LINK, EXPAND, CHECK_REFERENCE, ADD_REFERENCE, IMAGE, LEAD, NEW_INFO = range(9)
+    ISSUE_CHOICE = [(OTHER, 'other'), (GRAMMER,'fix spelling and gramma'),
+            (LINK, 'fix link'), (EXPAND, 'expand short article'),
             (CHECK_REFERENCE, 'check reference'), (ADD_REFERENCE, 'add reference'),
             (IMAGE, 'add image'), (LEAD, 'Improve lead section'),
             (NEW_INFO,'add new information')]
@@ -176,11 +176,6 @@ class PageComment(models.Model):
     def get_absolute_url(self):
         return reverse('wiki:wiki-comment', kwargs = {'title': self.page.get_title()})
         
-    def get_status_class(self):
-    # OPEN, PENDING, CLOSED = range(4)
-        dict = {self.OPEN:"btn-danger", 
-        self.PENDING:"btn-success", self.CLOSED:"btn-default"}
-        return dict[self.status]
         
     def get_issue_warnings_message(self):
     # GRAMMER, WIKILINK, EXPAND, CHECK_REFERENCE, ADD_REFERENCE, IMAGE, LEAD, NEW_INFO = range(8)        

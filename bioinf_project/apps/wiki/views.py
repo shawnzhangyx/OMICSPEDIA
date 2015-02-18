@@ -223,12 +223,16 @@ class WikiDiff(DetailView):
 class WikiCommentView(DetailView):
     model = Page
     template_name = "wiki/wiki_comment.html"
+    
     def get_object(self):
         return Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
         
     def get_context_data(self, **kwargs):
         context = super(WikiCommentView, self).get_context_data(**kwargs)
-        context['comment_list'] = self.object.comments.all()
+        comment_list = self.object.comments.order_by('-modified')
+        context['open_comment_list'] = comment_list.filter(status = 0)
+        context['pending_comment_list'] = comment_list.filter(status = 1)
+        context['closed_comment_list'] = comment_list.filter(status = 2)
         return context
         
 class WikiCommentAdd(CreateView):
