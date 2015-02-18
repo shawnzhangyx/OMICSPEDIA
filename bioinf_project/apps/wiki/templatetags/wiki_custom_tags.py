@@ -20,8 +20,9 @@ def show_wiki_tab(wiki):
 
 @register.inclusion_tag("wiki/templatetags/show-wiki-comment-warning.html")
 def show_wiki_comment_warning(comments):
-    GRAMMER, WIKILINK, EXPAND, CHECK_REFERENCE, ADD_REFERENCE, IMAGE, LEAD, NEW_INFO = range(8)
-    dict = {GRAMMER: 'There is grammer error in this page',
+    OTHER, GRAMMER, WIKILINK, EXPAND, CHECK_REFERENCE, ADD_REFERENCE, IMAGE, LEAD, NEW_INFO = range(9)
+    dict = {OTHER: 'Therer is some comments about this page',
+            GRAMMER: 'There is grammer error in this page',
             WIKILINK: 'Some wikilink may be not functional',
             EXPAND: 'This page is too short, please expand it',
             CHECK_REFERENCE: 'References may be inaccurate',
