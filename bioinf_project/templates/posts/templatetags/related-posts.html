@@ -1,0 +1,21 @@
+{% load post_custom_tags %}
+<div>
+<b>Related:</b>
+<br>
+{% for post in related_posts|slice:':10' %}
+<table class="post-tab-sm">
+<tr>
+<td class="post-count-box-sm">
+    <span title='{{post.vote_count}} vote{% if post.get_vote_count > 1 %}s{%endif%}' class="post-tab-reply-sm {% if vote.accepted_answer %}post-tab-reply-accepted{% endif %}">
+    {{post.vote_count}}
+    </span>
+  </td>
+  <td>
+    <a class="post-tab-title-sm" href= "{% url 'posts:post-detail' post.id %}#{{post.id}}" >
+<!--    <span title="{{post.get_type_display}}">&lt;<b>{% if post.type != 0 %}{% if post.type == 1 %}D{%else%}B{% endif %}{% else %}Q{% endif %}</b>&gt;</span>  -->
+    {{ post.title }} </a>
+  </td>
+  </tr>
+  </table>
+{% endfor %}
+</div>

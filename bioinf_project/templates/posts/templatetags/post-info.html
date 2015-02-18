@@ -1,0 +1,8 @@
+{% load humanize %}
+
+<table class="post-info">
+<tr> <td class="post-info-left"> created</td> <td  class="post-info-right"> {{post.created|naturaltime}}</td> </tr>
+<tr> <td  class="post-info-left"> viewed</td> <td  class="post-info-right"> {{post.view_count}} times</td> </tr>
+<tr> <td  class="post-info-left"> active</td> <td  class="post-info-right"> {{post.last_modified|naturaltime}}</td> </tr>
+
+</table>

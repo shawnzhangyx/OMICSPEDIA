@@ -13,8 +13,10 @@
 {% endblock head %}
 
 {% block content %}
-<h3>{{mainpost.title}} <small>&lt;{{type}}&gt;</small></h3>
-
+<h3 class="post-title">{{mainpost.title}} <small>&lt;{{type}}&gt;</small></h3>
+<table class="post-table">
+<tr>
+<td >
 {% display_discussion_body mainpost user perms "is_question" 'lead'%}
 
 <h4 class="pull-left"><b> {{mainpost.reply_count}} {%if mainpost.reply_count > 1%}replies{%else%}reply{% endif %}</b></h4>
@@ -25,7 +27,7 @@
       <a href="?tab=votes"> votes </a> </li>
     <li {% ifequal tab "oldest" %} class="active" {% endifequal %}> 
       <a href="?tab=oldest"> oldest  </a> </li>
-</ul>
+</ul>   
 
 {% for reply in replypost_list %}
     {% display_discussion_body reply user perms "is_answer" forloop.counter%}
@@ -63,7 +65,15 @@
 {% else %}
 <br> please <a href = "{% url 'users:login' %}" class="btn btn-xs btn-default"> <img src="{% static 'icons/enter3.png' %}" > log in </a>  to post a response 
 {% endif %}
+</td>
+<td class="post-sidebar"> 
+{% display_post_info mainpost %}
 
+{% display_related_posts mainpost %}
+ 
+</td>
+</tr>
+</table>
 <!-- script for text input control panel -->
 <script type="text/javascript">
             (function () {

@@ -16,6 +16,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
+import StringIO
+from PIL import Image
+
 from utils import pagination
 
 from .models import UserProfile, Notification
@@ -76,10 +79,21 @@ class Logout(View):
 class ProfileEdit(UpdateView):
     form_class=ProfileForm
     template_name = "users/profile_edit.html"
+    
     def get_object(self):
         return UserProfile.objects.get(pk=self.kwargs['pk'])
         
-        
+    def form_valid(self, form):
+        image_field = form.cleaned_data.get('portrait')
+        image_file = StringIO.StringIO(image_field.read())
+        image = Image.open(image_file)
+        SIZE = 400,400
+        image = image.resize(SIZE, Image.ANTIALIAS)
+        image_file = StringIO.StringIO()
+        image.save(image_file, 'JPEG', quality=90)
+        image_field.file = image_file
+        return super(ProfileEdit,self).form_valid(form)
+    
 class ProfileView(DetailView):
     model = UserProfile
     template_name = "users/profile_view.html"

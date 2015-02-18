@@ -4,6 +4,8 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from utils import pagination
+import StringIO
+from PIL import Image
 
 from .models import Tag, UserTag
 from posts.models import MainPost
@@ -36,11 +38,10 @@ class TagCreate(CreateView):
 
     def get_form(self, form_class):
         kwargs = self.get_form_kwargs()
-        kwargs['initial'].update({'categories':1})
+        kwargs['initial'].update({'categories':0})
         return form_class(**kwargs)
 
     def form_valid(self, form):
-        
         form.instance = Tag.create(form.instance.name, form.instance.categories, form.instance.icon, self.request.user)
         if self.kwargs['parent_name']!='':
             parent = Tag.objects.get(name = self.kwargs['parent_name'])
@@ -79,6 +80,18 @@ class TagEdit(UpdateView):
             return WorkflowTagForm
         else: 
             return TagForm
+            
+    def form_valid(self, form):
+        image_field = form.cleaned_data.get('icon')
+        if image_field:
+            image_file = StringIO.StringIO(image_field.read())
+            image = Image.open(image_file)
+            SIZE = 40,40
+            image = image.resize(SIZE, Image.ANTIALIAS)
+            image_file = StringIO.StringIO()
+            image.save(image_file, 'JPEG', quality=90)
+            image_field.file = image_file
+        return super(TagEdit,self).form_valid(form)
         
 class TagDetails(DetailView):
     template_name = 'tags/tag_detail.html'

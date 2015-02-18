@@ -497,14 +497,15 @@ font-size:12px;
 }
 
 .post-count-box-sm{
+vertical-align: top;
+padding-right: 10px;
 
 }
 /* post tab small */
 .post-tab-sm {
 margin-bottom: 10px;
 }
-.post-count-box-sm div{
-float: left;
+.post-count-box-sm span{
 padding: 2px 5px;
 text-align: center;
 font-size: 14px;
@@ -515,6 +516,7 @@ background-color: #F4F4F4;
 .post-tab-reply-sm {
 color: #993300;
 background-color: #E4F4D4;
+
 }
 
 .post-tab-reply-accepted{
@@ -524,16 +526,41 @@ color: white;
 .post-tab-view-sm {
 color: white;
 background-color: #999999;
+
 }
 
 .post-tab-title-sm{
-margin-left: 20px;
-font-size: 16px;
-font-weight: bold;
+font-size: 14px;
+font-weight: normal;
 color: #555555;
 }
 
 /**** post body ****/
+.post-title { 
+padding-bottom: 3px;
+border-bottom: 1px solid grey;
+}
+.post-table {
+width: 100%;
+}
+.post-sidebar {
+width: 220px;
+padding: 0 0 0 30px;
+vertical-align: top;
+}
+
+.post-info {
+border-bottom: 2px solid #428bca;
+}
+.post-info-left{
+color: grey;
+padding: 5px 0;
+}
+
+.post-info-right{
+padding-left: 7px;
+}
+
 .question-container {
 width: 100%;
 margin: 5px 0;

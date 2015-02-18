@@ -14,10 +14,12 @@
 {% endblock head %}
 
 {% block content %}
-<h3>{{mainpost.title}} <small>&lt;{{type}}&gt;
+<h3 class="post-title">{{mainpost.title}} <small>&lt;{{type}}&gt;
 {% if user.is_authenticated %}
           <a class="btn btn-default btn-xs" href='{% url "posts:mainpost-edit" mainpost.id %}'>edit</a> {% endif %} </small> </h3>
-<hr>
+<table class="post-table">
+<tr>
+<td>
 {% display_blog_body mainpost user perms %}
 <br>
 <h4 class="pull-left"><b> {{mainpost.get_comments.count}} comment{%if mainpost.get_comments.count > 1%}s{% endif %}</b></h4>
@@ -72,7 +74,15 @@
 <br>
 please <a href = "{% url 'users:login' %}" class="btn btn-xs btn-default"> <img src="{% static 'icons/enter3.png' %}" > log in </a>  to post a response 
 {% endif %}
+</td>
+<td class="post-sidebar"> 
+{% display_post_info mainpost %}
 
+{% display_related_posts mainpost %}
+ 
+</td>
+</tr>
+</table>
 <!-- script for text input control panel -->
 
 {% endblock content %}

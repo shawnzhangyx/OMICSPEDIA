@@ -7,10 +7,10 @@
 {% load software_custom_tags %}
 {% block content %}
 
-<h2> {% show_tag_ancestor tag %} {{ tag.name }} <small> {% if tag.wiki_page.software %}&lt;<a title="go to software page" href="{% url 'software:software-detail' tag.wiki_page.software.name %}">software</a>&gt; {% endif %}
+<h2> {% show_tag_ancestor tag %} {% if tag.icon %} <img src="{{tag.icon.url}}">{% endif %} {{ tag.name }} <small> {% if tag.wiki_page.software %}&lt;<a title="go to software page" href="{% url 'software:software-detail' tag.wiki_page.software.name %}">software</a>&gt; {% endif %}
 </small> 
   
-{% if perms.tags.eidt_tag and tag.status == 0 %}
+{% if perms.tags.change_tag and tag.status == 0 %}
 <a class="btn btn-xs btn-default" href="{% url 'tags:tag-edit' tag.name %}">Edit</a>
 {% endif %}
 {% if perms.tags.delete_tag %}

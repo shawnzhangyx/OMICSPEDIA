@@ -5,8 +5,8 @@
 <h2> Create a new tag</h2>
 {{ message }}
 <div class="col-sm-10 col-sm-offset-1">
-<form enctype="multipart/form-data" action="" method="post">
-{% csrf_token %}
+<form action="" method="post">
+
 {% crispy form %}
 </form>
 </div>

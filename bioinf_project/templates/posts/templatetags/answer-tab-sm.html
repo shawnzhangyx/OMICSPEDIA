@@ -1,11 +1,13 @@
 
-  <div class="post-tab-sm col-sm-12">
-  <div class="post-count-box-sm">
-    <div title='{{answer.get_vote_count}} vote{% if answer.get_vote_count > 1 %}s{%endif%}{% if answer.accepted_root.count == 1 %}, best answer{%endif%}' class="post-tab-reply-sm {% if answer.accepted_root.count == 1 %}post-tab-reply-accepted{% endif %}">
+  <table class="post-tab-sm col-sm-12">
+  <tr>
+  <td class="post-count-box-sm">
+    <span title='{{answer.get_vote_count}} vote{% if answer.get_vote_count > 1 %}s{%endif%}{% if answer.accepted_root.count == 1 %}, best answer{%endif%}' class="post-tab-reply-sm {% if answer.accepted_root.count == 1 %}post-tab-reply-accepted{% endif %}">
     {{answer.get_vote_count}}
-    </div>
-  </div>
-  <div>
+    </span>
+  </td>
+  <td>
     <a class="post-tab-title-sm" href= "{% url 'posts:post-detail' answer.mainpost.id %}#{{answer.id}}" >{{ answer.mainpost.title }} </a>
-  </div>
-    </div>
+  </td>
+  </tr>
+    </table>

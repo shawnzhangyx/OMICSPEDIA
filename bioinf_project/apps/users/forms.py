@@ -66,9 +66,9 @@ class UserCreationForm(forms.ModelForm):
         
 def validate_portrait(image):
     w, h = get_image_dimensions(image)
-    if w > 400 or h > 400: 
-        raise ValidationError("the uploaded image must be smaller than 400px in width or height. Your image: width: %d; height: %d"% (w,h))
-    elif (float(w)/h < 0.95 or float(w)/h >1.05): 
+    #if w > 400 or h > 400: 
+    #    raise ValidationError("the uploaded image must be smaller than 400px in width or height. Your image: width: %d; height: %d"% (w,h))
+    if (float(w)/h < 0.95 or float(w)/h >1.05): 
         raise ValidationError("Please make sure the height and width are approximately same (5 percent difference), otherwise the image will be distorted. Your image: width: %d; height: %d"% (w,h))
         
 class ProfileForm(forms.ModelForm):
@@ -76,7 +76,7 @@ class ProfileForm(forms.ModelForm):
     location = forms.CharField(required=False)
     website = forms.URLField(required=False)
     biography = forms.CharField(widget=forms.Textarea, required=False)
-    portrait = forms.ImageField(required=False, validators=[validate_portrait], help_text="400px*400px")
+    portrait = forms.ImageField(required=False, validators=[validate_portrait], help_text="Uploaded image will be converted to 400px*400px.")
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)

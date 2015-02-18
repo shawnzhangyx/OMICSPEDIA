@@ -28,7 +28,7 @@ class IndexView(TemplateView):
         bookmarked = all.order_by('-bookmark_count')[:SLICE]
         viewed = all.order_by('-view_count')[:SLICE]
         commented = all.filter(comment_count__gt = 0).order_by('-comment_count')[:SLICE]
-        update = PageRevision.objects.order_by('-modified_date')[:SLICE]
+        update = PageRevision.objects.order_by('-modified_date')[:8]
         context['bookmark'] = bookmarked
         context['view'] = viewed
         context['comment'] = commented

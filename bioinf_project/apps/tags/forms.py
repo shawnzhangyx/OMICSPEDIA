@@ -10,16 +10,15 @@ from wiki.models import Page
 
 def validate_icon(image):
     w, h = get_image_dimensions(image)
-    if w != 50 and h != 50: 
-        raise ValidationError("the uploaded icon must be 50px*50px.")
-
+    if (float(w)/h < 0.95 or float(w)/h >1.05): 
+        raise ValidationError("Please make sure the height and width are approximately same (5 percent difference), otherwise the image will be distorted. Your image: width: %d; height: %d"% (w,h))
 def validate_name(name):
     if name.find("_") >= 0:
         raise ValidationError("'_' is not allowed in the tag name")
 
 class TagCreateForm(forms.ModelForm):
     name = forms.CharField(validators=[validate_name],help_text="the name of the tag")
-    icon = forms.ImageField(label="Icon", required=False, validators=[validate_icon], help_text="50px * 50px")
+   # icon = forms.ImageField(label="Icon", required=False, validators=[validate_icon], help_text="50px * 50px")
     categories = forms.ChoiceField(choices=Tag.CATEGORY_CHOICE, 
     help_text='select category')
     
@@ -30,7 +29,7 @@ class TagCreateForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div('name', css_class="col-sm-6"),
             Div('categories',css_class="col-sm-6"),
-            Div('icon', css_class="col-sm-6"),
+    #        Div('icon', css_class="col-sm-6"),
             Div('', css_class="clearfix visible-sm-block visible-md-block visible-lg-block"),
             ButtonHolder(
                 Submit('submit', 'Submit'), css_class="col-sm-6"
@@ -39,13 +38,13 @@ class TagCreateForm(forms.ModelForm):
         
     class Meta:
         model = Tag
-        fields = ('name', 'categories','icon')
+        fields = ('name', 'categories',)
         
         
 class TagForm(forms.ModelForm):
     name = forms.CharField(validators=[validate_name],help_text="the name of the tag")
     wiki_page = forms.ModelChoiceField(label="page", queryset=Page.objects.all(),help_text="the wiki page of this tag")
-    icon = forms.ImageField(label="Icon", required=False, validators=[validate_icon], help_text="24px * 24px")
+    icon = forms.ImageField(label="Icon", required=False, validators=[validate_icon], help_text="Upload image with same height and width.")
     categories = forms.ChoiceField(choices=Tag.CATEGORY_CHOICE, 
     help_text='select category')
     
