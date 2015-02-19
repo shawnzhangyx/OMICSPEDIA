@@ -16,15 +16,30 @@
   {% endif %}
   <br><br>
   <div class="dropdown">
-  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+  <button class="btn btn-xs btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
     Sort by {{sort}}
     <span class="caret"></span>
   </button>
+
   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
     <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab={{tab}}&sort=Votes">Votes</a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab={{tab}}&sort=Replies"> Replies</a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab={{tab}}&sort=Bookmarks"> Bookmarks</a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab={{tab}}&sort=Views"> Views</a></li>
+  </ul>
+</div>
+<br>
+  <div class="nav-tabs-dropdown dropdown">
+  <b>Showing <button class="btn btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+    {{tab}}</b>
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=All&sort={{sort}}">all</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Question&sort={{sort}}"> questions</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Unanswer&sort={{sort}}"> unanswered</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Discussion&sort={{sort}}"> discussions</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Blog&sort={{sort}}"> blogs</a></li>
   </ul>
 </div>
 <br>
@@ -43,10 +58,10 @@
   </ul>
   
 
+
   {% for post in post_list %}
     {% show_post_tab post %}
   {% empty %}
-    <p> No posts created yet.</p>
   {% endfor %}
   
       {% if is_paginated %}

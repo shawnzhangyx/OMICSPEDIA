@@ -164,7 +164,12 @@ background-color: #444444;
   background-color: #428bca;
 }
 
-
+/* nav-tabs */
+@media (max-width:768px){
+  .nav-tabs {
+  display: none;
+  }
+}
 /*
  * Main content
  */
