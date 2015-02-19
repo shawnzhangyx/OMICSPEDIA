@@ -109,7 +109,7 @@ background-color: #444444;
 
 @media (min-width: 768px) {
   .sidebar {
-    width: 140px;
+    width: 145px;
     position: fixed;
     top: 41px;
     bottom: 0;
@@ -139,7 +139,7 @@ background-color: #444444;
 @media (max-width: 768px) {
   .sidebar {
     display: block;
-    background-color: #eeeeee;
+    background-color: #aaaaaa;
   }
   .nav-sidebar {
 
@@ -150,8 +150,8 @@ background-color: #444444;
   .nav-sidebar > li > a {
   padding: 3px 3px;
   background-color: #ffffff;
-  border: solid 1px #bbbbbb;
-  box-shadow: 1px 1px 1px #888888;
+  #border: solid 1px #bbbbbb;
+  #box-shadow: 1px 1px 1px #888888;
   margin: 3px 3px;
   border-radius: 3px;
   }
