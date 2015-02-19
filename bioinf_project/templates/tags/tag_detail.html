@@ -7,7 +7,7 @@
 {% load software_custom_tags %}
 {% block content %}
 
-<h2> {% show_tag_ancestor tag %} {% if tag.icon %} <img src="{{tag.icon.url}}">{% endif %} {{ tag.name }} <small> {% if tag.wiki_page.software %}&lt;<a title="go to software page" href="{% url 'software:software-detail' tag.wiki_page.software.name %}">software</a>&gt; {% endif %}
+<h1> {% show_tag_ancestor tag %} {% if tag.icon %} <img src="{{tag.icon.url}}">{% endif %} {{ tag.name }} <small> <a title="go to wiki page" class="interlink" href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}">wiki</a> {% if tag.wiki_page.software %}<a title="go to software page"  class="interlink" href="{% url 'software:software-detail' tag.wiki_page.software.name %}">software</a> {% endif %} 
 </small> 
   
 {% if perms.tags.change_tag and tag.status == 0 %}
@@ -16,9 +16,8 @@
 {% if perms.tags.delete_tag %}
 <a class="btn btn-xs btn-default" href = "{% url 'tags:tag-delete' name=tag.name %}">Delete? </a>
 {% endif %}
+</h1>
 
-
-</h2>
 <hr>
 <div class="vote-box pull-left">
     {% display_bookmark_widget tag.wiki_page user %}
@@ -26,15 +25,12 @@
  {% if tag.wiki_page == null %}
   There is no description of this tag, please add a <a href="{% url 'tags:tag-edit' tag.name %}">wiki</a> page to it. 
   {% else %}
-  <div class="pull-left">
 {{tag.wiki_page.get_lead_section|safe}} 
-</div>
- <a href="{% url 'wiki:wiki-detail' tag.wiki_page.get_title %}">&nbsp;[tag wiki]</a> 
   {% endif %}
 
-  <br><br><br><br><hr>
+<hr>
 {% if tag.get_categories_display == "workflow"%}
-<h4> children tags in &lt;{{tag.name}}&gt;: </h4>
+<h4> children under &lt;{{tag.name}}&gt;: </h4>
 {% for tag in tag.children.all %}
   {% display_tag tag %}
 {% empty %}
@@ -42,7 +38,27 @@ None
 {% endfor %}
 <a class="btn btn-sm btn-default"  href="{% url 'tags:tag-create' parent_name=tag.name %}"> Create new tag under this tag?</a>
 {% endif %}
-<br><br><br><br>
+<br><br>
+
+<div class="nav-tabs-dropdown dropdown">
+  show <button class="btn btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+     {{tab}}
+    <span class="caret"></span>
+  </button>
+
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Summary">Summary</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Wiki">Wiki</a></li>
+    {% ifequal tag.get_categories_display 'workflow' %}
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Software"> Software</a></li> 
+    {% endifequal %}
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Questions"> Questions</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Discussions"> Discussions</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Blogs"> Blogs</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Contributors"> Contributors</a></li>
+  </ul>
+</div>
+
   <ul class="nav nav-tabs">
     <li {% ifequal tab "Summary" %} class="active" {% endifequal %}
     {% ifequal tab null %} class="active" {% endifequal %}>
@@ -64,8 +80,6 @@ None
   </ul>
 
 {% ifequal tab "Summary" %}
-
-<p> This is the Summary page of the tag: </p>
  <div class="row"> 
    <div class="section-tab col-sm-6">
     <h3> <a href="?tab=Wiki">{{wiki_list_count}} wiki page{% if wiki_list_count > 1%}s{% endif %}</a> </h3>
@@ -121,11 +135,11 @@ None
 
 {% ifequal tab "Wiki"%}
   <br>  
-  <ul>
+  <ul class="list-unstyled">
   {% for wiki in wiki_list %}
-  {% show_wiki_tab wiki %}
+  <li>{% show_wiki_tab wiki %}</li>
   {% empty%}
-  No wiki associated with this tag yet. Would you like to suggest adding some tags to these <a href=""> articles?</a>
+
   {% endfor%}
   </ul>
 {% endifequal %}
@@ -134,7 +148,7 @@ None
 {% for question in question_list %}
   {% show_post_tab question %}
 {% empty %}
-No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
+
 {% endfor %}
 {% endif %}
 
@@ -142,14 +156,14 @@ No posts associated with this tag yet. Would you like to suggest adding some tag
 {% for discussion in discussion_list %}
   {% show_post_tab discussion %}
 {% empty %}
-No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
+
 {% endfor %}
 {% endif %}
 {% if tab == "Blogs"%}
 {% for blog in blog_list %}
   {% show_post_tab blog %}
 {% empty %}
-No posts associated with this tag yet. Would you like to suggest adding some tags to these <a href="">posts? </a>
+
 {% endfor %}
 {% endif %}
 

@@ -1,15 +1,14 @@
 {% extends 'wiki/wiki_base.html' %}
 {% load util_custom_tags %}
 {% block content %}
-<h2>  <small>Revision history of post:
-  </small>
+<h1> Revision history
+  <!-- of post:
   {% if revision_list.0.post.mainpost == null %}
   {{revision_list.0.post.title}}
   {% else %}
   {{revision_list.0.post.mainpost.title}}
-  {% endif %}
- </h2>
-<br>
+  {% endif %}  -->
+ </h1>
 {% if revision_list %}
   {% for revision in revision_list %}
     <h4> Revision {{revision.revision_number }}

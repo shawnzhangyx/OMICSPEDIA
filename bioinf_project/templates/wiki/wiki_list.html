@@ -9,7 +9,20 @@
 <a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"><img src="{% static 'icons/enter3.png' %}"> log in </a> to create new wiki. 
 {% endif %}
 
-<hr>
+
+ <div class="nav-tabs-dropdown dropdown">
+  sort by <button class="btn btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+    {{tab}}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Bookmark">Bookmark</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=View"> View</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Comment"> Comment</a></li>
+
+  </ul>
+</div>
+
   <ul class="nav nav-tabs right-to-left">
     <li {% ifequal tab 'Bookmark' %} class="active" {% endifequal %} >
        <a href="?tab=Bookmark" > Bookmark </a> </li>
@@ -18,15 +31,16 @@
     <li {% ifequal tab 'Comment' %} class="active" {% endifequal %}> 
       <a href="?tab=Comment"> Comment </a> </li>
   </ul>
-<div class="row">
+
+  <div class="row">
 {% if wiki_list %}
 <ul class="col-sm-6 list-unstyled">
-{% for wiki in wiki_list|slice:':20' %}
+{% for wiki in wiki_list|slice:':15' %}
 <li>{% show_wiki_tab wiki %} </li>
 {% endfor %}
 </ul>
 <ul class="col-sm-6 list-unstyled">
-{% for wiki in wiki_list|slice:'20:40' %}
+{% for wiki in wiki_list|slice:'15:30' %}
 <li>{% show_wiki_tab wiki %}</li>
 {% endfor %}
 </ul>

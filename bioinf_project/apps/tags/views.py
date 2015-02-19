@@ -108,7 +108,7 @@ class TagDetails(DetailView):
             tab = 'Summary'
         page = self.request.GET.get('page')
         # lists that are paginated. 
-        wiki_list = self.object.pages.all()
+        wiki_list = self.object.pages.order_by('-bookmark_count')
         question_list = self.object.questions()
         discussion_list = self.object.discussions()
         blog_list = self.object.blogs()

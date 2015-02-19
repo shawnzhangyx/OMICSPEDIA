@@ -40,7 +40,7 @@ class WikiListView(ListView):
     #model = Page
     template_name = "wiki/wiki_list.html"
     context_object_name = "wiki_list"
-    paginate_by = 40
+    paginate_by = 30
     
     def get_queryset(self): 
         tab = self.request.GET.get('tab') or 'Bookmark'

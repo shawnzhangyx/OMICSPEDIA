@@ -15,7 +15,7 @@
   
   {% endif %}
   <br><br>
-  <div class="dropdown">
+<div class="dropdown">
   <button class="btn btn-xs btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
     Sort by {{sort}}
     <span class="caret"></span>
@@ -29,9 +29,10 @@
   </ul>
 </div>
 <br>
+
   <div class="nav-tabs-dropdown dropdown">
-  <b>Showing <button class="btn btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-    {{tab}}</b>
+  show <button class="btn btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+    {{tab}}
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -43,6 +44,7 @@
   </ul>
 </div>
 <br>
+
   <ul class="nav nav-tabs">
     <li {% ifequal tab 'All' %} class="active" {% endifequal %} >
        <a href="?tab=All&sort={{sort}}" > All </a>

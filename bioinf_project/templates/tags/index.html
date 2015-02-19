@@ -21,7 +21,7 @@ Type to find tags: <input class="form" type="text" name="suggestion" id="suggest
 
 <ul class="list-unstyled list-inline">
         {% for tag in tag_list %}
-        <li class="col-xs-6 col-sm-3">  {% display_tag tag %} x{{tag.count}}</li>
+        <li class="col-xs-12 col-sm-4 col-md-3">  {% display_tag tag %} x{{tag.count}}</li>
         {% empty %}
           
         {% endfor %}
