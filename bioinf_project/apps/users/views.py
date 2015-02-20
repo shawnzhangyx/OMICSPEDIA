@@ -85,13 +85,14 @@ class ProfileEdit(UpdateView):
         
     def form_valid(self, form):
         image_field = form.cleaned_data.get('portrait')
-        image_file = StringIO.StringIO(image_field.read())
-        image = Image.open(image_file)
-        SIZE = 400,400
-        image = image.resize(SIZE, Image.ANTIALIAS)
-        image_file = StringIO.StringIO()
-        image.save(image_file, 'JPEG', quality=90)
-        image_field.file = image_file
+        if image_field:
+            image_file = StringIO.StringIO(image_field.read())
+            image = Image.open(image_file)
+            SIZE = 400,400
+            image = image.resize(SIZE, Image.ANTIALIAS)
+            image_file = StringIO.StringIO()
+            image.save(image_file, 'JPEG', quality=90)
+            image_field.file = image_file
         return super(ProfileEdit,self).form_valid(form)
     
 class ProfileView(DetailView):
