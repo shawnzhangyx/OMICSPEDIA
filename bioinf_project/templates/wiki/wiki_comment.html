@@ -5,7 +5,9 @@
 
 {% block head %}
 {% endblock head %}
-
+{% block wiki-dropdown %}
+Comment
+{% endblock wiki-dropdown %}
 {% block wiki-comment %}
   <li class="active"> <a href="{% url 'wiki:wiki-comment' page.get_title %}"> Comment 
     <span class="badge"> {{page.get_active_comment_count}}</span></a> </li>

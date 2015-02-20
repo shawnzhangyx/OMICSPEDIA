@@ -5,6 +5,20 @@
 {% endblock sidebar-wiki %}
 
 {% block content %}
+<div class="nav-tabs-dropdown dropdown">
+  show <button class="btn btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+     {% block wiki-dropdown %} {% endblock wiki-dropdown %}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-detail' page.get_title %}">Article</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-comment' page.get_title %}"> Comment <span class="badge"> {{page.get_active_comment_count}}</span></a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-edit' page.get_title %}"> Edit</a></li>
+
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-history' page.get_title %}"> History</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-contributors' page.get_title %}"> Contributors</a></li>
+  </ul>
+</div>
 
   <ul class="nav nav-tabs">
     {% block wiki-article %}

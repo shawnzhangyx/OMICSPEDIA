@@ -4,12 +4,12 @@
 {% load humanize %}
 {% load staticfiles %}
 
-<table class="blog-container">
-  <td class="vote-box">
+<div class="blog-container">
+  <div class="vote-box">
     {% display_vote_widget post user%}
     {% display_bookmark_widget post user%}
-    </td>
-  <td class="blog-body">
+    </div>
+  <div class="blog-body">
          <div class="blog-body-author">
  <!--       <div><small> posted 
        {{post.created|naturaltime}} </small></div>
@@ -17,15 +17,15 @@
        {% display_user_md post.author.user_profile 'location' %}
        </div>
     <p> {{ post.current_revision.get_marked_up_content|safe }} </p>
-    tags: {% display_tag_list post.tags.all %}
+        <!-- display the tag list -->
+    {% display_tag_list post.tags.all %}
         <div class='blog-foot'>
         <small>Created:</small> {{post.created|date:"m-d-Y"}}.
         <small>Last edited:</small> {{post.current_revision.modified_date|date:"m-d-Y"}}. <small><a href="{% url 'posts:mainpost-revhistory' post.id %}"> see all versions?</a></small>
         </div>
       
-    <!-- display the tag list -->
 
     
 
-  </td>
-</table>
+  </div>
+</div>

@@ -1,5 +1,8 @@
 {% extends 'wiki/wiki_base.html' %}
 
+{% block wiki-dropdown %}
+History
+{% endblock wiki-dropdown %}
 {% block wiki-history %}
   <li class="active pull-right"> <a href="{% url 'wiki:wiki-history' page.get_title %}"> History </a> </li>
 {% endblock wiki-history %}

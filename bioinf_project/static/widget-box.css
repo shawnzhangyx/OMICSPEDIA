@@ -9,6 +9,11 @@ padding-bottom: 10px;
 border: solid 1px blue;
 }
 
+@media (max-width: 768px){
+  .image-widget {
+    display: none;
+  }
+}
 /**** interlink ****/
 .interlink {
 padding: 1px 5px;
@@ -650,6 +655,10 @@ background-color: #eeeeee;
 width:100%;
 }
 
+.blog-container .vote-box {
+  float: left;
+  }
+  
 .question-body {
 padding-left: 10px;
 }
@@ -730,9 +739,7 @@ border-top: dotted 1px #aaaaaa;
     width: 100%;
   }
 
-  .blog-container .vote-box {
-  display: none;
-  }
+
    .post-body-author > .profile-tab-info {
   display: none; 
 

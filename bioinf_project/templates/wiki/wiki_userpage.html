@@ -3,6 +3,9 @@
 {% load user_custom_tags %}
 {% load staticfiles %}
 
+{% block wiki-dropdown %}
+Contributors
+{% endblock wiki-dropdown %}
 {% block wiki-contributors %}
     <li class="pull-right active"> <a href="{% url 'wiki:wiki-contributors' page.get_title %}"> Contributors </a> </li>
 {% endblock wiki-contributors %}

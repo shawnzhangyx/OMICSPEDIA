@@ -1,10 +1,11 @@
 {% load tag_custom_tags %}
-
+{% load staticfiles %}
 <span class="list-unstyled list-inline tag-list">
+  <img src="{%static 'images/tags2.png'%}"> tags:
         {% for tag in tag_list %}
             {% display_tag tag %}
         {% empty %}
-          
+          none
         {% endfor %}
 </span>
 

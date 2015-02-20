@@ -13,6 +13,10 @@
 <script src="{% static 'jquery/preview_markdown.js' %}"> </script>
 {% endblock jquery %}
 
+{% block wiki-dropdown %}
+Edit
+{% endblock wiki-dropdown %}
+
 {% block wiki-edit %}
   <li class="active pull-right"> <a href="{% url 'wiki:wiki-edit' page.get_title %}"> Edit </a> </li>
 {% endblock wiki-edit %}
