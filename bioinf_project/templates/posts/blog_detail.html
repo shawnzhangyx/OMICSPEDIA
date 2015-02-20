@@ -22,9 +22,21 @@
 <td>
 {% display_blog_body mainpost user perms %}
 <br>
-<h4 class="pull-left"><b> {{mainpost.get_comments.count}} comment{%if mainpost.get_comments.count > 1%}s{% endif %}</b></h4>
+<h4 class="display-none-mobile pull-left"><b> {{mainpost.get_comments.count}} comment{%if mainpost.get_comments.count > 1%}s{% endif %}</b></h4>
+ 
+<div class="nav-tabs-dropdown dropdown">
+  <b>{{mainpost.reply_count}} comment{%if mainpost.reply_count > 1%}s{% endif %}</b> sort by <button class="btn btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+    {{tab}}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=votes">votes</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=oldest">oldest</a></li>
 
-  <ul class="nav nav-tabs right-to-left">
+  </ul>
+</div>
+
+<ul class="nav nav-tabs right-to-left">
     <li {% ifequal tab "votes" %} class="active" {% endifequal %}
     {% ifequal tab null %} class="active" {% endifequal %}>
       <a href="?tab=votes"> votes </a> </li>

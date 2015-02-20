@@ -41,7 +41,7 @@
 {% endif %}
 
 <div class="row">
-	<div class="profile-img"> 
+	<div class="profile-img "> 
         {% if userprofile.portrait %}
             <img class="profile-img-big" src="{{userprofile.portrait.url}}">
         {% else %}
@@ -69,9 +69,28 @@
          {{userprofile.biography}}
 	</div>
 </div>
-<hr>
+<br>
 
 <!-- tabs --> 
+<div class="nav-tabs-dropdown dropdown">
+  show <button class="btn btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+     {{tab}}
+    <span class="caret"></span>
+  </button>
+
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Summary">Summary</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Questions"> Questions</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Answers"> Answers</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Discussions"> Discussions</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Blogs"> Blogs</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Bookmarks"> Bookmarks</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Tags"> Tags</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Wiki"> Wiki</a></li>
+
+  </ul>
+</div>
+
   <ul class="nav nav-tabs">
     <li {% ifequal tab "Summary" %} class="active" {% endifequal %}
     {% ifequal tab null %} class="active" {% endifequal %}>
@@ -94,7 +113,7 @@
 
 <!-- summary tabs -->
 {% ifequal tab 'Summary' %}
-<div class="">
+<div class="row">
 <div class="section-tab col-sm-6">
 <h3> <a href="?tab=Questions">{{question_count}} question{% if question_count > 1%}s{%endif%}</a></h3>
 

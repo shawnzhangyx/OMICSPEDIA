@@ -281,7 +281,13 @@ border-top: solid 1px #428bca;
 margin-top: 50px;
 margin-bottom: 150px;
 }
-
+@media (max-width: 768px) {
+  #footer {
+    margin-left:-15px;
+    margin-right:-15px;
+  }
+  
+}
 #footer a {
 color: white;
 }
@@ -307,4 +313,12 @@ background-color: #dddddd;
 .modal-dialog {
 width: auto;
 margin: 30px;
+}
+
+/* editor bar will disappear if width shorter than 420px */
+@media (max-width:420px){
+  #wmd-button-bar {
+    display: none;
+  }
+
 }

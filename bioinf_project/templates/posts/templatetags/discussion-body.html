@@ -4,7 +4,7 @@
 {% load humanize %}
 {% load staticfiles %}
 
-<table class="post-container">
+<table class="discussion-container">
   <tr><td colspan='2' class="post-action">
      {{post.created}} &nbsp;&nbsp;
     {% if is_question %}
@@ -23,7 +23,7 @@
     {% display_bookmark_widget post user%}
     {% endif %}
   </td>
-  <td class="post-body">
+  <td class="discussion-body">
 
     <p> {{ post.current_revision.get_marked_up_content|safe }} </p>
     <!-- display the tag list -->

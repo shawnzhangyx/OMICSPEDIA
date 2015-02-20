@@ -47,6 +47,20 @@
   
 </div>
 <hr>
+<br>
+<div class="nav-tabs-dropdown dropdown">
+  show <button class="btn btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+     {{tab}}
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Summary">Summary</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Tags">Tags</a></li>
+
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Posts"> Posts</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Users"> Users</a></li>
+  </ul>
+</div>
 
   <ul class="nav nav-tabs right-to-left">
     <li {% ifequal tab "Users" %} class="active" {% endifequal %} >
@@ -62,7 +76,7 @@
   </ul>
   
 {% ifequal tab "Summary" %}
-
+<div class="row">
 <div class="section-tab col-sm-6">
 <h3> <a href="?tab=Posts"> Hot posts this month </a></h3>
 {% for post in post_list|slice:':5' %}
@@ -124,6 +138,7 @@
 {% endfor %}
 </ul>
 {% endifequal %}
+</div>
    <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
  {% endblock content %}
