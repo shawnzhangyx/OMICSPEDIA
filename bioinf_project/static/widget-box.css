@@ -486,9 +486,10 @@ width: 50px;
 text-align: center;
 }
 .post-count-box div div{
-font-size:24px;
+font-size:22px;
 margin-top: 5px;
 margin-bottom: 2px;
+line-height: 1;
 }
 .post-tab-reply {
 color: #993300;
