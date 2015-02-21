@@ -16,8 +16,8 @@ Article
 
 
 {% block wiki-content %}
+<div id="wiki-article">
 <!-- header section -->
-
   <div class="clearfix">
   {% if page.comments.count > 0 %}
   <div class="alert alert-warning"> 
@@ -38,7 +38,7 @@ Article
 <hr>
 
 <p> last edited: {{page.current_revision.modified_date}} </p>
-
+</div>
 
 {% endblock wiki-content %}
 

@@ -17,6 +17,8 @@ h1 {
 font-size:24px;
 }
 
+
+
 blockquote {
 #	border-left: 3px dotted #888;
     font-size: 14px;
@@ -176,6 +178,7 @@ background-color: #444444;
   .nav-sidebar > li > a > img {
   display: none;
   }
+  
 }
 
 .nav-sidebar > .active > a,
@@ -210,7 +213,29 @@ background-color: #444444;
   .nav-tabs-dropdown{
    display: none;
   }
-
+  .nav-tabs {
+  padding-left: 0px;
+  }
+  .nav-tabs li a{
+    font-size: 14px;
+    margin: 0 2px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 0;
+    color: grey;
+  }
+  .nav-tabs li.active a{
+    border-top: solid 2px #428bca;
+    color:black;
+  }
+  .nav-tabs li.active a:hover{
+    border-top: solid 2px #428bca;
+  }
+  .nav-tabs li a:hover{
+    border-top: solid 2px #428bca;
+    border-left: solid 1px #ddd;
+    border-right: solid 1px #ddd;
+    border-bottom: solid 1px white;
+  }
 }
 /*
  * Main content

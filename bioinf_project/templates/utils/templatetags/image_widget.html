@@ -8,7 +8,9 @@
     {% endfor %}
     </table>
 <hr>
-<h4> Upload new image:</h4>
+
+<h4> Upload new :</h4>
+
 <form role="form" enctype="multipart/form-data" action="{%url 'image-upload' %}?next={{path}}" method="post"> 
 {% csrf_token %}
 <div class="controls">

@@ -66,7 +66,7 @@ class MainPostRevisionForm(forms.ModelForm):
         self.helper.form_class = "post-form"
         self.helper.layout = Layout(
             Fieldset(
-                'Editing post',
+                '',
                 Field('title'),
                 Field('tags'),
                 HTML('''<div id="wmd-button-bar"></div> '''),
