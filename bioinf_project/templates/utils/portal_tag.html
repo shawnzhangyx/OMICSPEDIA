@@ -3,7 +3,7 @@
 {% load tag_custom_tags %}
 {% load software_custom_tags %}
 
-<h1>{{tag.name}} <small> <a href="{% url 'tags:tag-detail' tag.name %}"> &lt;tag&gt;</a></small></h1>
+<h1>{{tag.name}} <small> <a title="go to tag page" class="interlink" href="{% url 'tags:tag-detail' tag.name %}?tab=Summary">tag</a></small></h1>
  {% if tag.wiki_page == null %}
   There is no description of this tag, would you like to <a href="{% url 'tags:tag-edit' tag.name %}">edit it? </a>
   {% else %}
@@ -11,13 +11,14 @@
 
   {% endif %}
 
-<div class="">
+<div class="row">
   <div class="section-tab col-sm-6">
     <h3><a href="{% url 'tags:tag-detail' tag.name %}?tab=Wiki">{{tag.pages.count}} article{% if tag.pages.count > 1 %}s{% endif %}</a></h3>
+      <ul class="list-unstyled">
       {% for page in tag.pages.all|slice:':5' %}
-      {% show_wiki_tab page %}
+      <li>{% show_wiki_tab page %} </li>
       {% endfor %}
-
+      </ul>
   </div>
     <div class="section-tab col-sm-6">
     <h3> <a href="{% url 'tags:tag-detail' tag.name %}?tab=Software">{{software_list.count}} software</a></h3>

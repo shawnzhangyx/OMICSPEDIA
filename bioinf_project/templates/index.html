@@ -12,35 +12,32 @@
 {% block content %}
  <h1> OMICSPEDIA Homepage </h1>
 <div class = "row">
-  <div class="col-xs-12 col-sm-6 col-md-3">
-    <a href="{% url 'wiki:wiki-index'%}" class="thumbnail">
+  <div class="col-xs-6 col-md-3 home-panel",title="Wiki pages of the 
+      analysis methods for OMICS data" >
+    <a href="{% url 'wiki:wiki-index'%}" class="thumbnail" title="Wiki pages of the 
+      analysis methods for OMICS data" >
       <img src="{% static 'images/wiki.png'%}" alt='...'>
-      <h4> Learn from wiki</h4> 
-      <p> Wiki pages of the 
-      analysis methods for OMICS data</p>
+      <p> Learn from wiki</p> 
     </a>
   </div>
     
-  <div class="col-xs-12 col-sm-6 col-md-3">
-    <a href="{% url 'posts:post-index' %}" class="thumbnail">
+  <div class="col-xs-6  col-md-3 home-panel">
+    <a href="{% url 'posts:post-index' %}" class="thumbnail" title="We've all been there. Let us help you solve your problem.">
       <img src="{% static 'images/qa.png'%}" alt='...'>
-      <h4> Ask a question</h4>
-      <p> We've all been there. Let us help you solve your problem. </p>
+      <p> Ask a question</p>
     </a>
   </div>
   <div class="clearfix visible-xs-block visible-sm-block"></div>
-  <div class="col-xs-12 col-sm-6 col-md-3">
-    <a href="{% url 'software:software-index' 'root'%}" class="thumbnail">
+  <div class="col-xs-6 col-md-3 home-panel">
+    <a href="{% url 'software:software-index' 'root'%}" class="thumbnail" title="A software database that can get you started in the analysis">
       <img src="{% static 'images/software.png'%}" alt='...'>
-      <h4> Find a software</h4>
-      <p> A software database that can get you started in the analysis </p>
+      <p> Find a software</p>
     </a>
   </div>
-  <div class="col-xs-12 col-sm-6 col-md-3">
-    <a href="{% url 'portal' ''%}" class="thumbnail">
+  <div class="col-xs-6 col-md-3 home-panel">
+    <a href="{% url 'portal' ''%}" class="thumbnail" title="a powerful portal that can get you oriented.">
       <img src="{% static 'images/tour.png'%}" alt='...'>
-      <h4> OMICS portal</h4>
-      <p> a powerful portal that can get you oriented. </p>
+      <p> OMICS portal</p>
     </a>
   </div>
   

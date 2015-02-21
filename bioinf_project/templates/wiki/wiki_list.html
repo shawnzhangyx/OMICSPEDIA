@@ -4,11 +4,11 @@
 {% block content %}
 <h1> OMICS wiki <small> x{{wiki_list.count}} <a href="{% url 'wiki:wiki-index' %}">browse by categories</a></small> </h1>
 {% if user.is_authenticated %}
-<h3> <a class="btn btn-default" href = "{% url 'wiki:wiki-new' %}"> Create new wiki </a> </h3>
+ <a class="btn btn-default" href = "{% url 'wiki:wiki-new' %}"> Create new wiki </a>
 {% else %}
 <a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"><img src="{% static 'icons/enter3.png' %}"> log in </a> to create new wiki. 
 {% endif %}
-
+<br><br>
 
  <div class="nav-tabs-dropdown dropdown">
   sort by <button class="btn btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">

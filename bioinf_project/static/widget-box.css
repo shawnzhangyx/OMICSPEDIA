@@ -1,6 +1,18 @@
 /* style by class */
 
-/************  icons *************/
+/************ jstree icon *************/
+.jstree-anchor {
+font-size: 14px;
+}
+/********** homepage ******/
+.home-panel p {
+font-size: 18px;
+text-align: center;
+color: black;
+white-space: nowrap;
+}
+
+/******* edit table *******/
 .edit-table {
 width: 100%;
 }
