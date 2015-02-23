@@ -931,10 +931,10 @@ text-align: center;
 
 
 .notification {
-background-image: url('images/notification.png');
-background-size: 75% 25px;
+background-image: url('icons/envelope54.png');
 background-repeat: no-repeat;
-background-position: 7px 10px;
+background-position: 1px 12px;
+padding-left: 25px;
 }
 
 a.notification:hover {
