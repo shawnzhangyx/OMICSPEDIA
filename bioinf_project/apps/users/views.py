@@ -309,6 +309,15 @@ class NotificationListView(ListView):
     template_name = "users/notification_list.html"
     context_object_name = 'notification_list'
     
+    def dispatch(self, *args, **kwargs):
+        #test1 = self.request.user.pk
+        #test2 = kwargs['pk']
+        #test
+        if self.request.user.pk != int(kwargs['pk']): 
+            return HttpResponseRedirect(reverse('index'))
+        else: 
+            return super(NotificationListView, self).dispatch(*args, **kwargs)
+            
     def get_queryset(self):
         type = self.kwargs['type']
         if type =='all':
