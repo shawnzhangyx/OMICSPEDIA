@@ -16,18 +16,20 @@
     <a href=" {% url 'posts:post-index' %}"> Go back?</a>
 </div>
 {% else %}
-<div class="row">
-<form role="form" class="col-xs-8 col-xs-offset-1" action = "" method="post"> 
+<table class="edit-table">
+<td>
+<form role="form" class="" action = "" method="post"> 
 
 {% crispy form %}
 </form>
-
-<div class="col-xs-3 image-widget">
+</td>
+<td class="edit-table-right">
+<div class=" image-widget">
 Tips: You can add images using the markdown syntax. 
 If you want to upload images, you will need to create the post first, and then click on editing the post.
 </div>
-
-</div>
+</td>
+</table>
 {% endif %}
 <div id="preview-mkd-text"class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 {% include "utils/preview_markdown.html" with mkd_content=mkd_content %}

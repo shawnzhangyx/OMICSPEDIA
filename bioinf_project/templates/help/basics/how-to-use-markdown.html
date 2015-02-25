@@ -51,7 +51,7 @@ _______
 
 -----------------
 </pre>
-<h4> Images </h4>
+
 
 <h4> <b>Links</b> </h4>
 Markdown supports two styles of links: inline and reference. To create an inline link, use a set of regular parenthesis immediately after the link's closing square bracket. Inside the parenthesis, put the URL and an optional title for the link. 
@@ -63,6 +63,19 @@ To create a reference-style link, use a square bracket instead of parenthesis, a
 ...
 [id]: http://example.com/ 'optional title'
 </pre>
+<h4> <b>Images</b> </h4>
+The image syntax is similar to the syntax of links. It supports two styles of links: inline and reference. The inline syntax looks like the following: 
+<pre> ![alt text](URL/image.jpg)
+![alt text](/path/to/image.jpg "optional title")
+</pre>
+It starts with an exclamation mark, followed by alternative title enclosed with square brackets. And then followed by a set of parentheses containg the URL or path to the image, and an optional title. 
+
+Reference style image is like this: 
+<pre> ![alt text][id]
+[id]: URL/image.jpg  "optional title"
+</pre> 
+Currently Markdown has no support for specifying the dimension or position of the image. But we're working to implementing that for this website. 
+
 <h4> <b>Wikilinks</b> </h4>
 To produce links to wiki phrases, simply put two square brackets around the wiki phrases. 
 <pre> [[wiki words]]</pre>

@@ -289,7 +289,7 @@ min-height: 100px;
 background-color: #428bca;
 color: #ffffff;
 padding-left: 10px;
-box-shadow: 5px 5px 10px #888888;
+box-shadow: 3px 3px 2px #888888;
 }
 
 .section-tab>h3>a {
@@ -302,7 +302,6 @@ float:right;
 
 #footer {
 background-color: #5C7099;
-border-top: solid 1px #428bca;
 margin-top: 50px;
 margin-bottom: 150px;
 }
