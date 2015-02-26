@@ -9,14 +9,14 @@ from crispy_forms.layout import Layout, Field, Fieldset, Div, Submit, ButtonHold
 
 
 def validate_title(name):
-    invalidChars = '!"#$%&\'()*+-/:;<=>?@[\\]^_`{|}~'
+    invalidChars = '!"#$%&\'()*+/:;<=>?@[\\]^_`{|}~'
     for char in name:
         if char in invalidChars:
             raise ValidationError("special character " + char + " is not allowed in the wiki title")
         
         
 class PageForm(forms.ModelForm):
-    title = forms.CharField(validators=[validate_title],help_text='title of the wiki. Special characters such as !"#$%&\'()*+-/:;<=>?@[\\]^_`{|}~ are not allowed')
+    title = forms.CharField(validators=[validate_title],help_text='title of the wiki. Special characters such as !"#$%&\'()*+/:;<=>?@[\\]^_`{|}~ are not allowed')
     tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
     content = forms.CharField(widget=forms.Textarea)
 
