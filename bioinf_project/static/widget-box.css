@@ -297,11 +297,11 @@ padding-left: 20px;
 }
 
 #wiki-article > h2 { 
-font-size: 1.8em;
+font-size: 1.5em;
 border-bottom: 1px solid #aaa;
 }
 #wiki-article > h3 {
-font-size: 1.5em;
+font-size: 1.3em;
 }
 #wiki-article>h2:before,
 #wiki-article>h3:before,
@@ -461,6 +461,11 @@ height: 15px;
 width: 15px;
 position: relative;
 top: -3px;
+}
+.wiki-tab-wordcount{
+font-size: 13px;
+color: #0000ff;
+vertical-align: center;
 }
 /********* software ********/
 

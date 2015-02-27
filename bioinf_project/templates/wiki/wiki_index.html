@@ -11,6 +11,7 @@
 
 
 <div class="row">
+
    <div class="section-tab col-sm-6">
     <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Bookmark">Most liked </a></h3>
     <ul class="list-unstyled">
@@ -45,5 +46,21 @@
    </div>
 </div>
 
-    
+<div class="section-tab col-sm-6">
+    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Longest">Longest </a></h3>
+    <ul class="list-unstyled">
+    {% for wiki in longest %}
+        <li>{% show_wiki_tab wiki %}</li>
+    {% endfor %}
+    </ul>
+</div>
+
+<div class="section-tab col-sm-6">
+    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Shortest"> Shortest </a></h3>
+    <ul class="list-unstyled">
+    {% for wiki in shortest %}
+        <li>{% show_wiki_tab wiki %}</li>
+    {% endfor %}
+    </ul>
+</div>
 {% endblock content %}

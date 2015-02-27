@@ -19,6 +19,8 @@
     <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Bookmark">Bookmark</a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=View"> View</a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Comment"> Comment</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Longest"> Longest</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Shortest"> Shortest</a></li>
 
   </ul>
 </div>
@@ -30,6 +32,10 @@
        <a href="?tab=View" > View </a> </li>
     <li {% ifequal tab 'Comment' %} class="active" {% endifequal %}> 
       <a href="?tab=Comment"> Comment </a> </li>
+    <li {% ifequal tab 'Longest' %} class="active" {% endifequal %}> 
+      <a href="?tab=Longest"> Longest </a> </li>
+    <li {% ifequal tab 'Shortest' %} class="active" {% endifequal %}> 
+      <a href="?tab=Shortest"> Shortest </a> </li>
   </ul>
 
   <div class="row">

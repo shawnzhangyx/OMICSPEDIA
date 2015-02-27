@@ -6,9 +6,9 @@
     <span class="wiki-tab-star" title="{{wiki.bookmark_count}} people bookmarked this page">  {{ wiki.bookmark_count}}
     </span>
     <span class="wiki-tab-view" title="{{wiki.view_count}} people visited this page"> {{wiki.view_count}}</span>
-    
+    {% if wiki.comments.count > 0 %} <span title="This wiki has some unresolved issues" class="wiki-tab-comment">{{wiki.comment_count}}</span> {% endif %}
     <span> <a class='wiki-tab-title' href= "{% url 'wiki:wiki-detail' wiki.get_title %}" >{{ wiki.title }} </a> </span>
+    <span class="wiki-tab-wordcount"> [{{wiki.current_revision.total_chars|intcomma}} bytes]</span>
 
-{% if wiki.comments.count > 0 %} <span title="This wiki has some unresolved issues" class="wiki-tab-comment">{{wiki.comment_count}}</span> {% endif %}
 
 </div>

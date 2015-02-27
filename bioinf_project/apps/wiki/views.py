@@ -28,10 +28,14 @@ class IndexView(TemplateView):
         bookmarked = all.order_by('-bookmark_count')[:SLICE]
         viewed = all.order_by('-view_count')[:SLICE]
         commented = all.filter(comment_count__gt = 0).order_by('-comment_count')[:SLICE]
+        longest = all.order_by('-current_revision__total_chars')[:SLICE]
+        shortest = all.order_by('current_revision__total_chars')[:SLICE]
         update = PageRevision.objects.order_by('-modified_date')[:8]
         context['bookmark'] = bookmarked
         context['view'] = viewed
         context['comment'] = commented
+        context['longest'] = longest
+        context['shortest'] = shortest
         context['update'] = update
         context['page_total'] = all.count()
         return context
@@ -44,7 +48,7 @@ class WikiListView(ListView):
     
     def get_queryset(self): 
         tab = self.request.GET.get('tab') or 'Bookmark'
-        dict = {'Bookmark':'-bookmark_count', 'View':'-view_count', 'Comment':'-comment_count'}
+        dict = {'Bookmark':'-bookmark_count', 'View':'-view_count', 'Comment':'-comment_count', 'Longest':'-current_revision__total_chars', 'Shortest':'current_revision__total_chars'}
         return Page.objects.all().order_by(dict[tab])
     
     def get_context_data(self, **kwargs):
