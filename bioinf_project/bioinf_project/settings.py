@@ -133,8 +133,8 @@ STATICFILES_DIRS = (
 )
 
 ### this is for development server only 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/static/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'staticfiles/media')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
