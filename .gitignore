@@ -1,4 +1,4 @@
 *.pyc
 *.swp
 bioinf_project/sqlite.dat
-bioinf_project/media/*
+bioinf_project/staticfiles/media/*
