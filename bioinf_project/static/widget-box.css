@@ -305,6 +305,7 @@ font-size: 1.3em;
 }
 #wiki-article>h2:before,
 #wiki-article>h3:before,
+h4:before,
 .post-container:before
 {
 display: block;
