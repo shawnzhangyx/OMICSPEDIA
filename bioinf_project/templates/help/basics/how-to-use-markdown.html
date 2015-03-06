@@ -1,7 +1,7 @@
 {% extends "help/basics/toc.html" %}
 
 {% block help-content %}
-<h3 class="help-title"><span>How do I format the wiki and posts using Markdown?</span> </h3>
+<h1 class="help-title"><span>How do I format the wiki and posts using Markdown?</span> </h1>
 
 <p> Omicspedia uses <b>Markdown</b> for most of the text contents, except for comments. If you're new to Markdown, you may want to visit <a href="http://daringfireball.net/projects/markdown/syntax">John Gruber's offical Markdown webiste</a> for syntax reference. </p>
 
@@ -24,7 +24,7 @@
 
 </ul>
 </div>
-<h4 id="Headers"> <b>Headers</b> </h4>
+<h3 id="Headers"> <b>Headers</b> </h3>
 <p> We recommend using atx-style headers (use 1-6 hash characters at the start of the line, corresponding to header levels 1-6). For example: </p>
 <pre>
 # This is an H1
@@ -32,7 +32,7 @@
 ### This is an H3
 </pre>
 
-<h4 id="Blockquotes"> <b>Blockquotes </b></h4>
+<h3 id="Blockquotes"> <b>Blockquotes </b></h3>
 Markdown uses e-mail style <code>&gt;</code> character for blockquoting. Simply put a <code>&gt;</code> before every line.
 <pre> 
 > This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
@@ -51,7 +51,7 @@ Blockquotes can be nested by adding additional level of <code>&gt;</code>:
 > Back to the first level.
 </pre>
 Blockquotes can contain other Markdown elements, such as headers, lists and code blocks. 
-<h4 id="Lists"> <b>Lists</b> </h4>
+<h3 id="Lists"> <b>Lists</b> </h3>
 Unordered lists uses asterisks, pluses and hyphens --interchangably -- as list markers: 
 <pre>
 *   Red
@@ -64,7 +64,7 @@ Ordered lists use numbers followed by periods:
 2.   Green
 3.   Blue
 </pre>
-<h4 id="Code Blocks"> <b>Code Blocks</b> </h4>
+<h3 id="Code Blocks"> <b>Code Blocks</b> </h3>
 To produce a code block, leave 4 spaces before each line of the code. For example:
 <pre>
 This is a regular paragraph. 
@@ -77,10 +77,10 @@ def funtion(var1, var2):
     sum = var1+var2
 ~~~~~~~
 </pre>
-<h4 id="Inline Code Blocks"> <b>Inline Code Blocks</b> </h4>
+<h3 id="Inline Code Blocks"> <b>Inline Code Blocks</b> </h3>
 To produce an inline code block, include the code within two ` symbols.
 <pre> This is an `inline code block`.</pre>
-<h4 id="Horizontal Rules"> <b>Horizontal Rules</b> </h4>
+<h3 id="Horizontal Rules"> <b>Horizontal Rules</b> </h3>
 You can produce a horizontal rule tag (&lt;hr /&gt;) by placing three or more hyphens, asterisks, or underscores on a line by themselves. 
 <pre>***
 _______
@@ -89,7 +89,7 @@ _______
 </pre>
 
 
-<h4 id="Links"> <b>Links</b> </h4>
+<h3 id="Links"> <b>Links</b> </h3>
 Markdown supports two styles of links: inline and reference. To create an inline link, use a set of regular parenthesis immediately after the link's closing square bracket. Inside the parenthesis, put the URL and an optional title for the link. 
 <pre> This is [an example](http://example.com/ "Title") inline link.
 [This link](http://example.net/) has no title attribute.
@@ -99,7 +99,7 @@ To create a reference-style link, use a square bracket instead of parenthesis, a
 ...
 [id]: http://example.com/ 'optional title'
 </pre>
-<h4 id="Images"> <b>Images</b> </h4>
+<h3 id="Images"> <b>Images</b> </h3>
 The image syntax is similar to the syntax of links. It supports two styles of links: inline and reference. The inline syntax looks like the following: 
 <pre> ![alt text](URL/image.jpg)
 ![alt text](/path/to/image.jpg "optional title")
@@ -112,13 +112,13 @@ Reference style image is like this:
 </pre> 
 Currently Markdown has no support for specifying the dimension or position of the image. But we're working to implementing that for this website. 
 
-<h4 id="Wikilinks"> <b>Wikilinks</b> </h4>
+<h3 id="Wikilinks"> <b>Wikilinks</b> </h3>
 To produce links to wiki phrases, simply put two square brackets around the wiki phrases. 
 <pre> [[wiki words]]</pre>
-<h4 id="Table of Content"> <b>Table of Content</b> </h4>
+<h3 id="Table of Content"> <b>Table of Content</b> </h3>
 To produce a table of content, put the following line anywhere you want the table of content to be. 
 <pre> [TOC] </pre>
-<h4 id="Footnote"> <b>Footnote/References</b> </h4>
+<h3 id="Footnote"> <b>Footnote/References</b> </h3>
 To produce a footnote or reference, put a footnote ID inside square brackets and insert the content anywhere in the text.
 <pre> Footnotes[^1] have a label[^@#$%] and the footnote's content.
 

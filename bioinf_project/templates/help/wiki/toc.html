@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3> <a href="{% url 'help-page' 'help-center'%}">Help center</a> &gt; <a href="{% url 'help-page' 'wiki/toc'%}"> Wiki</a>  </h3>
+<hr>
+{% block help-content %}
+<ul>
+</ul>
+{% endblock help-content %}
+
+{% endblock content %}

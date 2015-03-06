@@ -16,8 +16,16 @@ margin:   5px 0;
 h1 {
 font-size:1.8em;
 }
+h2 {
+font-size:1.5em;
+border-bottom: 1px solid #aaa;
 
+}
+h3 {
+font-size:1.2em;
+font-weight: bold;
 
+}
 
 blockquote {
 #	border-left: 3px dotted #888;
@@ -286,6 +294,8 @@ min-height: 100px;
 }
 
 .section-tab>h3 {
+font-size: 1.5em;
+font-weight: normal;
 background-color: #428bca;
 color: #ffffff;
 padding-left: 10px;
@@ -316,12 +326,12 @@ margin-bottom: 150px;
 color: white;
 }
 
-h3.help-title>span {
+.help-title>span {
 background-color: #DDDDDD;
 #color: #ffffff;
 font-weight: bold;
-padding-left: 10px;
-box-shadow: 2px 1px 5px #888888;
+padding: 2px 5px;
+box-shadow: 2px 2px 5px #888888;
 }
 
 .alert {

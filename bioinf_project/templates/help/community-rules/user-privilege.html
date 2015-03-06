@@ -1,31 +1,47 @@
 {% extends 'help/community-rules/toc.html'%}
 
 {% block help-content %}
-<h3 class="help-title"> <span>User privileges</span> </h3>
-<h4> <b>User privilege levels</b> </h4>
+<h1 class="help-title"> <span>User privileges</span> </h1>
+<h2> <b>User privilege levels</b> </h2>
 <ol>
-    <li>Anonymous users 
+    <li><b>Anonymous users</b>
         <ul> 
         <li> can view all contents </li>
         </ul>
     </li>
-    <li>Registered users:
+    <li><b>Registered users:</b>
         <ul>
         <li> own a user profile </li>
         <li> bookmark wiki, tags, posts </li>
+        <li> vote </li>
         </ul>
     </li>
-    <li> E-mail verified users: 
+    <li><b>E-mail verified users:</b>
         <ul> 
         <li> create wiki, tags, software, posts, comments </li>
         <li> edit wiki, tags, software, posts </li>
         <li> edit your own comments </li>
+        </ul>
+    </li>
+    <li> <b> Moderators: </b>
+         <ul> 
+           <li> Moderate</li>
+         </ul>
+    </li>     
+    <li> <b> Blocked users: </b>
+        <ul>
+          <li> Not able to log in. </li>
+          <li> If you're blocked and want to restore your account, please contact us. </li>
+        </ul>
+    </li>
 </ol>
-<h4> <b>Post and comment limitations </b></h4>
-<p> To encourage high-quality posts and comments, we set limitations on how many new posts or comments a user could create every day. 
+<h2> <b>Daily action limitations </b></h2>
+<p> To encourage high-quality posts, comments and votes, we set limitations on the actions a user could perform every day. 
 <ul>  
     <li>No more than 10 questions within 24 hours </li>
     <li>No more than 10 answers within 24 hours </li>
-    <li>No more than 10 replies(including answers) <b>within an hour</b> </li>
+    <li>No more than 10 replies (in discussion) <b>within an hour</b> </li>
     <li>No more than 20 comments within 24 hours </li>
+    <li>No more than 20 votes within 24 hours </li>
+    </ul>
 {% endblock help-content %}

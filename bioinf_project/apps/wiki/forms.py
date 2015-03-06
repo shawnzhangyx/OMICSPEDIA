@@ -29,7 +29,7 @@ class PageForm(forms.ModelForm):
         self.helper.form_class = "page-form"
         self.helper.layout = Layout(
             Fieldset(
-                'Create new wiki',
+                '',
                 Field('title'),
                 Field('tags'),
                 HTML('''<div id="wmd-button-bar"></div> '''),

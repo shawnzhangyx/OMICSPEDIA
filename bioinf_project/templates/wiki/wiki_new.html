@@ -15,11 +15,14 @@
 
 {% block content %}
 
+<h1> Create new wiki</h1>
+<hr>
+<div class="alert alert-warning">Before you create this wiki, make sure you have read the help pages on <a href="{% url 'help-page' 'wiki/how-to-write-good-wiki' %}">How to write a good wiki page</a> and <a href="{% url 'help-page' 'basics/how-to-use-markdown'%}">how to use markdown</a> </div>
+<hr>
 
 <form action = "" method="post"> 
 {% csrf_token %}
 {% crispy form %}
-
 </form>
 
 <hr>

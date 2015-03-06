@@ -1,17 +1,31 @@
-{% extends "help/basics/toc.html" %}
+{% extends "help/wiki/toc.html" %}
 
 {% block help-content %}
-<h3 class="help-title"><span>How to improve wiki pages?</span> </h3>
-<h4> Example </h4>
+<h1 class="help-title"><span>How to write good wiki pages?</span> </h1>
+<h2> Example </h2>
 Examples are often worth a thousand words. Here is a wiki article on <a href="/wiki/ChIP-Seq/">ChIP-Seq</a> which can serve as a good example.
-<h4> Content <small>bioinformatics-oriented</small> </h4> 
-The wiki pages on this website are for different audiences than a public website like <a href="http://wikipedia.com/">Wikipedia</a>. This is for people who's eager to learn about <b>bioinformatics </b> analysis of the biological data. So the wiki pages will focus on the bioinformatics analysis workflows, and will be detail-oriented. We treasure the enormous information already deposited in Wikipedia on many bioinformatics related terms, and we need to point our readers to them, instead of duplicating the message. Copy and paste is strongly discouraged.
-<h4> Structures </h4>
+<h2> Content <small>bioinformatics-oriented</small> </h2> 
+<p>The wiki pages on this website are for different audiences than a public website like <a href="http://wikipedia.com/">Wikipedia</a>. This is for people who's eager to learn about <b>bioinformatics </b> analysis of the biological data. So the wiki pages will focus on the bioinformatics analysis workflows, and will be detail-oriented. We treasure the enormous information already deposited in Wikipedia on many bioinformatics related terms, and we need to point our readers to them, instead of duplicating the message. Copy and paste is strongly discouraged. </p>
+
+<h2> Article Structure </h2>
+<p> Every mature wiki article will need to have at least the following components:
 <ul> 
-    <li> <b>Leading paragraph:</b> A short description of the subject </li> 
-    <li> <b>Sections:</b> break the text into several sections</li>
+    <li> <b>Leading paragraph:</b> A short description summarizing the subject </li> 
+    <li> <b>Sections:</b> Following the leading paragraph, text should be split into several sections depending on the length of the article</li>
     <li> <b>References:</b>list the original sources. </li>
 </ul>
-<h4> Wiki comments</h4>
-Use the wiki comment functions to report issues of the wiki article. Issues include but not limited to: improve lead paragraph, add references, fix wikilinks...
+
+<h2> Article Types </h2>
+<h3> Basic technical vacabulary </h3>
+<p> This encompasses a lot of technical terms, such as file formats (BAM, SAM, BED, e.t.c), broad concepts (genomics, proteomics, sequencing), general processes (alignment, enrichment testing, quality control).</p>
+<p> This type of article only requires detailed description of the subject. </p>
+<h3> Software/Tool website </h3>
+<p> In addition to covering the basic introduction of the software, a link to the original software package should be appended. Additionally for software ariticles, it would be great to include the software installation, usage examples if the tutorial is not too long. For long tutorial, a PDF file is a preferred option. 
+</p>
+<h3> Workflow article</h3>
+<p> Workflow articles are often expanded articles that explain the typical processes in the workflow. </p>
+<h3> Other article types</h3>
+<ul>
+<li> list of software and their comparisons</li>
+ </ul>
 {% endblock help-content %}

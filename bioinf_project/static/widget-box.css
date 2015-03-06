@@ -301,8 +301,10 @@ font-size: 1.5em;
 border-bottom: 1px solid #aaa;
 }
 #wiki-article > h3 {
-font-size: 1.3em;
+font-size: 1.2em;
+font-weight: bold;
 }
+
 #wiki-article>h2:before,
 #wiki-article>h3:before,
 h4:before,
