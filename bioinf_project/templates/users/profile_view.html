@@ -12,7 +12,7 @@
     
   {% endif %}
   
-<h2> <span class="pull-left">{{userprofile.name}}&nbsp;&nbsp;</span>
+<h1> <span class="pull-left">{{userprofile.name}}&nbsp;&nbsp;</span>
 {% if user.is_authenticated %}
     {% if user.user_profile.id != userprofile.id %}
 <form class="form pull-left" action="{% url 'users:change-follow' userprofile.id %}?next={{request.path}}" method="post">
@@ -29,7 +29,7 @@
     {% endif %}
 {% endif %}
 <span>&nbsp;&nbsp;</span>
-</h2>
+</h1>
 
 {% if user == userprofile.user %} 
     {% if user.email_verified == False %}
