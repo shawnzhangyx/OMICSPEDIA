@@ -21,6 +21,7 @@ class Page(models.Model):
 
     title = models.CharField(_("title"), max_length=255, unique=True)
     tags = models.ManyToManyField("tags.Tag",blank=True, related_name="pages")
+    redirect_to = models.OneToOneField("Page", blank=True, null=True)
     #wiki_votes = GenericRelation("utils.Vote")
     #wiki_rates = GenericRelation("utils.Rate")
     wiki_views = GenericRelation("utils.View")

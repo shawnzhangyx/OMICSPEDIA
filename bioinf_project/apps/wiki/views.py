@@ -183,6 +183,10 @@ class WikiDetails(DetailView):
         except Page.DoesNotExist:
             #return HttpResponseRedirect(reverse("wiki:wiki-new"))
             return render(self.request, 'wiki/wiki_not_found.html',{'title':self.kwargs['title'].replace('_',' ')})
+        else: page = Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
+        # if this page has a redirect_to, then redirect to the duplicated page. 
+        if page.redirect_to: 
+            return HttpResponseRedirect(reverse('wiki:wiki-detail', kwargs={'title':page.redirect_to.get_title()}))
         else:
             return super(WikiDetails, self).dispatch(*args, **kwargs)
 

@@ -149,3 +149,9 @@ EMAIL_HOST_USER = 'omicspedia@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ['OMICSPEDIA_HOST_PASSWORD'] 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+### turn warnings into exceptions
+import warnings
+warnings.filterwarnings(
+        'error', r"DateTimeField .* received a naive datetime",
+        RuntimeWarning, r'django\.db\.models\.fields')

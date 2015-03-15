@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from datetime import datetime, timedelta
+from django.utils import timezone
 
 from tags.models import Tag
 from wiki.models import Page
@@ -18,15 +19,15 @@ class IndexView(TemplateView):
         if not tab:
             tab = "Summary"
         # new posts this month
-        posts = MainPost.objects.filter(created__gte=datetime.today() - timedelta(days=30)).order_by('-vote_count')
-        pages = Page.objects.order_by('-bookmark_count')
+        posts = MainPost.objects.filter(created__gte=timezone.now() - timedelta(days=30)).order_by('-vote_count')
+        pages = Page.objects.order_by('-view_count')
         # tags that are associated with the new posts.
         tags = Tag.objects.filter(posts__in = posts).distinct()
         for idx in range(len(tags)):
             tags[idx].monthly_count = posts.filter(tags = tags[idx]).count()
         tags = sorted(tags, key=lambda x:-x.monthly_count)
         # authors who answered in the last month. 
-        answers = ReplyPost.objects.filter(created__gte=datetime.today()-timedelta(days=30), mainpost__type = 0)
+        answers = ReplyPost.objects.filter(created__gte=timezone.now()-timedelta(days=30), mainpost__type = 0)
         authors = User.objects.filter(replypost__in = answers).distinct()
         for idx in range(len(authors)):
             authors[idx].monthly_answer_count = answers.filter(author = authors[idx]).count()

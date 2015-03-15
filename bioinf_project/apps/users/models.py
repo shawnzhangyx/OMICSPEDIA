@@ -91,35 +91,35 @@ class User(AbstractBaseUser,PermissionsMixin):
         return self.notifications.filter(unread = True).count()
     
     def exceed_new_post_limit(self):
-        post_past_24h = self.mainpost_set.filter(created__gte = datetime.now() - timedelta(hours=24))
+        post_past_24h = self.mainpost_set.filter(created__gte = timezone.now() - timedelta(hours=24))
         if post_past_24h.count() >= 10: # will elaborate on this limit in the future. 
             return True
         else:
             return False
             
     def exceed_new_answer_limit(self):
-        answer_past_24h = self.replypost_set.filter(created__gte = datetime.now() - timedelta(hours=24), mainpost__type = 0)
+        answer_past_24h = self.replypost_set.filter(created__gte = timezone.now() - timedelta(hours=24), mainpost__type = 0)
         if answer_past_24h.count() >= 10:
             return True
         else: 
             return False
             
     def exceed_new_reply_limit(self):
-        answer_past_hour = self.replypost_set.filter(created__gte = datetime.now() - timedelta(hours=1))
+        answer_past_hour = self.replypost_set.filter(created__gte = timezone.now() - timedelta(hours=1))
         if answer_past_hour.count() >= 10:
             return True
         else: 
             return False
             
     def exceed_new_comment_limit(self):
-        comment_past_24h = self.comment_set.filter(created__gte = datetime.now() - timedelta(hours=24))
+        comment_past_24h = self.comment_set.filter(created__gte = timezone.now() - timedelta(hours=24))
         if comment_past_24h.count() >= 20:
             return True
         else: 
             return False        
         
     def exceed_vote_limit(self):
-        vote_past_24h = self.votes.filter(date__gte = datetime.now() - timedelta(hours=24))
+        vote_past_24h = self.votes.filter(date__gte = timezone.now() - timedelta(hours=24))
         if vote_past_24h.count() >= 20:
             return True
         else:
