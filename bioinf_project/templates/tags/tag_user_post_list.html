@@ -2,10 +2,10 @@
 {% load staticfiles %}
 {% load post_custom_tags %}
 {% block content %}
-<h3> <a href="{% url 'tags:tag-detail' usertag.tag.name%}?tab=Summary"> {{usertag.tag.name}}</a> questions answered by <a href = "{% url 'users:profile-view' usertag.user.user_profile.id %}" > 
+<h1> <a href="{% url 'tags:tag-detail' usertag.tag.name%}?tab=Summary"> {{usertag.tag.name}}</a> questions answered by <a href = "{% url 'users:profile-view' usertag.user.user_profile.id %}" > 
 <img class="profile-img-xs" src='{% if usertag.user.user_profile.portrait %} {{usertag.user.user_profile.portrait.url}} 
 {% else %} {%static "images/user_default.png"%}{% endif %}'
-> {{usertag.user.user_profile.name}} </a> </h3>
+> {{usertag.user.user_profile.name}} </a> </h1>
 <hr>
 
 {% for answer in object_list %}

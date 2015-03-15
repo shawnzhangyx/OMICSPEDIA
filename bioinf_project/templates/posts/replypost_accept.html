@@ -5,7 +5,7 @@
 -->
 
 {% block content %}
-<h3> {{replypost.mainpost.title}}  </h3>
+<h1> {{replypost.mainpost.title}}  </h1>
 <form action="" method="post">
 {% csrf_token %}
 <button class="btn btn-default" value="confirm" > Confirm accepting this answer</button>

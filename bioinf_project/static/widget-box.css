@@ -315,6 +315,7 @@ font-weight: bold;
 
 #wiki-article>h2:before,
 #wiki-article>h3:before,
+h3:before,
 h4:before,
 .post-container:before
 {
@@ -908,7 +909,7 @@ font-size: 14px;
 padding: 3px 0 0px 3px;
 margin-left: 15px;
 cursor: pointer;
-color: white;
+color: #999;
 
 }
 

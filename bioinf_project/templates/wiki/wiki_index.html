@@ -12,7 +12,7 @@
 
 <div class="row">
    <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Workflow">Workflows</a></h3>
+   <div> <a href="{% url 'wiki:wiki-list'%}?tab=Workflow">Workflows</a></div>
     <ul class="list-unstyled">
     {% for wiki in workflow %}
         <li>{% show_wiki_tab wiki %}</li>
@@ -21,7 +21,7 @@
    </div>
 
   <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=View">Most viewed </a></h3>
+    <div> <a href="{% url 'wiki:wiki-list'%}?tab=View">Most viewed </a></div>
     <ul class="list-unstyled">
     {% for wiki in view %}
         <li>{% show_wiki_tab wiki %}</li>
@@ -30,7 +30,7 @@
   </div>
 
 <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'wiki:wiki-revision-list'%}">Recent changes</a></h3>
+    <div> <a href="{% url 'wiki:wiki-revision-list'%}">Recent changes</a></div>
     <ul class="list-unstyled">
     {% for revision in update %}
         <li>{% show_wiki_revision_tab revision %}</li>
@@ -38,7 +38,7 @@
     </ul>
    </div>
   <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Comment">Need work</a></h3>
+    <div> <a href="{% url 'wiki:wiki-list'%}?tab=Comment">Need work</a></div>
     <ul class="list-unstyled">
     {% for wiki in comment %}
         <li>{% show_wiki_tab wiki %}</li>
@@ -47,7 +47,7 @@
    </div>
 
 <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Longest">Longest </a></h3>
+    <div> <a href="{% url 'wiki:wiki-list'%}?tab=Longest">Longest </a></div>
     <ul class="list-unstyled">
     {% for wiki in longest %}
         <li>{% show_wiki_tab wiki %}</li>
@@ -56,7 +56,7 @@
 </div>
 
 <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Shortest"> Shortest </a></h3>
+    <div> <a href="{% url 'wiki:wiki-list'%}?tab=Shortest"> Shortest </a></div>
     <ul class="list-unstyled">
     {% for wiki in shortest %}
         <li>{% show_wiki_tab wiki %}</li>
@@ -64,7 +64,7 @@
     </ul>
 </div>
    <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Bookmark">Most liked </a></h3>
+    <div> <a href="{% url 'wiki:wiki-list'%}?tab=Bookmark">Most liked </a></div>
     <ul class="list-unstyled">
     {% for wiki in bookmark %}
         <li>{% show_wiki_tab wiki %}</li>

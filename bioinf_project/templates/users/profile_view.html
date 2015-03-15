@@ -115,7 +115,7 @@
 {% ifequal tab 'Summary' %}
 <div class="row">
 <div class="section-tab col-sm-6">
-<h3> <a href="?tab=Questions">{{question_count}} question{% if question_count > 1%}s{%endif%}</a></h3>
+<div> <a href="?tab=Questions">{{question_count}} question{% if question_count > 1%}s{%endif%}</a></div>
 
 {% for question in questions|slice:':5' %}
     {% show_post_tab_sm question %}
@@ -123,25 +123,23 @@
 </div>
 
 <div class="section-tab col-sm-6 ">
-<h3> <a href="?tab=Answers">{{answer_count}} answer{% if answer_count > 1%}s{%endif%}</a></h3>
-<div>
+<div> <a href="?tab=Answers">{{answer_count}} answer{% if answer_count > 1%}s{%endif%}</a></div>
 {% for answer in answers|slice:':5' %}
     {% show_answer_tab_sm answer %}
 {% endfor %}
-</div> 
 </div>
 
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
 <div class="section-tab col-sm-6">
-<h3> <a href="?tab=Discussions">{{discussion_count}} discussion{% if discussion_count > 1%}s{%endif%}</a> </h3>
+<div> <a href="?tab=Discussions">{{discussion_count}} discussion{% if discussion_count > 1%}s{%endif%}</a> </div>
 {% for post in discussions|slice:':5' %}
     {% show_post_tab_sm post %}
 {% endfor %}
 </div>
 
 <div class="section-tab col-sm-6">
-<h3> <a href="?tab=Blogs">{{blog_count}} blog{% if blog_count > 1%}s{%endif%}</a></h3>
+<div> <a href="?tab=Blogs">{{blog_count}} blog{% if blog_count > 1%}s{%endif%}</a></div>
 {% for post in blogs|slice:':5' %}
     {% show_post_tab_sm post %}
 {% endfor %}
@@ -150,32 +148,30 @@
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
 <div class="section-tab col-sm-6" id="profile-view-bookmark">
-    <h3> <a href="?tab=Bookmarks">{{bookmark_count}} bookmark{% if bookmark_count > 1%}s{% endif %}</a>
+    <div> <a href="?tab=Bookmarks">{{bookmark_count}} bookmark{% if bookmark_count > 1%}s{% endif %}</a>
     <small class="profile-view-tab-choice profile-view-tab-choice-on" target="bookmark-wiki-list"> wiki<sup>{{bookmark_wiki_count}}</sup> </small>
     <small class="profile-view-tab-choice profile-view-tab-choice-off" target="bookmark-post-list"> post<sup>{{bookmark_post_count}}</sup> </small>
     <small class="profile-view-tab-choice profile-view-tab-choice-off" target="bookmark-software-list"> software<sup>{{bookmark_software_count}}</sup> </small>
-</h3>
-<div id="bookmark-wiki-list">
-<ul class="list-unstyled">
+</div>
+<ul id="bookmark-wiki-list" class="list-unstyled">
 {% for wiki in bookmark_wiki|slice:':5' %}
         <li>{% show_wiki_tab wiki %}</li>
 {% endfor %}
 </ul>
-</div>
-<div id="bookmark-post-list">
+<ul id="bookmark-post-list">
 {% for post in bookmark_posts|slice:':5' %}
     {% show_post_tab_sm post %}
 {% endfor %}
-</div>
-<div id="bookmark-software-list">
+</ul>
+<ul id="bookmark-software-list">
 {% for software in bookmark_software|slice:':5' %}
 {% display_software_tab_sm software %}
 {% endfor %}
+</ul>
 </div>
 
-</div>
 <div class="section-tab col-sm-6 ">
-<h3> <a href="?tab=Tags">{{usertag_count}} tag{% if usertag_count > 1 %}s{% endif %}</a> </h3>
+<div> <a href="?tab=Tags">{{usertag_count}} tag{% if usertag_count > 1 %}s{% endif %}</a> </div>
     <ul class="list-unstyled" >
     {% for user_tag in usertag_list|slice:':5' %}
         {% tag_answers_for_user user_tag %}
@@ -186,7 +182,7 @@
 <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
 <div class="section-tab col-sm-6 ">
-<h3> <a href="?tab=Wiki">{{userpage_count}} wiki page{% if userpage_count > 1 %}s{% endif %}</a> </h3>
+<div> <a href="?tab=Wiki">{{userpage_count}} wiki page{% if userpage_count > 1 %}s{% endif %}</a> </div>
     <ul class="list-unstyled" >
     {% for userpage in userpage_list|slice:':5' %}
     <li> {% show_wiki_tab userpage.page%} (

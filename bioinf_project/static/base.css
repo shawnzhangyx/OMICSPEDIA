@@ -49,11 +49,6 @@ margin-left: 5px;
    padding-left: 15px;
    padding-right: 15px;
   }
-  .section-tab h3{
-    margin-left: -15px;
-    margin-right: -15px;
-    
-  }
 }
 /* navbar */
 .navbar-inverse {
@@ -293,7 +288,7 @@ min-height: 100px;
 
 }
 
-.section-tab>h3 {
+.section-tab>div {
 font-size: 1.5em;
 font-weight: normal;
 background-color: #eeeeee;
@@ -301,14 +296,15 @@ color: #ffffff;
 border-bottom: solid 2px #2a6496;
 padding-left: 10px;
 padding-bottom: 2px;
+margin: 10px 0;
 box-shadow: 2px 1px 3px #888888;
 }
 
-.section-tab>h3>a {
+.section-tab>div>a {
 color: #000000;
 
 }
-.section-tab>h3>a:hover {
+.section-tab>div>a:hover {
 color: #888888;
 text-decoration: none;
 }
@@ -326,6 +322,10 @@ margin-bottom: 150px;
     margin-left:-15px;
     margin-right:-15px;
   }
+  .section-tab >div{
+   margin: 10px -15px;
+  }
+
   
 }
 #footer a {

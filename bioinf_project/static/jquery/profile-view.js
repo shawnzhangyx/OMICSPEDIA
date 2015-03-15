@@ -39,7 +39,7 @@ $('.profile-view-tab-choice').each( function(index){
     console.log('#'+object);
     $('.profile-view-tab-choice').attr('class', 'profile-view-tab-choice profile-view-tab-choice-off');
     $(this).attr('class', 'profile-view-tab-choice profile-view-tab-choice-on');
-    $('#profile-view-bookmark>div').css("display", "none");
+    $('#profile-view-bookmark>ul').css("display", "none");
     $('#'+object).css('display','block');
 });
 });

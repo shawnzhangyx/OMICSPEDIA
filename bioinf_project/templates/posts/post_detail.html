@@ -11,7 +11,7 @@
 {% endblock head %}
 
 {% block content %}
-<h3>{{mainpost.title}} <small>&lt;{{type}}&gt;</small></h3>
+<h1>{{mainpost.title}} <small>&lt;{{type}}&gt;</small></h1>
 <hr>
 {% ifequal type "question" %}
 {% display_post_body mainpost user "is_question"%}

@@ -146,8 +146,8 @@ def bookmark(request):
 
 def preview_markdown(request):
     context = RequestContext(request)
-    if request.method=="GET":
-        content = request.GET['content']
+    if request.method=="POST":
+        content = request.POST.get('content')
         mkd_content = markdown.markdown(content,
         extensions=['extra',
                     'wikilinks(base_url=/wiki/, end_url=/)',

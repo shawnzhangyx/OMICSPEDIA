@@ -13,7 +13,7 @@
 
 <div class="row">
   <div class="section-tab col-sm-6">
-    <h3><a href="{% url 'tags:tag-detail' tag.name %}?tab=Wiki">{{tag.pages.count}} article{% if tag.pages.count > 1 %}s{% endif %}</a></h3>
+    <div><a href="{% url 'tags:tag-detail' tag.name %}?tab=Wiki">{{tag.pages.count}} article{% if tag.pages.count > 1 %}s{% endif %}</a></div>
       <ul class="list-unstyled">
       {% for page in tag.pages.all|slice:':5' %}
       <li>{% show_wiki_tab page %} </li>
@@ -21,22 +21,24 @@
       </ul>
   </div>
     <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'tags:tag-detail' tag.name %}?tab=Software">{{software_list.count}} software</a></h3>
+    <div> <a href="{% url 'tags:tag-detail' tag.name %}?tab=Software">{{software_list.count}} software</a></div>
+    <ul class="list-unstyled">
     {% for software in software_list %}
         {% display_software_tab_sm software.software %}
     {% endfor %}
+    </ul>
   </div>
     <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
   <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'tags:tag-detail' tag.name %}?tab=Questions">{{tag.questions.count}} question{% if tag.questions.count > 1 %}s{% endif %}</a> </h3>
+    <div> <a href="{% url 'tags:tag-detail' tag.name %}?tab=Questions">{{tag.questions.count}} question{% if tag.questions.count > 1 %}s{% endif %}</a> </div>
       {% for post in tag.questions %}
         {% show_post_tab_sm post %}
       {% endfor %}
   </div>
   
     <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'tags:tag-detail' tag.name %}?tab=Discussions">{{tag.discussions.count}} discussion{% if tag.discussions.count > 1 %}s{% endif %}</a> </h3>
+    <div> <a href="{% url 'tags:tag-detail' tag.name %}?tab=Discussions">{{tag.discussions.count}} discussion{% if tag.discussions.count > 1 %}s{% endif %}</a> </div>
       {% for post in tag.discussions %}
         {% show_post_tab_sm post %}
       {% endfor %}
@@ -44,14 +46,14 @@
     <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
 
     <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'tags:tag-detail' tag.name %}?tab=Blogs">{{tag.blogs.count}} blog{% if tag.blogs.count > 1 %}s{% endif %}</a> </h3>
+    <div> <a href="{% url 'tags:tag-detail' tag.name %}?tab=Blogs">{{tag.blogs.count}} blog{% if tag.blogs.count > 1 %}s{% endif %}</a> </div>
       {% for post in tag.blogs %}
         {% show_post_tab_sm post %}
       {% endfor %}
   </div>
 
   <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'tags:tag-detail' tag.name %}?tab=Contributors">{{usertag_list.count}} contributors{% if usertag_list.count > 1 %}s{% endif %}</a> </h3>
+    <div> <a href="{% url 'tags:tag-detail' tag.name %}?tab=Contributors">{{usertag_list.count}} contributors{% if usertag_list.count > 1 %}s{% endif %}</a> </div>
     <ul class="list-unstyled" >
     {% for usertag in usertag_list %}
         {% user_answers_for_tag usertag %}
