@@ -296,16 +296,22 @@ min-height: 100px;
 .section-tab>h3 {
 font-size: 1.5em;
 font-weight: normal;
-background-color: #428bca;
+background-color: #eeeeee;
 color: #ffffff;
+border-bottom: solid 2px #2a6496;
 padding-left: 10px;
-box-shadow: 3px 3px 2px #888888;
+padding-bottom: 2px;
+box-shadow: 2px 1px 3px #888888;
 }
 
 .section-tab>h3>a {
-color: white;
-}
+color: #000000;
 
+}
+.section-tab>h3>a:hover {
+color: #888888;
+text-decoration: none;
+}
 .right-to-left li {
 float:right;
 }

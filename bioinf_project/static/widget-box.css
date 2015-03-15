@@ -283,6 +283,14 @@ padding-bottom: 0.1em;
 display: block-inline;
 
 }
+
+#wiki-new-consent {
+cursor: pointer;
+}
+#wiki-create-form {
+display: none;
+}
+
 #wiki-content {
 background-color: white;
 margin-left: -20px;

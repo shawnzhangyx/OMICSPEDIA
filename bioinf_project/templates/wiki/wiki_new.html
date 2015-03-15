@@ -11,16 +11,21 @@
 
 {% block jquery %}
 <script src="{% static 'jquery/preview_markdown.js' %}"> </script>
+<script src="{% static 'jquery/wiki.js' %}"> </script>
+
 {% endblock jquery %}
 
 {% block content %}
 
 <h1> Create new wiki</h1>
 <hr>
-<div class="alert alert-warning">Before you create this wiki, make sure you have read the help pages on <a href="{% url 'help-page' 'wiki/how-to-write-good-wiki' %}">How to write a good wiki page</a> and <a href="{% url 'help-page' 'basics/how-to-use-markdown'%}">how to use markdown</a> </div>
-<hr>
+<div class="alert alert-warning">Before you create this wiki, make sure you have read the help pages on <a href="{% url 'help-page' 'wiki/how-to-write-good-wiki' %}">How to write a good wiki page</a> and <a href="{% url 'help-page' 'basics/how-to-use-markdown'%}">how to use markdown</a>. 
+And make sure you have done a thorough search (using the search bar located on top) to make sure that the wiki page has not been created yet. 
+</div>
+<a id="wiki-new-consent"> &gt; Yes, I have done the work.</a>
 
-<form action = "" method="post"> 
+
+<form id="wiki-create-form" action = "" method="post"> 
 {% csrf_token %}
 {% crispy form %}
 </form>

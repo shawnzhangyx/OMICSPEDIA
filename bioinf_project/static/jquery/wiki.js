@@ -99,7 +99,7 @@ $(document).ready(function() {
         }
       }
       );
-
+     // userpage collopase and reopen
     $('.userpage-collapse').click(function(){
        value = $(this).html();
        if (value == "expand"){
@@ -113,4 +113,9 @@ $(document).ready(function() {
         }
         });
       
+      // wiki creation consent. 
+      $('#wiki-new-consent').click(function(){
+        $(this).css("display","none");
+        $('#wiki-create-form').css("display", "block");
+      });
 });
