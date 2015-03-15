@@ -52,6 +52,8 @@ class User(AbstractBaseUser,PermissionsMixin):
     # required information 
     email = models.EmailField(verbose_name="email address", db_index=True, max_length=255, unique=True)
     email_verified = models.BooleanField(verbose_name="email verified?", default=False)
+    is_moderator = models.BooleanField(verbose_name="moderator", default=False)
+
     # required to identify the user. 
     USERNAME_FIELD = 'email'
     

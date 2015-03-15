@@ -4,7 +4,7 @@
 {% load user_custom_tags %}
 {% block content %}
 
-<h1> {{user_profile_list.count}} users </h1>
+<h1> {{user_count}} users </h1>
   <ul class="nav nav-tabs">
 
     <li {% ifequal tab 'Reputation' %} class="active" {% endifequal %}>
@@ -12,8 +12,8 @@
     <li {% ifequal tab 'Activity' %} class="active" {% endifequal %}
     {% ifequal tab null %} class="active" {% endifequal %}>
       <a href="?tab=Activity"> Activity </a> </li>
-    <li {# ifequal tab 'Moderators' #} class="disabled" {# endifequal #}> 
-      <a href="?tab=Moderators"> Moderators </a> </li>
+    <li {% ifequal tab 'Moderators' %} class="active" {% endifequal %}> 
+      <a href="?tab=Moderators"> Moderators <span class="badge"> {{moderator_count}}</span> </a> </li>
     
   </ul>
 <br>
@@ -21,17 +21,17 @@
 <ul class="list-unstyled list-inline ">
 {% for user_profile in user_profile_list %}
 <li class="profile-tab">
- {% ifequal tab 'Activity'%} 
-   {% display_user_md user_profile 'activity' %}
- {% else %}
+ {% ifequal tab 'Reputation'%} 
    {% display_user_md user_profile 'location' %}
+ {% else %}
+   {% display_user_md user_profile 'activity' %}
  {% endifequal %}
  </li>
 
 {% endfor %}
 </ul>
 {% else %}
-<p> no registered users </p>
+<p> None in this category</p>
 {% endif %}
 
 <hr>

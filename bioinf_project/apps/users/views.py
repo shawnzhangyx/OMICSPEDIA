@@ -200,14 +200,16 @@ class UserListView(ListView):
             return UserProfile.objects.order_by('-reputation')
         elif tab == "Activity":        
             return UserProfile.objects.order_by('-last_activity')
-        #elif tab == "Moderators":
-            #return UserProfile.objects.filter(user__groups = '')
+        elif tab == "Moderators":
+            return UserProfile.objects.filter(user__is_moderator = True).order_by('-last_activity')
         else: 
             return UserProfile.objects.order_by('-last_activity')
             
     def get_context_data(self,**kwargs):
         context = super(UserListView, self).get_context_data(**kwargs)
         context['tab'] = self.request.GET.get('tab') or 'Activity'
+        context['user_count'] = UserProfile.objects.all().count()
+        context['moderator_count'] = UserProfile.objects.filter(user__is_moderator = True).count()
         return context
     
 @login_required
