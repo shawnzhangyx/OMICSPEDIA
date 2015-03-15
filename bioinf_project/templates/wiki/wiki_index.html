@@ -11,15 +11,15 @@
 
 
 <div class="row">
-
    <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Bookmark">Most liked </a></h3>
+    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Workflow">Workflows</a></h3>
     <ul class="list-unstyled">
-    {% for wiki in bookmark %}
+    {% for wiki in workflow %}
         <li>{% show_wiki_tab wiki %}</li>
     {% endfor %}
     </ul>
    </div>
+
   <div class="section-tab col-sm-6">
     <h3> <a href="{% url 'wiki:wiki-list'%}?tab=View">Most viewed </a></h3>
     <ul class="list-unstyled">
@@ -28,14 +28,7 @@
     {% endfor %}
     </ul>
   </div>
-  <div class="section-tab col-sm-6">
-    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Comment">Need work</a></h3>
-    <ul class="list-unstyled">
-    {% for wiki in comment %}
-        <li>{% show_wiki_tab wiki %}</li>
-    {% endfor %}
-    </ul>
-   </div>
+
 <div class="section-tab col-sm-6">
     <h3> <a href="{% url 'wiki:wiki-revision-list'%}">Recent changes</a></h3>
     <ul class="list-unstyled">
@@ -44,7 +37,14 @@
     {% endfor %}
     </ul>
    </div>
-</div>
+  <div class="section-tab col-sm-6">
+    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Comment">Need work</a></h3>
+    <ul class="list-unstyled">
+    {% for wiki in comment %}
+        <li>{% show_wiki_tab wiki %}</li>
+    {% endfor %}
+    </ul>
+   </div>
 
 <div class="section-tab col-sm-6">
     <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Longest">Longest </a></h3>
@@ -62,5 +62,14 @@
         <li>{% show_wiki_tab wiki %}</li>
     {% endfor %}
     </ul>
+</div>
+   <div class="section-tab col-sm-6">
+    <h3> <a href="{% url 'wiki:wiki-list'%}?tab=Bookmark">Most liked </a></h3>
+    <ul class="list-unstyled">
+    {% for wiki in bookmark %}
+        <li>{% show_wiki_tab wiki %}</li>
+    {% endfor %}
+    </ul>
+   </div>
 </div>
 {% endblock content %}

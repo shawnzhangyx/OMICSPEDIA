@@ -31,12 +31,14 @@ class IndexView(TemplateView):
         longest = all.order_by('-current_revision__total_chars')[:SLICE]
         shortest = all.order_by('current_revision__total_chars')[:SLICE]
         update = PageRevision.objects.order_by('-modified_date')[:8]
+        workflow = all.filter(wiki_tag__categories = 1)[:SLICE]
         context['bookmark'] = bookmarked
         context['view'] = viewed
         context['comment'] = commented
         context['longest'] = longest
         context['shortest'] = shortest
         context['update'] = update
+        context['workflow'] = workflow
         context['page_total'] = all.count()
         return context
         
@@ -47,7 +49,9 @@ class WikiListView(ListView):
     paginate_by = 30
     
     def get_queryset(self): 
-        tab = self.request.GET.get('tab') or 'Bookmark'
+        tab = self.request.GET.get('tab') or 'View'
+        if tab == "Workflow":
+            return Page.objects.all().filter(wiki_tag__categories =1).order_by('-view_count')
         dict = {'Bookmark':'-bookmark_count', 'View':'-view_count', 'Comment':'-comment_count', 'Longest':'-current_revision__total_chars', 'Shortest':'current_revision__total_chars'}
         return Page.objects.all().order_by(dict[tab])
     

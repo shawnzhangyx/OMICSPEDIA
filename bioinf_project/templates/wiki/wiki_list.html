@@ -16,6 +16,7 @@
     <span class="caret"></span>
   </button>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Workflow">Workflows</a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Bookmark">Bookmark</a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=View"> View</a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="?tab=Comment"> Comment</a></li>
@@ -26,6 +27,8 @@
 </div>
 
   <ul class="nav nav-tabs right-to-left">
+    <li {% ifequal tab 'Workflow' %} class="active" {% endifequal %} >
+       <a href="?tab=Workflow" > Workflows </a> </li>
     <li {% ifequal tab 'Bookmark' %} class="active" {% endifequal %} >
        <a href="?tab=Bookmark" > Bookmark </a> </li>
     <li {% ifequal tab 'View' %} class="active" {% endifequal %} >
