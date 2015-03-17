@@ -125,7 +125,7 @@ background-color: #444444;
  * Sidebar
  */
 
-/* Hide for mobile, show later */
+/* Sidebar navigation */
 
 @media (min-width: 768px) {
   .sidebar {
@@ -149,13 +149,23 @@ background-color: #444444;
   }
   .nav-sidebar {
   margin-right: -21px; /* 20px padding + 1px border */
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   margin-left: -20px;
 
   }
+  .visitor-stats{
+  font-size: 12px;
+  color: #333;
+  border-top: solid 1px #bbb;
+  margin-left: -10px;
+  margin-right: -10px;
+  padding-top: 5px;
+  }
+  .visitor-stats ul{
+  padding-left: 10px;
+  }
 }
 
-/* Sidebar navigation */
 @media (max-width: 768px) {
   .sidebar {
     display: block;
@@ -181,7 +191,16 @@ background-color: #444444;
   .nav-sidebar > li > a > img {
   display: none;
   }
-  
+  .visitor-stats{
+  font-size:12px;
+  color: #ddd;
+  }
+  .visitor-stats ul{
+  display: inline;
+  }
+  .visitor-stats ul li{
+  display: inline;
+  }
 }
 
 .nav-sidebar > .active > a,
@@ -244,6 +263,7 @@ background-color: #444444;
  * Main content
  */
 
+ 
 .main {
   padding: 0px;
   margin-left: 0px;
@@ -283,6 +303,8 @@ background-color: #444444;
 /*** general framework ***/
 
 
+
+/* section tab formats */
 .section-tab{
 min-height: 100px;
 
@@ -311,6 +333,8 @@ text-decoration: none;
 .right-to-left li {
 float:right;
 }
+
+/* footer formats */
 
 #footer {
 background-color: #5C7099;

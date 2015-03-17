@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'django_select2',
     'south',
+
     # omicspedia specific apps
     'tags',
     'posts',
@@ -54,6 +55,7 @@ INSTALLED_APPS = (
     'users',
     'meta',
     'utils',
+
 )
 
 MIDDLEWARE_CLASSES = (

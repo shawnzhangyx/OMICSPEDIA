@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-
+{% load user_custom_tags %}
 {% block sidebar-user %}
-  <li class="active"><a href= "{% url 'users:user-list' %}" > Users </a> </li>
+  <li class="active" title="{% get_number_active_users %} registered user{% if get_number_active_users > 1%}s{%endif%} online"><a href= "{% url 'users:user-list' %}" > Users <small>[{% get_number_active_users %}]</small></a> </li>
 {% endblock sidebar-user %}
 

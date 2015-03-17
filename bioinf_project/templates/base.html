@@ -1,9 +1,12 @@
+{% load user_custom_tags %}
+{% load util_custom_tags %}
+{% load staticfiles %}
+
+
 <!DOCTYPE html>
 
 <html>
   <head>
-    {% load staticfiles %}
-
     <!-- meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- loading base.css  
@@ -133,14 +136,18 @@
             <li><a href= "{% url 'posts:post-index' %}?tab=All&sort=Votes" ><img src="{% static 'icons/chat94.png'%}"> Post </a> </li>
             {% endblock sidebar-post %}
             {% block sidebar-user %}
-            <li><a href= "{% url 'users:user-list' %}" ><img src="{% static 'icons/multiple25.png'%}"> Users </a> </li>
+            <li><a href= "{% url 'users:user-list' %}" title="{% get_number_active_users %} registered user{% if get_number_active_users > 1%}s{%endif%} online"><img src="{% static 'icons/multiple25.png'%}"> Users <small>[{% get_number_active_users %}]</small></a> </li>
             {% endblock sidebar-user %}
             {% block sidebar-meta %}
             <li><a href= "{% url 'meta:meta-index' %}" ><img src="{% static 'icons/information76.png'%}"> Meta </a> </li>
             {% endblock sidebar-meta %}
 
           </ul>
+
+          <div class="visitor-stats"> <b>Activity (24h):</b>
+          {% get_sitewide_stats %}</div>
         </div>
+        
       </div>
       <div class="main">
         <div id = "content">
