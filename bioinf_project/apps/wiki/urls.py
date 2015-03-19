@@ -3,9 +3,6 @@ from django.conf.urls import patterns, url
 from . import views
 
 urlpatterns = patterns('',
-    ## moderate views
-    url(r'^moderatelist/$', views.WikiModerateList.as_view(), name="wiki-moderate-list"),
-    url(r'^(?P<title>[^/]+)/moderate/$', views.WikiModerate.as_view(), name="wiki-moderate"),
     
     url(r'^$', views.IndexView.as_view(), name = 'wiki-index'),
     url(r'^list/$', views.WikiListView.as_view(), name = 'wiki-list'),

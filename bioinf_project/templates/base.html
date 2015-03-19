@@ -142,7 +142,7 @@
             <li><a href= "{% url 'meta:meta-index' %}" ><img src="{% static 'icons/information76.png'%}"> Meta </a> </li>
             {% endblock sidebar-meta %}
             {% if user.is_moderator %} 
-            <li {% if moderate %}class="active"{% endif %}><a href= "{% url 'moderate' %}" ><img src="{% static 'icons/judge2.png'%}"> Moderate </a>
+            <li {% if moderate %}class="active"{% endif %}><a href= "{% url 'moderate:moderate-portal' %}" ><img src="{% static 'icons/judge2.png'%}"> Moderate </a>
             {% endif %}
           </ul>
 

@@ -1,0 +1,25 @@
+{% extends 'wiki/wiki_base.html' %}
+
+{% block content %}
+<h1> Moderate  <a href="{% url 'wiki:wiki-detail' page.get_title%}">{{page.title}}</a> </h1>
+
+
+<div class="alert alert-warning">Pending close comment:</div>
+<table>
+{% for comment in pending_comments %}
+<tr> <td> {{comment.detail}} </td> 
+<td>
+<form class='form' method="post" action="{% url 'moderate:change-wiki-comment-status' comment.pk %}"> 
+{% csrf_token %}
+<select id="id_status" name="status">
+<option value="0">open</option>
+<option value="1" selected="selected">close pending</option>
+<option value="2">closed</option>
+</select>
+<input type="submit" value="Confirm">
+
+</form></td>
+</tr>
+{% endfor %}
+</table>
+{% endblock content %}

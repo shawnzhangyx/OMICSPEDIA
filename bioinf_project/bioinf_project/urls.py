@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from . import views
-from utils.views import CommentNew, vote, rate, bookmark, preview_markdown, ImageUploadView, ModerateView
+from utils.views import CommentNew, vote, rate, bookmark, preview_markdown, ImageUploadView
 
 admin.autodiscover()
 
@@ -24,7 +24,7 @@ urlpatterns = patterns('',
 	url(r'^meta/', include('meta.urls', namespace = "meta")),
     url(r'^help/(?P<help_page>.+)$',views.help_page_view, name="help-page"),
 #    url(r'^code_snippet/', include('code_snippet_repos.urls', namespace = "wiki")),
-    url(r'^moderate/', ModerateView.as_view(), name="moderate"),
+    url(r'^moderate/', include('moderate.urls', namespace="moderate")),
     # util urls and ajax links
     url(r'^(?P<comment_on>[^/]+)/(?P<pk>\d+)/comment-new/$', CommentNew.as_view(), name="comment-new"),
     url(r'upload_image/', ImageUploadView.as_view(), name="image-upload"),

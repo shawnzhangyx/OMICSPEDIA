@@ -62,8 +62,15 @@ class Page(models.Model):
         else:
             return rate_sum
     
-    def get_active_comment_count(self):
-        return self.comments.filter(status__lt = 2).count()
+    def get_open_comment(self):
+        return self.comments.filter(status = 0)
+        
+    def get_pending_comment(self):
+        return self.comments.filter(status = 1)
+        
+    def get_closed_comment(self):
+        return self.comments.filter(status = 2)
+        
         
     @staticmethod
     def update_wiki_views(wiki, request, hours=24):
@@ -198,6 +205,9 @@ class PageComment(models.Model):
                 self.LEAD:'please improve the lead section of this page',
                 self.NEW_INFO:'please provide some new information on this page'}
         return dict[self.issue]
+        
+    class Meta: 
+        get_latest_by= 'created'
 # --------- #
 
 post_save.connect(Page.update_comment_count, sender=PageComment)

@@ -323,27 +323,3 @@ def wikilinks(request):
                 response.append('1')
         return HttpResponse(json.dumps({'response':response}))
             #return 1 # if the wikilinks existself.
-
-class WikiModerateList(ListView):
-    model = Page
-    context_object_name = "wiki_list"
-    template_name = "wiki/wiki_moderate_list.html"
-    #   paginate_by = 50
-    
-    def get_context_data(self, **kwargs):
-        context = super(WikiModerateList, self).get_context_data(**kwargs)
-        context['moderate'] = True
-        return context
-    
-class WikiModerate(DetailView):
-    model = Page
-    template_name = "wiki/wiki_moderate.html"
-    
-    def get_object(self):
-        return Page.objects.get(title=self.kwargs['title'].replace('_', ' '))
-        
-    def get_context_data(self, **kwargs):
-        context = super(WikiModerate, self).get_context_data(**kwargs)
-        context['moderate'] = True
-        context['comments'] = self.object.comments.order_by('-modified').filter(status = 1)
-        return context

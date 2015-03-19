@@ -12,7 +12,7 @@
   </button>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
     <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-detail' page.get_title %}">Article</a></li>
-    <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-comment' page.get_title %}"> Comment <span class="badge"> {{page.get_active_comment_count}}</span></a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-comment' page.get_title %}"> Comment <span class="badge"> {{page.get_open_comment.count}}</span></a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-edit' page.get_title %}"> Edit</a></li>
 
     <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-history' page.get_title %}"> History</a></li>
@@ -26,7 +26,7 @@
     {% endblock wiki-article %}
     {% block wiki-comment %}
     <li> 
-     <a href="{% url 'wiki:wiki-comment' page.get_title %}">  Comment <span class="badge"> {{page.get_active_comment_count}}</span></a> 
+     <a href="{% url 'wiki:wiki-comment' page.get_title %}">  Comment <span class="badge"> {{page.get_open_comment.count}}</span></a> 
     </li>
     {% endblock wiki-comment %}
    

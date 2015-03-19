@@ -174,5 +174,3 @@ class ImageUploadView(CreateView):
         return self.request.GET.get('next')
 
         
-class ModerateView(TemplateView):
-    template_name = "utils/moderate_main.html"

@@ -9,7 +9,7 @@
 <tr> <th> Title</th><th>Comments</th></tr>
 {% for wiki in wiki_list %}
  <tr> 
-   <td><a href="{% url 'wiki:wiki-moderate' wiki.get_title%}">{{wiki.title}}</a></td> 
+   <td><a href="{% url 'moderate:wiki' wiki.get_title%}">{{wiki.title}}</a></td> 
    <td> {{wiki.comment_count}}</td>
  </tr>
 {% endfor %}
