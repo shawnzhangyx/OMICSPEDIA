@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
@@ -172,3 +172,7 @@ class ImageUploadView(CreateView):
     
     def get_success_url(self):  
         return self.request.GET.get('next')
+
+        
+class ModerateView(TemplateView):
+    template_name = "utils/moderate_main.html"

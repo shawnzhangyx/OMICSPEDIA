@@ -3,6 +3,10 @@ from django.conf.urls import patterns, url
 from . import views
 
 urlpatterns = patterns('',
+    ## moderate views
+    url(r'^moderatelist/$', views.WikiModerateList.as_view(), name="wiki-moderate-list"),
+    url(r'^(?P<title>[^/]+)/moderate/$', views.WikiModerate.as_view(), name="wiki-moderate"),
+    
     url(r'^$', views.IndexView.as_view(), name = 'wiki-index'),
     url(r'^list/$', views.WikiListView.as_view(), name = 'wiki-list'),
     url(r'^update/$', views.PageRevisionListView.as_view(), name = 'wiki-revision-list'),
@@ -16,5 +20,7 @@ urlpatterns = patterns('',
     url(r'^(?P<title>[^/]+)/history/$', views.WikiHistory.as_view(), name='wiki-history'),
     url(r'^(?P<title>[^/]+)/user-contribtion/$', views.UserPageView.as_view(), name='wiki-contributors'),
     url(r'^(?P<pk>\d+)/diff/$', views.WikiDiff.as_view(), name='wiki-diff'),
+
+    ## ajax for wikilinks
     url(r'^ajax/wikilinks/$', views.wikilinks, name='wikilinks'),
     )

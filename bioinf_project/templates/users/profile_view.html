@@ -18,7 +18,7 @@
 <form class="form pull-left" action="{% url 'users:change-follow' userprofile.id %}?next={{request.path}}" method="post">
 {% csrf_token %}
 <input style="display:none;" value="{{user.user_profile.id}}" name="follower"/> 
-{{form.as_p}}
+
 {% if userprofile in user.user_profile.following.all %} <button class="btn btn-sm btn-default">  <img src="{% static 'icons/delete199.png' %}"> Unfollow </button>
 {%else%}<button class="btn btn-sm btn-default"><img src="{% static 'icons/add199.png' %}"> Follow</button> {% endif %}
 </form>
