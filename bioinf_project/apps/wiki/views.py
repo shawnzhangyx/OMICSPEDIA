@@ -27,7 +27,7 @@ class IndexView(TemplateView):
         all = Page.objects.all()
         bookmarked = all.order_by('-bookmark_count')[:SLICE]
         viewed = all.order_by('-view_count')[:SLICE]
-        commented = all.filter(comment_count__gt = 0).order_by('-comment_count')[:SLICE]
+        commented = all.filter(open_comment_count__gt = 0).order_by('-open_comment_count')[:SLICE]
         longest = all.order_by('-current_revision__total_chars')[:SLICE]
         shortest = all.order_by('current_revision__total_chars')[:SLICE]
         update = PageRevision.objects.order_by('-modified_date')[:8]

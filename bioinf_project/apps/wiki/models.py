@@ -30,9 +30,16 @@ class Page(models.Model):
     image_attachment = GenericRelation("utils.ImageAttachment")
     # count of things
     bookmark_count = models.IntegerField(default=0)
-    comment_count = models.IntegerField(default=0)
+    # number of comment count, used for sorting. 
+    open_comment_count = models.IntegerField(default=0)
+    pending_comment_count = models.IntegerField(default=0)
+    
     current_revision = models.OneToOneField('PageRevision', blank=True, null=True, verbose_name=_('current revision'),
                                             related_name = "revision_page")
+                                            
+    OPEN, PROTECTED = range(2)
+    STATUS_CHOICE = [(OPEN, "open"), (PROTECTED,"protected")]
+    status = models.IntegerField(choices=STATUS_CHOICE, default=OPEN)
     # redirect url
     def __unicode__(self):
         return self.title
@@ -99,13 +106,15 @@ class Page(models.Model):
     @staticmethod
     def reset_comment_count():
         for wiki in Page.objects.all():
-            wiki.comment_count = wiki.comments.filter(status__lt = 2).count()
+            wiki.open_comment_count = wiki.get_open_comment().count()
+            wiki.pending_comment_count = wiki.get_pending_comment().count()
             wiki.save()
             
     @staticmethod        
     def update_comment_count(sender, instance, **kwargs):
         page = instance.page
-        page.comment_count = page.comments.filter(status__lt = 2).count()
+        page.open_comment_count = page.get_open_comment().count()
+        page.pending_comment_count = page.get_pending_comment().count()
         page.save()
         
     def get_absolute_url(self):

@@ -2,10 +2,23 @@
 
 {% block content %}
 <h1> Moderate  <a href="{% url 'wiki:wiki-detail' page.get_title%}">{{page.title}}</a> </h1>
+<!-- change page status -->
+<h2> Page status </h2>
+<form class="form" method="post" action="{% url 'moderate:change-wiki-status' page.get_title %}">
+{% csrf_token %}
+<select id="id_status" name="status">
+<option value="0" {% ifequal page.status 0 %} selected="selected"{%endifequal%}>open</option>
+<option value="1" {% ifequal page.status 1 %} selected="selected"{%endifequal%}>protected</option>
+</select>   
+<input type="submit" value="Submit">
 
+</form>
 
+<h2> Page comments </h2>
+{% if pending_comments %}
 <div class="alert alert-warning">Pending close comment:</div>
-<table>
+<table class="table">
+<tr> <th> Comment</th><th> action</th> </tr>
 {% for comment in pending_comments %}
 <tr> <td> {{comment.detail}} </td> 
 <td>
@@ -22,4 +35,5 @@
 </tr>
 {% endfor %}
 </table>
+{% endif %}
 {% endblock content %}

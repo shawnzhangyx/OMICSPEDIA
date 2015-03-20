@@ -22,7 +22,7 @@
 <td>
 {% display_blog_body mainpost user perms %}
 <br>
-<h4 class="display-none-mobile pull-left"><b> {{mainpost.get_comments.count}} comment{%if mainpost.get_comments.count > 1%}s{% endif %}</b></h4>
+<span class="display-none-mobile pull-left" style="font-size:18px"><b> {{mainpost.get_comments.count}} comment{%if mainpost.get_comments.count > 1%}s{% endif %}</b></span>
  
 <div class="nav-tabs-dropdown dropdown">
   <b>{{mainpost.reply_count}} comment{%if mainpost.reply_count > 1%}s{% endif %}</b> sort by <button class="btn btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
@@ -67,7 +67,7 @@
 <!-- add comment -->
 {% if user.is_authenticated %}
    {% if user.exceed_new_comment_limit %}
-   <h4> Add your comment: </h4>
+   <h3> Add your comment: </h3>
           <div class="alert alert-warning">Sorry, you have exceeded your daily maximum number of comments. 
           </div>
    {% else %}

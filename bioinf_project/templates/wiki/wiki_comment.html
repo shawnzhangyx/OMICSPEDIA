@@ -10,14 +10,14 @@ Comment
 {% endblock wiki-dropdown %}
 {% block wiki-comment %}
   <li class="active"> <a href="{% url 'wiki:wiki-comment' page.get_title %}"> Comment 
-    <span class="badge"> {{page.get_active_comment_count}}</span></a> </li>
+    <span class="badge"> {{page.get_open_comment.count}}</span></a> </li>
 {% endblock wiki-comment %}
 
 {% block wiki-content %}
 <br>
 {% if open_comment_list.count > 0 %}
 <div class="wiki-comment-fence">
-<p class='wiki-comment-open'> <b> OPEN:</b> </p>
+<p class='wiki-comment-open'> <b> {{page.get_open_comment.count}} OPEN:</b> </p>
 {% for comment in open_comment_list %}
 {% show_comment_dialog comment user %}
 {% endfor %}
@@ -25,7 +25,7 @@ Comment
 {% endif %}
 {% if pending_comment_list.count > 0 %}
 <div class="wiki-comment-fence">
-<p class='wiki-comment-pending'> <b> PENDING:</b> </p>
+<p class='wiki-comment-pending'> <b>{{page.get_pending_comment.count}} PENDING:</b> </p>
 {% for comment in pending_comment_list %}
 {% show_comment_dialog comment user %}
 {% endfor %}
@@ -34,7 +34,7 @@ Comment
 
 {% if closed_comment_list.count > 0 and user.is_moderator %}
 <div class="wiki-comment-fence">
-<p class='wiki-comment-closed'> <b> CLOSED: </b> closed tickets</p>
+<p class='wiki-comment-closed'> <b>{{page.get_closed_comment.count}} CLOSED: </b> closed tickets</p>
 {% for comment in closed_comment_list %}
 {% show_comment_dialog comment user %}
 {% endfor %}
