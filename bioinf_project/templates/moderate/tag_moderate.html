@@ -1,0 +1,12 @@
+{% extends 'tags/tag_base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1> Moderate  <a href="{% url 'tags:tag-detail' tag.name%}">{{tag.name}}</a> </h1>
+<hr>
+<form action="" method="post" > 
+{% csrf_token %}
+{% crispy form%}
+</form>
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends 'tags/tag_base.html' %}
+
+{% block content %}
+<h1> Moderate tag page </h1>
+<hr>
+
+
+<table class='table'>
+<tr> <th> Title</th><th>Counts</th><th>Category</th><th>Status</th> <th> Parent</th></tr>
+{% for tag in tag_list %}
+ <tr> 
+   <td><a href="{% url 'moderate:tag' tag.name%}">{{tag.name}}</a></td> 
+    <td> {{tag.count}}</td>
+    <td> {{tag.get_categories_display}}</td>
+    <td>
+    
+<form class="form" method="post" action="{% url 'moderate:change-tag-status' tag.name %}">
+{% csrf_token %}
+<select id="id_status" name="status">
+<option value="0" {% ifequal tag.status 0 %} selected="selected"{%endifequal%}>new</option>
+<option value="1" {% ifequal tag.status 1 %} selected="selected"{%endifequal%}>protected</option>
+</select>   
+<input type="submit" value="Submit">
+
+</form>
+    </td>
+<td> {{tag.parent.name}}</td>
+ </tr>
+{% endfor %}
+</table>
+{% endblock content %}

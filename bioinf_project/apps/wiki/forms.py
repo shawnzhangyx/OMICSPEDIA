@@ -50,7 +50,7 @@ PageForm.base_fields['tags'].help_text = 'Please type your tags'
 
 class PageRevisionForm(forms.ModelForm):
 
-    title = forms.CharField(validators=[validate_title],help_text='title of the wiki. Special characters such as !"#$%&\'()*+-/:;<=>?@[\\]^_`{|}~ are not allowed')
+    #title = forms.CharField(validators=[validate_title],help_text='title of the wiki. Special characters such as !"#$%&\'()*+-/:;<=>?@[\\]^_`{|}~ are not allowed')
     tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(),required=False)
     content = forms.CharField(widget=forms.Textarea)
     summary = forms.CharField()
@@ -64,7 +64,7 @@ class PageRevisionForm(forms.ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 '',
-                Field('title'),
+            #    Field('title'),
                 Field('tags'),
                 HTML('''<div id="wmd-button-bar"></div> '''),
                 Field('content',id="wmd-input"),
@@ -79,7 +79,8 @@ class PageRevisionForm(forms.ModelForm):
         )
     class Meta:
         model = Page
-        fields = ('title','tags')
+        fields = (#'title',
+                'tags',)
     
 PageRevisionForm.base_fields['tags'].help_text = 'Please type your tags'
 
