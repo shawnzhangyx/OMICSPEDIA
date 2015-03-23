@@ -9,6 +9,7 @@ from tags.models import Tag
 from wiki.models import Page
 from posts.models import MainPost, ReplyPost
 from users.models import User
+from utils.models import Search
 
 class IndexView(TemplateView):
     template_name = "index.html"
@@ -42,8 +43,11 @@ class IndexView(TemplateView):
 
 def search(request):
 #    template_name = "search.html"
-    field = request.GET['search_field']
-    text = request.GET['search_text']
+    field = request.GET.get('search_field')
+    text = request.GET.get('search_text')
+    new_search = Search(text="text")
+    new_search.save()
+    
     wiki = ''
     posts = ''
 #    if field == "All" or field == "Tag":

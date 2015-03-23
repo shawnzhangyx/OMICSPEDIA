@@ -143,5 +143,10 @@ class ImageAttachment(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
-
+## save the user search terms to index the text materials. 
+class Search(models.Model):
+    text = models.CharField(max_length=255, blank=True, verbose_name=_('search name'))
+    created = models.DateTimeField(auto_now=True)
     
+    def __unicode__(self):
+        return u"%s" %(self.text)  
