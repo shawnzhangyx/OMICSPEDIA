@@ -24,7 +24,7 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         SLICE = 5
-        all = Page.objects.all()
+        all = Page.uniques.all()
         bookmarked = all.order_by('-bookmark_count')[:SLICE]
         viewed = all.order_by('-view_count')[:SLICE]
         commented = all.filter(open_comment_count__gt = 0).order_by('-open_comment_count')[:SLICE]
@@ -51,9 +51,9 @@ class WikiListView(ListView):
     def get_queryset(self): 
         tab = self.request.GET.get('tab') or 'View'
         if tab == "Workflow":
-            return Page.objects.all().filter(wiki_tag__categories =1).order_by('-view_count')
+            return Page.uniques.all().filter(wiki_tag__categories =1).order_by('-view_count')
         dict = {'Bookmark':'-bookmark_count', 'View':'-view_count', 'Comment':'-comment_count', 'Longest':'-current_revision__total_chars', 'Shortest':'current_revision__total_chars'}
-        return Page.objects.all().order_by(dict[tab])
+        return Page.uniques.all().order_by(dict[tab])
     
     def get_context_data(self, **kwargs):
         context = super(WikiListView, self).get_context_data(**kwargs)

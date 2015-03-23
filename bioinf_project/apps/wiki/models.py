@@ -14,10 +14,18 @@ import re
 from django.conf import settings
 # Create your models here.
 
+
+class UniquePageManager(models.Manager):
+    def get_queryset(self):
+        return super(UniquePageManager, self).get_queryset().filter(redirect_to__isnull = True)
+
 # Ideally, every tag should have a wiki,
 # but not every wiki should have a tag.
 # so it may be oneToOne relationship from Tag to Wiki Page.
 class Page(models.Model):
+
+    objects = models.Manager()
+    uniques = UniquePageManager() 
 
     title = models.CharField(_("title"), max_length=255, unique=True)
     tags = models.ManyToManyField("tags.Tag",blank=True, related_name="pages")

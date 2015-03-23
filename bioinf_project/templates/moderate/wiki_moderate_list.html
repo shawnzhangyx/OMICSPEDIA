@@ -1,17 +1,19 @@
 {% extends 'wiki/wiki_base.html' %}
 
 {% block content %}
-<h1> Moderate wiki page </h1>
+<h1> Moderate wiki page <small>x {{wiki_list.count}}</small> </h1>
 <hr>
 <div class="form-control">search bar</div>
 
 <table class='table'>
-<tr> <th> Title</th><th>Status</th><th>Comments</th></tr>
+<tr> <th> Title</th><th>Status</th><th>Comments</th><th>Redirect</th>
+</tr>
 {% for wiki in wiki_list %}
  <tr> 
    <td><a href="{% url 'moderate:wiki' wiki.get_title%}">{{wiki.title}}</a></td> 
    <td>{{wiki.get_status_display}}</td>
    <td> {{wiki.pending_comment_count}}</td>
+   <td> {{wiki.redirect_to.title}}</td>
  </tr>
 {% endfor %}
 </table>
