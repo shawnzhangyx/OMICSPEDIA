@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load wiki_custom_tags %}
+{% load post_custom_tags %}
+{% load software_custom_tags %}
+{% block content %}
+<h1> Search results for "<em>{{search_text}}</em>" ({{search_field}})</h3>
+<hr>
+<br>
+{% ifequal search_field 'Wiki' %}
+<ul class="list-unstyled">
+{% for object in list %}
+        <li>{% show_wiki_tab object %}</li>
+{% endfor %}
+</ul>
+{% endifequal %}
+
+    
+{% ifequal search_field 'Post' %}
+{% for object in list %}
+    {% show_post_tab_sm object %}
+{% endfor %}
+{% endifequal %}
+
+{% ifequal search_field 'Tool' %}
+{% for object in list %}
+    {% display_software_tab object %}
+{% endfor %}
+{% endifequal %}
+
+
+
+<div class="row"></div>
+<br>
+<hr>
+
+<div class="pagination">
+            <span class="page-links">
+                {% if list.has_previous %}
+                    <a class='btn btn-xs btn-default' href="?search_field={{search_field}}&search_text={{search_text}}&page={{list.previous_page_number}}">Prev</a>
+                {% endif %}
+                <span class="page-current">
+                    Page <b>{{ list.number }}</b> of <b>{{ list.paginator.num_pages }}</b>.
+                </span>
+                {% if list.has_next %}
+                    <a class='btn btn-xs btn-default' href="?search_field={{search_field}}&search_text={{search_text}}&page={{list.next_page_number}}">Next</a>
+                {% endif %}
+                <form action="" class="pagination-form" method="get">  <input type="text" size="1" name="page" placeholder="1"> <input style="display:none" type="text" size="1" name="search_field" value="{{search_field}}"> <input style="display:none" type="text" size="1" name="search_text" value="{{search_text}}"> <input type="submit" class="btn btn-default btn-xs" value="Go">
+                </form>
+            </span>
+ </div>
+
+    
+
+{% endblock content %}

@@ -5,9 +5,12 @@ from django.template import RequestContext
 from datetime import datetime, timedelta
 from django.utils import timezone
 
+from utils import pagination
+
 from tags.models import Tag
 from wiki.models import Page
 from posts.models import MainPost, ReplyPost
+from software.models import Tool
 from users.models import User
 from utils.models import Search
 
@@ -43,20 +46,28 @@ class IndexView(TemplateView):
 
 def search(request):
 #    template_name = "search.html"
+    PAGE_LIMIT = 25
     field = request.GET.get('search_field')
     text = request.GET.get('search_text')
     new_search = Search(text=text)
     new_search.save()
     
-    wiki = ''
-    posts = ''
-#    if field == "All" or field == "Tag":
-#        tags = Tag.objects.filter(name__icontains = text)#.exclude(parent__isnull=False)
-    if field == "All" or field == "Wiki":
+    if field == "All":
         wiki = Page.objects.filter(title__icontains = text)
-    if field == "All" or field == "Post":
         posts = MainPost.objects.filter(title__icontains = text)
-    return render(request, "search_results.html", {"wiki_list":wiki,"post_list":posts,"search_text":text})
+        tools = Tool.objects.filter(name__icontains = text)
+        return render(request, "utils/search_results_all.html", {"wiki_list":wiki,"post_list":posts,"tool_list":tools,"search_text":text})
+    else:
+        page = request.GET.get('page')
+        if field == "Wiki":
+            list = Page.objects.filter(title__icontains = text)
+        elif field == "Post":
+            list = MainPost.objects.filter(title__icontains = text)
+        elif field == "Tool":
+            list = Tool.objects.filter(name__icontains = text)
+            
+        list = pagination(list, page, PAGE_LIMIT)
+        return render(request, "utils/search_results_list.html", {'list':list, 'search_text':text,'search_field':field})
 
 
 class PortalView(ListView):

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load post_custom_tags %}
+{% load software_custom_tags %}
+
+{% block content %}
+<h1> Search results for <em>"{{search_text}}"</em></h3>
+<hr>
+
+<div class="section-tab col-xs-12 col-sm-6"> <div> <a> Wiki </a></div>
+
+<ul>
+{% for wiki in wiki_list|slice:":20" %}
+<li> <a href="{% url 'wiki:wiki-detail' wiki.get_title %}"> {{ wiki.title }} </a> </li>
+{% empty %}
+No matching wiki pages. 
+{% endfor %}
+</ul>
+{% if wiki_list.count > 20 %} <a href="?search_field=Wiki&search_text={{search_text}}"> More search results</a> {% endif %}
+</div>
+
+
+<div class="section-tab col-xs-12 col-sm-6"> <div> <a> Posts </a></div>
+<ul class="list-unstyled">
+{% for post in post_list|slice:":20" %}
+{% show_post_tab_sm post %}
+{% empty %}
+No matching post. 
+{% endfor %}
+</ul>
+{% if wiki_list.count > 20 %} <a href="?search_field=Post&search_text={{search_text}}"> More search results</a> {% endif %}
+</div>
+
+<div class="section-tab col-xs-12 col-sm-6"> <div> <a> Software </a></div>
+<ul class="list-unstyled">
+{% for tool in tool_list|slice:":20" %}
+{% display_software_tab_sm tool %}
+{% empty %}
+No matching software. 
+{% endfor %}
+</ul>
+{% if wiki_list.count > 20 %} <a href="?search_field=Tool&search_text={{search_text}}"> More search results</a> {% endif %}
+</div>
+<hr>
+
+
+{% endblock content %}
