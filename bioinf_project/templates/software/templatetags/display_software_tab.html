@@ -2,9 +2,10 @@
 {% load tag_custom_tags %}
 {% load staticfiles %}
 <div class="col-xs-12 software-tab">
-<div class="pull-left"> <img class="thumbnail software-tab-image" src={% if tool.image %}{{tool.image.url}}{% else %} {% static 'images/duang.jpg' %}{% endif %}> </div>
-<div><b><a href="{% url 'software:software-detail' tool.name %}">{{tool.name}}</a></b> 
+<div class="pull-left"> <a href="{% url 'software:software-detail' tool.name %}"><img class="thumbnail software-tab-image"  src={% if tool.image %}{{tool.image.url}}{% else %} {% static 'images/duang.jpg' %}{% endif %}> </a> </div>
 <span class="pull-left"> <b>{{tool.get_vote_count}}</b> <img class="software-tab-vote" src="{% static 'images/vote-up-off.jpg' %}"></span>
+<div><a class="software-tab-title" href="{% url 'software:software-detail' tool.name %}">{{tool.name}}</a> 
+
     
 {{ tool.page.current_revision.content|truncatechars:100 }}
 </div>
