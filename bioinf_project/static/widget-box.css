@@ -494,6 +494,13 @@ padding-top:5px;
 margin-bottom: 10px;
 }
 
+.software-tab-image {
+height: 75px;
+#border: 1px solid #ddd;
+margin-bottom: 5px;
+margin-right: 10px;
+}
+
 .software-tab-vote {
 height:20px;
 width: 15px;

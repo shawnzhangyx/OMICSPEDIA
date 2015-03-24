@@ -10,12 +10,12 @@
 {% else %}
 <a class="btn btn-default btn-xs" href="{% url 'users:login' %}?next={{request.path}}"><img src="{% static 'icons/enter3.png' %}"> log in </a> to submit new software. 
 {% endif %}
-<h3>Browser by workflow: {% if parent %} [{{parent.name}}] {% endif %}
+<h2>Browser by workflow: {% if parent %} [{{parent.name}}] {% endif %}
 {% ifnotequal parent null %}<small>
  {% ifequal parent.parent null %} <a href="{% url 'software:software-index' 'root' %}">
  {% else %}
 <a href="{% url 'software:software-index' parent.parent.name %}"> {% endifequal %} &lt;up one level&gt;</a></small>{% endifnotequal %}
-</h3>
+</h2>
 <div class="workflow-description">
 {{parent.wiki_page.get_lead_section|safe }}
 </div>
@@ -24,6 +24,13 @@
  {% display_workflow_tab tag %}</li>
  {% endfor %}
 </div>
+{% if unclassified %}
+<h2> Unclassified tools </h2>
+{% for tool in unclassified %}
+    {% display_software_tab tool %}
+{% endfor %}
+{% endif %}
+
 {% if software_list.count > 0 %}
   <ul class="nav nav-tabs right-to-left">
     <li {% ifequal tab 'Votes' %} class="active" {% endifequal %} >

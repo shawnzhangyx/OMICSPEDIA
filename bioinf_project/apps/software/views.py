@@ -32,9 +32,11 @@ class IndexView(ListView):
             return Tool.objects.none()
             
     def get_context_data(self, **kwargs):
-        context = super(IndexView,self).get_context_data(**kwargs)    
+        context = super(IndexView,self).get_context_data(**kwargs)
         if self.kwargs['tag'] =='root':
             tags = Tag.objects.filter(categories=1, parent__isnull=True).order_by('-tool_count')
+            unclassified = Tool.objects.all().exclude(page__tags__categories = 1)
+            context['unclassified'] = unclassified
         else: 
             parent = Tag.objects.get(name=self.kwargs['tag'])
             tags = parent.children.all().order_by('-tool_count')
@@ -51,13 +53,14 @@ class SoftwareListView(ListView):
     paginate_by = 20
     
     def get_queryset(self): 
-        tab = self.request.GET.get('tab') or 'Vote'
-        dict = {'Vote':'-vote_count',}
+        tab = self.request.GET.get('tab') or 'Votes'
+        dict = {'Votes':'-vote_count', 'Bugs': '-bug_count'}
         return Tool.objects.all().order_by(dict[tab])
     
     def get_context_data(self, **kwargs):
         context = super(SoftwareListView, self).get_context_data(**kwargs)
-        context['tab'] = self.request.GET.get('tab') or 'Vote'
+        context['tab'] = self.request.GET.get('tab') or 'Votes'
+        context['software_count'] = Tool.objects.all().count()
         return context
     
     
