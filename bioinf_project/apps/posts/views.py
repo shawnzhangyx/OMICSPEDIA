@@ -26,7 +26,7 @@ class IndexView(ListView):
     def get_queryset(self):
         tab = self.request.GET.get('tab')
         sort = self.request.GET.get('sort')
-        dict = {'Votes':'-vote_count','Replies':'-reply_count', 'Bookmarks':'bookmark_count','Views':'-view_count'}
+        dict = {'Votes':'-vote_count','Replies':'-reply_count', 'Bookmarks':'bookmark_count','Views':'-view_count', 'Created':'-created'}
         if sort in dict:
             sort_by = dict[sort]
         else: 
