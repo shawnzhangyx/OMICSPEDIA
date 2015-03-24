@@ -45,7 +45,7 @@ def search(request):
 #    template_name = "search.html"
     field = request.GET.get('search_field')
     text = request.GET.get('search_text')
-    new_search = Search(text="text")
+    new_search = Search(text=text)
     new_search.save()
     
     wiki = ''
