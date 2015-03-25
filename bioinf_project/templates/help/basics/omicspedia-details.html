@@ -1,0 +1,9 @@
+{% extends "help/basics/toc.html" %}
+
+{% block help-content %}
+<h1 class="help-title"><span> What is OMICSPEDIA? Is it useful for me? </span></h1>
+<h2> Introduction </h2>
+<p> OMICSPEDIA is an online community developed by and for bioinformaticians. It is built around OMICS data analysis workflows, such as next-generation sequencing and microarray-based analysis. It is built with three major components and will serve people with different goals and different levels of expertise. These three components are (1)<a href="{% url 'wiki:wiki-index'%}"> <b>Wiki</b></a>, (2) <a href="{% url 'software:software-index' 'root'%}"> <b>software database</b></a> and (3) <a href="{% url 'posts:post-index'%}"> <b> Q&A forums</b> </a>.  All components will be tagged to certain OMICS workflow, therefore making the contents easily navigatable. 
+<h2> OMICS workflows </h2>
+
+{% endblock help-content %}
