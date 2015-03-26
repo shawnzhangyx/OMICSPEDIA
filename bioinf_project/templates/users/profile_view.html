@@ -41,7 +41,11 @@
 {% endif %}
 
 <div class="row">
-	<div class="profile-img "> 
+
+<div class="col-xs-12 col-sm-7">
+    <table>
+    <tr>
+	<td class="profile-img "> 
         {% if userprofile.portrait %}
             <img class="profile-img-big" src="{{userprofile.portrait.url}}">
         {% else %}
@@ -53,21 +57,26 @@
         <div class="profile-follow">
             <strong class="profile-follow-num"><a href="{% url 'users:followers' userprofile.pk %}">{{userprofile.follower.count}}</a></strong> <br>follower
         </div>
-	</div>
-	<div class="profile-info">
-	  <table class="table">
-        <tr> <td>Website</td><td> <a href="{{userprofile.website}}"> {{userprofile.website}}</a> </td></tr>
-        <tr> <td>Location</td><td> {{userprofile.location}} </td></tr>
-        <tr> <td>Member since</td><td> {{userprofile.date_joined|naturaltime}} </td></tr>
-        <tr> <td>Last seen</td><td> {{userprofile.last_activity|naturaltime}} </td></tr>
+	</td>
+	<td class="profile-info">
+	  <table class="table table-condensed">
+        <tr> <th>Website</th><td> <a href="{{userprofile.website}}"> {{userprofile.website}}</a> </td></tr>
+        <tr> <th>Location</th><td> {{userprofile.location}} </td></tr>
+        <tr> <th>Member since</th><td> {{userprofile.date_joined|naturaltime}} </td></tr>
+        <tr> <th>Last seen</th><td> {{userprofile.last_activity|naturaltime}} </td></tr>
 
-	    <tr> <td>Reputation</td><td> {{userprofile.reputation}} </td></tr>
+	    <tr> <th>Reputation</th><td> {{userprofile.reputation}} </td></tr>
 	  </table>
-	</div>
+	</td>
+    </tr>
+    </table>
+    </div>
+    <div class="col-xs-12 col-sm-5">
 	<div class="profile-bio">
 		<b>About me:</b>
          {{userprofile.biography}}
 	</div>
+    </div>
 </div>
 <br>
 

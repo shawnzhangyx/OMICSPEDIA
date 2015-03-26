@@ -10,7 +10,7 @@
 {% endblock head %}
 
 {% block content %}
- <h1> OMICSPEDIA Homepage </h1>
+ <h1> OMICSPEDIA<small> Encyclopedia for omics data analysis.</h1>
 <div class = "row">
   <div class="col-xs-6 col-md-3 home-panel",title="Wiki pages of the 
       analysis methods for OMICS data" >
@@ -22,7 +22,7 @@
   </div>
     
   <div class="col-xs-6  col-md-3 home-panel">
-    <a href="{% url 'posts:post-index' %}" class="thumbnail" title="We've all been there. Let us help you solve your problem.">
+    <a href="{% url 'posts:post-index' %}?tab=All&sort=Votes" class="thumbnail" title="We've all been there. Let us help you solve your problem.">
       <img src="{% static 'images/qa.png'%}" alt='...'>
       <p> Ask a question</p>
     </a>
