@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, Permission, Group, PermissionsMixin
 from django.core.urlresolvers import reverse
-from django.db.models.signals import post_save, post_delete, pre_delete
+from django.db.models.signals import post_save, post_delete, pre_delete, pre_save
 from django.utils import timezone
 from datetime import datetime, timedelta
 
@@ -205,6 +205,8 @@ class Notification(models.Model):
 
     @staticmethod
     def message_from_posts(sender, instance, **kwargs):
+        if instance.pk: #if the instance exists.
+            return 
         link = reverse('posts:post-detail', kwargs={'pk':instance.mainpost.id})
         if instance.mainpost.type == 0:
             message = "New answer added to "
@@ -228,7 +230,8 @@ class Notification(models.Model):
     class Meta:
         unique_together = ('user', 'message', 'type')
         
-post_save.connect(Notification.message_from_posts, sender=ReplyPost)
+pre_save.connect(Notification.message_from_posts, sender=ReplyPost)
+
 #class Timeline(models.Model):
     # timeline of the user.   
    

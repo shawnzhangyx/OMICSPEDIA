@@ -4,7 +4,7 @@
 {% load staticfiles %}
 {% load humanize %}
 
-<table class="post-container">
+<table class="discussion-container">
   <tr> <td colspan='2' class="post-action">
   {{report.created}}&nbsp;&nbsp; 
   {% ifequal report.get_status_display 'open' %}
@@ -16,7 +16,7 @@
   <td class="vote-box">
     {% display_vote_widget report user%}
   </td>
-  <td class="post-body">
+  <td class="discussion-body">
     <p> {{ report.current_revision.get_marked_up_content|safe }} </p>
     <div class="clearfix post-authorship">
       <div class="pull-right post-edition">
