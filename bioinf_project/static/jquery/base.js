@@ -40,6 +40,8 @@ $('body').tooltip({ selector:'[data-toggle=tooltip]'});
 $(".alert").alert()
 
 $("#id_tags").select2();
+$("#id_parent").select2();
+
 $("#s2id_id_tags").css("padding","0px").css("border", "0px");
 // neeed to change the css of the respective file to change the tag select style.
 //$(".select2-search-choice").css("margin-top","5px").css("background-color","#e0eaf1");

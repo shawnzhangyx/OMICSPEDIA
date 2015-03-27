@@ -146,7 +146,10 @@ class Tag(models.Model):
         return self.name.replace(' ','_')
 
     def __unicode__(self):
-        return self.name
+        if self.parent:
+            return self.parent.__unicode__() +'/'+ self.name
+        else:
+            return self.name
     def get_absolute_url(self):
         return reverse('tags:tag-detail', kwargs = {'name': self.name})
     # check if the tag is the root.

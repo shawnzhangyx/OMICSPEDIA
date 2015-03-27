@@ -16,9 +16,10 @@ def validate_name(name):
     if name.find("_") >= 0:
         raise ValidationError("'_' is not allowed in the tag name")
 
+
+
 class TagCreateForm(forms.ModelForm):
     name = forms.CharField(validators=[validate_name],help_text="the name of the tag")
-   # icon = forms.ImageField(label="Icon", required=False, validators=[validate_icon], help_text="50px * 50px")
     categories = forms.ChoiceField(choices=Tag.CATEGORY_CHOICE, 
     help_text='select category')
     
@@ -39,8 +40,7 @@ class TagCreateForm(forms.ModelForm):
     class Meta:
         model = Tag
         fields = ('name', 'categories',)
-        
-        
+             
 class TagForm(forms.ModelForm):
     name = forms.CharField(validators=[validate_name],help_text="the name of the tag")
     wiki_page = forms.ModelChoiceField(label="page", queryset=Page.objects.all(),help_text="the wiki page of this tag")
@@ -62,6 +62,8 @@ class TagForm(forms.ModelForm):
                 Submit('submit', 'Submit'), css_class="col-sm-6"
             )
         )
+        
+
         
     class Meta:
         model = Tag
@@ -91,6 +93,14 @@ class WorkflowTagForm(forms.ModelForm):
                 Submit('submit', 'Submit'), css_class="col-sm-6"
             )
         )
+    def clean(self):
+        cleaned_data = super(WorkflowTagForm, self).clean()
+        categories = cleaned_data.get('categories')
+        parent = cleaned_data.get('parent')
+        if categories !='1' and parent: 
+            cleaned_data['parent'] = None
+            self._errors['parent'] = self.error_class(['Non-workflow tag cannot have a parent'])     
+        return cleaned_data
         
     class Meta:
         model = Tag
