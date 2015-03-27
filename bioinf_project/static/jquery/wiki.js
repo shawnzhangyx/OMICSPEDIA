@@ -43,9 +43,9 @@ $(document).ready(function() {
         $(this).html( $(this).html()+" <small>[<a href='"+ href_html + "'>edit</a>]</small>");
         });
 
+        
     //differentiate functional wiki links and non-exist wiki links. 
     wikilinks=$('.wikilink')      
- //   console.log(wikilinks);
     arr = $.makeArray(wikilinks);
 //    console.log(arr);
 //    console.log($(arr).length);
@@ -64,6 +64,8 @@ $(document).ready(function() {
           }
         }
     },'json');
+    
+    
     // add '[]' to the footnote items. 
     $('.footnote-ref').each(function(){
         $(this).html('['+$(this).html()+']');

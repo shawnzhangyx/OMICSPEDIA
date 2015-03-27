@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 import markdown
 import json
+import re 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 
@@ -144,6 +145,16 @@ def bookmark(request):
         return HttpResponse(json.dumps({"bookmark_count":obj.bookmark_count}))
 
 
+   
+def replace_wikilinks(matchobj):
+    title = matchobj.group(4)
+    try: obj = Page.objects.get(title=title.replace('_', ' '))
+    except Page.DoesNotExist: 
+        #return '<b>no match</b>'
+        return matchobj.group(1)+ ' wikilink-not-exist' + matchobj.group(2) + 'data-toggle="tooltip" title="page does not exist" data-placement="bottom"'  + matchobj.group(3)
+    else:
+        return matchobj.group(0)
+        
 def preview_markdown(request):
     context = RequestContext(request)
     if request.method=="POST":
@@ -153,7 +164,12 @@ def preview_markdown(request):
                     'wikilinks(base_url=/wiki/, end_url=/)',
                     'toc'],
         safe_mode='escape')
-    return render_to_response('utils/preview_markdown.html', {'mkd_content': mkd_content}, context)
+    # differentiate good wikilinks with bad wikilinks. 
+    # if this is a stable function, can apply this to get_marked_up_cotent. 
+    pattern = re.compile(u'(<a[^>]*?wikilink)(.*?)(>(.*?)</a>)')
+    mkd_content_wikilink = re.sub(pattern, replace_wikilinks, mkd_content)
+        
+    return render_to_response('utils/preview_markdown.html', {'mkd_content': mkd_content_wikilink}, context)
 
 
 class ImageUploadView(CreateView):
