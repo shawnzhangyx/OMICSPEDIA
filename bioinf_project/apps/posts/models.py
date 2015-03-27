@@ -11,6 +11,8 @@ from django.db.models import F
 from django.db.models.signals import post_save, post_delete
 from django.conf import settings
 from utils.models import View, AbstractBaseRevision
+
+from wiki.models import replace_wikilinks, GetMarkdownMixin
 # Create your models here.
 
 # --------------- #
@@ -20,7 +22,7 @@ from utils.models import View, AbstractBaseRevision
 
 
 
-class MainPostRevision(AbstractBaseRevision):
+class MainPostRevision(GetMarkdownMixin, AbstractBaseRevision):
     post = models.ForeignKey("MainPost", on_delete = models.CASCADE, verbose_name=_("post"))
 
     def __unicode__(self):
@@ -39,8 +41,9 @@ class MainPostRevision(AbstractBaseRevision):
             return MainPostRevision.objects.get(revision_number = self.revision_number - 1, post = self.post)
         except IndexError:
             return
+ 
 
-class ReplyPostRevision(AbstractBaseRevision):
+class ReplyPostRevision(GetMarkdownMixin, AbstractBaseRevision):
     post = models.ForeignKey("ReplyPost", on_delete = models.CASCADE, verbose_name=_("post"))
 
     def __unicode__(self):
@@ -60,7 +63,7 @@ class ReplyPostRevision(AbstractBaseRevision):
             return ReplyPostRevision.objects.get(revision_number = self.revision_number - 1, post = self.post)
         except IndexError:
             return
-
+            
 
 class AbstractPost(models.Model):
     #---- model fields ----#

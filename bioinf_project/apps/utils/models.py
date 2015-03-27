@@ -18,12 +18,12 @@ class AbstractBaseRevision(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("author"))
     content = models.TextField(blank=True, verbose_name=_("content"))
 
-    def get_marked_up_content(self):
-        return markdown.markdown(self.content,
-        extensions=['extra',
-                    'wikilinks(base_url=/wiki/, end_url=/)',
-                    'toc'],
-        safe_mode='escape')
+    #def get_marked_up_content(self):
+    #    return markdown.markdown(self.content,
+    #    extensions=['extra',
+    #                'wikilinks(base_url=/wiki/, end_url=/)',
+    #                'toc'],
+    #    safe_mode='escape')
 
     class Meta:
         abstract=True

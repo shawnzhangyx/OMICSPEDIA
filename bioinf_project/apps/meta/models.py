@@ -9,6 +9,9 @@ from django.utils import timezone
 from utils.models import View
 from django.db.models import F
 from django.conf import settings
+import re
+import markdown
+from wiki.models import replace_wikilinks, GetMarkdownMixin
 
 # Create your models here.
 
@@ -86,7 +89,7 @@ class Report(models.Model):
             Report.objects.filter(id=report.id).update(view_count=F('view_count') + 1)
         return report
 
-class ReportRevision(AbstractBaseRevision):
+class ReportRevision(GetMarkdownMixin, AbstractBaseRevision):
     report = models.ForeignKey("Report", on_delete = models.CASCADE, verbose_name=_("report"))
 
     def __unicode__(self):
@@ -101,4 +104,3 @@ class ReportRevision(AbstractBaseRevision):
             except ReportRevision.DoesNotExist:
                 self.revision_number = 1
         super(ReportRevision, self).save(*args, **kwargs)
-

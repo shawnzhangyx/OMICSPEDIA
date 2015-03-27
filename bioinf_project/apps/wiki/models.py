@@ -12,9 +12,30 @@ from utils import diff_match_patch
 from utils.models import AbstractBaseRevision, View
 import re
 from django.conf import settings
+
+# function
+def replace_wikilinks(matchobj):
+    title = matchobj.group(4)
+    try: obj = Page.objects.get(title=title.replace('_', ' '))
+    except Page.DoesNotExist: 
+        #return '<b>no match</b>'
+        return matchobj.group(1)+ ' wikilink-not-exist' + matchobj.group(2) + 'data-toggle="tooltip" title="page does not exist" data-placement="bottom"'  + matchobj.group(3)
+    else:
+        return matchobj.group(0)
+        
+class GetMarkdownMixin(object):
+    def get_marked_up_content(self):
+        mkd_content = markdown.markdown(self.content,
+        extensions=['extra',
+                    'wikilinks(base_url=/wiki/, end_url=/)',
+                    'toc'],
+        safe_mode='escape')
+        pattern = re.compile(u'(<a[^>]*?wikilink)(.*?)(>(.*?)</a>)')
+        mkd_content_wikilink = re.sub(pattern, replace_wikilinks, mkd_content)
+        return mkd_content_wikilink
+        
+        
 # Create your models here.
-
-
 class UniquePageManager(models.Manager):
     def get_queryset(self):
         return super(UniquePageManager, self).get_queryset().filter(redirect_to__isnull = True)
@@ -62,10 +83,13 @@ class Page(models.Model):
         lead_raw = match.group(1)
         toc = re.compile(u'\[TOC\]')
         lead = re.sub(toc,'', lead_raw)
-        return markdown.markdown(lead,
+        mkd_content = markdown.markdown(lead,
         extensions=['extra',
                     'wikilinks(base_url=/wiki/, end_url=/)',],
         safe_mode='escape')
+        pattern = re.compile(u'(<a[^>]*?wikilink)(.*?)(>(.*?)</a>)')
+        mkd_content_wikilink = re.sub(pattern, replace_wikilinks, mkd_content)
+        return mkd_content_wikilink
 
     def get_rate_average(self):
         rate_count = self.wiki_rates.count()
@@ -128,8 +152,10 @@ class Page(models.Model):
     def get_absolute_url(self):
         return reverse('wiki:wiki-detail', kwargs = {'title': self.get_title()})
 
+  ## replace wikilinks that are non-functional
 
-class PageRevision(AbstractBaseRevision):
+        
+class PageRevision(GetMarkdownMixin, AbstractBaseRevision):
 
     page = models.ForeignKey(Page, on_delete = models.CASCADE, verbose_name=_("page"), related_name="all_revisions")
     total_chars = models.IntegerField(_('total_chars'))
@@ -174,6 +200,9 @@ class PageRevision(AbstractBaseRevision):
         self.added_chars = added
         self.deleted_chars = deleted
         self.total_chars = len(text2)
+        
+    
+        
     class Meta:
         get_latest_by= 'revision_number'
 
