@@ -139,7 +139,7 @@ class Tag(models.Model):
     def reset_tag_counts():
         for tag in Tag.objects.all():
             print tag, tag.posts.count()
-            tag.count = tag.posts.count()
+            tag.count = tag.posts.count() +tag.pages.count()
             tag.save()
 
     def name_underlined(self):
@@ -227,6 +227,7 @@ class UserTag(models.Model):
 # data signals
 # tag count change signals
 m2m_changed.connect(Tag.update_tag_counts, sender=MainPost.tags.through)
+m2m_changed.connect(Tag.update_tag_counts, sender=Page.tags.through)
 # will need to deduct tag count after post deletion. 
 
 # answer count change singals
