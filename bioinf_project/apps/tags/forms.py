@@ -12,6 +12,7 @@ def validate_icon(image):
     w, h = get_image_dimensions(image)
     if (float(w)/h < 0.95 or float(w)/h >1.05): 
         raise ValidationError("Please make sure the height and width are approximately same (5 percent difference), otherwise the image will be distorted. Your image: width: %d; height: %d"% (w,h))
+        
 def validate_name(name):
     if name.find("_") >= 0:
         raise ValidationError("'_' is not allowed in the tag name")

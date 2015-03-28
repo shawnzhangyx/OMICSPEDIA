@@ -16,10 +16,14 @@ def validate_content(text):
     text = text.strip()
     if len(text) < 20: 
         raise ValidationError("A minimum of 20 characters are required.")  
+
+def validate_tags(tags):
+    if len(tags) > 5:
+        raise ValidationError("A maximum of 5 tags can be added to the post.")
     
 class MainPostForm(forms.ModelForm):
     title = forms.CharField(validators=[validate_title], help_text="Be specific with the title. A minimum of four words is required.")
-    tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
+    tags= forms.ModelMultipleChoiceField(label="Tags", validators=[validate_tags], queryset=Tag.objects.all(), required=False)
     type = forms.ChoiceField(widget=forms.RadioSelect, choices=MainPost.TYPE_CHOICE, help_text="Choose the right type of posts.")
     content = forms.CharField(widget=forms.Textarea, validators=[validate_content])
     
@@ -55,7 +59,7 @@ class MainPostForm(forms.ModelForm):
 class MainPostRevisionForm(forms.ModelForm):
 
     title = forms.CharField(validators=[validate_title], help_text="Be specific with the title. A minimum of four words is required.")
-    tags= forms.ModelMultipleChoiceField(label="Tags", queryset=Tag.objects.all(), required=False)
+    tags= forms.ModelMultipleChoiceField(label="Tags",validators=[validate_tags], queryset=Tag.objects.all(), required=False)
     content = forms.CharField(widget=forms.Textarea, validators=[validate_content])
     summary = forms.CharField()
 
