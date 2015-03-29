@@ -95,6 +95,11 @@ class ProfileEdit(UpdateView):
             image_field.file = image_file
         return super(ProfileEdit,self).form_valid(form)
     
+class UserSettings(UpdateView):
+    model = UserProfile
+    fields = ['bookmark_update']
+    template_name = "users/user_settings.html"
+    
 class ProfileView(DetailView):
     model = UserProfile
     template_name = "users/profile_view.html"

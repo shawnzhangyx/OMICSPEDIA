@@ -24,7 +24,7 @@
 </form>
     {% else %}
     <a class="btn btn-default btn-sm" href = "{% url 'users:profile-edit' user.user_profile.id %}"> <img src="{% static 'icons/pen29.png' %}"> Edit profile </a>
-    <a class="btn btn-default btn-sm" href = "{% url 'users:password-change' %}">  <img src="{% static 'icons/key162.png' %}"> Change Password </a>
+    <a class="btn btn-default btn-sm" href = "{% url 'users:user-settings' user.user_profile.id %}">  <img src="{% static 'icons/key162.png' %}"> Settings </a>
     <a class="btn btn-default btn-sm" href = "{% url 'users:logout' %}?next={{request.path}}">  <img src="{% static 'icons/door9.png' %}"> Log out </a>
     {% endif %}
 {% endif %}

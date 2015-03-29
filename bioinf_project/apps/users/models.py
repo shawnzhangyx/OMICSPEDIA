@@ -144,6 +144,10 @@ class UserProfile(models.Model):
     date_joined = models.DateTimeField(verbose_name="date joined", editable=False)
     last_activity = models.DateTimeField(verbose_name="last activity", null=True,blank=True)
     
+    IMMEDIATE, DAILY, WEEKLY, NONE = range(4)
+    BOOKMARK_CHOICES = [(IMMEDIATE, 'update immediately'), (DAILY, 'update daily'), (WEEKLY, 'update weekly'), (NONE, 'No e-mail update')]
+    bookmark_update = models.IntegerField(verbose_name = 'How often do I get e-mail updates from bookmarks', choices = BOOKMARK_CHOICES, default=IMMEDIATE)
+    
     def save(self, *args, **kwargs):
         if not self.date_joined: 
             self.date_joined = timezone.now()
