@@ -45,13 +45,12 @@ $('.profile-view-tab-choice').each( function(index){
 });
 
 $('.notification-row').each(function(){
-
-    $(this).click(function(){
-        pk = $(this).attr('notification-pk');
+    $(this).children('a').click(function(){
+        pk = $(this).parent().attr('notification-pk');
         console.log(pk);
     $.post('/accounts/ajax/read-notification/', {pk:pk}, function(response){
     console.log(response);},'json' );
-    $(this).attr("class", "notification-row notification-read");
+    $(this).parent().attr("class", "notification-row notification-read");
     });
     });
 

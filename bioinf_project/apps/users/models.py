@@ -4,9 +4,10 @@ from django.core.urlresolvers import reverse
 from django.db.models.signals import post_save, post_delete, pre_delete, pre_save
 from django.utils import timezone
 from datetime import datetime, timedelta
+from django.contrib.contenttypes.models import ContentType
 
 from tags.models import Tag
-from utils.models import Vote
+from utils.models import Vote, Comment
 from posts.models import ReplyPost
 # Create your models here.
 
@@ -146,7 +147,7 @@ class UserProfile(models.Model):
     
     IMMEDIATE, DAILY, WEEKLY, NONE = range(4)
     BOOKMARK_CHOICES = [(IMMEDIATE, 'update immediately'), (DAILY, 'update daily'), (WEEKLY, 'update weekly'), (NONE, 'No e-mail update')]
-    bookmark_update = models.IntegerField(verbose_name = 'How often do I get e-mail updates from bookmarks', choices = BOOKMARK_CHOICES, default=IMMEDIATE)
+    bookmark_update = models.IntegerField(verbose_name = 'Bookmark e-mail', choices = BOOKMARK_CHOICES, default=IMMEDIATE)
     
     def save(self, *args, **kwargs):
         if not self.date_joined: 
@@ -206,7 +207,9 @@ class Notification(models.Model):
     TYPE_CHOICES = [(POSTS, 'posts'), (WIKI, 'wiki'), (TAG, 'tag'), (USER, 'user')]
     type = models.IntegerField(choices=TYPE_CHOICES)
     
-
+    def __unicode__(self):
+        return u'%s, %s' %(self.user.user_profile.name, self.message)
+    
     @staticmethod
     def message_from_posts(sender, instance, **kwargs):
         if instance.pk: #if the instance exists.
@@ -230,11 +233,39 @@ class Notification(models.Model):
                 notification.created = timezone.now()
                 notification.unread = True
             notification.save()
-    
+
+    @staticmethod
+    def message_from_post_comments(sender, instance, **kwargs):
+        if instance.pk: #if the instance exists, exit. 
+            return 
+        
+        if instance.content_type == ContentType.objects.get(app_label="posts", model="mainpost"):
+            bookmarks = instance.content_object.post_bookmark.all()
+            mainpost = instance.content_object
+        elif instance.cotent_type == ContentType.objects.get(app_label="posts", model="replypost"):
+            bookmarks = instance.content_object.mainpost.post_bookmark.all()
+            mainpost = instance.content_object.mainpost
+        else: # if the comments are not made on mainpost or reply post.
+            return
+        if bookmarks.count() < 1:
+            return # if there is no bookmark, exit. 
+        message = "New comment on post <a href='" + reverse('posts:post-detail', kwargs={'pk':mainpost.id}) + "'>" + mainpost.title +"</a>"
+        for bookmark in bookmarks:
+            user = bookmark.reader
+            try: 
+                notification = Notification.objects.get(message=message, type=0, user=user)
+            except Notification.DoesNotExist:
+                notification = Notification(user=user, message=message, created=timezone.now(), unread=True, type=0)
+            else:
+                notification.created = timezone.now()
+                notification.unread = True
+            notification.save()
+       
     class Meta:
         unique_together = ('user', 'message', 'type')
-        
+ 
 pre_save.connect(Notification.message_from_posts, sender=ReplyPost)
+pre_save.connect(Notification.message_from_post_comments, sender=Comment)
 
 #class Timeline(models.Model):
     # timeline of the user.   

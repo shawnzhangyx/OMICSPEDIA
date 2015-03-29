@@ -6,10 +6,12 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from itertools import chain
+from django.contrib.contenttypes.models import ContentType
 
 # models 
 from .models import MainPost, ReplyPost, MainPostRevision, ReplyPostRevision
 from .models import MainPostComment, ReplyPostComment
+from utils.models import Bookmark
 # forms
 from .forms import MainPostForm, MainPostRevisionForm, ReplyPostForm, ReplyPostRevisionForm
 # to mask the manytomany field message. 
@@ -67,6 +69,10 @@ class MainPostNew(CreateView):
                 author=self.request.user)
         new_revision.save()
         form.instance.current_revision=new_revision
+        ## the author will automatically add bookmark to the post.
+        content_type = ContentType.objects.get_for_model(MainPost)
+        new_bookmark = Bookmark.objects.get_or_create(reader = self.request.user, content_type = content_type, object_id = form.instance.id)
+        form.instance.bookmark_count +=1
         return super(MainPostNew, self).form_valid(form)
 
 

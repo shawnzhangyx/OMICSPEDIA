@@ -1,11 +1,16 @@
 {% extends "users/user_base.html" %}
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 {% block content %}
-<h1> User settings </h1>
-<hr>
+<h1> User settings for <em>{{user.user_profile.name}}</em></h1>
+
+<h2> Preferences </h2>
 
 <form class='form' action="" method='post'>
 {% crispy form %}
 </form>
+
+<h2> Change password? </h2>
+    <a class="btn btn-default btn-sm" href = "{% url 'users:password-change' %}">  <img src="{% static 'icons/key162.png' %}"> Change password </a>
 
 {% endblock content %}

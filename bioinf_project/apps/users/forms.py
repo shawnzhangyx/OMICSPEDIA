@@ -100,3 +100,23 @@ class ProfileForm(forms.ModelForm):
         fields = ['name', 'location','website', 'biography', 'portrait',]
 
 
+class UserSettingsForm(forms.ModelForm):
+    bookmark_update = forms.ChoiceField(widget = forms.RadioSelect, choices = UserProfile.BOOKMARK_CHOICES, help_text = "How often do you want to get e-mail updates from bookmarks")
+    
+    def __init__(self, *args, **kwargs):
+        super(UserSettingsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = "settings-form"
+        self.helper.layout = Layout(
+            Fieldset(
+                '',
+                Field('bookmark_update'),
+            ),
+            ButtonHolder(
+                Submit('submit', 'Confirm')
+            )
+        )
+        
+    class Meta:
+        model = UserProfile
+        fields = ['bookmark_update']

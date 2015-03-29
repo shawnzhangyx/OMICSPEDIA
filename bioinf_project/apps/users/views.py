@@ -26,7 +26,7 @@ from posts.models import MainPost
 from wiki.models import Page, UserPage
 from software.models import Tool
 from tags.models import Tag, UserTag
-from .forms import UserCreationForm, ProfileForm
+from .forms import UserCreationForm, ProfileForm, UserSettingsForm
 # Create your views here.
 
 ####  account related views ####
@@ -96,9 +96,11 @@ class ProfileEdit(UpdateView):
         return super(ProfileEdit,self).form_valid(form)
     
 class UserSettings(UpdateView):
-    model = UserProfile
-    fields = ['bookmark_update']
+    form_class = UserSettingsForm
     template_name = "users/user_settings.html"
+    
+    def get_object(self):
+        return UserProfile.objects.get(pk=self.kwargs['pk'])
     
 class ProfileView(DetailView):
     model = UserProfile
