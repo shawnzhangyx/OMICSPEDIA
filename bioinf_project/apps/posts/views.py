@@ -173,6 +173,9 @@ class ReplyPostNew(CreateView):
                         author=self.request.user)
         new_revision.save()
         form.instance.current_revision=new_revision
+        content_type = ContentType.objects.get_for_model(MainPost)
+        new_bookmark = Bookmark.objects.get_or_create(reader = self.request.user, content_type = content_type, object_id = form.instance.mainpost.id)
+        form.instance.mainpost.bookmark_count += 1
         return super(ReplyPostNew, self).form_valid(form)
 
 class ReplyPostEdit(UpdateView):
