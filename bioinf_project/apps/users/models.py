@@ -242,7 +242,7 @@ class Notification(models.Model):
         if instance.content_type == ContentType.objects.get(app_label="posts", model="mainpost"):
             bookmarks = instance.content_object.post_bookmark.all()
             mainpost = instance.content_object
-        elif instance.cotent_type == ContentType.objects.get(app_label="posts", model="replypost"):
+        elif instance.content_type == ContentType.objects.get(app_label="posts", model="replypost"):
             bookmarks = instance.content_object.mainpost.post_bookmark.all()
             mainpost = instance.content_object.mainpost
         else: # if the comments are not made on mainpost or reply post.
