@@ -5,11 +5,13 @@ from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
-from django.template import RequestContext
+from django.template import RequestContext, Context
 from utils import diff_match_patch
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
-
+import xhtml2pdf.pisa as pisa
+import cStringIO as StringIO 
+from django.template.loader import get_template
 
 from .forms import PageForm, PageRevisionForm, PageCommentForm
 from .models import Page, PageRevision, PageComment, UserPage
@@ -173,6 +175,18 @@ def wiki_section_edit(request, **kwargs):
         return HttpResponseRedirect(reverse("wiki:wiki-detail", kwargs={'title':kwargs['title']}))
     #pat = re.compile(u'(^|\r\n)(#\s+section 2(.|\n)*?)(\r\n#[^#]|$)') # stop when reach next section, the end of file,or higher level of section. 
 
+def view_wiki_pdf(request, **kwargs):
+    page = Page.objects.get(title=kwargs['title'].replace('_',' '))
+    page_mkd_content = page.current_revision.get_marked_up_content()
+    template = get_template("wiki/wiki_pdf.html") 
+    context = Context({'pagesize':'A4','mkd_content':page_mkd_content}) 
+    html = template.render(context) 
+    html = page_mkd_content
+    result = StringIO.StringIO()
+    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("utf-8")),encoding='utf-8', dest=result) 
+    if not pdf.err: 
+         return HttpResponse(result.getvalue(), content_type='application/pdf') 
+    else: return HttpResponse('Errors')  
 
 class WikiDetails(DetailView):
     template_name = "wiki/wiki_detail.html"

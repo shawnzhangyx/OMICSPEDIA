@@ -13,6 +13,9 @@
   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
     <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-detail' page.get_title %}">Article</a></li>
     <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-comment' page.get_title %}"> Comment <span class="badge"> {{page.get_open_comment.count}}</span></a></li>
+
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-pdf' page.get_title %}">PDF</a></li>
+
     <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-edit' page.get_title %}"> Edit</a></li>
 
     <li role="presentation"><a role="menuitem" tabindex="-1" href="{% url 'wiki:wiki-history' page.get_title %}"> History</a></li>
@@ -39,6 +42,8 @@
     {% block wiki-edit %}
     <li class="pull-right"> <a href="{% url 'wiki:wiki-edit' page.get_title %}"> Edit </a> </li>
     {% endblock wiki-edit %}
+    <li class="pull-right"> <a href="{% url 'wiki:wiki-pdf' page.get_title %}"> PDF </a> </li>
+
 
   </ul>
 

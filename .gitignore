@@ -2,3 +2,4 @@
 *.swp
 bioinf_project/sqlite.dat
 bioinf_project/staticfiles/media/*
+env/*
