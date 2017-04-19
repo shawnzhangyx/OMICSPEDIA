@@ -15,3 +15,5 @@ Genome resequencing
 Transcription factor
 Histone modification
 
+# Run production server:
+python manage.py runserver ones.ccmb.med.umich.edu:8000 --settings=bioinf_project.deploy_settings
