@@ -3,3 +3,4 @@
 bioinf_project/sqlite.dat
 bioinf_project/staticfiles/media/*
 env/*
+bioinf_project/bioinf_project/production_settings.py
