@@ -1,5 +1,10 @@
 Need-A-Catchy-Name
 ==================
+
+### Demo ###
+A development server is hosted at: 
+https://renlab-info.ucsd.edn/omicspedia/
+
 ### Project motivation###
 One major challenge of OMICS data analysis is that the field is developing so fast and the information is so scattered (personal blogs, tool tutorials, online courses), and a lot of them are not maintained. We need a website that will gather knowledge in one place, keep it updated and easily navigable (this will be extremely useful for beginners), and foster a healthy online community for bioinformatics scientists. 
 
@@ -25,7 +30,4 @@ Icons are from http://www.flaticon.com/
 This list is incomplete. 
 
 
-### Demo ###
-A development server of most current progress is hosted at here: 
-http://ones.ccmb.med.umich.edu/
 
